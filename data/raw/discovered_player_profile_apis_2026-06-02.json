@@ -1,0 +1,1333 @@
+[
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetYearEndRankings?circuitCode=JT&matchTypeCode=S&playerId=800591535",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "tableTitle": null,
+      "columnNames": {
+        "type": "array",
+        "length": 2,
+        "firstItem": "Year"
+      },
+      "yearRankings": {
+        "type": "array",
+        "length": 2,
+        "firstItem": {
+          "year": 2025,
+          "rankings": {
+            "type": "array",
+            "length": 1,
+            "firstItem": "..."
+          }
+        }
+      }
+    },
+    "interestingArrays": [
+      {
+        "length": 2,
+        "score": 4,
+        "sample": {
+          "year": 2025,
+          "rankings": [
+            9
+          ]
+        }
+      },
+      {
+        "length": 2,
+        "score": 0,
+        "sample": "Year"
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": 9
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": 38
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerApi/GetPlayerOverview?circuitCode=JT&matchTypeCode=S&playerId=800591535",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "rankings": {
+        "type": "array",
+        "length": 1,
+        "firstItem": {
+          "name": "ITF Junior Ranking",
+          "rank": 1,
+          "date": "01 June 2026"
+        }
+      },
+      "careerHighRankings": {
+        "type": "array",
+        "length": 1,
+        "firstItem": {
+          "name": "ITF Junior Ranking",
+          "rank": 1,
+          "date": "02 February 2026"
+        }
+      },
+      "years": {
+        "type": "array",
+        "length": 5,
+        "firstItem": 2026
+      },
+      "title": "Juniors win-loss record"
+    },
+    "interestingArrays": [
+      {
+        "length": 1,
+        "score": 1,
+        "sample": {
+          "name": "ITF Junior Ranking",
+          "rank": 1,
+          "date": "01 June 2026"
+        }
+      },
+      {
+        "length": 1,
+        "score": 1,
+        "sample": {
+          "name": "ITF Junior Ranking",
+          "rank": 1,
+          "date": "02 February 2026"
+        }
+      },
+      {
+        "length": 5,
+        "score": 0,
+        "sample": 2026
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetYearEndRankings?circuitCode=JT&matchTypeCode=S&playerId=800591535",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "tableTitle": null,
+      "columnNames": {
+        "type": "array",
+        "length": 2,
+        "firstItem": "Year"
+      },
+      "yearRankings": {
+        "type": "array",
+        "length": 2,
+        "firstItem": {
+          "year": 2025,
+          "rankings": {
+            "type": "array",
+            "length": 1,
+            "firstItem": "..."
+          }
+        }
+      }
+    },
+    "interestingArrays": [
+      {
+        "length": 2,
+        "score": 4,
+        "sample": {
+          "year": 2025,
+          "rankings": [
+            9
+          ]
+        }
+      },
+      {
+        "length": 2,
+        "score": 0,
+        "sample": "Year"
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": 9
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": 38
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerApi/GetPlayerWinLoss?circuitCode=JT&matchTypeCode=S&playerId=800591535&year=2026",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "overall": {
+        "name": "Overall",
+        "surfaceCodes": {
+          "type": "array",
+          "length": 2,
+          "firstItem": "C"
+        },
+        "wins": 11,
+        "losses": 2,
+        "winRate": 85
+      },
+      "surfaces": {
+        "type": "array",
+        "length": 2,
+        "firstItem": {
+          "name": "Clay",
+          "surfaceCodes": {
+            "type": "array",
+            "length": 1,
+            "firstItem": "..."
+          },
+          "wins": 0,
+          "losses": 1,
+          "winRate": 0
+        }
+      }
+    },
+    "interestingArrays": [
+      {
+        "length": 2,
+        "score": 0,
+        "sample": "C"
+      },
+      {
+        "length": 2,
+        "score": 0,
+        "sample": {
+          "name": "Clay",
+          "surfaceCodes": [
+            "C"
+          ],
+          "wins": 0,
+          "losses": 1,
+          "winRate": 0
+        }
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": "C"
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": "H"
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800591535",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "Value": {
+        "label": "Total Combined Ranking Points: 2510.00 + (832.00/4) =",
+        "Value": "2718.00"
+      },
+      "countable": {
+        "type": "array",
+        "length": 2,
+        "firstItem": {
+          "title": "Singles",
+          "countablePoints": {
+            "totalPoints": "...",
+            "pointsBreakdown": "..."
+          },
+          "nonCountablePoints": {
+            "totalPoints": "...",
+            "pointsBreakdown": "..."
+          }
+        }
+      }
+    },
+    "interestingArrays": [
+      {
+        "length": 6,
+        "score": 36,
+        "sample": {
+          "tournamentName": "Australian Open Junior Championships",
+          "category": "JGS",
+          "drawType": "M",
+          "hostNation": "Australia",
+          "hostNationCode": "AUS",
+          "startDate": "24 Jan 2026",
+          "surfaceDesc": "Hard",
+          "surfaceCode": "H",
+          "round": "WR",
+          "points": 1000,
+          "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+        }
+      },
+      {
+        "length": 6,
+        "score": 36,
+        "sample": {
+          "tournamentName": "J500 Osaka",
+          "category": "J500",
+          "drawType": "M",
+          "hostNation": "Japan",
+          "hostNationCode": "JPN",
+          "startDate": "22 Sep 2025",
+          "surfaceDesc": "Hard",
+          "surfaceCode": "H",
+          "round": "WR",
+          "points": 375,
+          "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+        }
+      },
+      {
+        "length": 4,
+        "score": 24,
+        "sample": {
+          "tournamentName": "J300 Roehampton",
+          "category": "J300",
+          "drawType": "M",
+          "hostNation": "Great Britain",
+          "hostNationCode": "GBR",
+          "startDate": "29 Jun 2025",
+          "surfaceDesc": "Grass",
+          "surfaceCode": "G",
+          "round": "QF",
+          "points": 100,
+          "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+        }
+      },
+      {
+        "length": 3,
+        "score": 18,
+        "sample": {
+          "tournamentName": "Roland Garros Junior Championships",
+          "category": "JGS",
+          "drawType": "M",
+          "hostNation": "France",
+          "hostNationCode": "FRA",
+          "startDate": "01 Jun 2025",
+          "surfaceDesc": "Clay",
+          "surfaceCode": "C",
+          "round": "R32",
+          "points": 0,
+          "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+        }
+      },
+      {
+        "length": 2,
+        "score": 4,
+        "sample": {
+          "title": "Singles",
+          "countablePoints": {
+            "totalPoints": 2510,
+            "pointsBreakdown": [
+              {
+                "tournamentName": "Australian Open Junior Championships",
+                "category": "JGS",
+                "drawType": "M",
+                "hostNation": "Australia",
+                "hostNationCode": "AUS",
+                "startDate": "24 Jan 2026",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "WR",
+                "points": 1000,
+                "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+              },
+              {
+                "tournamentName": "J500 Osaka",
+                "category": "J500",
+                "drawType": "M",
+                "hostNation": "Japan",
+                "hostNationCode": "JPN",
+                "startDate": "22 Sep 2025",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "WR",
+                "points": 500,
+                "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+              },
+              {
+                "tournamentName": "J300 Repentigny",
+                "category": "J300",
+                "drawType": "M",
+                "hostNation": "Canada",
+                "hostNationCode": "CAN",
+                "startDate": "24 Aug 2025",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "WR",
+                "points": 300,
+                "tournamentLink": "/en/tournament/j300-repentigny/can/2025/j-j300-can-2025-001/"
+              },
+              {
+                "tournamentName": "US Open Junior Tennis Championships",
+                "category": "JGS",
+                "drawType": "M",
+                "hostNation": "USA",
+                "hostNationCode": "USA",
+                "startDate": "31 Aug 2025",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "QF",
+                "points": 300,
+                "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+              },
+              {
+                "tournamentName": "J300 Traralgon",
+                "category": "J300",
+                "drawType": "M",
+                "hostNation": "Australia",
+                "hostNationCode": "AUS",
+                "startDate": "16 Jan 2026",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "RU",
+                "points": 210,
+                "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+              },
+              {
+                "tournamentName": "J200 Hong Kong",
+                "category": "J200",
+                "drawType": "M",
+                "hostNation": "Hong Kong, China",
+                "hostNationCode": "HKG",
+                "startDate": "30 Sep 2025",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "WR",
+                "points": 200,
+                "tournamentLink": "/en/tournament/j200-hong-kong/hkg/2025/j-j200-hkg-2025-001/"
+              }
+            ]
+          },
+          "nonCountablePoints": {
+            "totalPoints": 340,
+            "pointsBreakdown": [
+              {
+                "tournamentName": "J300 Roehampton",
+                "category": "J300",
+                "drawType": "M",
+                "hostNation": "Great Britain",
+                "hostNationCode": "GBR",
+                "startDate": "29 Jun 2025",
+                "surfaceDesc": "Grass",
+                "surfaceCode": "G",
+                "round": "QF",
+                "points": 100,
+                "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+              },
+              {
+                "tournamentName": "Roland Garros Junior Championships",
+                "category": "JGS",
+                "drawType": "M",
+                "hostNation": "France",
+                "hostNationCode": "FRA",
+                "startDate": "01 Jun 2025",
+                "surfaceDesc": "Clay",
+                "surfaceCode": "C",
+                "round": "R32",
+                "points": 90,
+                "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+              },
+              {
+                "tournamentName": "The Junior Championships, Wimbledon",
+                "category": "JGS",
+                "drawType": "M",
+                "hostNation": "Great Britain",
+                "hostNationCode": "GBR",
+                "startDate": "05 Jul 2025",
+                "surfaceDesc": "Grass",
+                "surfaceCode": "G",
+                "round": "R32",
+                "points": 90,
+                "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+              },
+              {
+                "tournamentName": "J300 College Park",
+                "category": "J300",
+                "drawType": "M",
+                "hostNation": "USA",
+                "hostNationCode": "USA",
+                "startDate": "18 Aug 2025",
+                "surfaceDesc": "Hard",
+                "surfaceCode": "H",
+                "round": "R16",
+                "points": 60,
+                "tournamentLink": "/en/tournament/j300-college-park/usa/2025/j-j300-usa-2025-003/"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerApi/GetPlayerActivityFilters?circuitCode=JT&isMajorEvents=false&matchTypeCode=S&playerId=800591535",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "surfaces": {
+        "type": "array",
+        "length": 3,
+        "firstItem": {
+          "type": null,
+          "name": "Grass",
+          "code": "G",
+          "subFilters": null
+        }
+      },
+      "years": {
+        "type": "array",
+        "length": 5,
+        "firstItem": 2026
+      },
+      "events": {
+        "type": "array",
+        "length": 1,
+        "firstItem": {
+          "type": null,
+          "name": "Junior Grand Slams",
+          "code": "JGS",
+          "subFilters": null
+        }
+      }
+    },
+    "interestingArrays": [
+      {
+        "length": 5,
+        "score": 0,
+        "sample": 2026
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "type": null,
+          "name": "Grass",
+          "code": "G",
+          "subFilters": null
+        }
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": {
+          "type": null,
+          "name": "Junior Grand Slams",
+          "code": "JGS",
+          "subFilters": null
+        }
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerApi/GetPlayerActivity?circuitCode=JT&matchTypeCode=S&playerId=800591535&skip=0&surfaceCode=&take=5&tourCategoryCode=&year=",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "items": {
+        "type": "array",
+        "length": 5,
+        "firstItem": {
+          "tournamentType": "JGS",
+          "hostNationCode": "FRA",
+          "events": {
+            "type": "array",
+            "length": 1,
+            "firstItem": "..."
+          },
+          "tournamentName": "Roland Garros Junior Championships",
+          "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2026/j-jgs-fra-2026-001/",
+          "tourCode": "JGS",
+          "dates": "31 May to 06 Jun 2026",
+          "location": "Paris",
+          "surfaceDesc": "Clay",
+          "surfaceCode": "C"
+        }
+      },
+      "totalItems": 43
+    },
+    "interestingArrays": [
+      {
+        "length": 5,
+        "score": 15,
+        "sample": {
+          "tournamentType": "JGS",
+          "hostNationCode": "FRA",
+          "events": [
+            {
+              "ageCategory": "",
+              "drawType": "Main Draw",
+              "matchType": "Singles",
+              "entryStatus": "DA",
+              "partner": null,
+              "matches": [
+                {
+                  "opponents": [
+                    {
+                      "playerId": 800677532,
+                      "nationality": "RUS",
+                      "givenName": "Ekaterina",
+                      "familyName": "Dotsenko",
+                      "profileLink": "/en/players/ekaterina-dotsenko/800677532/rus/jt/s/",
+                      "hiddenPlayer": false
+                    }
+                  ],
+                  "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800591535&player2Id=800677532",
+                  "resultStatusCode": null,
+                  "roundGroup": {
+                    "label": "Round",
+                    "Value": "1st Round"
+                  },
+                  "matchId": 1183558453,
+                  "resultCode": "L",
+                  "winningSide": 2,
+                  "scores": [
+                    {
+                      "scoreOne": 3,
+                      "scoreTwo": 6,
+                      "losingScore": null
+                    },
+                    {
+                      "scoreOne": 3,
+                      "scoreTwo": 6,
+                      "losingScore": null
+                    }
+                  ]
+                }
+              ],
+              "playerTypeCode": "G",
+              "playerTypeDesc": "Girls"
+            }
+          ],
+          "tournamentName": "Roland Garros Junior Championships",
+          "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2026/j-jgs-fra-2026-001/",
+          "tourCode": "JGS",
+          "dates": "31 May to 06 Jun 2026",
+          "location": "Paris",
+          "surfaceDesc": "Clay",
+          "surfaceCode": "C"
+        }
+      },
+      {
+        "length": 6,
+        "score": 6,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800571280,
+              "nationality": "RUS",
+              "givenName": "Ekaterina",
+              "familyName": "Tupitsyna",
+              "profileLink": "/en/players/ekaterina-tupitsyna/800571280/rus/jt/s/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800591535&player2Id=800571280",
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "Final"
+          },
+          "matchId": 1183433628,
+          "resultCode": "W",
+          "winningSide": 2,
+          "scores": [
+            {
+              "scoreOne": 6,
+              "scoreTwo": 3,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 7,
+              "scoreTwo": 5,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 6,
+        "score": 6,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800677732,
+              "nationality": "CHN",
+              "givenName": "Xinran",
+              "familyName": "Sun",
+              "profileLink": "/en/players/xinran-sun/800677732/chn/jt/s/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800591535&player2Id=800677732",
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "Final"
+          },
+          "matchId": 1183428694,
+          "resultCode": "L",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 1,
+              "scoreTwo": 6,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 3,
+              "scoreTwo": 6,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 5,
+        "score": 5,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800676754,
+              "nationality": "RUS",
+              "givenName": "Alisa",
+              "familyName": "Terentyeva",
+              "profileLink": "/en/players/alisa-terentyeva/800676754/rus/jt/s/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800591535&player2Id=800676754",
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "Final"
+          },
+          "matchId": 1183331471,
+          "resultCode": "W",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 6,
+              "scoreTwo": 0,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 6,
+              "scoreTwo": 0,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 3,
+        "score": 3,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800661849,
+              "nationality": "GBR",
+              "givenName": "Hollie",
+              "familyName": "Smart",
+              "profileLink": "/en/players/hollie-smart/800661849/gbr/jt/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Group",
+            "Value": "Round Robin Group 3"
+          },
+          "matchId": 1183384126,
+          "resultCode": "W",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 6,
+              "scoreTwo": 3,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 7,
+              "scoreTwo": 5,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 3,
+        "score": 3,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800692835,
+              "nationality": "USA",
+              "givenName": "Julieta",
+              "familyName": "Pareja",
+              "profileLink": "/en/players/julieta-pareja/800692835/usa/jt/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": null
+          },
+          "matchId": 1183387638,
+          "resultCode": "L",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 3,
+              "scoreTwo": 6,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 2,
+              "scoreTwo": 6,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 1,
+        "score": 1,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800677532,
+              "nationality": "RUS",
+              "givenName": "Ekaterina",
+              "familyName": "Dotsenko",
+              "profileLink": "/en/players/ekaterina-dotsenko/800677532/rus/jt/s/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800591535&player2Id=800677532",
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "1st Round"
+          },
+          "matchId": 1183558453,
+          "resultCode": "L",
+          "winningSide": 2,
+          "scores": [
+            {
+              "scoreOne": 3,
+              "scoreTwo": 6,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 3,
+              "scoreTwo": 6,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "scoreOne": 6,
+          "scoreTwo": 0,
+          "losingScore": null
+        }
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "scoreOne": 6,
+          "scoreTwo": 2,
+          "losingScore": null
+        }
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "scoreOne": 4,
+          "scoreTwo": 6,
+          "losingScore": null
+        }
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerApi/GetPlayerActivityFilters?circuitCode=JT&isMajorEvents=false&matchTypeCode=D&playerId=800591535",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "surfaces": {
+        "type": "array",
+        "length": 3,
+        "firstItem": {
+          "type": null,
+          "name": "Grass",
+          "code": "G",
+          "subFilters": null
+        }
+      },
+      "years": {
+        "type": "array",
+        "length": 5,
+        "firstItem": 2026
+      },
+      "events": {
+        "type": "array",
+        "length": 1,
+        "firstItem": {
+          "type": null,
+          "name": "Junior Grand Slams",
+          "code": "JGS",
+          "subFilters": null
+        }
+      }
+    },
+    "interestingArrays": [
+      {
+        "length": 5,
+        "score": 0,
+        "sample": 2026
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "type": null,
+          "name": "Grass",
+          "code": "G",
+          "subFilters": null
+        }
+      },
+      {
+        "length": 1,
+        "score": 0,
+        "sample": {
+          "type": null,
+          "name": "Junior Grand Slams",
+          "code": "JGS",
+          "subFilters": null
+        }
+      }
+    ]
+  },
+  {
+    "url": "https://www.itftennis.com/tennis/api/PlayerApi/GetPlayerActivity?circuitCode=JT&matchTypeCode=D&playerId=800591535&skip=0&surfaceCode=&take=5&tourCategoryCode=&year=",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "summary": {
+      "items": {
+        "type": "array",
+        "length": 5,
+        "firstItem": {
+          "tournamentType": "J300",
+          "hostNationCode": "AUS",
+          "events": {
+            "type": "array",
+            "length": 1,
+            "firstItem": "..."
+          },
+          "tournamentName": "J300 Traralgon",
+          "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/",
+          "tourCode": "J300",
+          "dates": "16 Jan to 21 Jan 2026",
+          "location": "Traralgon",
+          "surfaceDesc": "Hard",
+          "surfaceCode": "H"
+        }
+      },
+      "totalItems": 34
+    },
+    "interestingArrays": [
+      {
+        "length": 5,
+        "score": 15,
+        "sample": {
+          "tournamentType": "J300",
+          "hostNationCode": "AUS",
+          "events": [
+            {
+              "ageCategory": "",
+              "drawType": "Main Draw",
+              "matchType": "Doubles",
+              "entryStatus": "DA",
+              "partner": {
+                "playerId": 800636281,
+                "nationality": "ROU",
+                "givenName": "Maia Ilinca",
+                "familyName": "Burcescu",
+                "profileLink": "/en/players/maia-ilinca-burcescu/800636281/rou/jt/d/",
+                "hiddenPlayer": false
+              },
+              "matches": [
+                {
+                  "opponents": [
+                    {
+                      "playerId": 800702416,
+                      "nationality": "USA",
+                      "givenName": "Thea",
+                      "familyName": "Frodin",
+                      "profileLink": "/en/players/thea-frodin/800702416/usa/jt/d/",
+                      "hiddenPlayer": false
+                    },
+                    {
+                      "playerId": 800703935,
+                      "nationality": "USA",
+                      "givenName": "Anita",
+                      "familyName": "Tu",
+                      "profileLink": "/en/players/anita-tu/800703935/usa/jt/d/",
+                      "hiddenPlayer": false
+                    }
+                  ],
+                  "h2hLink": null,
+                  "resultStatusCode": null,
+                  "roundGroup": {
+                    "label": "Round",
+                    "Value": "1st Round"
+                  },
+                  "matchId": 2124460476,
+                  "resultCode": "L",
+                  "winningSide": 1,
+                  "scores": [
+                    {
+                      "scoreOne": 7,
+                      "scoreTwo": 6,
+                      "losingScore": 3
+                    },
+                    {
+                      "scoreOne": 3,
+                      "scoreTwo": 6,
+                      "losingScore": null
+                    },
+                    {
+                      "scoreOne": 5,
+                      "scoreTwo": 10,
+                      "losingScore": null
+                    }
+                  ]
+                }
+              ],
+              "playerTypeCode": "G",
+              "playerTypeDesc": "Girls"
+            }
+          ],
+          "tournamentName": "J300 Traralgon",
+          "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/",
+          "tourCode": "J300",
+          "dates": "16 Jan to 21 Jan 2026",
+          "location": "Traralgon",
+          "surfaceDesc": "Hard",
+          "surfaceCode": "H"
+        }
+      },
+      {
+        "length": 5,
+        "score": 5,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800701055,
+              "nationality": "AUS",
+              "givenName": "Renee",
+              "familyName": "Alame",
+              "profileLink": "/en/players/renee-alame/800701055/aus/jt/d/",
+              "hiddenPlayer": false
+            },
+            {
+              "playerId": 800661790,
+              "nationality": "AUS",
+              "givenName": "Rianna",
+              "familyName": "Alame",
+              "profileLink": "/en/players/rianna-alame/800661790/aus/jt/d/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "Final"
+          },
+          "matchId": 2124417332,
+          "resultCode": "W",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 6,
+              "scoreTwo": 3,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 4,
+              "scoreTwo": 6,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 10,
+              "scoreTwo": 6,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 4,
+        "score": 4,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800679611,
+              "nationality": "AUS",
+              "givenName": "Sarah",
+              "familyName": "Mildren",
+              "profileLink": "/en/players/sarah-mildren/800679611/aus/jt/d/",
+              "hiddenPlayer": false
+            },
+            {
+              "playerId": 800730824,
+              "nationality": "CHN",
+              "givenName": "Zhang-Qian",
+              "familyName": "Wei",
+              "profileLink": "/en/players/zhang-qian-wei/800730824/chn/jt/d/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "Final"
+          },
+          "matchId": 2124421173,
+          "resultCode": "W",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 7,
+              "scoreTwo": 5,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 7,
+              "scoreTwo": 5,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 2,
+        "score": 2,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800668351,
+              "nationality": "GBR",
+              "givenName": "Megan",
+              "familyName": "Knight",
+              "profileLink": "/en/players/megan-knight/800668351/gbr/jt/",
+              "hiddenPlayer": false
+            },
+            {
+              "playerId": 800661849,
+              "nationality": "GBR",
+              "givenName": "Hollie",
+              "familyName": "Smart",
+              "profileLink": "/en/players/hollie-smart/800661849/gbr/jt/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Group",
+            "Value": "Round Robin Group 3"
+          },
+          "matchId": 2124442011,
+          "resultCode": "W",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 7,
+              "scoreTwo": 5,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 6,
+              "scoreTwo": 1,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 1,
+        "score": 1,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800702416,
+              "nationality": "USA",
+              "givenName": "Thea",
+              "familyName": "Frodin",
+              "profileLink": "/en/players/thea-frodin/800702416/usa/jt/d/",
+              "hiddenPlayer": false
+            },
+            {
+              "playerId": 800703935,
+              "nationality": "USA",
+              "givenName": "Anita",
+              "familyName": "Tu",
+              "profileLink": "/en/players/anita-tu/800703935/usa/jt/d/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "1st Round"
+          },
+          "matchId": 2124460476,
+          "resultCode": "L",
+          "winningSide": 1,
+          "scores": [
+            {
+              "scoreOne": 7,
+              "scoreTwo": 6,
+              "losingScore": 3
+            },
+            {
+              "scoreOne": 3,
+              "scoreTwo": 6,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 5,
+              "scoreTwo": 10,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 1,
+        "score": 1,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800692835,
+              "nationality": "USA",
+              "givenName": "Julieta",
+              "familyName": "Pareja",
+              "profileLink": "/en/players/julieta-pareja/800692835/usa/jt/",
+              "hiddenPlayer": false
+            },
+            {
+              "playerId": 800719373,
+              "nationality": "USA",
+              "givenName": "Kristina",
+              "familyName": "Penickova",
+              "profileLink": "/en/players/kristina-penickova/800719373/usa/jt/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": null
+          },
+          "matchId": 2124443080,
+          "resultCode": "N",
+          "winningSide": null,
+          "scores": []
+        }
+      },
+      {
+        "length": 1,
+        "score": 1,
+        "sample": {
+          "opponents": [
+            {
+              "playerId": 800575339,
+              "nationality": "GER",
+              "givenName": "Eva",
+              "familyName": "Bennemann",
+              "profileLink": "/en/players/eva-bennemann/800575339/ger/jt/d/",
+              "hiddenPlayer": false
+            },
+            {
+              "playerId": 800595691,
+              "nationality": "GER",
+              "givenName": "Sonja",
+              "familyName": "Zhenikhova",
+              "profileLink": "/en/players/sonja-zhenikhova/800595691/ger/jt/d/",
+              "hiddenPlayer": false
+            }
+          ],
+          "h2hLink": null,
+          "resultStatusCode": null,
+          "roundGroup": {
+            "label": "Round",
+            "Value": "1st Round"
+          },
+          "matchId": 2124406863,
+          "resultCode": "L",
+          "winningSide": 2,
+          "scores": [
+            {
+              "scoreOne": 2,
+              "scoreTwo": 6,
+              "losingScore": null
+            },
+            {
+              "scoreOne": 2,
+              "scoreTwo": 6,
+              "losingScore": null
+            }
+          ]
+        }
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "scoreOne": 7,
+          "scoreTwo": 6,
+          "losingScore": 3
+        }
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "scoreOne": 6,
+          "scoreTwo": 4,
+          "losingScore": null
+        }
+      },
+      {
+        "length": 3,
+        "score": 0,
+        "sample": {
+          "scoreOne": 6,
+          "scoreTwo": 7,
+          "losingScore": 3
+        }
+      }
+    ]
+  }
+]

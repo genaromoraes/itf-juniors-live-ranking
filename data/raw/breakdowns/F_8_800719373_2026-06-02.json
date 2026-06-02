@@ -1,0 +1,23 @@
+{
+  "player": {
+    "player_id": "800719373",
+    "player_name": "Kristina Penickova",
+    "first_name": "Kristina",
+    "last_name": "Penickova",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "USA",
+    "country_name": "USA",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/kristina-penickova/800719373/usa/jt/s/",
+    "current_rank": "8",
+    "current_points": "1905.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800719373,\"playerFamilyName\":\"Penickova\",\"playerGivenName\":\"Kristina\",\"playerNationalityCode\":\"USA\",\"playerNationality\":\"USA\",\"profileLink\":\"/en/players/kristina-penickova/800719373/usa/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":8,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":12,\"points\":1905.5,\"profileImage\":\"/remote.axd/media.itftennis.com/assetbank-itf/servlet/display?file=22137aa7e1210876887aff08.jpg?crop=0.25651162576884629,0.058739221352881961,0.29666167127896986,0.095415991165617789&cropmode=percentage&width=54&height=72&rnd=133722617570000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "found_responses": []
+}

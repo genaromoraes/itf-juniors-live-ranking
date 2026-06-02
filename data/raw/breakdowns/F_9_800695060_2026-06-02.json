@@ -1,0 +1,23 @@
+{
+  "player": {
+    "player_id": "800695060",
+    "player_name": "Nauhany Vitoria Leme Da Silva",
+    "first_name": "Nauhany Vitoria",
+    "last_name": "Leme Da Silva",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "BRA",
+    "country_name": "Brazil",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/nauhany-vitoria-leme-da-silva/800695060/bra/jt/s/",
+    "current_rank": "9",
+    "current_points": "1743",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800695060,\"playerFamilyName\":\"Leme Da Silva\",\"playerGivenName\":\"Nauhany Vitoria\",\"playerNationalityCode\":\"BRA\",\"playerNationality\":\"Brazil\",\"profileLink\":\"/en/players/nauhany-vitoria-leme-da-silva/800695060/bra/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":0,\"rank\":9,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":17,\"points\":1743,\"profileImage\":\"/remote.axd/media.itftennis.com/assetbank-itf/servlet/display?file=22137aa7f1220b669c7cfd08.jpg&filename=unwatermarked_Nauhany_Victoria_Leme_da_Silva_01.jpg?crop=0.32383662028820109,0.022306988779584681,0.35566528128223907,0.656472372794396&cropmode=percentage&width=54&height=72&rnd=134084588260000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "found_responses": []
+}
