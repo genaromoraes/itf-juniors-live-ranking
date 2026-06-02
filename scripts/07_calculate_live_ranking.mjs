@@ -1,0 +1,660 @@
+import fs from "fs/promises";
+import path from "path";
+import { parse } from "csv-parse/sync";
+import { stringify } from "csv-stringify/sync";
+
+const POINTS_LEDGER_FILE = path.resolve("data/clean/points_ledger.csv");
+const WEEK_LIVE_LEDGER_FILE = path.resolve(
+  "data/clean/week_live_ledger_rows.csv"
+);
+const RANKINGS_SNAPSHOT_FILE = path.resolve("data/clean/rankings_snapshot.csv");
+
+const OUT_DIR_CLEAN = path.resolve("data/clean");
+
+const LIVE_COMBINED_LEDGER_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_combined_ledger.csv"
+);
+
+const LIVE_RANKING_FILE = path.join(OUT_DIR_CLEAN, "live_ranking.csv");
+
+const LIVE_RANKING_CHANGES_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_ranking_changes.csv"
+);
+
+const LIVE_RANKING_TOP500_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_ranking_top500.csv"
+);
+
+async function ensureDirs() {
+  await fs.mkdir(OUT_DIR_CLEAN, { recursive: true });
+}
+
+async function readCsv(filePath) {
+  const csv = await fs.readFile(filePath, "utf8");
+
+  return parse(csv, {
+    columns: true,
+    skip_empty_lines: true,
+  });
+}
+
+async function writeCsv(filePath, rows, columns) {
+  const csv = stringify(rows, {
+    header: true,
+    columns,
+  });
+
+  await fs.writeFile(filePath, csv, "utf8");
+}
+
+function cleanText(value) {
+  if (value === undefined || value === null) return "";
+  return String(value).replace(/\s+/g, " ").trim();
+}
+
+function toNumber(value) {
+  if (value === undefined || value === null || value === "") return 0;
+
+  const cleaned = String(value).replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+
+  return Number.isFinite(n) ? n : 0;
+}
+
+function normalizeGender(value) {
+  const text = cleanText(value).toUpperCase();
+
+  if (text === "M" || text === "B" || text === "BOYS") return "M";
+  if (text === "F" || text === "G" || text === "GIRLS") return "F";
+
+  return text;
+}
+
+function normalizeEventType(value) {
+  const text = cleanText(value).toLowerCase();
+
+  if (text === "s" || text === "single" || text === "singles") {
+    return "singles";
+  }
+
+  if (text === "d" || text === "double" || text === "doubles") {
+    return "doubles";
+  }
+
+  return text;
+}
+
+function buildSnapshotMap(snapshotRows) {
+  const map = new Map();
+
+  for (const row of snapshotRows) {
+    const playerId = cleanText(row.player_id);
+
+    if (!playerId) continue;
+
+    map.set(playerId, {
+      player_id: playerId,
+      player_name: cleanText(row.player_name),
+      gender: normalizeGender(row.gender),
+      country: cleanText(row.country),
+      country_name: cleanText(row.country_name),
+      birth_year: cleanText(row.birth_year),
+
+      official_rank: toNumber(row.rank || row.current_rank),
+      official_points: toNumber(row.official_points || row.current_points),
+      ranking_date: cleanText(row.ranking_date),
+    });
+  }
+
+  return map;
+}
+
+function normalizeLedgerRow(row, sourceType) {
+  return {
+    player_id: cleanText(row.player_id),
+    player_name: cleanText(row.player_name),
+    gender: normalizeGender(row.gender),
+    country: cleanText(row.country),
+    country_name: cleanText(row.country_name),
+    birth_year: cleanText(row.birth_year),
+
+    event_type: normalizeEventType(row.event_type),
+    countable_status: cleanText(row.countable_status),
+
+    tournament_name: cleanText(row.tournament_name),
+    category: cleanText(row.category),
+    draw_type: cleanText(row.draw_type),
+    host_nation: cleanText(row.host_nation),
+    host_nation_code: cleanText(row.host_nation_code),
+    surface: cleanText(row.surface),
+    surface_code: cleanText(row.surface_code),
+
+    start_date: cleanText(row.start_date),
+    drop_date_calculated: cleanText(row.drop_date_calculated),
+
+    round: cleanText(row.round),
+    points: toNumber(row.points),
+
+    tournament_link: cleanText(row.tournament_link),
+    is_countable_at_collection: cleanText(row.is_countable_at_collection),
+    is_live: cleanText(row.is_live) || (sourceType === "live" ? "true" : "false"),
+    status: cleanText(row.status),
+
+    source_url: cleanText(row.source_url),
+    collected_at: cleanText(row.collected_at),
+    raw_json: cleanText(row.raw_json),
+
+    source_type: sourceType,
+  };
+}
+
+function buildResultKey(row) {
+  return [
+    row.player_id,
+    row.gender,
+    row.event_type,
+    row.tournament_name,
+    row.category,
+    row.draw_type,
+    row.start_date,
+    row.round,
+    row.points,
+    row.source_type,
+  ].join("|");
+}
+
+function mergeLedgers(baseRows, liveRows) {
+  const rows = [];
+
+  for (const row of baseRows) {
+    const normalized = normalizeLedgerRow(row, "base");
+
+    if (!normalized.player_id) continue;
+    if (!normalized.event_type) continue;
+
+    rows.push(normalized);
+  }
+
+  for (const row of liveRows) {
+    const normalized = normalizeLedgerRow(row, "live");
+
+    if (!normalized.player_id) continue;
+    if (!normalized.event_type) continue;
+
+    rows.push(normalized);
+  }
+
+  const deduped = [];
+  const seen = new Set();
+
+  for (const row of rows) {
+    const key = buildResultKey(row);
+
+    if (seen.has(key)) continue;
+
+    seen.add(key);
+    deduped.push(row);
+  }
+
+  return deduped;
+}
+
+function groupRowsByPlayer(rows) {
+  const map = new Map();
+
+  for (const row of rows) {
+    if (!row.player_id) continue;
+
+    const key = row.player_id;
+
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+
+    map.get(key).push(row);
+  }
+
+  return map;
+}
+
+function getPlayerBaseInfo(rows, snapshotMap) {
+  const first = rows[0] || {};
+  const snapshot = snapshotMap.get(first.player_id) || {};
+
+  return {
+    player_id: cleanText(first.player_id),
+    player_name: cleanText(snapshot.player_name || first.player_name),
+    gender: normalizeGender(snapshot.gender || first.gender),
+    country: cleanText(snapshot.country || first.country),
+    country_name: cleanText(snapshot.country_name || first.country_name),
+    birth_year: cleanText(snapshot.birth_year || first.birth_year),
+
+    official_rank: snapshot.official_rank || "",
+    official_points: snapshot.official_points || "",
+    ranking_date: snapshot.ranking_date || "",
+  };
+}
+
+function sortResultsByPointsDesc(rows) {
+  return [...rows].sort((a, b) => {
+    const pointsDiff = toNumber(b.points) - toNumber(a.points);
+
+    if (pointsDiff !== 0) return pointsDiff;
+
+    const liveA = a.source_type === "live" ? 1 : 0;
+    const liveB = b.source_type === "live" ? 1 : 0;
+
+    if (liveA !== liveB) return liveB - liveA;
+
+    const dateA = String(a.start_date || "");
+    const dateB = String(b.start_date || "");
+
+    return dateB.localeCompare(dateA);
+  });
+}
+
+function sumPoints(rows) {
+  return rows.reduce((sum, row) => sum + toNumber(row.points), 0);
+}
+
+function formatResult(row) {
+  if (!row) return "";
+
+  const points = toNumber(row.points);
+  const source = row.source_type === "live" ? "LIVE" : "BASE";
+  const category = cleanText(row.category);
+  const round = cleanText(row.round);
+  const tournament = cleanText(row.tournament_name);
+  const date = cleanText(row.start_date);
+
+  return `${points} pts | ${source} | ${category} | ${round} | ${tournament} | ${date}`;
+}
+
+function calculatePlayerLiveRanking(rows, snapshotMap) {
+  const base = getPlayerBaseInfo(rows, snapshotMap);
+
+  const singles = rows.filter((row) => row.event_type === "singles");
+  const doubles = rows.filter((row) => row.event_type === "doubles");
+
+  const bestSingles = sortResultsByPointsDesc(singles).slice(0, 6);
+  const bestDoubles = sortResultsByPointsDesc(doubles).slice(0, 6);
+
+  const singlesPoints = sumPoints(bestSingles);
+  const doublesRawPoints = sumPoints(bestDoubles);
+  const doublesWeightedPoints = doublesRawPoints / 4;
+  const livePoints = singlesPoints + doublesWeightedPoints;
+
+  const liveSinglesRowsUsed = bestSingles.filter(
+    (row) => row.source_type === "live"
+  ).length;
+
+  const liveDoublesRowsUsed = bestDoubles.filter(
+    (row) => row.source_type === "live"
+  ).length;
+
+  const liveRowsAvailable = rows.filter((row) => row.source_type === "live")
+    .length;
+
+  const liveRawPointsAvailable = sumPoints(
+    rows.filter((row) => row.source_type === "live")
+  );
+
+  const officialPoints = toNumber(base.official_points);
+
+  return {
+    ...base,
+
+    live_rank: "",
+    live_points: Number(livePoints.toFixed(2)),
+
+    official_points_for_comparison: base.official_points,
+    points_change_vs_official:
+      officialPoints || officialPoints === 0
+        ? Number((livePoints - officialPoints).toFixed(2))
+        : "",
+
+    singles_points: Number(singlesPoints.toFixed(2)),
+    doubles_points_raw: Number(doublesRawPoints.toFixed(2)),
+    doubles_points_weighted: Number(doublesWeightedPoints.toFixed(2)),
+
+    singles_results_used: bestSingles.length,
+    doubles_results_used: bestDoubles.length,
+
+    live_rows_available: liveRowsAvailable,
+    live_raw_points_available: liveRawPointsAvailable,
+
+    live_singles_results_counting: liveSinglesRowsUsed,
+    live_doubles_results_counting: liveDoublesRowsUsed,
+
+    has_live_result: liveRowsAvailable > 0 ? "true" : "false",
+
+    best_singles_1: formatResult(bestSingles[0]),
+    best_singles_2: formatResult(bestSingles[1]),
+    best_singles_3: formatResult(bestSingles[2]),
+    best_singles_4: formatResult(bestSingles[3]),
+    best_singles_5: formatResult(bestSingles[4]),
+    best_singles_6: formatResult(bestSingles[5]),
+
+    best_doubles_1: formatResult(bestDoubles[0]),
+    best_doubles_2: formatResult(bestDoubles[1]),
+    best_doubles_3: formatResult(bestDoubles[2]),
+    best_doubles_4: formatResult(bestDoubles[3]),
+    best_doubles_5: formatResult(bestDoubles[4]),
+    best_doubles_6: formatResult(bestDoubles[5]),
+
+    calculated_at: new Date().toISOString(),
+  };
+}
+
+function assignLiveRanks(rows) {
+  const byGender = new Map();
+
+  for (const row of rows) {
+    const gender = normalizeGender(row.gender) || "unknown";
+
+    if (!byGender.has(gender)) {
+      byGender.set(gender, []);
+    }
+
+    byGender.get(gender).push(row);
+  }
+
+  const ranked = [];
+
+  for (const [, genderRows] of byGender.entries()) {
+    const sorted = [...genderRows].sort((a, b) => {
+      const diff = toNumber(b.live_points) - toNumber(a.live_points);
+
+      if (diff !== 0) return diff;
+
+      const officialA = toNumber(a.official_rank) || 999999;
+      const officialB = toNumber(b.official_rank) || 999999;
+
+      if (officialA !== officialB) return officialA - officialB;
+
+      return String(a.player_name).localeCompare(String(b.player_name));
+    });
+
+    let previousPoints = null;
+    let previousRank = 0;
+
+    for (let i = 0; i < sorted.length; i++) {
+      const row = sorted[i];
+      const currentPoints = toNumber(row.live_points);
+
+      let rank;
+
+      if (previousPoints !== null && currentPoints === previousPoints) {
+        rank = previousRank;
+      } else {
+        rank = i + 1;
+      }
+
+      previousPoints = currentPoints;
+      previousRank = rank;
+
+      ranked.push({
+        ...row,
+        live_rank: rank,
+        rank_change_vs_official:
+          row.official_rank || row.official_rank === 0
+            ? toNumber(row.official_rank) - rank
+            : "",
+      });
+    }
+  }
+
+  return ranked.sort((a, b) => {
+    if (a.gender !== b.gender) {
+      return String(a.gender).localeCompare(String(b.gender));
+    }
+
+    return toNumber(a.live_rank) - toNumber(b.live_rank);
+  });
+}
+
+function buildChangesRows(liveRankingRows) {
+  return liveRankingRows
+    .filter((row) => row.has_live_result === "true")
+    .sort((a, b) => {
+      const changeA = toNumber(a.rank_change_vs_official);
+      const changeB = toNumber(b.rank_change_vs_official);
+
+      if (changeA !== changeB) return changeB - changeA;
+
+      return toNumber(b.points_change_vs_official) - toNumber(a.points_change_vs_official);
+    })
+    .map((row) => ({
+      player_id: row.player_id,
+      player_name: row.player_name,
+      gender: row.gender,
+      country: row.country,
+      birth_year: row.birth_year,
+
+      official_rank: row.official_rank,
+      live_rank: row.live_rank,
+      rank_change_vs_official: row.rank_change_vs_official,
+
+      official_points: row.official_points_for_comparison,
+      live_points: row.live_points,
+      points_change_vs_official: row.points_change_vs_official,
+
+      live_rows_available: row.live_rows_available,
+      live_raw_points_available: row.live_raw_points_available,
+      live_singles_results_counting: row.live_singles_results_counting,
+      live_doubles_results_counting: row.live_doubles_results_counting,
+
+      best_singles_1: row.best_singles_1,
+      best_singles_2: row.best_singles_2,
+      best_singles_3: row.best_singles_3,
+      best_doubles_1: row.best_doubles_1,
+      best_doubles_2: row.best_doubles_2,
+      best_doubles_3: row.best_doubles_3,
+
+      calculated_at: row.calculated_at,
+    }));
+}
+
+function printSummary(rows, combinedLedger) {
+  const players = rows.length;
+  const boys = rows.filter((row) => row.gender === "M").length;
+  const girls = rows.filter((row) => row.gender === "F").length;
+
+  const withLive = rows.filter((row) => row.has_live_result === "true").length;
+
+  const liveCounting = rows.filter(
+    (row) =>
+      toNumber(row.live_singles_results_counting) > 0 ||
+      toNumber(row.live_doubles_results_counting) > 0
+  ).length;
+
+  const liveRows = combinedLedger.filter((row) => row.source_type === "live")
+    .length;
+
+  console.log("");
+  console.log("Resumo do live ranking:");
+  console.log(`Jogadores calculados: ${players}`);
+  console.log(`Masculino: ${boys}`);
+  console.log(`Feminino: ${girls}`);
+  console.log(`Jogadores com resultado live disponível: ${withLive}`);
+  console.log(`Jogadores com resultado live entrando no top 6: ${liveCounting}`);
+  console.log(`Linhas live no ledger combinado: ${liveRows}`);
+
+  console.log("");
+  console.log("Maiores subidas entre jogadores com resultado live:");
+  for (const row of buildChangesRows(rows).slice(0, 15)) {
+    const sign =
+      toNumber(row.rank_change_vs_official) > 0
+        ? "+"
+        : "";
+
+    console.log(
+      `${row.gender} ${row.player_name} (${row.country}): #${row.official_rank || "NR"} → #${row.live_rank} (${sign}${row.rank_change_vs_official || ""}), ${row.official_points || 0} → ${row.live_points}`
+    );
+  }
+}
+
+async function main() {
+  await ensureDirs();
+
+  console.log("");
+  console.log("Lendo points_ledger.csv...");
+  const baseLedgerRows = await readCsv(POINTS_LEDGER_FILE);
+
+  console.log("Lendo week_live_ledger_rows.csv...");
+  const liveLedgerRows = await readCsv(WEEK_LIVE_LEDGER_FILE);
+
+  console.log("Lendo rankings_snapshot.csv...");
+  const snapshotRows = await readCsv(RANKINGS_SNAPSHOT_FILE);
+  const snapshotMap = buildSnapshotMap(snapshotRows);
+
+  const combinedLedger = mergeLedgers(baseLedgerRows, liveLedgerRows);
+
+  const grouped = groupRowsByPlayer(combinedLedger);
+
+  const calculated = [];
+
+  for (const rows of grouped.values()) {
+    calculated.push(calculatePlayerLiveRanking(rows, snapshotMap));
+  }
+
+  const ranked = assignLiveRanks(calculated);
+  const changes = buildChangesRows(ranked);
+
+  const top500 = ranked.filter((row) => toNumber(row.live_rank) <= 500);
+
+  await writeCsv(LIVE_COMBINED_LEDGER_FILE, combinedLedger, [
+    "player_id",
+    "player_name",
+    "gender",
+    "country",
+    "country_name",
+    "birth_year",
+
+    "event_type",
+    "countable_status",
+
+    "tournament_name",
+    "category",
+    "draw_type",
+    "host_nation",
+    "host_nation_code",
+    "surface",
+    "surface_code",
+
+    "start_date",
+    "drop_date_calculated",
+
+    "round",
+    "points",
+
+    "tournament_link",
+    "is_countable_at_collection",
+    "is_live",
+    "status",
+
+    "source_url",
+    "collected_at",
+    "raw_json",
+    "source_type",
+  ]);
+
+  const liveRankingColumns = [
+    "live_rank",
+    "official_rank",
+    "rank_change_vs_official",
+
+    "player_id",
+    "player_name",
+    "gender",
+    "country",
+    "country_name",
+    "birth_year",
+
+    "official_points_for_comparison",
+    "live_points",
+    "points_change_vs_official",
+
+    "singles_points",
+    "doubles_points_raw",
+    "doubles_points_weighted",
+
+    "singles_results_used",
+    "doubles_results_used",
+
+    "live_rows_available",
+    "live_raw_points_available",
+    "live_singles_results_counting",
+    "live_doubles_results_counting",
+    "has_live_result",
+
+    "best_singles_1",
+    "best_singles_2",
+    "best_singles_3",
+    "best_singles_4",
+    "best_singles_5",
+    "best_singles_6",
+
+    "best_doubles_1",
+    "best_doubles_2",
+    "best_doubles_3",
+    "best_doubles_4",
+    "best_doubles_5",
+    "best_doubles_6",
+
+    "ranking_date",
+    "calculated_at",
+  ];
+
+  await writeCsv(LIVE_RANKING_FILE, ranked, liveRankingColumns);
+  await writeCsv(LIVE_RANKING_TOP500_FILE, top500, liveRankingColumns);
+
+  await writeCsv(LIVE_RANKING_CHANGES_FILE, changes, [
+    "player_id",
+    "player_name",
+    "gender",
+    "country",
+    "birth_year",
+
+    "official_rank",
+    "live_rank",
+    "rank_change_vs_official",
+
+    "official_points",
+    "live_points",
+    "points_change_vs_official",
+
+    "live_rows_available",
+    "live_raw_points_available",
+    "live_singles_results_counting",
+    "live_doubles_results_counting",
+
+    "best_singles_1",
+    "best_singles_2",
+    "best_singles_3",
+    "best_doubles_1",
+    "best_doubles_2",
+    "best_doubles_3",
+
+    "calculated_at",
+  ]);
+
+  printSummary(ranked, combinedLedger);
+
+  console.log("");
+  console.log("Arquivos gerados:");
+  console.log("data/clean/live_combined_ledger.csv");
+  console.log("data/clean/live_ranking.csv");
+  console.log("data/clean/live_ranking_top500.csv");
+  console.log("data/clean/live_ranking_changes.csv");
+}
+
+main().catch((err) => {
+  console.error("");
+  console.error("Erro fatal:");
+  console.error(err);
+  process.exit(1);
+});
