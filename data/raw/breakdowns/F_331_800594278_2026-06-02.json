@@ -1,0 +1,460 @@
+{
+  "player": {
+    "player_id": "800594278",
+    "player_name": "Luca Kalman",
+    "first_name": "Luca",
+    "last_name": "Kalman",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "HUN",
+    "country_name": "Hungary",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/luca-kalman/800594278/hun/jt/s/",
+    "current_rank": "331",
+    "current_points": "276.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800594278,\"playerFamilyName\":\"Kalman\",\"playerGivenName\":\"Luca\",\"playerNationalityCode\":\"HUN\",\"playerNationality\":\"Hungary\",\"profileLink\":\"/en/players/luca-kalman/800594278/hun/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-2,\"rank\":331,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":31,\"points\":276.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800594278",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 164.00 + (450.00/4) =",
+      "Value": "276.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 164,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Dunakeszi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-dunakeszi/hun/2026/j-j60-hun-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2025/j-j100-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "12 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2026/j-j100-hun-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Dunakeszi",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "18 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-dunakeszi/hun/2025/j-j30-hun-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Cakovec",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-cakovec/cro/2025/j-j100-cro-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 39,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2026/j-j100-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Oberpullendorf",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-oberpullendorf/aut/2026/j-j60-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Dunakeszi",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "25 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-dunakeszi/hun/2025/j-j30-hun-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Mogyorod",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-mogyorod/hun/2025/j-j60-hun-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Siroki Brijeg",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-siroki-brijeg/bih/2026/j-j60-bih-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Szekesfehervar",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-szekesfehervar/hun/2025/j-j200-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Kosice",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-kosice/svk/2026/j-j200-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Pazardzhik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-pazardzhik/bul/2025/j-j100-bul-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Dubrovnik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-dubrovnik/cro/2025/j-j100-cro-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 450,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Szekesfehervar",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-szekesfehervar/hun/2025/j-j200-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Pazardzhik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-pazardzhik/bul/2025/j-j100-bul-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2025/j-j100-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "12 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2026/j-j100-hun-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 101,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Mogyorod",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-mogyorod/hun/2025/j-j60-hun-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Cakovec",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-cakovec/cro/2025/j-j100-cro-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Dubrovnik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-dubrovnik/cro/2025/j-j100-cro-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Oberpullendorf",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-oberpullendorf/aut/2026/j-j60-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Kosice",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-kosice/svk/2026/j-j200-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

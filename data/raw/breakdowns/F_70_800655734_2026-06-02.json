@@ -1,0 +1,473 @@
+{
+  "player": {
+    "player_id": "800655734",
+    "player_name": "Pietra Rivoli",
+    "first_name": "Pietra",
+    "last_name": "Rivoli",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "BRA",
+    "country_name": "Brazil",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/pietra-rivoli/800655734/bra/jt/s/",
+    "current_rank": "70",
+    "current_points": "895.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800655734,\"playerFamilyName\":\"Rivoli\",\"playerGivenName\":\"Pietra\",\"playerNationalityCode\":\"BRA\",\"playerNationality\":\"Brazil\",\"profileLink\":\"/en/players/pietra-rivoli/800655734/bra/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-1,\"rank\":70,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":32,\"points\":895.25,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800655734",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 680.00 + (861.00/4) =",
+      "Value": "895.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 680,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Lima",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-lima/per/2025/j-j200-per-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Santiago",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-santiago/chi/2025/j-j200-chi-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Barranquilla",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-barranquilla/col/2026/j-j300-col-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Salinas",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-salinas/ecu/2026/j-j300-ecu-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Salta",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-salta/arg/2025/j-j200-arg-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Santa Cruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-santa-cruz/bol/2025/j-j200-bol-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 210,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Asuncion (Junior Pan American Games)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-asuncion-(junior-pan-american-games)/par/2025/j-j300-par-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Santa Cruz (South America Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-santa-cruz-(south-america-regional-championships)/bol/2026/j-j300-bol-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Asuncion",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-asuncion/par/2026/j-j200-par-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Bamberg",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-bamberg/ger/2025/j-j300-ger-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Gaspar",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-gaspar/bra/2026/j-j500-bra-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "Q",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Asuncion",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-asuncion/par/2026/j-j300-par-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Porto Alegre",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-porto-alegre/bra/2026/j-j300-bra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Santa Croce Sull’Arno",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-santa-croce-sullarno/ita/2026/j-j300-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 861,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Gaspar",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 187,
+              "tournamentLink": "/en/tournament/j500-gaspar/bra/2026/j-j500-bra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Salinas",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-salinas/ecu/2026/j-j300-ecu-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Santa Cruz (South America Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-santa-cruz-(south-america-regional-championships)/bol/2026/j-j300-bol-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Salta",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-salta/arg/2025/j-j200-arg-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Asuncion",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-asuncion/par/2026/j-j300-par-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Porto Alegre",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-porto-alegre/bra/2026/j-j300-bra-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 367,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Santa Cruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j200-santa-cruz/bol/2025/j-j200-bol-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Barranquilla",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-barranquilla/col/2026/j-j300-col-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Lima",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-lima/per/2025/j-j200-per-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Santiago",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-santiago/chi/2025/j-j200-chi-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bamberg",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bamberg/ger/2025/j-j300-ger-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Asuncion (Junior Pan American Games)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-asuncion-(junior-pan-american-games)/par/2025/j-j300-par-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Santa Croce Sull’Arno",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-santa-croce-sullarno/ita/2026/j-j300-ita-2026-001/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

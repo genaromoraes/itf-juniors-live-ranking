@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800590616",
+    "player_name": "Victor Ryden",
+    "first_name": "Victor",
+    "last_name": "Ryden",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "SWE",
+    "country_name": "Sweden",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/victor-ryden/800590616/swe/jt/s/",
+    "current_rank": "308",
+    "current_points": "264.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800590616,\"playerFamilyName\":\"Ryden\",\"playerGivenName\":\"Victor\",\"playerNationalityCode\":\"SWE\",\"playerNationality\":\"Sweden\",\"profileLink\":\"/en/players/victor-ryden/800590616/swe/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":6,\"rank\":308,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":264.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800590616",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 210.00 + (217.00/4) =",
+      "Value": "264.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 210,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Castricum",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-castricum/ned/2025/j-j200-ned-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J500 Merida",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-merida/mex/2025/j-j500-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Zapopan",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-zapopan/mex/2025/j-j300-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Siauliai",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Lithuania",
+              "hostNationCode": "LTU",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-siauliai/ltu/2026/j-j200-ltu-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "Tennis Europe Summer Cups (B18)",
+              "category": "GC",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 0,
+              "tournamentLink": "/en/tournament/tennis-europe-summer-cups-(b18)/ita/2025/j-gc-ita-01c-2025/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 217,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Merida",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-merida/mex/2025/j-j500-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Castricum",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-castricum/ned/2025/j-j200-ned-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Siauliai",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Lithuania",
+              "hostNationCode": "LTU",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-siauliai/ltu/2026/j-j200-ltu-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "Tennis Europe Summer Cups (B18)",
+              "category": "GC",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 0,
+              "tournamentLink": "/en/tournament/tennis-europe-summer-cups-(b18)/ita/2025/j-gc-ita-01c-2025/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

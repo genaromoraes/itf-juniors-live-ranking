@@ -1,0 +1,408 @@
+{
+  "player": {
+    "player_id": "800626938",
+    "player_name": "Melis Yildirim",
+    "first_name": "Melis",
+    "last_name": "Yildirim",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "TUR",
+    "country_name": "Turkiye",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/melis-yildirim/800626938/tur/jt/s/",
+    "current_rank": "340",
+    "current_points": "268.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800626938,\"playerFamilyName\":\"Yildirim\",\"playerGivenName\":\"Melis\",\"playerNationalityCode\":\"TUR\",\"playerNationality\":\"Turkiye\",\"profileLink\":\"/en/players/melis-yildirim/800626938/tur/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-2,\"rank\":340,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":27,\"points\":268.25,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800626938",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 228.00 + (161.00/4) =",
+      "Value": "268.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 228,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-005/"
+            },
+            {
+              "tournamentName": "J60 Kaarina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-kaarina/fin/2025/j-j60-fin-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Antalya",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-antalya/tur/2026/j-j60-tur-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Istanbul",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-istanbul/tur/2026/j-j60-tur-2026-005/"
+            },
+            {
+              "tournamentName": "J60 Manama",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-manama/brn/2025/j-j60-brn-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Antalya",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-antalya/tur/2026/j-j60-tur-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 53,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Istanbul",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-istanbul/tur/2025/j-j30-tur-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Cairo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-cairo/egy/2025/j-j100-egy-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Telavi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Georgia",
+              "hostNationCode": "GEO",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-telavi/geo/2025/j-j60-geo-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Tampere",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-tampere/fin/2025/j-j60-fin-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Mugla",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-mugla/tur/2025/j-j200-tur-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Dakahlia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-dakahlia/egy/2025/j-j100-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Algiers",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Algeria",
+              "hostNationCode": "ALG",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-algiers/alg/2026/j-j100-alg-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 161,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Algiers",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Algeria",
+              "hostNationCode": "ALG",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-algiers/alg/2026/j-j100-alg-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Antalya",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-antalya/tur/2026/j-j60-tur-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Manama",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-manama/brn/2025/j-j60-brn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Dakahlia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-dakahlia/egy/2025/j-j100-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Telavi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Georgia",
+              "hostNationCode": "GEO",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-telavi/geo/2025/j-j60-geo-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 35,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Kaarina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-kaarina/fin/2025/j-j60-fin-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Tampere",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-tampere/fin/2025/j-j60-fin-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Antalya",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-antalya/tur/2026/j-j60-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Mugla",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-mugla/tur/2025/j-j200-tur-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Cairo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-cairo/egy/2025/j-j100-egy-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-005/"
+            },
+            {
+              "tournamentName": "J60 Istanbul",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-istanbul/tur/2026/j-j60-tur-2026-005/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

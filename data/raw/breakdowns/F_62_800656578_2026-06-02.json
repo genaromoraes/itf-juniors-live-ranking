@@ -1,0 +1,421 @@
+{
+  "player": {
+    "player_id": "800656578",
+    "player_name": "Oliwia Sybicka",
+    "first_name": "Oliwia",
+    "last_name": "Sybicka",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "POL",
+    "country_name": "Poland",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/oliwia-sybicka/800656578/pol/jt/s/",
+    "current_rank": "62",
+    "current_points": "937.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800656578,\"playerFamilyName\":\"Sybicka\",\"playerGivenName\":\"Oliwia\",\"playerNationalityCode\":\"POL\",\"playerNationality\":\"Poland\",\"profileLink\":\"/en/players/oliwia-sybicka/800656578/pol/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":1,\"rank\":62,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":28,\"points\":937.25,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800656578",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 780.00 + (629.00/4) =",
+      "Value": "937.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 780,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Targu Jiu",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-targu-jiu/rou/2026/j-j200-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Mugla",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-mugla/tur/2025/j-j200-tur-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Sobota",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-sobota/pol/2025/j-j100-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "18 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2025/j-j100-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Palermo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-palermo/ita/2025/j-j100-ita-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 312,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 90,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Charleroi-Marcinelle",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-charleroi-marcinelle/bel/2026/j-j300-bel-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Istres",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-istres/fra/2026/j-j200-fra-2026-002/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Fort Lauderdale",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-fort-lauderdale/usa/2025/j-j500-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J200 Basel",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-basel/sui/2025/j-j200-sui-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 629,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 112,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Charleroi-Marcinelle",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-charleroi-marcinelle/bel/2026/j-j300-bel-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "18 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2025/j-j100-ned-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 202,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Fort Lauderdale",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-fort-lauderdale/usa/2025/j-j500-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Mugla",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-mugla/tur/2025/j-j200-tur-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Istres",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-istres/fra/2026/j-j200-fra-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Palermo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-palermo/ita/2025/j-j100-ita-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Targu Jiu",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-targu-jiu/rou/2026/j-j200-rou-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800638346",
+    "player_name": "Denisa Zoldakova",
+    "first_name": "Denisa",
+    "last_name": "Zoldakova",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "CZE",
+    "country_name": "Czechia",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/denisa-zoldakova/800638346/cze/jt/s/",
+    "current_rank": "37",
+    "current_points": "1111.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800638346,\"playerFamilyName\":\"Zoldakova\",\"playerGivenName\":\"Denisa\",\"playerNationalityCode\":\"CZE\",\"playerNationality\":\"Czechia\",\"profileLink\":\"/en/players/denisa-zoldakova/800638346/cze/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":0,\"rank\":37,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":1111.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800638346",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 840.00 + (1087.00/4) =",
+      "Value": "1111.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 840,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Vigo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-vigo/esp/2025/j-j200-esp-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Oslo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-oslo/nor/2025/j-j200-nor-2025-001/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 180,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Sanxenxo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "23 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-sanxenxo/esp/2025/j-j300-esp-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 150,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Bamberg",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bamberg/ger/2025/j-j300-ger-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "Tennis Europe Summer Cups (G18)",
+              "category": "GC",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 0,
+              "tournamentLink": "/en/tournament/tennis-europe-summer-cups-(g18)/fra/2025/j-gc-fra-04a-2025/"
+            },
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 1087,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 525,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Sanxenxo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "23 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-sanxenxo/esp/2025/j-j300-esp-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Oslo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-oslo/nor/2025/j-j200-nor-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bamberg",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-bamberg/ger/2025/j-j300-ger-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 240,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Vigo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-vigo/esp/2025/j-j200-esp-2025-003/"
+            },
+            {
+              "tournamentName": "Tennis Europe Summer Cups (G18)",
+              "category": "GC",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 75,
+              "tournamentLink": "/en/tournament/tennis-europe-summer-cups-(g18)/fra/2025/j-gc-fra-04a-2025/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,512 @@
+{
+  "player": {
+    "player_id": "800750798",
+    "player_name": "Mailuodi Lei",
+    "first_name": "Mailuodi",
+    "last_name": "Lei",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "CHN",
+    "country_name": "China, P.R.",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/mailuodi-lei/800750798/chn/jt/s/",
+    "current_rank": "109",
+    "current_points": "698",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800750798,\"playerFamilyName\":\"Lei\",\"playerGivenName\":\"Mailuodi\",\"playerNationalityCode\":\"CHN\",\"playerNationality\":\"China, P.R.\",\"profileLink\":\"/en/players/mailuodi-lei/800750798/chn/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":109,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":35,\"points\":698,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800750798",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 580.00 + (472.00/4) =",
+      "Value": "698.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 580,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Nanjing",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "09 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-nanjing/chn/2025/j-j200-chn-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Harare",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-harare/zim/2025/j-j100-zim-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Beijing",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-beijing/chn/2025/j-j300-chn-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Salinas",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-salinas/ecu/2026/j-j300-ecu-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 306,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Calgary",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Canada",
+              "hostNationCode": "CAN",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-calgary/can/2026/j-j100-can-2026-006/"
+            },
+            {
+              "tournamentName": "J60 Harare",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-harare/zim/2025/j-j60-zim-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Shenzhen",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-shenzhen/chn/2025/j-j60-chn-2025-012/"
+            },
+            {
+              "tournamentName": "J60 Shenzhen",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-shenzhen/chn/2025/j-j60-chn-2025-013/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Merida",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-merida/mex/2025/j-j500-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Fort Lauderdale",
+              "category": "J500",
+              "drawType": "Q",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-fort-lauderdale/usa/2025/j-j500-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J300 San Jose",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-san-jose/crc/2026/j-j300-crc-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Barranquilla",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-barranquilla/col/2026/j-j300-col-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 472,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 San Jose",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-san-jose/crc/2026/j-j300-crc-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Barranquilla",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-barranquilla/col/2026/j-j300-col-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Salinas",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-salinas/ecu/2026/j-j300-ecu-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Harare",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-harare/zim/2025/j-j100-zim-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Merida",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-merida/mex/2025/j-j500-mex-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 225,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Nanjing",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "09 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-nanjing/chn/2025/j-j200-chn-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Calgary",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Canada",
+              "hostNationCode": "CAN",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-calgary/can/2026/j-j100-can-2026-006/"
+            },
+            {
+              "tournamentName": "J60 Harare",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-harare/zim/2025/j-j60-zim-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Beijing",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-beijing/chn/2025/j-j300-chn-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

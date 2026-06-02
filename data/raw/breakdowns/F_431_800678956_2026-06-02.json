@@ -1,0 +1,278 @@
+{
+  "player": {
+    "player_id": "800678956",
+    "player_name": "Camila Zouein Yanez",
+    "first_name": "Camila",
+    "last_name": "Zouein Yanez",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "CHI",
+    "country_name": "Chile",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/camila-zouein-yanez/800678956/chi/jt/s/",
+    "current_rank": "431",
+    "current_points": "210.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800678956,\"playerFamilyName\":\"Zouein Yanez\",\"playerGivenName\":\"Camila\",\"playerNationalityCode\":\"CHI\",\"playerNationality\":\"Chile\",\"profileLink\":\"/en/players/camila-zouein-yanez/800678956/chi/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":2,\"rank\":431,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":17,\"points\":210.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800678956",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 170.00 + (162.00/4) =",
+      "Value": "210.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 170,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Salta",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-salta/arg/2025/j-j200-arg-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Lima",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-lima/per/2025/j-j200-per-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Londrina",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-londrina/bra/2025/j-j100-bra-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Medellin",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-medellin/col/2025/j-j100-col-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Concepcion",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-concepcion/chi/2025/j-j60-chi-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Asuncion (Junior Pan American Games)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-asuncion-(junior-pan-american-games)/par/2025/j-j300-par-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Bogota",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-bogota/col/2025/j-j200-col-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Santiago",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-santiago/chi/2025/j-j200-chi-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Santiago",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santiago/chi/2025/j-j60-chi-2025-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 162,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Santiago",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-santiago/chi/2025/j-j200-chi-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Santiago",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-santiago/chi/2025/j-j60-chi-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Concepcion",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-concepcion/chi/2025/j-j60-chi-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Londrina",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-londrina/bra/2025/j-j100-bra-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Bogota",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-bogota/col/2025/j-j200-col-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Lima",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-lima/per/2025/j-j200-per-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Salta",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-salta/arg/2025/j-j200-arg-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Medellin",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-medellin/col/2025/j-j100-col-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

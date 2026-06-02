@@ -1,0 +1,460 @@
+{
+  "player": {
+    "player_id": "800601838",
+    "player_name": "Sonia Erika Butuc Cerchez",
+    "first_name": "Sonia Erika",
+    "last_name": "Butuc Cerchez",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "ROU",
+    "country_name": "Romania",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/sonia-erika-butuc-cerchez/800601838/rou/jt/s/",
+    "current_rank": "491",
+    "current_points": "187.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800601838,\"playerFamilyName\":\"Butuc Cerchez\",\"playerGivenName\":\"Sonia Erika\",\"playerNationalityCode\":\"ROU\",\"playerNationality\":\"Romania\",\"profileLink\":\"/en/players/sonia-erika-butuc-cerchez/800601838/rou/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":4,\"rank\":491,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":31,\"points\":187.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800601838",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 144.00 + (174.00/4) =",
+      "Value": "187.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 144,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Kranj",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-kranj/slo/2025/j-j60-slo-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Dobrich",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-dobrich/bul/2025/j-j60-bul-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Pazardzhik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-pazardzhik/bul/2025/j-j100-bul-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 17,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Varna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-varna/bul/2025/j-j60-bul-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Ioannina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-ioannina/gre/2025/j-j60-gre-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Brasov",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-brasov/rou/2025/j-j30-rou-2025-005/"
+            },
+            {
+              "tournamentName": "J200 Haskovo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-haskovo/bul/2026/j-j200-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Targu Jiu",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-targu-jiu/rou/2026/j-j200-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Timisoara",
+              "category": "J100",
+              "drawType": "Q",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-timisoara/rou/2025/j-j100-rou-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Nicosia",
+              "category": "J100",
+              "drawType": "Q",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-nicosia/cyp/2025/j-j100-cyp-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Maribor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-maribor/slo/2025/j-j60-slo-2025-008/"
+            },
+            {
+              "tournamentName": "J60 Marsa",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-marsa/mlt/2026/j-j60-mlt-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Paola",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-paola/mlt/2026/j-j60-mlt-2026-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 174,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Haskovo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-haskovo/bul/2026/j-j200-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Marsa",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-marsa/mlt/2026/j-j60-mlt-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Dobrich",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-dobrich/bul/2025/j-j60-bul-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Paola",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-paola/mlt/2026/j-j60-mlt-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Timisoara",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-timisoara/rou/2025/j-j100-rou-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 28,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Pazardzhik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-pazardzhik/bul/2025/j-j100-bul-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Ioannina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-ioannina/gre/2025/j-j60-gre-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Kranj",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-kranj/slo/2025/j-j60-slo-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Maribor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-maribor/slo/2025/j-j60-slo-2025-008/"
+            },
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Nicosia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-nicosia/cyp/2025/j-j100-cyp-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

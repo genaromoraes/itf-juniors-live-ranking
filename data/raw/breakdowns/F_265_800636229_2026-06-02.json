@@ -1,0 +1,120 @@
+{
+  "player": {
+    "player_id": "800636229",
+    "player_name": "Mariia Lazarenko",
+    "first_name": "Mariia",
+    "last_name": "Lazarenko",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "UKR",
+    "country_name": "Ukraine",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/mariia-lazarenko/800636229/ukr/jt/s/",
+    "current_rank": "265",
+    "current_points": "354.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800636229,\"playerFamilyName\":\"Lazarenko\",\"playerGivenName\":\"Mariia\",\"playerNationalityCode\":\"UKR\",\"playerNationality\":\"Ukraine\",\"profileLink\":\"/en/players/mariia-lazarenko/800636229/ukr/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-1,\"rank\":265,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":5,\"points\":354.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800636229",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 336.00 + (75.00/4) =",
+      "Value": "354.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 336,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Vigo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-vigo/esp/2025/j-j200-esp-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Moenchengladbach",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-moenchengladbach/ger/2025/j-j100-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Clermont-Ferrand",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-clermont-ferrand/fra/2025/j-j100-fra-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 75,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Clermont-Ferrand",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-clermont-ferrand/fra/2025/j-j100-fra-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
+}

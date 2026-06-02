@@ -1,0 +1,356 @@
+{
+  "player": {
+    "player_id": "800695711",
+    "player_name": "VIOLA SEVERI",
+    "first_name": "VIOLA",
+    "last_name": "SEVERI",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "ITA",
+    "country_name": "Italy",
+    "birth_date": "",
+    "birth_year": "2011",
+    "junior_last_year": "2029",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/viola-severi/800695711/ita/jt/s/",
+    "current_rank": "418",
+    "current_points": "214.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800695711,\"playerFamilyName\":\"SEVERI\",\"playerGivenName\":\"VIOLA\",\"playerNationalityCode\":\"ITA\",\"playerNationality\":\"Italy\",\"profileLink\":\"/en/players/viola-severi/800695711/ita/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2011,\"rankMovement\":2,\"rank\":418,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":23,\"points\":214.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800695711",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 214.00 + (3.00/4) =",
+      "Value": "214.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 214,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Prato",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-prato/ita/2026/j-j200-ita-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Paola",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-paola/mlt/2026/j-j60-mlt-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Cairo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-cairo/egy/2025/j-j30-egy-2025-007/"
+            },
+            {
+              "tournamentName": "J60 Marsa",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-marsa/mlt/2026/j-j60-mlt-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 20,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Fés",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-fes/mar/2025/j-j30-mar-2025-009/"
+            },
+            {
+              "tournamentName": "J60 Bari",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-bari/ita/2025/j-j60-ita-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Cuneo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-cuneo/ita/2025/j-j30-ita-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Gothenburg",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-gothenburg/swe/2025/j-j30-swe-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Agno",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": null,
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-agno/sui/2026/j-j30-sui-2026-002/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Meknes",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-meknes/mar/2025/j-j30-mar-2025-008/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 3,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Meknes",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-meknes/mar/2025/j-j30-mar-2025-008/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Prato",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-prato/ita/2026/j-j200-ita-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Bari",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-bari/ita/2025/j-j60-ita-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Marsa",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-marsa/mlt/2026/j-j60-mlt-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Paola",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malta",
+              "hostNationCode": "MLT",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-paola/mlt/2026/j-j60-mlt-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Cairo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-cairo/egy/2025/j-j30-egy-2025-007/"
+            },
+            {
+              "tournamentName": "J30 Gothenburg",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-gothenburg/swe/2025/j-j30-swe-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Agno",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-agno/sui/2026/j-j30-sui-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

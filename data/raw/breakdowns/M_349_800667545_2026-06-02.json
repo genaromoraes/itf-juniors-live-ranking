@@ -1,0 +1,486 @@
+{
+  "player": {
+    "player_id": "800667545",
+    "player_name": "Filip Hesser",
+    "first_name": "Filip",
+    "last_name": "Hesser",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "SWE",
+    "country_name": "Sweden",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/filip-hesser/800667545/swe/jt/s/",
+    "current_rank": "349",
+    "current_points": "233.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800667545,\"playerFamilyName\":\"Hesser\",\"playerGivenName\":\"Filip\",\"playerNationalityCode\":\"SWE\",\"playerNationality\":\"Sweden\",\"profileLink\":\"/en/players/filip-hesser/800667545/swe/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-46,\"rank\":349,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":33,\"points\":233.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800667545",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 190.00 + (173.00/4) =",
+      "Value": "233.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 190,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Oslo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-oslo/nor/2025/j-j200-nor-2025-001/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2026/j-j100-ned-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Gjovik",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-gjovik/nor/2026/j-j60-nor-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "12 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2026/j-j100-hun-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Sobota",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "26 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-sobota/pol/2026/j-j100-pol-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 50,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Stavanger",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-stavanger/nor/2025/j-j100-nor-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Bromma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "31 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-bromma/swe/2026/j-j100-swe-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Fuerth",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-fuerth/ger/2025/j-j60-ger-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Holte",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Denmark",
+              "hostNationCode": "DEN",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-holte/den/2025/j-j60-den-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Leiria",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-leiria/por/2025/j-j60-por-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Oberhaching",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-oberhaching/ger/2026/j-j200-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Hamburg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-hamburg/ger/2026/j-j100-ger-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Tampere",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-tampere/fin/2025/j-j60-fin-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Marianske Lazne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-marianske-lazne/cze/2025/j-j30-cze-2025-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 173,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Bromma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "31 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-bromma/swe/2026/j-j100-swe-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Hamburg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-hamburg/ger/2026/j-j100-ger-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Stavanger",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-stavanger/nor/2025/j-j100-nor-2025-001/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2026/j-j100-ned-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Holte",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Denmark",
+              "hostNationCode": "DEN",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-holte/den/2025/j-j60-den-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 42,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Tampere",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-tampere/fin/2025/j-j60-fin-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Gjovik",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-gjovik/nor/2026/j-j60-nor-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Oslo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-oslo/nor/2025/j-j200-nor-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "12 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2026/j-j100-hun-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Sobota",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "26 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-sobota/pol/2026/j-j100-pol-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Fuerth",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-fuerth/ger/2025/j-j60-ger-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Leiria",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-leiria/por/2025/j-j60-por-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Marianske Lazne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-marianske-lazne/cze/2025/j-j30-cze-2025-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

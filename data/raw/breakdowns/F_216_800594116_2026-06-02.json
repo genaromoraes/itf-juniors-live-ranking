@@ -1,0 +1,330 @@
+{
+  "player": {
+    "player_id": "800594116",
+    "player_name": "Fabiola Marino",
+    "first_name": "Fabiola",
+    "last_name": "Marino",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "ITA",
+    "country_name": "Italy",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/fabiola-marino/800594116/ita/jt/s/",
+    "current_rank": "216",
+    "current_points": "417.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800594116,\"playerFamilyName\":\"Marino\",\"playerGivenName\":\"Fabiola\",\"playerNationalityCode\":\"ITA\",\"playerNationality\":\"Italy\",\"profileLink\":\"/en/players/fabiola-marino/800594116/ita/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":0,\"rank\":216,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":21,\"points\":417.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800594116",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 320.00 + (390.00/4) =",
+      "Value": "417.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 320,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Florence",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "01 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-florence/ita/2026/j-j200-ita-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Poznan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "30 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-poznan/pol/2025/j-j100-pol-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Vienna",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-vienna/aut/2025/j-j100-aut-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 20,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Dubrovnik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-dubrovnik/cro/2025/j-j100-cro-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Salsomaggiore",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-salsomaggiore/ita/2026/j-j200-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Neunkirchen",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-neunkirchen/ger/2025/j-j100-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Cakovec",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-cakovec/cro/2025/j-j100-cro-2025-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 390,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Vienna",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-vienna/aut/2025/j-j100-aut-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Salsomaggiore",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-salsomaggiore/ita/2026/j-j200-ita-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 45,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Neunkirchen",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-neunkirchen/ger/2025/j-j100-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Florence",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "01 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-florence/ita/2026/j-j200-ita-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Poznan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "30 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-poznan/pol/2025/j-j100-pol-2025-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

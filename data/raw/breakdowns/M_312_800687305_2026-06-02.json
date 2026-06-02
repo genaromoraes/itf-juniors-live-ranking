@@ -1,0 +1,499 @@
+{
+  "player": {
+    "player_id": "800687305",
+    "player_name": "REDA EL AOUNI",
+    "first_name": "REDA",
+    "last_name": "EL AOUNI",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "MAR",
+    "country_name": "Morocco",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/reda-el-aouni/800687305/mar/jt/s/",
+    "current_rank": "312",
+    "current_points": "257.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800687305,\"playerFamilyName\":\"EL AOUNI\",\"playerGivenName\":\"REDA\",\"playerNationalityCode\":\"MAR\",\"playerNationality\":\"Morocco\",\"profileLink\":\"/en/players/reda-el-aouni/800687305/mar/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":5,\"rank\":312,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":34,\"points\":257.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800687305",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 222.00 + (141.00/4) =",
+      "Value": "257.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 222,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Algiers",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Algeria",
+              "hostNationCode": "ALG",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-algiers/alg/2026/j-j60-alg-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo (Africa Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-cairo-(africa-regional-championships)/egy/2026/j-j200-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Casablanca",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-casablanca/mar/2025/j-j30-mar-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Kénitra",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-kenitra/mar/2025/j-j30-mar-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Oujda",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-oujda/mar/2025/j-j30-mar-2025-007/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 75,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Algiers",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Algeria",
+              "hostNationCode": "ALG",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-algiers/alg/2026/j-j100-alg-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Hammam Sousse",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-hammam-sousse/tun/2025/j-j100-tun-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Megrine",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-megrine/tun/2025/j-j60-tun-2025-005/"
+            },
+            {
+              "tournamentName": "J30 El Jadida",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-el-jadida/mar/2025/j-j30-mar-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Taroudant",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-taroudant/mar/2025/j-j30-mar-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Accra",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-accra/gha/2025/j-j60-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Agadir",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-agadir/mar/2025/j-j30-mar-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Rabat",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-rabat/mar/2025/j-j60-mar-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 141,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Algiers",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Algeria",
+              "hostNationCode": "ALG",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-algiers/alg/2026/j-j60-alg-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Casablanca",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-casablanca/mar/2025/j-j30-mar-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Kénitra",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-kenitra/mar/2025/j-j30-mar-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Oujda",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-oujda/mar/2025/j-j30-mar-2025-007/"
+            },
+            {
+              "tournamentName": "J100 Algiers",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Algeria",
+              "hostNationCode": "ALG",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-algiers/alg/2026/j-j100-alg-2026-001/"
+            },
+            {
+              "tournamentName": "J30 El Jadida",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-el-jadida/mar/2025/j-j30-mar-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 6,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Agadir",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-agadir/mar/2025/j-j30-mar-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo (Africa Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cairo-(africa-regional-championships)/egy/2026/j-j200-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Hammam Sousse",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-hammam-sousse/tun/2025/j-j100-tun-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Megrine",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-megrine/tun/2025/j-j60-tun-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Accra",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-accra/gha/2025/j-j60-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Rabat",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-rabat/mar/2025/j-j60-mar-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Taroudant",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-taroudant/mar/2025/j-j30-mar-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

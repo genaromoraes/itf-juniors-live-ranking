@@ -1,0 +1,499 @@
+{
+  "player": {
+    "player_id": "800664727",
+    "player_name": "Mateo Fluri",
+    "first_name": "Mateo",
+    "last_name": "Fluri",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "SUI",
+    "country_name": "Switzerland",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/mateo-fluri/800664727/sui/jt/s/",
+    "current_rank": "230",
+    "current_points": "354.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800664727,\"playerFamilyName\":\"Fluri\",\"playerGivenName\":\"Mateo\",\"playerNationalityCode\":\"SUI\",\"playerNationality\":\"Switzerland\",\"profileLink\":\"/en/players/mateo-fluri/800664727/sui/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":1,\"rank\":230,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":34,\"points\":354.75,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800664727",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 258.00 + (387.00/4) =",
+      "Value": "354.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 258,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Hamburg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-hamburg/ger/2026/j-j100-ger-2026-003/"
+            },
+            {
+              "tournamentName": "J200 Basel",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-basel/sui/2025/j-j200-sui-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Oberhaching",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-oberhaching/ger/2026/j-j200-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Saint Gregoire",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-saint-gregoire/fra/2025/j-j100-fra-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Clermont-Ferrand",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-clermont-ferrand/fra/2025/j-j100-fra-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 76,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Fuerth",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-fuerth/ger/2025/j-j60-ger-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Verbier",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-verbier/sui/2025/j-j100-sui-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Mugla",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-mugla/tur/2025/j-j200-tur-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Florence",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "01 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-florence/ita/2026/j-j200-ita-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Istres",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-istres/fra/2026/j-j200-fra-2026-002/"
+            },
+            {
+              "tournamentName": "J200 St. Poelten",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-st-poelten/aut/2026/j-j200-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Moenchengladbach",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-moenchengladbach/ger/2025/j-j100-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "12 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2026/j-j100-hun-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 387,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Mugla",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-mugla/tur/2025/j-j200-tur-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Clermont-Ferrand",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-clermont-ferrand/fra/2025/j-j100-fra-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Verbier",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-verbier/sui/2025/j-j100-sui-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 37,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Saint Gregoire",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-saint-gregoire/fra/2025/j-j100-fra-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Hamburg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-hamburg/ger/2026/j-j100-ger-2026-003/"
+            },
+            {
+              "tournamentName": "J200 Basel",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-basel/sui/2025/j-j200-sui-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Oberhaching",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-oberhaching/ger/2026/j-j200-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J200 St. Poelten",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-st-poelten/aut/2026/j-j200-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Moenchengladbach",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-moenchengladbach/ger/2025/j-j100-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "12 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2026/j-j100-hun-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Fuerth",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-fuerth/ger/2025/j-j60-ger-2025-005/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

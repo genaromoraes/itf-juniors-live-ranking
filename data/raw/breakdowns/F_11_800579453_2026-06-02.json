@@ -1,0 +1,212 @@
+{
+  "player": {
+    "player_id": "800579453",
+    "player_name": "Julia Stusek",
+    "first_name": "Julia",
+    "last_name": "Stusek",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "GER",
+    "country_name": "Germany",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/julia-stusek/800579453/ger/jt/s/",
+    "current_rank": "11",
+    "current_points": "1675.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800579453,\"playerFamilyName\":\"Stusek\",\"playerGivenName\":\"Julia\",\"playerNationalityCode\":\"GER\",\"playerNationality\":\"Germany\",\"profileLink\":\"/en/players/julia-stusek/800579453/ger/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":0,\"rank\":11,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":12,\"points\":1675.5,\"profileImage\":\"/remote.axd/media.itftennis.com/assetbank-itf/servlet/display?file=22137aa7f16b0848ba7cfd18.jpg&filename=unwatermarked_Julia_Stusek.jpg?crop=0.28075253256150506,0.021256038647343004,0.27306603684862613,0.58156345437990431&cropmode=percentage&width=54&height=72&rnd=134120860800000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800579453",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 1460.00 + (862.00/4) =",
+      "Value": "1675.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 1460,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "2025 ITF World Tennis Tour Junior Finals",
+              "category": "JM",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 360,
+              "tournamentLink": "/en/tournament/2025-itf-world-tennis-tour-junior-finals/chn/2025/j-jm-chn-2025-001/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 300,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 300,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 210,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rutesheim",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "05 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-rutesheim/ger/2025/j-j200-ger-2025-003/"
+            },
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 90,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 862,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "SF",
+              "points": 367,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 225,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 225,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
+}

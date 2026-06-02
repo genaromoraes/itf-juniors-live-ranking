@@ -1,0 +1,343 @@
+{
+  "player": {
+    "player_id": "800677997",
+    "player_name": "Marie Charlotte Monnier",
+    "first_name": "Marie Charlotte",
+    "last_name": "Monnier",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "POL",
+    "country_name": "Poland",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/marie-charlotte-monnier/800677997/pol/jt/s/",
+    "current_rank": "404",
+    "current_points": "222",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800677997,\"playerFamilyName\":\"Monnier\",\"playerGivenName\":\"Marie Charlotte\",\"playerNationalityCode\":\"POL\",\"playerNationality\":\"Poland\",\"profileLink\":\"/en/players/marie-charlotte-monnier/800677997/pol/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":1,\"rank\":404,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":22,\"points\":222,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800677997",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 197.00 + (100.00/4) =",
+      "Value": "222.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 197,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Varnamo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-varnamo/swe/2026/j-j100-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Gjovik",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-gjovik/nor/2026/j-j60-nor-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2026/j-j100-lat-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Aizkraukle",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-aizkraukle/lat/2026/j-j60-lat-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Maribor",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-maribor/slo/2026/j-j30-slo-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Bari",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-bari/ita/2025/j-j60-ita-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 4,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Grodzisk Mazowiecki",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "19 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-grodzisk-mazowiecki/pol/2025/j-j30-pol-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Oberpullendorf",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "13 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-oberpullendorf/aut/2026/j-j30-aut-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Pszczyna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "12 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-pszczyna/pol/2025/j-j60-pol-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Ystad",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-ystad/swe/2026/j-j60-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Leszno",
+              "category": "J30",
+              "drawType": "Q",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-leszno/pol/2025/j-j30-pol-2025-007/"
+            },
+            {
+              "tournamentName": "J30 Oslo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-oslo/nor/2026/j-j30-nor-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 100,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2026/j-j100-lat-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Maribor",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-maribor/slo/2026/j-j30-slo-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Gjovik",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-gjovik/nor/2026/j-j60-nor-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Aizkraukle",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-aizkraukle/lat/2026/j-j60-lat-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Oberpullendorf",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "13 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-oberpullendorf/aut/2026/j-j30-aut-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Bari",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-bari/ita/2025/j-j60-ita-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 10,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Pszczyna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "12 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-pszczyna/pol/2025/j-j60-pol-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Grodzisk Mazowiecki",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "19 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-grodzisk-mazowiecki/pol/2025/j-j30-pol-2025-006/"
+            },
+            {
+              "tournamentName": "J100 Varnamo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-varnamo/swe/2026/j-j100-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Ystad",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-ystad/swe/2026/j-j60-swe-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

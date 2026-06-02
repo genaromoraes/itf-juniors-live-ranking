@@ -1,0 +1,330 @@
+{
+  "player": {
+    "player_id": "800668189",
+    "player_name": "Ena Ilic",
+    "first_name": "Ena",
+    "last_name": "Ilic",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "SRB",
+    "country_name": "Serbia",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/ena-ilic/800668189/srb/jt/s/",
+    "current_rank": "185",
+    "current_points": "477.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800668189,\"playerFamilyName\":\"Ilic\",\"playerGivenName\":\"Ena\",\"playerNationalityCode\":\"SRB\",\"playerNationality\":\"Serbia\",\"profileLink\":\"/en/players/ena-ilic/800668189/srb/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":1,\"rank\":185,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":21,\"points\":477.25,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800668189",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 416.00 + (245.00/4) =",
+      "Value": "477.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 416,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Nairobi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-nairobi/ken/2025/j-j100-ken-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 126,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Targu Jiu",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-targu-jiu/rou/2026/j-j200-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2025/j-j60-mkd-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2025/j-j60-mkd-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 245,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Nairobi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-nairobi/ken/2025/j-j100-ken-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2025/j-j60-mkd-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 7,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2025/j-j60-mkd-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Targu Jiu",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-targu-jiu/rou/2026/j-j200-rou-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

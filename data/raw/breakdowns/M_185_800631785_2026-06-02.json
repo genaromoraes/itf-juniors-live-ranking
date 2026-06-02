@@ -1,0 +1,486 @@
+{
+  "player": {
+    "player_id": "800631785",
+    "player_name": "Omar Kandil",
+    "first_name": "Omar",
+    "last_name": "Kandil",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "EGY",
+    "country_name": "Egypt",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/omar-kandil/800631785/egy/jt/s/",
+    "current_rank": "185",
+    "current_points": "433",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800631785,\"playerFamilyName\":\"Kandil\",\"playerGivenName\":\"Omar\",\"playerNationalityCode\":\"EGY\",\"playerNationality\":\"Egypt\",\"profileLink\":\"/en/players/omar-kandil/800631785/egy/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-2,\"rank\":185,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":33,\"points\":433,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800631785",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 328.00 + (420.00/4) =",
+      "Value": "433.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 328,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo (Africa Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-cairo-(africa-regional-championships)/egy/2026/j-j200-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Cairo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-cairo/egy/2025/j-j100-egy-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Casablanca",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-casablanca/mar/2025/j-j60-mar-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 98,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Fujairah",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-fujairah/uae/2026/j-j100-uae-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Rabat",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-rabat/mar/2025/j-j60-mar-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Dakahlia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-dakahlia/egy/2025/j-j100-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Barcelona",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-barcelona/esp/2025/j-j100-esp-2025-006/"
+            },
+            {
+              "tournamentName": "J100 Vic",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-vic/esp/2025/j-j100-esp-2025-007/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Cairo",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-cairo/egy/2025/j-j60-egy-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Manama",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-manama/brn/2025/j-j60-brn-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Cairo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-cairo/egy/2025/j-j100-egy-2025-001/"
+            },
+            {
+              "tournamentName": "J100 El Prat de Llobregat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-el-prat-de-llobregat/esp/2025/j-j100-esp-2025-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 420,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Cairo (Africa Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-cairo-(africa-regional-championships)/egy/2026/j-j200-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Dakahlia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-dakahlia/egy/2025/j-j100-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Cairo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-cairo/egy/2025/j-j100-egy-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J100 El Prat de Llobregat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-el-prat-de-llobregat/esp/2025/j-j100-esp-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 166,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Cairo",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-cairo/egy/2025/j-j60-egy-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Manama",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-manama/brn/2025/j-j60-brn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Casablanca",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-casablanca/mar/2025/j-j60-mar-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Fujairah",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-fujairah/uae/2026/j-j100-uae-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Rabat",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-rabat/mar/2025/j-j60-mar-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

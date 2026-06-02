@@ -1,0 +1,408 @@
+{
+  "player": {
+    "player_id": "800677723",
+    "player_name": "Filip Malis",
+    "first_name": "Filip",
+    "last_name": "Malis",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "CAN",
+    "country_name": "Canada",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/filip-malis/800677723/can/jt/s/",
+    "current_rank": "448",
+    "current_points": "177.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800677723,\"playerFamilyName\":\"Malis\",\"playerGivenName\":\"Filip\",\"playerNationalityCode\":\"CAN\",\"playerNationality\":\"Canada\",\"profileLink\":\"/en/players/filip-malis/800677723/can/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-3,\"rank\":448,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":27,\"points\":177.5,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800677723",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 126.00 + (206.00/4) =",
+      "Value": "177.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 126,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Colomiers",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-colomiers/fra/2026/j-j60-fra-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Cairo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-cairo/egy/2026/j-j30-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Balma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-balma/fra/2025/j-j100-fra-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Compiegne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-compiegne/fra/2025/j-j30-fra-2025-007/"
+            },
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2026/j-j30-brn-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 14,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Bollene-Sorgues",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-bollene-sorgues/fra/2026/j-j60-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Blagnac",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-blagnac/fra/2026/j-j60-fra-2026-003/"
+            },
+            {
+              "tournamentName": "J30 Le Bouscat",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-le-bouscat/fra/2025/j-j30-fra-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Le Pontet",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-le-pontet/fra/2026/j-j30-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Castricum",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-castricum/ned/2025/j-j200-ned-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Istres",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-istres/fra/2026/j-j200-fra-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2025/j-j100-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Saint Gregoire",
+              "category": "J100",
+              "drawType": "Q",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-saint-gregoire/fra/2025/j-j100-fra-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Sarajevo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-sarajevo/bih/2025/j-j30-bih-2025-005/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 206,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Mohammedia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-mohammedia/mar/2026/j-j100-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Bollene-Sorgues",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-bollene-sorgues/fra/2026/j-j60-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Colomiers",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-colomiers/fra/2026/j-j60-fra-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Cairo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-cairo/egy/2026/j-j30-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Blagnac",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-blagnac/fra/2026/j-j60-fra-2026-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 12,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Sarajevo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-sarajevo/bih/2025/j-j30-bih-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Le Bouscat",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-le-bouscat/fra/2025/j-j30-fra-2025-006/"
+            },
+            {
+              "tournamentName": "J100 Budapest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-budapest/hun/2025/j-j100-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Balma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-balma/fra/2025/j-j100-fra-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Compiegne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-compiegne/fra/2025/j-j30-fra-2025-007/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

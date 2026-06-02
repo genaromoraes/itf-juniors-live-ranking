@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800719604",
+    "player_name": "Akhmadi Makhanov",
+    "first_name": "Akhmadi",
+    "last_name": "Makhanov",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "KAZ",
+    "country_name": "Kazakhstan",
+    "birth_date": "",
+    "birth_year": "2011",
+    "junior_last_year": "2029",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/akhmadi-makhanov/800719604/kaz/jt/s/",
+    "current_rank": "375",
+    "current_points": "217.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800719604,\"playerFamilyName\":\"Makhanov\",\"playerGivenName\":\"Akhmadi\",\"playerNationalityCode\":\"KAZ\",\"playerNationality\":\"Kazakhstan\",\"profileLink\":\"/en/players/akhmadi-makhanov/800719604/kaz/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2011,\"rankMovement\":-6,\"rank\":375,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":217.5,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800719604",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 166.00 + (206.00/4) =",
+      "Value": "217.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 166,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Chengdu",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-chengdu/chn/2026/j-j60-chn-2026-006/"
+            },
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2026/j-j30-brn-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2026/j-j30-brn-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Almaty",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-almaty/kaz/2025/j-j60-kaz-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Fergana",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-fergana/uzb/2026/j-j60-uzb-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Wuhan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-wuhan/chn/2026/j-j100-chn-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 24,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Guangzhou",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-guangzhou/chn/2026/j-j60-chn-2026-009/"
+            },
+            {
+              "tournamentName": "J30 Astana",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-astana/kaz/2025/j-j30-kaz-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Dushanbe",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tajikistan",
+              "hostNationCode": "TJK",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-dushanbe/tjk/2025/j-j60-tjk-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Astana",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-astana/kaz/2025/j-j300-kaz-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Karaganda",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-karaganda/kaz/2026/j-j100-kaz-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Dushanbe",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tajikistan",
+              "hostNationCode": "TJK",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-dushanbe/tjk/2025/j-j60-tjk-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 206,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Astana",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-astana/kaz/2025/j-j300-kaz-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Andijan",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-andijan/uzb/2026/j-j60-uzb-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Karaganda",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-karaganda/kaz/2026/j-j100-kaz-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Dushanbe",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tajikistan",
+              "hostNationCode": "TJK",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-dushanbe/tjk/2025/j-j60-tjk-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Guangzhou",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-guangzhou/chn/2026/j-j60-chn-2026-009/"
+            },
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2026/j-j30-brn-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 16,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Fergana",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-fergana/uzb/2026/j-j60-uzb-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2026/j-j30-brn-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Astana",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-astana/kaz/2025/j-j30-kaz-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Wuhan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-wuhan/chn/2026/j-j100-chn-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Dushanbe",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tajikistan",
+              "hostNationCode": "TJK",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-dushanbe/tjk/2025/j-j60-tjk-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Almaty",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-almaty/kaz/2025/j-j60-kaz-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Chengdu",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-chengdu/chn/2026/j-j60-chn-2026-006/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

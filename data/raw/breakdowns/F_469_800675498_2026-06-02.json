@@ -1,0 +1,447 @@
+{
+  "player": {
+    "player_id": "800675498",
+    "player_name": "Lina Freya Simonsen",
+    "first_name": "Lina Freya",
+    "last_name": "Simonsen",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "GER",
+    "country_name": "Germany",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/lina-freya-simonsen/800675498/ger/jt/s/",
+    "current_rank": "469",
+    "current_points": "198",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800675498,\"playerFamilyName\":\"Simonsen\",\"playerGivenName\":\"Lina Freya\",\"playerNationalityCode\":\"GER\",\"playerNationality\":\"Germany\",\"profileLink\":\"/en/players/lina-freya-simonsen/800675498/ger/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":0,\"rank\":469,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":30,\"points\":198,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800675498",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 144.00 + (216.00/4) =",
+      "Value": "198.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 144,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Schifflange",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Luxembourg",
+              "hostNationCode": "LUX",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-schifflange/lux/2025/j-j60-lux-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Vinkovci",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-vinkovci/cro/2025/j-j30-cro-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Ingelheim",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-ingelheim/ger/2025/j-j30-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Varnamo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-varnamo/swe/2026/j-j100-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Frankfurt",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-frankfurt/ger/2026/j-j60-ger-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 30,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Alicante",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-alicante/esp/2026/j-j100-esp-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Limelette",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-limelette/bel/2025/j-j60-bel-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Offenbach",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-offenbach/ger/2026/j-j60-ger-2026-005/"
+            },
+            {
+              "tournamentName": "J30 Marianske Lazne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-marianske-lazne/cze/2025/j-j30-cze-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Esch/Alzette",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Luxembourg",
+              "hostNationCode": "LUX",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-esch-alzette/lux/2025/j-j30-lux-2025-002/"
+            },
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Fuerth",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-fuerth/ger/2025/j-j60-ger-2025-005/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 216,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Varnamo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-varnamo/swe/2026/j-j100-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Frankfurt",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-frankfurt/ger/2026/j-j60-ger-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Vinkovci",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-vinkovci/cro/2025/j-j30-cro-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Ingelheim",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-ingelheim/ger/2025/j-j30-ger-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 34,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Alicante",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-alicante/esp/2026/j-j100-esp-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Fuerth",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-fuerth/ger/2025/j-j60-ger-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Schifflange",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Luxembourg",
+              "hostNationCode": "LUX",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-schifflange/lux/2025/j-j60-lux-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Marianske Lazne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-marianske-lazne/cze/2025/j-j30-cze-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Limelette",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-limelette/bel/2025/j-j60-bel-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Offenbach",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-offenbach/ger/2026/j-j60-ger-2026-005/"
+            },
+            {
+              "tournamentName": "J30 Esch/Alzette",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Luxembourg",
+              "hostNationCode": "LUX",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-esch-alzette/lux/2025/j-j30-lux-2025-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

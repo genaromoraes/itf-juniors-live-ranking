@@ -19,5 +19,260 @@
     "last_seen_date": "2026-06-02",
     "raw_json": "{\"playerId\":800695060,\"playerFamilyName\":\"Leme Da Silva\",\"playerGivenName\":\"Nauhany Vitoria\",\"playerNationalityCode\":\"BRA\",\"playerNationality\":\"Brazil\",\"profileLink\":\"/en/players/nauhany-vitoria-leme-da-silva/800695060/bra/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":0,\"rank\":9,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":17,\"points\":1743,\"profileImage\":\"/remote.axd/media.itftennis.com/assetbank-itf/servlet/display?file=22137aa7f1220b669c7cfd08.jpg&filename=unwatermarked_Nauhany_Victoria_Leme_da_Silva_01.jpg?crop=0.32383662028820109,0.022306988779584681,0.35566528128223907,0.656472372794396&cropmode=percentage&width=54&height=72&rnd=134084588260000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
   },
-  "found_responses": []
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800695060",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 1460.00 + (1132.00/4) =",
+      "Value": "1743.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 1460,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Gaspar",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 500,
+              "tournamentLink": "/en/tournament/j500-gaspar/bra/2026/j-j500-bra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Santa Cruz (South America Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 300,
+              "tournamentLink": "/en/tournament/j300-santa-cruz-(south-america-regional-championships)/bol/2026/j-j300-bol-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Porto Alegre",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 300,
+              "tournamentLink": "/en/tournament/j300-porto-alegre/bra/2026/j-j300-bra-2026-001/"
+            },
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R16",
+              "points": 180,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 90,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 90,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 90,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Repentigny",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Canada",
+              "hostNationCode": "CAN",
+              "startDate": "24 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-repentigny/can/2025/j-j300-can-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 1132,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 375,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Gaspar",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 262,
+              "tournamentLink": "/en/tournament/j500-gaspar/bra/2026/j-j500-bra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Santa Cruz (South America Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 225,
+              "tournamentLink": "/en/tournament/j300-santa-cruz-(south-america-regional-championships)/bol/2026/j-j300-bol-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Porto Alegre",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Brazil",
+              "hostNationCode": "BRA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 225,
+              "tournamentLink": "/en/tournament/j300-porto-alegre/bra/2026/j-j300-bra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Repentigny",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Canada",
+              "hostNationCode": "CAN",
+              "startDate": "24 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-repentigny/can/2025/j-j300-can-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            },
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

@@ -1,0 +1,460 @@
+{
+  "player": {
+    "player_id": "800655675",
+    "player_name": "Diego Ignacio Gomez Pajares",
+    "first_name": "Diego Ignacio",
+    "last_name": "Gomez Pajares",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "PER",
+    "country_name": "Peru",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/diego-ignacio-gomez-pajares/800655675/per/jt/s/",
+    "current_rank": "244",
+    "current_points": "337",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800655675,\"playerFamilyName\":\"Gomez Pajares\",\"playerGivenName\":\"Diego Ignacio\",\"playerNationalityCode\":\"PER\",\"playerNationality\":\"Peru\",\"profileLink\":\"/en/players/diego-ignacio-gomez-pajares/800655675/per/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":244,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":31,\"points\":337,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800655675",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 276.00 + (244.00/4) =",
+      "Value": "337.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 276,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Lima",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-lima/per/2026/j-j300-per-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Lima",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-lima/per/2026/j-j100-per-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Chiclayo",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-chiclayo/per/2025/j-j60-per-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Asuncion",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-asuncion/par/2026/j-j200-par-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Santa Cruz (South America Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-santa-cruz-(south-america-regional-championships)/bol/2026/j-j300-bol-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-lima/per/2025/j-j30-per-2025-006/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 131,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-lima/per/2025/j-j30-per-2025-007/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-lima/per/2026/j-j30-per-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Santa Cruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-santa-cruz/bol/2025/j-j200-bol-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-lima/per/2025/j-j30-per-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Chiclayo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-chiclayo/per/2025/j-j100-per-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Luque",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-luque/par/2026/j-j100-par-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Santiago",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-santiago/chi/2025/j-j60-chi-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Lima",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-lima/per/2026/j-j60-per-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Lima",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-lima/per/2025/j-j200-per-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Santa Cruz",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santa-cruz/bol/2025/j-j60-bol-2025-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 244,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Asuncion",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-asuncion/par/2026/j-j200-par-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Santa Cruz (South America Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-santa-cruz-(south-america-regional-championships)/bol/2026/j-j300-bol-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Chiclayo",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-chiclayo/per/2025/j-j60-per-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Santa Cruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-santa-cruz/bol/2025/j-j200-bol-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Luque",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-luque/par/2026/j-j100-par-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-lima/per/2025/j-j30-per-2025-005/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 33,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Santiago",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-santiago/chi/2025/j-j60-chi-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-lima/per/2025/j-j30-per-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-lima/per/2025/j-j30-per-2025-007/"
+            },
+            {
+              "tournamentName": "J200 Lima",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-lima/per/2025/j-j200-per-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Chiclayo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-chiclayo/per/2025/j-j100-per-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Lima",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-lima/per/2026/j-j100-per-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Santa Cruz",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santa-cruz/bol/2025/j-j60-bol-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Lima",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-lima/per/2026/j-j60-per-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Lima",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-lima/per/2026/j-j30-per-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "player": {
+    "player_id": "800596489",
+    "player_name": "Romy Fohnen",
+    "first_name": "Romy",
+    "last_name": "Fohnen",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "BEL",
+    "country_name": "Belgium",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/romy-fohnen/800596489/bel/jt/s/",
+    "current_rank": "453",
+    "current_points": "204.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800596489,\"playerFamilyName\":\"Fohnen\",\"playerGivenName\":\"Romy\",\"playerNationalityCode\":\"BEL\",\"playerNationality\":\"Belgium\",\"profileLink\":\"/en/players/romy-fohnen/800596489/bel/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":0,\"rank\":453,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":8,\"points\":204.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800596489",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 196.00 + (35.00/4) =",
+      "Value": "204.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 196,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Maaseik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-maaseik/bel/2025/j-j100-bel-2025-001/"
+            },
+            {
+              "tournamentName": "J100 El Prat de Llobregat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-el-prat-de-llobregat/esp/2025/j-j100-esp-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Liege",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-liege/bel/2025/j-j30-bel-2025-008/"
+            },
+            {
+              "tournamentName": "J100 Moenchengladbach",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-moenchengladbach/ger/2025/j-j100-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "18 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2025/j-j100-ned-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 35,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "18 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2025/j-j100-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Liege",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-liege/bel/2025/j-j30-bel-2025-008/"
+            },
+            {
+              "tournamentName": "J100 Maaseik",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-maaseik/bel/2025/j-j100-bel-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
+}

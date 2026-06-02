@@ -19,5 +19,194 @@
     "last_seen_date": "2026-06-02",
     "raw_json": "{\"playerId\":800719373,\"playerFamilyName\":\"Penickova\",\"playerGivenName\":\"Kristina\",\"playerNationalityCode\":\"USA\",\"playerNationality\":\"USA\",\"profileLink\":\"/en/players/kristina-penickova/800719373/usa/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":8,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":12,\"points\":1905.5,\"profileImage\":\"/remote.axd/media.itftennis.com/assetbank-itf/servlet/display?file=22137aa7e1210876887aff08.jpg?crop=0.25651162576884629,0.058739221352881961,0.29666167127896986,0.095415991165617789&cropmode=percentage&width=54&height=72&rnd=133722617570000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
   },
-  "found_responses": []
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800719373",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 1480.00 + (1702.00/4) =",
+      "Value": "1905.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 1480,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "2025 ITF World Tennis Tour Junior Finals",
+              "category": "JM",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 700,
+              "tournamentLink": "/en/tournament/2025-itf-world-tennis-tour-junior-finals/chn/2025/j-jm-chn-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 250,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Chuncheon",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Korea, Rep.",
+              "hostNationCode": "KOR",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-chuncheon/kor/2025/j-j200-kor-2025-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 180,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            },
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 90,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 1702,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "WR",
+              "points": 750,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 375,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 367,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 135,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
 }

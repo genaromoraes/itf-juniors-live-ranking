@@ -1,0 +1,291 @@
+{
+  "player": {
+    "player_id": "800638775",
+    "player_name": "Greta Nemcsek",
+    "first_name": "Greta",
+    "last_name": "Nemcsek",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "HUN",
+    "country_name": "Hungary",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/greta-nemcsek/800638775/hun/jt/s/",
+    "current_rank": "324",
+    "current_points": "284.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800638775,\"playerFamilyName\":\"Nemcsek\",\"playerGivenName\":\"Greta\",\"playerNationalityCode\":\"HUN\",\"playerNationality\":\"Hungary\",\"profileLink\":\"/en/players/greta-nemcsek/800638775/hun/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-1,\"rank\":324,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":18,\"points\":284.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800638775",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 228.00 + (226.00/4) =",
+      "Value": "284.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 228,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Oberpullendorf",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-oberpullendorf/aut/2026/j-j60-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bromma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "31 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-bromma/swe/2026/j-j100-swe-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Blagnac",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-blagnac/fra/2026/j-j60-fra-2026-003/"
+            },
+            {
+              "tournamentName": "J200 Kosice",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-kosice/svk/2026/j-j200-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 28,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Szabolcsveresmart",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "11 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-szabolcsveresmart/hun/2025/j-j30-hun-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Warsaw",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "28 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-warsaw/pol/2026/j-j60-pol-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Vienna",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-vienna/aut/2025/j-j100-aut-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2026/j-j100-svk-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 226,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Kosice",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-kosice/svk/2026/j-j200-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Blagnac",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-blagnac/fra/2026/j-j60-fra-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2026/j-j100-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Vienna",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-vienna/aut/2025/j-j100-aut-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Bromma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "31 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-bromma/swe/2026/j-j100-swe-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Oberpullendorf",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-oberpullendorf/aut/2026/j-j60-aut-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,369 @@
+{
+  "player": {
+    "player_id": "800665681",
+    "player_name": "Veronica Cervac",
+    "first_name": "Veronica",
+    "last_name": "Cervac",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "ROU",
+    "country_name": "Romania",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/veronica-cervac/800665681/rou/jt/s/",
+    "current_rank": "496",
+    "current_points": "186.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800665681,\"playerFamilyName\":\"Cervac\",\"playerGivenName\":\"Veronica\",\"playerNationalityCode\":\"ROU\",\"playerNationality\":\"Romania\",\"profileLink\":\"/en/players/veronica-cervac/800665681/rou/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":49,\"rank\":496,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":24,\"points\":186.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800665681",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 143.00 + (174.00/4) =",
+      "Value": "186.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 143,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Bistrita",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-bistrita/rou/2025/j-j60-rou-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Varna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-varna/bul/2025/j-j60-bul-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Burgas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-burgas/bul/2025/j-j60-bul-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 10,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Targu Jiu",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-targu-jiu/rou/2025/j-j30-rou-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Szekesfehervar",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-szekesfehervar/hun/2025/j-j200-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Targu Jiu",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-targu-jiu/rou/2026/j-j200-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Bucharest",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "02 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-bucharest/rou/2025/j-j30-rou-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Bucharest",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-bucharest/rou/2026/j-j30-rou-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 174,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Burgas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-burgas/bul/2025/j-j60-bul-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Targu Jiu",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-targu-jiu/rou/2025/j-j30-rou-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Bucharest",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "02 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-bucharest/rou/2025/j-j30-rou-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Bucharest",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-bucharest/rou/2026/j-j30-rou-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 40,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Varna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-varna/bul/2025/j-j60-bul-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Bistrita",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-bistrita/rou/2025/j-j60-rou-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

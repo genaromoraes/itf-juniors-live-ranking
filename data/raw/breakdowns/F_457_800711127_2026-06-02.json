@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800711127",
+    "player_name": "Nina Tepic",
+    "first_name": "Nina",
+    "last_name": "Tepic",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "SRB",
+    "country_name": "Serbia",
+    "birth_date": "",
+    "birth_year": "2011",
+    "junior_last_year": "2029",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/nina-tepic/800711127/srb/jt/s/",
+    "current_rank": "457",
+    "current_points": "203",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800711127,\"playerFamilyName\":\"Tepic\",\"playerGivenName\":\"Nina\",\"playerNationalityCode\":\"SRB\",\"playerNationality\":\"Serbia\",\"profileLink\":\"/en/players/nina-tepic/800711127/srb/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2011,\"rankMovement\":1,\"rank\":457,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":203,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800711127",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 164.00 + (156.00/4) =",
+      "Value": "203.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 164,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Podgorica",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Montenegro",
+              "hostNationCode": "MNE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-podgorica/mne/2026/j-j60-mne-2026-003/"
+            },
+            {
+              "tournamentName": "J30 Mostar",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-mostar/bih/2025/j-j30-bih-2025-006/"
+            },
+            {
+              "tournamentName": "J100 Nairobi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-nairobi/ken/2025/j-j100-ken-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Siroki Brijeg",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-siroki-brijeg/bih/2026/j-j60-bih-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Larnaca",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-larnaca/cyp/2026/j-j60-cyp-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 76,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2026/j-j60-mkd-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Ulcinj",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Montenegro",
+              "hostNationCode": "MNE",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-ulcinj/mne/2026/j-j60-mne-2026-004/"
+            },
+            {
+              "tournamentName": "J100 Mostar",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-mostar/bih/2025/j-j100-bih-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2025/j-j60-mkd-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Skopje",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-skopje/mkd/2025/j-j30-mkd-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Maribor",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-maribor/slo/2026/j-j30-slo-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Offenbach",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-offenbach/ger/2026/j-j60-ger-2026-005/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 156,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Skopje",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-skopje/mkd/2026/j-j60-mkd-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Ulcinj",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Montenegro",
+              "hostNationCode": "MNE",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-ulcinj/mne/2026/j-j60-mne-2026-004/"
+            },
+            {
+              "tournamentName": "J60 Larnaca",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-larnaca/cyp/2026/j-j60-cyp-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Siroki Brijeg",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-siroki-brijeg/bih/2026/j-j60-bih-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Nairobi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-nairobi/ken/2025/j-j100-ken-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Offenbach",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-offenbach/ger/2026/j-j60-ger-2026-005/"
+            },
+            {
+              "tournamentName": "J60 Podgorica",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Montenegro",
+              "hostNationCode": "MNE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-podgorica/mne/2026/j-j60-mne-2026-003/"
+            },
+            {
+              "tournamentName": "J30 Mostar",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bosnia and Herzegovina",
+              "hostNationCode": "BIH",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-mostar/bih/2025/j-j30-bih-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Maribor",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-maribor/slo/2026/j-j30-slo-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "player": {
+    "player_id": "800713998",
+    "player_name": "felipe gonzalez",
+    "first_name": "felipe",
+    "last_name": "gonzalez",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "ARG",
+    "country_name": "Argentina",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/felipe-gonzalez/800713998/arg/jt/s/",
+    "current_rank": "354",
+    "current_points": "230.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800713998,\"playerFamilyName\":\"gonzalez\",\"playerGivenName\":\"felipe\",\"playerNationalityCode\":\"ARG\",\"playerNationality\":\"Argentina\",\"profileLink\":\"/en/players/felipe-gonzalez/800713998/arg/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":43,\"rank\":354,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":19,\"points\":230.75,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800713998",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 185.00 + (183.00/4) =",
+      "Value": "230.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 185,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Mendoza",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-mendoza/arg/2026/j-j100-arg-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Buenos Aires",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-buenos-aires/arg/2026/j-j30-arg-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Santa Cruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-santa-cruz/bol/2025/j-j200-bol-2025-002/"
+            },
+            {
+              "tournamentName": "J200 La Paz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-la-paz/bol/2025/j-j200-bol-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Punta del Este",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Uruguay",
+              "hostNationCode": "URU",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-punta-del-este/uru/2025/j-j60-uru-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Punta del Este",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Uruguay",
+              "hostNationCode": "URU",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-punta-del-este/uru/2025/j-j30-uru-2025-005/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 5,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Rosario",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-rosario/arg/2025/j-j30-arg-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Salta",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-salta/arg/2025/j-j200-arg-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Asuncion",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-asuncion/par/2026/j-j200-par-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Santa Cruz",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santa-cruz/bol/2025/j-j60-bol-2025-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 183,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Asuncion",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Paraguay",
+              "hostNationCode": "PAR",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-asuncion/par/2026/j-j200-par-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Santa Cruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-santa-cruz/bol/2025/j-j200-bol-2025-002/"
+            },
+            {
+              "tournamentName": "J200 La Paz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-la-paz/bol/2025/j-j200-bol-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Buenos Aires",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-buenos-aires/arg/2026/j-j30-arg-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Mendoza",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-mendoza/arg/2026/j-j100-arg-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Punta del Este",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Uruguay",
+              "hostNationCode": "URU",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-punta-del-este/uru/2025/j-j60-uru-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 19,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Punta del Este",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Uruguay",
+              "hostNationCode": "URU",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-punta-del-este/uru/2025/j-j30-uru-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Rosario",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Argentina",
+              "hostNationCode": "ARG",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-rosario/arg/2025/j-j30-arg-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Santa Cruz",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bolivia",
+              "hostNationCode": "BOL",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santa-cruz/bol/2025/j-j60-bol-2025-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

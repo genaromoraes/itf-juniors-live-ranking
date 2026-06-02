@@ -1,0 +1,421 @@
+{
+  "player": {
+    "player_id": "800756409",
+    "player_name": "Ava Itaoui",
+    "first_name": "Ava",
+    "last_name": "Itaoui",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "AUS",
+    "country_name": "Australia",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/ava-itaoui/800756409/aus/jt/s/",
+    "current_rank": "490",
+    "current_points": "188",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800756409,\"playerFamilyName\":\"Itaoui\",\"playerGivenName\":\"Ava\",\"playerNationalityCode\":\"AUS\",\"playerNationality\":\"Australia\",\"profileLink\":\"/en/players/ava-itaoui/800756409/aus/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":4,\"rank\":490,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":28,\"points\":188,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800756409",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 170.00 + (72.00/4) =",
+      "Value": "188.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 170,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Mornington",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-mornington/aus/2026/j-j100-aus-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Canberra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "17 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-canberra/aus/2026/j-j100-aus-2026-004/"
+            },
+            {
+              "tournamentName": "J30 Adelaide",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "03 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-adelaide/aus/2025/j-j30-aus-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Perth",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-perth/aus/2025/j-j30-aus-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Launceston",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-launceston/aus/2026/j-j100-aus-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 33,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Adelaide",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "09 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-adelaide/aus/2025/j-j60-aus-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Nice",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-nice/fra/2026/j-j60-fra-2026-004/"
+            },
+            {
+              "tournamentName": "J30 Perth",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "25 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-perth/aus/2025/j-j30-aus-2025-006/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Darwin",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-darwin/aus/2025/j-j60-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Lyon",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-lyon/fra/2026/j-j60-fra-2026-005/"
+            },
+            {
+              "tournamentName": "J30 Compiegne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-compiegne/fra/2025/j-j30-fra-2025-007/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 72,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Perth",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-perth/aus/2025/j-j30-aus-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Canberra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "17 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-canberra/aus/2026/j-j100-aus-2026-004/"
+            },
+            {
+              "tournamentName": "J60 Adelaide",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "09 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-adelaide/aus/2025/j-j60-aus-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Adelaide",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "03 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-adelaide/aus/2025/j-j30-aus-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Compiegne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-compiegne/fra/2025/j-j30-fra-2025-007/"
+            },
+            {
+              "tournamentName": "J30 Perth",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "25 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-perth/aus/2025/j-j30-aus-2025-006/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Launceston",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-launceston/aus/2026/j-j100-aus-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Mornington",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-mornington/aus/2026/j-j100-aus-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Darwin",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-darwin/aus/2025/j-j60-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Lyon",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-lyon/fra/2026/j-j60-fra-2026-005/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

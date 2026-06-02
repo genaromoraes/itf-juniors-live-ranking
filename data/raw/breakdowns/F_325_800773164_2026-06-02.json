@@ -1,0 +1,343 @@
+{
+  "player": {
+    "player_id": "800773164",
+    "player_name": "Jinling Shi",
+    "first_name": "Jinling",
+    "last_name": "Shi",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "CHN",
+    "country_name": "China, P.R.",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/jinling-shi/800773164/chn/jt/s/",
+    "current_rank": "325",
+    "current_points": "284.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800773164,\"playerFamilyName\":\"Shi\",\"playerGivenName\":\"Jinling\",\"playerNationalityCode\":\"CHN\",\"playerNationality\":\"China, P.R.\",\"profileLink\":\"/en/players/jinling-shi/800773164/chn/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":-37,\"rank\":325,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":22,\"points\":284.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800773164",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 202.00 + (330.00/4) =",
+      "Value": "284.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 202,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Huzhou",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-huzhou/chn/2026/j-j100-chn-2026-004/"
+            },
+            {
+              "tournamentName": "J200 Nanjing",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "09 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-nanjing/chn/2025/j-j200-chn-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Wuning",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-wuning/chn/2026/j-j60-chn-2026-003/"
+            },
+            {
+              "tournamentName": "J300 Beijing",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-beijing/chn/2025/j-j300-chn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Zhangjiagang",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "23 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-zhangjiagang/chn/2025/j-j100-chn-2025-006/"
+            },
+            {
+              "tournamentName": "J100 Wuhan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-wuhan/chn/2026/j-j100-chn-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 66,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Guangzhou",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-guangzhou/chn/2026/j-j60-chn-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Chengdu",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-chengdu/chn/2026/j-j60-chn-2026-006/"
+            },
+            {
+              "tournamentName": "J60 Guangzhou",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-guangzhou/chn/2026/j-j60-chn-2026-009/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Huzhou",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-huzhou/chn/2025/j-j100-chn-2025-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 330,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Nanjing",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "09 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-nanjing/chn/2025/j-j200-chn-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Wuhan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-wuhan/chn/2026/j-j100-chn-2026-002/"
+            },
+            {
+              "tournamentName": "J300 Beijing",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-beijing/chn/2025/j-j300-chn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Zhangjiagang",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "23 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-zhangjiagang/chn/2025/j-j100-chn-2025-006/"
+            },
+            {
+              "tournamentName": "J60 Guangzhou",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-guangzhou/chn/2026/j-j60-chn-2026-009/"
+            },
+            {
+              "tournamentName": "J60 Chengdu",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-chengdu/chn/2026/j-j60-chn-2026-006/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 49,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Huzhou",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-huzhou/chn/2026/j-j100-chn-2026-004/"
+            },
+            {
+              "tournamentName": "J60 Guangzhou",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-guangzhou/chn/2026/j-j60-chn-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Wuning",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-wuning/chn/2026/j-j60-chn-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Huzhou",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "China, P.R.",
+              "hostNationCode": "CHN",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-huzhou/chn/2025/j-j100-chn-2025-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

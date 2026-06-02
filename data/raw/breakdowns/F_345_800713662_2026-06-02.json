@@ -1,0 +1,408 @@
+{
+  "player": {
+    "player_id": "800713662",
+    "player_name": "Scarlett Dattoli",
+    "first_name": "Scarlett",
+    "last_name": "Dattoli",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "AUS",
+    "country_name": "Australia",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/scarlett-dattoli/800713662/aus/jt/s/",
+    "current_rank": "345",
+    "current_points": "266",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800713662,\"playerFamilyName\":\"Dattoli\",\"playerGivenName\":\"Scarlett\",\"playerNationalityCode\":\"AUS\",\"playerNationality\":\"Australia\",\"profileLink\":\"/en/players/scarlett-dattoli/800713662/aus/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-2,\"rank\":345,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":27,\"points\":266,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800713662",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 196.00 + (280.00/4) =",
+      "Value": "266.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 196,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "07 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Monterrey",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-monterrey/mex/2025/j-j100-mex-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Veracruz",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-veracruz/mex/2025/j-j60-mex-2025-007/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 20,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-004/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Veracruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-veracruz/mex/2025/j-j200-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Monterrey",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-monterrey/mex/2025/j-j200-mex-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Veracruz",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-veracruz/mex/2025/j-j100-mex-2025-001/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 280,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Monterrey",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-monterrey/mex/2025/j-j100-mex-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Mornington",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-mornington/aus/2026/j-j100-aus-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Veracruz",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-veracruz/mex/2025/j-j60-mex-2025-007/"
+            },
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "07 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 14,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-004/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Veracruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-veracruz/mex/2025/j-j200-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Monterrey",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-monterrey/mex/2025/j-j200-mex-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Veracruz",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-veracruz/mex/2025/j-j100-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-002/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800598778",
+    "player_name": "Archie Gray",
+    "first_name": "Archie",
+    "last_name": "Gray",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "GBR",
+    "country_name": "Great Britain",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/archie-gray/800598778/gbr/jt/s/",
+    "current_rank": "400",
+    "current_points": "202.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800598778,\"playerFamilyName\":\"Gray\",\"playerGivenName\":\"Archie\",\"playerNationalityCode\":\"GBR\",\"playerNationality\":\"Great Britain\",\"profileLink\":\"/en/players/archie-gray/800598778/gbr/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-2,\"rank\":400,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":202.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800598778",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 182.00 + (81.00/4) =",
+      "Value": "202.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 182,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Aldershot",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-aldershot/gbr/2026/j-j200-gbr-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Loughborough",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-loughborough/gbr/2025/j-j60-gbr-2025-006/"
+            },
+            {
+              "tournamentName": "J60 Loughborough",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-loughborough/gbr/2025/j-j60-gbr-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Stirling",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "26 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-stirling/gbr/2025/j-j60-gbr-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Weybridge",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-weybridge/gbr/2025/j-j30-gbr-2025-008/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 46,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2026/j-j100-ned-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-004/"
+            },
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Bradfield",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "30 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-bradfield/gbr/2025/j-j30-gbr-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Skopje",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-skopje/mkd/2025/j-j30-mkd-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Skopje",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-skopje/mkd/2025/j-j30-mkd-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2025/j-j100-gbr-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Bradfield",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "06 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-bradfield/gbr/2025/j-j30-gbr-2025-006/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 81,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Weybridge",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-weybridge/gbr/2025/j-j30-gbr-2025-008/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Stirling",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "26 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-stirling/gbr/2025/j-j60-gbr-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Bradfield",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "30 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-bradfield/gbr/2025/j-j30-gbr-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Loughborough",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-loughborough/gbr/2025/j-j60-gbr-2025-006/"
+            },
+            {
+              "tournamentName": "J60 Loughborough",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-loughborough/gbr/2025/j-j60-gbr-2025-005/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 3,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Skopje",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "North Macedonia",
+              "hostNationCode": "MKD",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-skopje/mkd/2025/j-j30-mkd-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Aldershot",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-aldershot/gbr/2026/j-j200-gbr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2026/j-j100-ned-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-004/"
+            },
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

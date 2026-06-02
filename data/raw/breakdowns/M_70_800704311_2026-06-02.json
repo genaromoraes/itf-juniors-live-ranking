@@ -1,0 +1,330 @@
+{
+  "player": {
+    "player_id": "800704311",
+    "player_name": "Marcel Latak",
+    "first_name": "Marcel",
+    "last_name": "Latak",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "USA",
+    "country_name": "USA",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/marcel-latak/800704311/usa/jt/s/",
+    "current_rank": "70",
+    "current_points": "850.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800704311,\"playerFamilyName\":\"Latak\",\"playerGivenName\":\"Marcel\",\"playerNationalityCode\":\"USA\",\"playerNationality\":\"USA\",\"profileLink\":\"/en/players/marcel-latak/800704311/usa/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-3,\"rank\":70,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":21,\"points\":850.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800704311",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 616.00 + (937.00/4) =",
+      "Value": "850.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 616,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 San Diego (North American Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 210,
+              "tournamentLink": "/en/tournament/j300-san-diego-(north-american-regional-championships)/usa/2026/j-j300-usa-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Fort Lauderdale",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j500-fort-lauderdale/usa/2025/j-j500-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Spring - Pan American ITF",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-spring-pan-american-itf/usa/2025/j-j300-usa-2025-004/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J300 San Jose",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-san-jose/crc/2026/j-j300-crc-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Rome",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-rome/usa/2025/j-j100-usa-2025-005/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 36,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Lexington",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-lexington/usa/2025/j-j60-usa-2025-006/"
+            },
+            {
+              "tournamentName": "J300 College Park",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-college-park/usa/2025/j-j300-usa-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Tucson",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-tucson/usa/2026/j-j300-usa-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Chestertown",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-chestertown/usa/2025/j-j100-usa-2025-004/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 937,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Fort Lauderdale",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 262,
+              "tournamentLink": "/en/tournament/j500-fort-lauderdale/usa/2025/j-j500-usa-2025-001/"
+            },
+            {
+              "tournamentName": "J300 San Jose",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 225,
+              "tournamentLink": "/en/tournament/j300-san-jose/crc/2026/j-j300-crc-2026-001/"
+            },
+            {
+              "tournamentName": "J300 San Diego (North American Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 225,
+              "tournamentLink": "/en/tournament/j300-san-diego-(north-american-regional-championships)/usa/2026/j-j300-usa-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Tucson",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-tucson/usa/2026/j-j300-usa-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Rome",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-rome/usa/2025/j-j100-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J300 College Park",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-college-park/usa/2025/j-j300-usa-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 90,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Lexington",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-lexington/usa/2025/j-j60-usa-2025-006/"
+            },
+            {
+              "tournamentName": "J300 Spring - Pan American ITF",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-spring-pan-american-itf/usa/2025/j-j300-usa-2025-004/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

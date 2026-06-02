@@ -1,0 +1,239 @@
+{
+  "player": {
+    "player_id": "800631882",
+    "player_name": "Kira Pleshivtseva",
+    "first_name": "Kira",
+    "last_name": "Pleshivtseva",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "RUS",
+    "country_name": "Russia",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/kira-pleshivtseva/800631882/rus/jt/s/",
+    "current_rank": "452",
+    "current_points": "205.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800631882,\"playerFamilyName\":\"Pleshivtseva\",\"playerGivenName\":\"Kira\",\"playerNationalityCode\":\"RUS\",\"playerNationality\":\"Russia\",\"profileLink\":\"/en/players/kira-pleshivtseva/800631882/rus/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":452,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":14,\"points\":205.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800631882",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 161.00 + (178.00/4) =",
+      "Value": "205.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 161,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Tsaghkadzor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-tsaghkadzor/arm/2025/j-j60-arm-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Tsaghkadzor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-tsaghkadzor/arm/2025/j-j60-arm-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Tsaghkadzor",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-tsaghkadzor/arm/2025/j-j30-arm-2025-007/"
+            },
+            {
+              "tournamentName": "J100 Monastir",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-monastir/tun/2026/j-j100-tun-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Karaganda",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-karaganda/kaz/2025/j-j60-kaz-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Tsaghkadzor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-tsaghkadzor/arm/2025/j-j60-arm-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Namangan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-namangan/uzb/2025/j-j100-uzb-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 178,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Monastir",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-monastir/tun/2026/j-j100-tun-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Tsaghkadzor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-tsaghkadzor/arm/2025/j-j60-arm-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Namangan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-namangan/uzb/2025/j-j100-uzb-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Tsaghkadzor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-tsaghkadzor/arm/2025/j-j60-arm-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Karaganda",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-karaganda/kaz/2025/j-j60-kaz-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Tsaghkadzor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-tsaghkadzor/arm/2025/j-j60-arm-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Tsaghkadzor",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-tsaghkadzor/arm/2025/j-j30-arm-2025-007/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

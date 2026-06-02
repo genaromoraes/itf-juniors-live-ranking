@@ -1,0 +1,317 @@
+{
+  "player": {
+    "player_id": "800594040",
+    "player_name": "Lia Belibova",
+    "first_name": "Lia",
+    "last_name": "Belibova",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "MDA",
+    "country_name": "Moldova",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/lia-belibova/800594040/mda/jt/s/",
+    "current_rank": "302",
+    "current_points": "310.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800594040,\"playerFamilyName\":\"Belibova\",\"playerGivenName\":\"Lia\",\"playerNationalityCode\":\"MDA\",\"playerNationality\":\"Moldova\",\"profileLink\":\"/en/players/lia-belibova/800594040/mda/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":1,\"rank\":302,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":20,\"points\":310.5,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800594040",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 248.00 + (250.00/4) =",
+      "Value": "310.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 248,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Kuching",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "07 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-kuching/mas/2026/j-j300-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Bromma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "31 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-bromma/swe/2026/j-j100-swe-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Siauliai",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Lithuania",
+              "hostNationCode": "LTU",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-siauliai/ltu/2026/j-j200-ltu-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Varna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-varna/bul/2025/j-j60-bul-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 10,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Burgas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-burgas/bul/2025/j-j60-bul-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Kuala Lumpur",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-kuala-lumpur/mas/2026/j-j200-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-004/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 250,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Siauliai",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Lithuania",
+              "hostNationCode": "LTU",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-siauliai/ltu/2026/j-j200-ltu-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Kuala Lumpur",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-kuala-lumpur/mas/2026/j-j200-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Bromma",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "31 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-bromma/swe/2026/j-j100-swe-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Varna",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-varna/bul/2025/j-j60-bul-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 7,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Burgas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-burgas/bul/2025/j-j60-bul-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Kuching",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "07 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-kuching/mas/2026/j-j300-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

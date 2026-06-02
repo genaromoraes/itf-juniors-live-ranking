@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800659993",
+    "player_name": "Nikita Berdin",
+    "first_name": "Nikita",
+    "last_name": "Berdin",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "RUS",
+    "country_name": "Russia",
+    "birth_date": "",
+    "birth_year": "2011",
+    "junior_last_year": "2029",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/nikita-berdin/800659993/rus/jt/s/",
+    "current_rank": "292",
+    "current_points": "287",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800659993,\"playerFamilyName\":\"Berdin\",\"playerGivenName\":\"Nikita\",\"playerNationalityCode\":\"RUS\",\"playerNationality\":\"Russia\",\"profileLink\":\"/en/players/nikita-berdin/800659993/rus/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2011,\"rankMovement\":1,\"rank\":292,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":287,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800659993",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 246.00 + (164.00/4) =",
+      "Value": "287.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 246,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Karaganda",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-karaganda/kaz/2026/j-j100-kaz-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Kuala Lumpur",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-kuala-lumpur/mas/2026/j-j200-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Offenbach",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-offenbach/ger/2026/j-j60-ger-2026-005/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-005/"
+            },
+            {
+              "tournamentName": "J60 Seremban",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-seremban/mas/2025/j-j60-mas-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 45,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Dubai",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-dubai/uae/2025/j-j60-uae-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Manama",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-manama/brn/2025/j-j60-brn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Ipoh",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-ipoh/mas/2025/j-j60-mas-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Hammam Sousse",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "28 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-hammam-sousse/tun/2025/j-j60-tun-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2025/j-j30-brn-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Kuching",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "07 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-kuching/mas/2026/j-j300-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Charleroi-Marcinelle",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-charleroi-marcinelle/bel/2026/j-j300-bel-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 164,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Kuching",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "07 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-kuching/mas/2026/j-j300-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Seremban",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-seremban/mas/2025/j-j60-mas-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Dubai",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-dubai/uae/2025/j-j60-uae-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Istanbul",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Turkiye",
+              "hostNationCode": "TUR",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-istanbul/tur/2026/j-j100-tur-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Hammam Sousse",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "28 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-hammam-sousse/tun/2025/j-j60-tun-2025-006/"
+            },
+            {
+              "tournamentName": "J60 Manama",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-manama/brn/2025/j-j60-brn-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 6,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Manama",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Bahrain",
+              "hostNationCode": "BRN",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-manama/brn/2025/j-j30-brn-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Charleroi-Marcinelle",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Belgium",
+              "hostNationCode": "BEL",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-charleroi-marcinelle/bel/2026/j-j300-bel-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Kuala Lumpur",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-kuala-lumpur/mas/2026/j-j200-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Karaganda",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-karaganda/kaz/2026/j-j100-kaz-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Offenbach",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "14 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-offenbach/ger/2026/j-j60-ger-2026-005/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

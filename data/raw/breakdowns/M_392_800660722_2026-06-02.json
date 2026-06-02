@@ -1,0 +1,369 @@
+{
+  "player": {
+    "player_id": "800660722",
+    "player_name": "Marek Smejcky",
+    "first_name": "Marek",
+    "last_name": "Smejcky",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "CZE",
+    "country_name": "Czechia",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/marek-smejcky/800660722/cze/jt/s/",
+    "current_rank": "392",
+    "current_points": "207.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800660722,\"playerFamilyName\":\"Smejcky\",\"playerGivenName\":\"Marek\",\"playerNationalityCode\":\"CZE\",\"playerNationality\":\"Czechia\",\"profileLink\":\"/en/players/marek-smejcky/800660722/cze/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":-6,\"rank\":392,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":24,\"points\":207.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800660722",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 185.00 + (89.00/4) =",
+      "Value": "207.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 185,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Santa Tecla",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "El Salvador",
+              "hostNationCode": "ESA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-santa-tecla/esa/2026/j-j60-esa-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Yerevan",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-yerevan/arm/2025/j-j30-arm-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Christiansted",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "US Virgin Islands",
+              "hostNationCode": "ISV",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-christiansted/isv/2026/j-j30-isv-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Aizkraukle",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-aizkraukle/lat/2025/j-j30-lat-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 11,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Jelgava",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-jelgava/lat/2025/j-j30-lat-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Yerevan",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-yerevan/arm/2025/j-j30-arm-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Aizkraukle",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "R16",
+              "points": 2,
+              "tournamentLink": "/en/tournament/j30-aizkraukle/lat/2025/j-j30-lat-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Peja",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Kosovo",
+              "hostNationCode": "KOS",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-peja/kos/2025/j-j30-kos-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Nis",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-nis/srb/2026/j-j30-srb-2026-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 89,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Santa Tecla",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "El Salvador",
+              "hostNationCode": "ESA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-santa-tecla/esa/2026/j-j60-esa-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Christiansted",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "US Virgin Islands",
+              "hostNationCode": "ISV",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-christiansted/isv/2026/j-j30-isv-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Aizkraukle",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-aizkraukle/lat/2025/j-j30-lat-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Yerevan",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-yerevan/arm/2025/j-j30-arm-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Yerevan",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Armenia",
+              "hostNationCode": "ARM",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-yerevan/arm/2025/j-j30-arm-2025-006/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Chisinau",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-chisinau/mda/2025/j-j30-mda-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Peja",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Kosovo",
+              "hostNationCode": "KOS",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-peja/kos/2025/j-j30-kos-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Jelgava",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-jelgava/lat/2025/j-j30-lat-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Aizkraukle",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-aizkraukle/lat/2025/j-j30-lat-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Nis",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-nis/srb/2026/j-j30-srb-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

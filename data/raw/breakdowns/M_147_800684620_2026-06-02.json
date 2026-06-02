@@ -1,0 +1,499 @@
+{
+  "player": {
+    "player_id": "800684620",
+    "player_name": "Cody Atkinson",
+    "first_name": "Cody",
+    "last_name": "Atkinson",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "NZL",
+    "country_name": "New Zealand",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/cody-atkinson/800684620/nzl/jt/s/",
+    "current_rank": "147",
+    "current_points": "513.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800684620,\"playerFamilyName\":\"Atkinson\",\"playerGivenName\":\"Cody\",\"playerNationalityCode\":\"NZL\",\"playerNationality\":\"New Zealand\",\"profileLink\":\"/en/players/cody-atkinson/800684620/nzl/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":0,\"rank\":147,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":34,\"points\":513.75,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800684620",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 360.00 + (615.00/4) =",
+      "Value": "513.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 360,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Hanover",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-hanover/ger/2026/j-j200-ger-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "15 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "07 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 188,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Hong Kong",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Hong Kong, China",
+              "hostNationCode": "HKG",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-hong-kong/hkg/2025/j-j200-hkg-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Auckland",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "New Zealand",
+              "hostNationCode": "NZL",
+              "startDate": "27 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-auckland/nzl/2026/j-j100-nzl-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Canberra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "17 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-canberra/aus/2026/j-j100-aus-2026-004/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 20,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Bamberg",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bamberg/ger/2025/j-j300-ger-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Prato",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-prato/ita/2026/j-j200-ita-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 615,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Bamberg",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "10 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-bamberg/ger/2025/j-j300-ger-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Bucharest",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Romania",
+              "hostNationCode": "ROU",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-bucharest/rou/2026/j-j100-rou-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 175,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Hong Kong",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Hong Kong, China",
+              "hostNationCode": "HKG",
+              "startDate": "30 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-hong-kong/hkg/2025/j-j200-hkg-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Canberra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "17 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-canberra/aus/2026/j-j100-aus-2026-004/"
+            },
+            {
+              "tournamentName": "J100 Auckland",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "New Zealand",
+              "hostNationCode": "NZL",
+              "startDate": "27 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-auckland/nzl/2026/j-j100-nzl-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "15 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Lautoka",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Fiji",
+              "hostNationCode": "FIJ",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-lautoka/fij/2025/j-j60-fij-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Prato",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-prato/ita/2026/j-j200-ita-2026-003/"
+            },
+            {
+              "tournamentName": "J200 Hanover",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-hanover/ger/2026/j-j200-ger-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

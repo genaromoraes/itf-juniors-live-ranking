@@ -1,0 +1,395 @@
+{
+  "player": {
+    "player_id": "800590053",
+    "player_name": "Snir Morag",
+    "first_name": "Snir",
+    "last_name": "Morag",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "ISR",
+    "country_name": "Israel",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/snir-morag/800590053/isr/jt/s/",
+    "current_rank": "262",
+    "current_points": "313.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800590053,\"playerFamilyName\":\"Morag\",\"playerGivenName\":\"Snir\",\"playerNationalityCode\":\"ISR\",\"playerNationality\":\"Israel\",\"profileLink\":\"/en/players/snir-morag/800590053/isr/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":1,\"rank\":262,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":26,\"points\":313.75,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800590053",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 266.00 + (191.00/4) =",
+      "Value": "313.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 266,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Jerusalem (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-jerusalem-(closed)/isr/2025/j-j100-isr-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Ramat Hasharon (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-ramat-hasharon-(closed)/isr/2026/j-j60-isr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Raanana (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "27 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-raanana-(closed)/isr/2026/j-j60-isr-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Haifa (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-haifa-(closed)/isr/2025/j-j100-isr-2025-005/"
+            },
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 40,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Nicosia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-nicosia/cyp/2025/j-j100-cyp-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Chisinau",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Moldova",
+              "hostNationCode": "MDA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-chisinau/mda/2026/j-j100-mda-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Eindhoven",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-eindhoven/ned/2025/j-j60-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Nicosia",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-nicosia/cyp/2025/j-j60-cyp-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Florence",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "01 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-florence/ita/2026/j-j200-ita-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Alicante",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-alicante/esp/2026/j-j100-esp-2026-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 191,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Vrsar",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Croatia",
+              "hostNationCode": "CRO",
+              "startDate": "23 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-vrsar/cro/2026/j-j300-cro-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Raanana (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "27 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-raanana-(closed)/isr/2026/j-j60-isr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Alicante",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-alicante/esp/2026/j-j100-esp-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Jerusalem (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-jerusalem-(closed)/isr/2025/j-j100-isr-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Aridea",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-aridea/gre/2025/j-j100-gre-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Nicosia",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Cyprus",
+              "hostNationCode": "CYP",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-nicosia/cyp/2025/j-j100-cyp-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Eindhoven",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-eindhoven/ned/2025/j-j60-ned-2025-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

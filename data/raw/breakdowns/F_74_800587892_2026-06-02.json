@@ -1,0 +1,278 @@
+{
+  "player": {
+    "player_id": "800587892",
+    "player_name": "Daphnee Mpetshi Perricard",
+    "first_name": "Daphnee",
+    "last_name": "Mpetshi Perricard",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "FRA",
+    "country_name": "France",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/daphnee-mpetshi-perricard/800587892/fra/jt/s/",
+    "current_rank": "74",
+    "current_points": "873.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800587892,\"playerFamilyName\":\"Mpetshi Perricard\",\"playerGivenName\":\"Daphnee\",\"playerNationalityCode\":\"FRA\",\"playerNationality\":\"France\",\"profileLink\":\"/en/players/daphnee-mpetshi-perricard/800587892/fra/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-1,\"rank\":74,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":17,\"points\":873.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800587892",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 825.00 + (195.00/4) =",
+      "Value": "873.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 825,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Santa Croce Sull’Arno",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 300,
+              "tournamentLink": "/en/tournament/j300-santa-croce-sullarno/ita/2026/j-j300-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 90,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            },
+            {
+              "tournamentName": "Tennis Europe Summer Cups (G18)",
+              "category": "GC",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": null,
+              "points": 75,
+              "tournamentLink": "/en/tournament/tennis-europe-summer-cups-(g18)/fra/2025/j-gc-fra-04a-2025/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 156,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 30,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 195,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Beaulieu-sur-Mer",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-beaulieu-sur-mer/fra/2026/j-j300-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Cap d'Ail",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-cap-dail/fra/2026/j-j200-fra-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Gladbeck",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "17 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gladbeck/ger/2025/j-j200-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

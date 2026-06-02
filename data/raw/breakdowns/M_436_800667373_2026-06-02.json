@@ -1,0 +1,460 @@
+{
+  "player": {
+    "player_id": "800667373",
+    "player_name": "Motoharu Abe",
+    "first_name": "Motoharu",
+    "last_name": "Abe",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "JPN",
+    "country_name": "Japan",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/motoharu-abe/800667373/jpn/jt/s/",
+    "current_rank": "436",
+    "current_points": "182",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800667373,\"playerFamilyName\":\"Abe\",\"playerGivenName\":\"Motoharu\",\"playerNationalityCode\":\"JPN\",\"playerNationality\":\"Japan\",\"profileLink\":\"/en/players/motoharu-abe/800667373/jpn/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":-5,\"rank\":436,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":31,\"points\":182,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800667373",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 94.00 + (352.00/4) =",
+      "Value": "182.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 94,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Telde",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "31 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-telde/esp/2026/j-j60-esp-2026-005/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "18 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2025/j-j100-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Neunkirchen",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-neunkirchen/ger/2025/j-j100-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 25,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Hillegom",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "15 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-hillegom/ned/2025/j-j60-ned-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Alicante",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j100-alicante/esp/2026/j-j100-esp-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Eindhoven",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-eindhoven/ned/2025/j-j60-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Miki",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-miki/jpn/2025/j-j200-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Punta Cana",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-punta-cana/dom/2026/j-j200-dom-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Punta Cana",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-punta-cana/dom/2026/j-j200-dom-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J200 St. Poelten",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-st-poelten/aut/2026/j-j200-aut-2026-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 352,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Punta Cana",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-punta-cana/dom/2026/j-j200-dom-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Punta Cana",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-punta-cana/dom/2026/j-j200-dom-2026-002/"
+            },
+            {
+              "tournamentName": "J200 St. Poelten",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-st-poelten/aut/2026/j-j200-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 135,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Hillegom",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "15 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-hillegom/ned/2025/j-j60-ned-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Eindhoven",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-eindhoven/ned/2025/j-j60-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "18 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2025/j-j100-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Neunkirchen",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-neunkirchen/ger/2025/j-j100-ger-2025-004/"
+            },
+            {
+              "tournamentName": "J200 Miki",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-miki/jpn/2025/j-j200-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Alicante",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-alicante/esp/2026/j-j100-esp-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

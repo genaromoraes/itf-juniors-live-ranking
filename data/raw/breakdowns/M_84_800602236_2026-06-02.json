@@ -1,0 +1,317 @@
+{
+  "player": {
+    "player_id": "800602236",
+    "player_name": "Alejandro Mateo Berge Nourescu",
+    "first_name": "Alejandro Mateo",
+    "last_name": "Berge Nourescu",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "ROU",
+    "country_name": "Romania",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/alejandro-mateo-berge-nourescu/800602236/rou/jt/s/",
+    "current_rank": "84",
+    "current_points": "743.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800602236,\"playerFamilyName\":\"Berge Nourescu\",\"playerGivenName\":\"Alejandro Mateo\",\"playerNationalityCode\":\"ROU\",\"playerNationality\":\"Romania\",\"profileLink\":\"/en/players/alejandro-mateo-berge-nourescu/800602236/rou/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-2,\"rank\":84,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":20,\"points\":743.5,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800602236",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 650.00 + (374.00/4) =",
+      "Value": "743.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 650,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Marsa",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-marsa/tun/2026/j-j200-tun-2026-002/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 90,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 60,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Hammamet",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "13 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-hammamet/tun/2026/j-j200-tun-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Roehampton",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "29 Jun 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-roehampton/gbr/2025/j-j300-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-002/"
+            },
+            {
+              "tournamentName": "Roland Garros Junior Championships",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "01 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/roland-garros-junior-championships/fra/2025/j-jgs-fra-2025-001/"
+            },
+            {
+              "tournamentName": "The Junior Championships, Wimbledon",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "05 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/the-junior-championships-wimbledon/gbr/2025/j-jgs-gbr-2025-001/"
+            },
+            {
+              "tournamentName": "US Open Junior Tennis Championships",
+              "category": "JGS",
+              "drawType": "Q",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "31 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/us-open-junior-tennis-championships/usa/2025/j-jgs-usa-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 374,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Bytom",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-bytom/pol/2025/j-j300-pol-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Hammamet",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "13 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-hammamet/tun/2026/j-j200-tun-2026-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

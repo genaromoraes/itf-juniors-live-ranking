@@ -1,0 +1,421 @@
+{
+  "player": {
+    "player_id": "800588272",
+    "player_name": "Jesse Clarkson",
+    "first_name": "Jesse",
+    "last_name": "Clarkson",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "GBR",
+    "country_name": "Great Britain",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/jesse-clarkson/800588272/gbr/jt/s/",
+    "current_rank": "458",
+    "current_points": "173.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800588272,\"playerFamilyName\":\"Clarkson\",\"playerGivenName\":\"Jesse\",\"playerNationalityCode\":\"GBR\",\"playerNationality\":\"Great Britain\",\"profileLink\":\"/en/players/jesse-clarkson/800588272/gbr/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-2,\"rank\":458,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":28,\"points\":173.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800588272",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 118.00 + (221.00/4) =",
+      "Value": "173.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 118,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Accra",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-accra/gha/2025/j-j60-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2025/j-j100-gbr-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Schifflange",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Luxembourg",
+              "hostNationCode": "LUX",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-schifflange/lux/2025/j-j60-lux-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Porto",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-porto/por/2025/j-j60-por-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 15,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Liverpool",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-liverpool/gbr/2025/j-j60-gbr-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Taroudant",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-taroudant/mar/2025/j-j30-mar-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Weybridge",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-weybridge/gbr/2025/j-j30-gbr-2025-008/"
+            },
+            {
+              "tournamentName": "J300 Casablanca",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-casablanca/mar/2026/j-j300-mar-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Aldershot",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-aldershot/gbr/2026/j-j200-gbr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-001/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2026/j-j100-ned-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-004/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 221,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-001/"
+            },
+            {
+              "tournamentName": "J100 The Hague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-the-hague/ned/2026/j-j100-ned-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Accra",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-accra/gha/2025/j-j60-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Rabat",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-rabat/mar/2026/j-j100-mar-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Schifflange",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Luxembourg",
+              "hostNationCode": "LUX",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-schifflange/lux/2025/j-j60-lux-2025-005/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 16,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Porto",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-porto/por/2025/j-j60-por-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Weybridge",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Grass",
+              "surfaceCode": "G",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-weybridge/gbr/2025/j-j30-gbr-2025-008/"
+            },
+            {
+              "tournamentName": "J30 Taroudant",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-taroudant/mar/2025/j-j30-mar-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Aldershot",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-aldershot/gbr/2026/j-j200-gbr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2025/j-j100-gbr-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-004/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

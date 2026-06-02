@@ -1,0 +1,434 @@
+{
+  "player": {
+    "player_id": "800711174",
+    "player_name": "Ethan Domingo",
+    "first_name": "Ethan",
+    "last_name": "Domingo",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "AUS",
+    "country_name": "Australia",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/ethan-domingo/800711174/aus/jt/s/",
+    "current_rank": "206",
+    "current_points": "395",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800711174,\"playerFamilyName\":\"Domingo\",\"playerGivenName\":\"Ethan\",\"playerNationalityCode\":\"AUS\",\"playerNationality\":\"Australia\",\"profileLink\":\"/en/players/ethan-domingo/800711174/aus/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":1,\"rank\":206,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":29,\"points\":395,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800711174",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 277.00 + (472.00/4) =",
+      "Value": "395.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 277,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Burnie",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "03 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-burnie/aus/2026/j-j100-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Gold Coast",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "02 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-gold-coast/aus/2025/j-j60-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Kuala Lumpur",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-kuala-lumpur/mas/2026/j-j200-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Darwin",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-darwin/aus/2025/j-j60-aus-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 10,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Launceston",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-launceston/aus/2026/j-j100-aus-2026-002/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Kuching",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "07 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-kuching/mas/2026/j-j300-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Miki",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-miki/jpn/2025/j-j200-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Canberra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "17 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-canberra/aus/2026/j-j100-aus-2026-004/"
+            },
+            {
+              "tournamentName": "J60 Gold Coast",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "08 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-gold-coast/aus/2025/j-j60-aus-2025-003/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 472,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 135,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Kuala Lumpur",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Malaysia",
+              "hostNationCode": "MAS",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-kuala-lumpur/mas/2026/j-j200-mas-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Burnie",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "03 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-burnie/aus/2026/j-j100-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Osaka",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-osaka/jpn/2025/j-j500-jpn-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Miki",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Japan",
+              "hostNationCode": "JPN",
+              "startDate": "16 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-miki/jpn/2025/j-j200-jpn-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 140,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Gold Coast",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "02 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-gold-coast/aus/2025/j-j60-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Sydney (Regional Championships)",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-sydney-(regional-championships)/aus/2025/j-j200-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Sydney",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j200-sydney/aus/2025/j-j200-aus-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Canberra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "17 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-canberra/aus/2026/j-j100-aus-2026-004/"
+            },
+            {
+              "tournamentName": "J60 Darwin",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-darwin/aus/2025/j-j60-aus-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Launceston",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-launceston/aus/2026/j-j100-aus-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Gold Coast",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "08 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-gold-coast/aus/2025/j-j60-aus-2025-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

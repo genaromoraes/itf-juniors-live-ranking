@@ -1,0 +1,369 @@
+{
+  "player": {
+    "player_id": "800721825",
+    "player_name": "Felitsata Dorofeeva-Rybas",
+    "first_name": "Felitsata",
+    "last_name": "Dorofeeva-Rybas",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "RUS",
+    "country_name": "Russia",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/felitsata-dorofeeva-rybas/800721825/rus/jt/s/",
+    "current_rank": "21",
+    "current_points": "1359.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800721825,\"playerFamilyName\":\"Dorofeeva-Rybas\",\"playerGivenName\":\"Felitsata\",\"playerNationalityCode\":\"RUS\",\"playerNationality\":\"Russia\",\"profileLink\":\"/en/players/felitsata-dorofeeva-rybas/800721825/rus/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":21,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":24,\"points\":1359.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800721825",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 1120.00 + (959.00/4) =",
+      "Value": "1359.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 1120,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 350,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 250,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 130,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Rutesheim",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "05 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-rutesheim/ger/2025/j-j200-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 959,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 187,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 187,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rakovnik",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-rakovnik/cze/2025/j-j200-cze-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "Australian Open Junior Championships",
+              "category": "JGS",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "24 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 135,
+              "tournamentLink": "/en/tournament/australian-open-junior-championships/aus/2026/j-jgs-aus-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 225,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Traralgon",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Australia",
+              "hostNationCode": "AUS",
+              "startDate": "16 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-traralgon/aus/2026/j-j300-aus-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Milan",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Italy",
+              "hostNationCode": "ITA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-milan/ita/2026/j-j500-ita-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rutesheim",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "05 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-rutesheim/ger/2025/j-j200-ger-2025-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

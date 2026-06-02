@@ -1,0 +1,408 @@
+{
+  "player": {
+    "player_id": "800749558",
+    "player_name": "Robert McAdoo",
+    "first_name": "Robert",
+    "last_name": "McAdoo",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "USA",
+    "country_name": "USA",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/robert-mcadoo/800749558/usa/jt/s/",
+    "current_rank": "305",
+    "current_points": "270.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800749558,\"playerFamilyName\":\"McAdoo\",\"playerGivenName\":\"Robert\",\"playerNationalityCode\":\"USA\",\"playerNationality\":\"USA\",\"profileLink\":\"/en/players/robert-mcadoo/800749558/usa/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":4,\"rank\":305,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":27,\"points\":270.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800749558",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 224.00 + (185.00/4) =",
+      "Value": "270.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 224,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Punta Cana",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-punta-cana/dom/2026/j-j200-dom-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Sumter",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-sumter/usa/2026/j-j200-usa-2026-002/"
+            },
+            {
+              "tournamentName": "J200 College Grove",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-college-grove/usa/2026/j-j200-usa-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Boca Raton",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-boca-raton/usa/2025/j-j60-usa-2025-009/"
+            },
+            {
+              "tournamentName": "J60 Mount Pleasant",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-mount-pleasant/usa/2025/j-j60-usa-2025-007/"
+            },
+            {
+              "tournamentName": "J100 Salinas",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-salinas/ecu/2025/j-j100-ecu-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 48,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 San Jose",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-san-jose/crc/2026/j-j60-crc-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Chestertown",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-chestertown/usa/2025/j-j100-usa-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Mount Pleasant",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-mount-pleasant/usa/2026/j-j100-usa-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Salinas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-salinas/ecu/2025/j-j60-ecu-2025-001/"
+            },
+            {
+              "tournamentName": "J60 San Jose",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": null,
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-san-jose/crc/2026/j-j60-crc-2026-003/"
+            },
+            {
+              "tournamentName": "J300 College Park",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-college-park/usa/2025/j-j300-usa-2025-003/"
+            },
+            {
+              "tournamentName": "J300 San Jose",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-san-jose/crc/2026/j-j300-crc-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Punta Cana",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-punta-cana/dom/2026/j-j200-dom-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Rome",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-rome/usa/2025/j-j100-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Lexington",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-lexington/usa/2025/j-j60-usa-2025-006/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 185,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Sumter",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-sumter/usa/2026/j-j200-usa-2026-002/"
+            },
+            {
+              "tournamentName": "J60 San Jose",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-san-jose/crc/2026/j-j60-crc-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Salinas",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-salinas/ecu/2025/j-j100-ecu-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Mount Pleasant",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-mount-pleasant/usa/2026/j-j100-usa-2026-001/"
+            },
+            {
+              "tournamentName": "J60 San Jose",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-san-jose/crc/2026/j-j60-crc-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Salinas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ecuador",
+              "hostNationCode": "ECU",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-salinas/ecu/2025/j-j60-ecu-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 21,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Boca Raton",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-boca-raton/usa/2025/j-j60-usa-2025-009/"
+            },
+            {
+              "tournamentName": "J100 Rome",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j100-rome/usa/2025/j-j100-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J200 College Grove",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-college-grove/usa/2026/j-j200-usa-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Chestertown",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-chestertown/usa/2025/j-j100-usa-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Mount Pleasant",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-mount-pleasant/usa/2025/j-j60-usa-2025-007/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

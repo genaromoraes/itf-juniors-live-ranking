@@ -1,0 +1,408 @@
+{
+  "player": {
+    "player_id": "800661652",
+    "player_name": "Alena Kharchenko",
+    "first_name": "Alena",
+    "last_name": "Kharchenko",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "RUS",
+    "country_name": "Russia",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/alena-kharchenko/800661652/rus/jt/s/",
+    "current_rank": "68",
+    "current_points": "909.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800661652,\"playerFamilyName\":\"Kharchenko\",\"playerGivenName\":\"Alena\",\"playerNationalityCode\":\"RUS\",\"playerNationality\":\"Russia\",\"profileLink\":\"/en/players/alena-kharchenko/800661652/rus/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":-1,\"rank\":68,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":27,\"points\":909.25,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800661652",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 790.00 + (477.00/4) =",
+      "Value": "909.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 790,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Astana",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-astana/kaz/2025/j-j200-kaz-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Fergana",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 140,
+              "tournamentLink": "/en/tournament/j200-fergana/uzb/2025/j-j200-uzb-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Astana",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-astana/kaz/2025/j-j300-kaz-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Almaty",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-almaty/kaz/2025/j-j100-kaz-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 194,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Baku",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Azerbaijan",
+              "hostNationCode": "AZE",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-baku/aze/2025/j-j60-aze-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Namangan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-namangan/uzb/2025/j-j100-uzb-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Fergana",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-fergana/uzb/2025/j-j100-uzb-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Fergana",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-fergana/uzb/2025/j-j100-uzb-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 477,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Astana",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-astana/kaz/2025/j-j300-kaz-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Fergana",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-fergana/uzb/2025/j-j200-uzb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Cairo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-cairo/egy/2025/j-j200-egy-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Fergana",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-fergana/uzb/2025/j-j100-uzb-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Namangan",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-namangan/uzb/2025/j-j100-uzb-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 27,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Fergana",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Uzbekistan",
+              "hostNationCode": "UZB",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-fergana/uzb/2025/j-j100-uzb-2025-003/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Nonthaburi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-nonthaburi/tha/2026/j-j300-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Cairo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-cairo/egy/2026/j-j300-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Nonthaburi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Thailand",
+              "hostNationCode": "THA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-nonthaburi/tha/2026/j-j200-tha-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Almaty",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kazakhstan",
+              "hostNationCode": "KAZ",
+              "startDate": "16 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-almaty/kaz/2025/j-j100-kaz-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Baku",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Azerbaijan",
+              "hostNationCode": "AZE",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-baku/aze/2025/j-j60-aze-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

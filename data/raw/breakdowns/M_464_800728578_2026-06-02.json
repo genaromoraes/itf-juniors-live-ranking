@@ -1,0 +1,172 @@
+{
+  "player": {
+    "player_id": "800728578",
+    "player_name": "Gabriel Jessup",
+    "first_name": "Gabriel",
+    "last_name": "Jessup",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "USA",
+    "country_name": "USA",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/gabriel-jessup/800728578/usa/jt/s/",
+    "current_rank": "464",
+    "current_points": "169.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800728578,\"playerFamilyName\":\"Jessup\",\"playerGivenName\":\"Gabriel\",\"playerNationalityCode\":\"USA\",\"playerNationality\":\"USA\",\"profileLink\":\"/en/players/gabriel-jessup/800728578/usa/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-1,\"rank\":464,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":9,\"points\":169.25,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800728578",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 130.00 + (157.00/4) =",
+      "Value": "169.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 130,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Lima",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j300-lima/per/2026/j-j300-per-2026-001/"
+            },
+            {
+              "tournamentName": "J300 San Diego (North American Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j300-san-diego-(north-american-regional-championships)/usa/2026/j-j300-usa-2026-001/"
+            },
+            {
+              "tournamentName": "J300 College Park",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-college-park/usa/2025/j-j300-usa-2025-003/"
+            },
+            {
+              "tournamentName": "J300 Bradenton",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-bradenton/usa/2025/j-j300-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J300 Barranquilla",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-barranquilla/col/2026/j-j300-col-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Corpus Christi",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-corpus-christi/usa/2025/j-j200-usa-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 157,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Lima",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Peru",
+              "hostNationCode": "PER",
+              "startDate": "09 Feb 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 157,
+              "tournamentLink": "/en/tournament/j300-lima/per/2026/j-j300-per-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Barranquilla",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Colombia",
+              "hostNationCode": "COL",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-barranquilla/col/2026/j-j300-col-2026-001/"
+            },
+            {
+              "tournamentName": "J300 San Diego (North American Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-san-diego-(north-american-regional-championships)/usa/2026/j-j300-usa-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
+}

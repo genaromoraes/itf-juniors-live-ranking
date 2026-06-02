@@ -1,0 +1,225 @@
+{
+  "player": {
+    "player_id": "800638368",
+    "player_name": "Gloria Pop",
+    "first_name": "Gloria",
+    "last_name": "Pop",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "ROU",
+    "country_name": "Romania",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/gloria-pop/800638368/rou/jt/s/",
+    "current_rank": "335",
+    "current_points": "272.75",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800638368,\"playerFamilyName\":\"Pop\",\"playerGivenName\":\"Gloria\",\"playerNationalityCode\":\"ROU\",\"playerNationality\":\"Romania\",\"profileLink\":\"/en/players/gloria-pop/800638368/rou/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":335,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":13,\"points\":272.75,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800638368",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 258.00 + (59.00/4) =",
+      "Value": "272.75"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 258,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Megrine",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "26 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-megrine/tun/2025/j-j60-tun-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Sfax",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "03 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-sfax/tun/2026/j-j60-tun-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Monastir",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-monastir/tun/2026/j-j100-tun-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Corfu",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-corfu/gre/2025/j-j60-gre-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Hammam Sousse",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "28 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-hammam-sousse/tun/2025/j-j60-tun-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Niksic",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Montenegro",
+              "hostNationCode": "MNE",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-niksic/mne/2025/j-j30-mne-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 62,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Hammam Sousse",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "19 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-hammam-sousse/tun/2025/j-j100-tun-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Sousse",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "21 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-sousse/tun/2026/j-j100-tun-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Preveza",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Greece",
+              "hostNationCode": "GRE",
+              "startDate": "08 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-preveza/gre/2025/j-j60-gre-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Casablanca",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-casablanca/mar/2025/j-j60-mar-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Gremda",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "10 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": null,
+              "points": 2,
+              "tournamentLink": "/en/tournament/j60-gremda/tun/2026/j-j60-tun-2026-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 59,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Casablanca",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Morocco",
+              "hostNationCode": "MAR",
+              "startDate": "13 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-casablanca/mar/2025/j-j60-mar-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Sfax",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Tunisia",
+              "hostNationCode": "TUN",
+              "startDate": "03 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-sfax/tun/2026/j-j60-tun-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
+}

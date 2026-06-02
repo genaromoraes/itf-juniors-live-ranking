@@ -1,0 +1,512 @@
+{
+  "player": {
+    "player_id": "800621251",
+    "player_name": "Zac Naughton",
+    "first_name": "Zac",
+    "last_name": "Naughton",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "IRL",
+    "country_name": "Ireland",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/zac-naughton/800621251/irl/jt/s/",
+    "current_rank": "272",
+    "current_points": "305.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800621251,\"playerFamilyName\":\"Naughton\",\"playerGivenName\":\"Zac\",\"playerNationalityCode\":\"IRL\",\"playerNationality\":\"Ireland\",\"profileLink\":\"/en/players/zac-naughton/800621251/irl/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":3,\"rank\":272,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":35,\"points\":305.5,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800621251",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 190.00 + (462.00/4) =",
+      "Value": "305.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 190,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Naas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ireland",
+              "hostNationCode": "IRL",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-naas/irl/2025/j-j60-irl-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Oberhaching",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-oberhaching/ger/2026/j-j200-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Kaarina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-kaarina/fin/2025/j-j60-fin-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Wolfsberg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-wolfsberg/aut/2026/j-j100-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Kosice",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-kosice/svk/2026/j-j200-svk-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 84,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Belfast",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ireland",
+              "hostNationCode": "IRL",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-belfast/irl/2025/j-j60-irl-2025-001/"
+            },
+            {
+              "tournamentName": "J30 George Town",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Cayman Islands",
+              "hostNationCode": "CAY",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-george-town/cay/2025/j-j30-cay-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Dublin",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Ireland",
+              "hostNationCode": "IRL",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-dublin/irl/2025/j-j30-irl-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Stabekk",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-stabekk/nor/2025/j-j100-nor-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2025/j-j100-gbr-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R128",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Oslo",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-oslo/nor/2025/j-j200-nor-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Aldershot",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-aldershot/gbr/2026/j-j200-gbr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Guatemala",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Guatemala",
+              "hostNationCode": "GUA",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-guatemala/gua/2025/j-j100-gua-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 462,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Plovdiv",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Bulgaria",
+              "hostNationCode": "BUL",
+              "startDate": "28 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 225,
+              "tournamentLink": "/en/tournament/j300-plovdiv/bul/2026/j-j300-bul-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Aldershot",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-aldershot/gbr/2026/j-j200-gbr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "29 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Belfast",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ireland",
+              "hostNationCode": "IRL",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-belfast/irl/2025/j-j60-irl-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Naas",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Ireland",
+              "hostNationCode": "IRL",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-naas/irl/2025/j-j60-irl-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Wolfsberg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-wolfsberg/aut/2026/j-j100-aut-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 95,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 George Town",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Cayman Islands",
+              "hostNationCode": "CAY",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-george-town/cay/2025/j-j30-cay-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Dublin",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Ireland",
+              "hostNationCode": "IRL",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-dublin/irl/2025/j-j30-irl-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Guatemala",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Guatemala",
+              "hostNationCode": "GUA",
+              "startDate": "09 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-guatemala/gua/2025/j-j100-gua-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Lousada",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Portugal",
+              "hostNationCode": "POR",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-lousada/por/2026/j-j100-por-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Kosice",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "06 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-kosice/svk/2026/j-j200-svk-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Accra",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Ghana",
+              "hostNationCode": "GHA",
+              "startDate": "06 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-accra/gha/2025/j-j100-gha-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Stabekk",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Norway",
+              "hostNationCode": "NOR",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-stabekk/nor/2025/j-j100-nor-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Kaarina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-kaarina/fin/2025/j-j60-fin-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

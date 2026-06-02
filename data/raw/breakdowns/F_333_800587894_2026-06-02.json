@@ -1,0 +1,317 @@
+{
+  "player": {
+    "player_id": "800587894",
+    "player_name": "Aishwarya Jadhav",
+    "first_name": "Aishwarya",
+    "last_name": "Jadhav",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "IND",
+    "country_name": "India",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/aishwarya-jadhav/800587894/ind/jt/s/",
+    "current_rank": "333",
+    "current_points": "275",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800587894,\"playerFamilyName\":\"Jadhav\",\"playerGivenName\":\"Aishwarya\",\"playerNationalityCode\":\"IND\",\"playerNationality\":\"India\",\"profileLink\":\"/en/players/aishwarya-jadhav/800587894/ind/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-1,\"rank\":333,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":20,\"points\":275,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800587894",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 182.00 + (372.00/4) =",
+      "Value": "275.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 182,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Kolkata",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-kolkata/ind/2026/j-j200-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Harare",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-harare/zim/2025/j-j100-zim-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Harare",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-harare/zim/2025/j-j100-zim-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Bhuvanagiri",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-bhuvanagiri/ind/2025/j-j60-ind-2025-005/"
+            },
+            {
+              "tournamentName": "J100 New Delhi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-new-delhi/ind/2025/j-j100-ind-2025-001/"
+            },
+            {
+              "tournamentName": "J60 CHENNAI",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-chennai/ind/2025/j-j60-ind-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 10,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Pune",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-pune/ind/2025/j-j100-ind-2025-002/"
+            },
+            {
+              "tournamentName": "J300 New Delhi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-new-delhi/ind/2026/j-j300-ind-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Gurugram",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-gurugram/ind/2026/j-j200-ind-2026-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 372,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Pune (Asia/Oceania Closed Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-pune-(asia-oceania-closed-regional-championships)/ind/2026/j-j300-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Gurugram",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j200-gurugram/ind/2026/j-j200-ind-2026-003/"
+            },
+            {
+              "tournamentName": "J100 Harare",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "04 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-harare/zim/2025/j-j100-zim-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Pune",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-pune/ind/2025/j-j100-ind-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Kolkata",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-kolkata/ind/2026/j-j200-ind-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Harare",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Zimbabwe",
+              "hostNationCode": "ZIM",
+              "startDate": "28 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-harare/zim/2025/j-j100-zim-2025-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 41,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 CHENNAI",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-chennai/ind/2025/j-j60-ind-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Bhuvanagiri",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-bhuvanagiri/ind/2025/j-j60-ind-2025-005/"
+            },
+            {
+              "tournamentName": "J300 New Delhi",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-new-delhi/ind/2026/j-j300-ind-2026-001/"
+            },
+            {
+              "tournamentName": "J100 New Delhi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-new-delhi/ind/2025/j-j100-ind-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

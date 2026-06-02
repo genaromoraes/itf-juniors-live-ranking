@@ -1,0 +1,146 @@
+{
+  "player": {
+    "player_id": "800562884",
+    "player_name": "Jakub Smejcky",
+    "first_name": "Jakub",
+    "last_name": "Smejcky",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "CZE",
+    "country_name": "Czechia",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/jakub-smejcky/800562884/cze/jt/s/",
+    "current_rank": "250",
+    "current_points": "327.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800562884,\"playerFamilyName\":\"Smejcky\",\"playerGivenName\":\"Jakub\",\"playerNationalityCode\":\"CZE\",\"playerNationality\":\"Czechia\",\"profileLink\":\"/en/players/jakub-smejcky/800562884/cze/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":2,\"rank\":250,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":7,\"points\":327.5,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800562884",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 305.00 + (90.00/4) =",
+      "Value": "327.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 305,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Monterrey",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 200,
+              "tournamentLink": "/en/tournament/j200-monterrey/mex/2025/j-j200-mex-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Veracruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j200-veracruz/mex/2025/j-j200-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 90,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Veracruz",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-veracruz/mex/2025/j-j200-mex-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Monterrey",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-monterrey/mex/2025/j-j200-mex-2025-002/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": []
+        }
+      }
+    ]
+  }
+}

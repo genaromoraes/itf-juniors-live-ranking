@@ -1,0 +1,434 @@
+{
+  "player": {
+    "player_id": "800680005",
+    "player_name": "Mikaeel Ali Baig",
+    "first_name": "Mikaeel",
+    "last_name": "Ali Baig",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "PAK",
+    "country_name": "Pakistan",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/mikaeel-ali-baig/800680005/pak/jt/s/",
+    "current_rank": "325",
+    "current_points": "249",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800680005,\"playerFamilyName\":\"Ali Baig\",\"playerGivenName\":\"Mikaeel\",\"playerNationalityCode\":\"PAK\",\"playerNationality\":\"Pakistan\",\"profileLink\":\"/en/players/mikaeel-ali-baig/800680005/pak/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":2,\"rank\":325,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":29,\"points\":249,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800680005",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 210.00 + (156.00/4) =",
+      "Value": "249.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 210,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Islamabad",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-islamabad/pak/2025/j-j60-pak-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Montego Bay",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Jamaica",
+              "hostNationCode": "JAM",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-montego-bay/jam/2025/j-j30-jam-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Montego Bay",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Jamaica",
+              "hostNationCode": "JAM",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-montego-bay/jam/2025/j-j30-jam-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2025/j-j30-pak-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2025/j-j30-pak-2025-004/"
+            },
+            {
+              "tournamentName": "J30 Kingston",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Jamaica",
+              "hostNationCode": "JAM",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-kingston/jam/2026/j-j30-jam-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 77,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2026/j-j30-pak-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Islamabad",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-islamabad/pak/2026/j-j60-pak-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2026/j-j30-pak-2026-002/"
+            },
+            {
+              "tournamentName": "J30 George Town",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Cayman Islands",
+              "hostNationCode": "CAY",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-george-town/cay/2025/j-j30-cay-2025-001/"
+            },
+            {
+              "tournamentName": "J60 San Jose",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": null,
+              "points": 2,
+              "tournamentLink": "/en/tournament/j60-san-jose/crc/2026/j-j60-crc-2026-003/"
+            },
+            {
+              "tournamentName": "J300 San Jose",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-san-jose/crc/2026/j-j300-crc-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Orlando",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-orlando/usa/2025/j-j60-usa-2025-005/"
+            },
+            {
+              "tournamentName": "J60 Santiago",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santiago/chi/2025/j-j60-chi-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Guatemala",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Guatemala",
+              "hostNationCode": "GUA",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-guatemala/gua/2026/j-j60-gua-2026-002/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 156,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Islamabad",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-islamabad/pak/2025/j-j60-pak-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Guatemala",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Guatemala",
+              "hostNationCode": "GUA",
+              "startDate": "16 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-guatemala/gua/2026/j-j60-gua-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Islamabad",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-islamabad/pak/2026/j-j60-pak-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Montego Bay",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Jamaica",
+              "hostNationCode": "JAM",
+              "startDate": "14 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-montego-bay/jam/2025/j-j30-jam-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2025/j-j30-pak-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Kingston",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Jamaica",
+              "hostNationCode": "JAM",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-kingston/jam/2026/j-j30-jam-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 96,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2026/j-j30-pak-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2026/j-j30-pak-2026-003/"
+            },
+            {
+              "tournamentName": "J60 San Jose",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Costa Rica",
+              "hostNationCode": "CRC",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-san-jose/crc/2026/j-j60-crc-2026-003/"
+            },
+            {
+              "tournamentName": "J30 Montego Bay",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Jamaica",
+              "hostNationCode": "JAM",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-montego-bay/jam/2025/j-j30-jam-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Santiago",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Chile",
+              "hostNationCode": "CHI",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-santiago/chi/2025/j-j60-chi-2025-002/"
+            },
+            {
+              "tournamentName": "J30 George Town",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Cayman Islands",
+              "hostNationCode": "CAY",
+              "startDate": "02 Jun 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-george-town/cay/2025/j-j30-cay-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Islamabad",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Pakistan",
+              "hostNationCode": "PAK",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-islamabad/pak/2025/j-j30-pak-2025-004/"
+            },
+            {
+              "tournamentName": "J60 Orlando",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "USA",
+              "hostNationCode": "USA",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-orlando/usa/2025/j-j60-usa-2025-005/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

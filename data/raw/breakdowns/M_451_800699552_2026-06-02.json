@@ -1,0 +1,382 @@
+{
+  "player": {
+    "player_id": "800699552",
+    "player_name": "Israel Dowie",
+    "first_name": "Israel",
+    "last_name": "Dowie",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "NAM",
+    "country_name": "Namibia",
+    "birth_date": "",
+    "birth_year": "2010",
+    "junior_last_year": "2028",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/israel-dowie/800699552/nam/jt/s/",
+    "current_rank": "451",
+    "current_points": "176",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800699552,\"playerFamilyName\":\"Dowie\",\"playerGivenName\":\"Israel\",\"playerNationalityCode\":\"NAM\",\"playerNationality\":\"Namibia\",\"profileLink\":\"/en/players/israel-dowie/800699552/nam/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2010,\"rankMovement\":28,\"rank\":451,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":25,\"points\":176,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800699552",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 144.00 + (128.00/4) =",
+      "Value": "176.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 144,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Windhoek",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Namibia",
+              "hostNationCode": "NAM",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-windhoek/nam/2026/j-j60-nam-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Gaborone",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-gaborone/bot/2025/j-j100-bot-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Phoenix",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Mauritius",
+              "hostNationCode": "MRI",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-phoenix/mri/2025/j-j60-mri-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Pretoria",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "26 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-pretoria/rsa/2026/j-j60-rsa-2026-004/"
+            },
+            {
+              "tournamentName": "J30 Windhoek",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Namibia",
+              "hostNationCode": "NAM",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j30-windhoek/nam/2026/j-j30-nam-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Gaborone",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-gaborone/bot/2025/j-j60-bot-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 41,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Gaborone",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "11 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-gaborone/bot/2025/j-j30-bot-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Gaborone",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-gaborone/bot/2025/j-j30-bot-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Petit Camp Phoenix",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mauritius",
+              "hostNationCode": "MRI",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-petit-camp-phoenix/mri/2025/j-j30-mri-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Maputo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mozambique",
+              "hostNationCode": "MOZ",
+              "startDate": "10 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 9,
+              "tournamentLink": "/en/tournament/j30-maputo/moz/2026/j-j30-moz-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Maputo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mozambique",
+              "hostNationCode": "MOZ",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-maputo/moz/2026/j-j30-moz-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 128,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Gaborone",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-gaborone/bot/2025/j-j100-bot-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Windhoek",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Namibia",
+              "hostNationCode": "NAM",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-windhoek/nam/2026/j-j60-nam-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Pretoria",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "26 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-pretoria/rsa/2026/j-j60-rsa-2026-004/"
+            },
+            {
+              "tournamentName": "J30 Windhoek",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Namibia",
+              "hostNationCode": "NAM",
+              "startDate": "20 Apr 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-windhoek/nam/2026/j-j30-nam-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Gaborone",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-gaborone/bot/2025/j-j60-bot-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 12,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Gaborone",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Botswana",
+              "hostNationCode": "BOT",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-gaborone/bot/2025/j-j30-bot-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Maputo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mozambique",
+              "hostNationCode": "MOZ",
+              "startDate": "10 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-maputo/moz/2026/j-j30-moz-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Maputo",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mozambique",
+              "hostNationCode": "MOZ",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 3,
+              "tournamentLink": "/en/tournament/j30-maputo/moz/2026/j-j30-moz-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Phoenix",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Mauritius",
+              "hostNationCode": "MRI",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-phoenix/mri/2025/j-j60-mri-2025-001/"
+            },
+            {
+              "tournamentName": "J30 Petit Camp Phoenix",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mauritius",
+              "hostNationCode": "MRI",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-petit-camp-phoenix/mri/2025/j-j30-mri-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

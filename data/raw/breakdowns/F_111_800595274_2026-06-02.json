@@ -1,0 +1,486 @@
+{
+  "player": {
+    "player_id": "800595274",
+    "player_name": "Sofie Maresova",
+    "first_name": "Sofie",
+    "last_name": "Maresova",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "CZE",
+    "country_name": "Czechia",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/sofie-maresova/800595274/cze/jt/s/",
+    "current_rank": "111",
+    "current_points": "697.25",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800595274,\"playerFamilyName\":\"Maresova\",\"playerGivenName\":\"Sofie\",\"playerNationalityCode\":\"CZE\",\"playerNationality\":\"Czechia\",\"profileLink\":\"/en/players/sofie-maresova/800595274/cze/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":0,\"rank\":111,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":33,\"points\":697.25,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800595274",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 570.00 + (509.00/4) =",
+      "Value": "697.25"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 570,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Oberhaching",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-oberhaching/ger/2026/j-j200-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Hanover",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j200-hanover/ger/2026/j-j200-ger-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-004/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 143,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Marianske Lazne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-marianske-lazne/cze/2025/j-j30-cze-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Prostejov",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-prostejov/cze/2025/j-j30-cze-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Frydek Mistek",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-frydek-mistek/cze/2025/j-j30-cze-2025-006/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Prague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "20 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-prague/cze/2025/j-j100-cze-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Veska",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "07 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-veska/cze/2025/j-j60-cze-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Zilina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j60-zilina/svk/2025/j-j60-svk-2025-001/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Pilsen",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-pilsen/cze/2025/j-j200-cze-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Prague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-prague/cze/2025/j-j100-cze-2025-001/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 509,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Hanover",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 150,
+              "tournamentLink": "/en/tournament/j200-hanover/ger/2026/j-j200-ger-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Piestany",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "14 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 105,
+              "tournamentLink": "/en/tournament/j200-piestany/svk/2026/j-j200-svk-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-004/"
+            },
+            {
+              "tournamentName": "J500 Cairo",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Egypt",
+              "hostNationCode": "EGY",
+              "startDate": "06 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-cairo/egy/2026/j-j500-egy-2026-001/"
+            },
+            {
+              "tournamentName": "J500 Offenbach",
+              "category": "J500",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "04 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 67,
+              "tournamentLink": "/en/tournament/j500-offenbach/ger/2026/j-j500-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 170,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Pilsen",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "23 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-pilsen/cze/2025/j-j200-cze-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Oberhaching",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "02 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-oberhaching/ger/2026/j-j200-ger-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Prague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "20 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-prague/cze/2025/j-j100-cze-2025-003/"
+            },
+            {
+              "tournamentName": "J30 Marianske Lazne",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "03 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-marianske-lazne/cze/2025/j-j30-cze-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J30 Frydek Mistek",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "22 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-frydek-mistek/cze/2025/j-j30-cze-2025-006/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Prague",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Czechia",
+              "hostNationCode": "CZE",
+              "startDate": "30 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-prague/cze/2025/j-j100-cze-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

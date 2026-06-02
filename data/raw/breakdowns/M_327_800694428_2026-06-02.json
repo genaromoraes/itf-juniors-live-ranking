@@ -1,0 +1,356 @@
+{
+  "player": {
+    "player_id": "800694428",
+    "player_name": "Guy Leviner",
+    "first_name": "Guy",
+    "last_name": "Leviner",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "ISR",
+    "country_name": "Israel",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/guy-leviner/800694428/isr/jt/s/",
+    "current_rank": "327",
+    "current_points": "248.5",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800694428,\"playerFamilyName\":\"Leviner\",\"playerGivenName\":\"Guy\",\"playerNationalityCode\":\"ISR\",\"playerNationality\":\"Israel\",\"profileLink\":\"/en/players/guy-leviner/800694428/isr/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":2,\"rank\":327,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":23,\"points\":248.5,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800694428",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 208.00 + (162.00/4) =",
+      "Value": "248.50"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 208,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Haifa (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-haifa-(closed)/isr/2025/j-j200-isr-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Pretoria",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-pretoria/rsa/2025/j-j200-rsa-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Ramat Hasharon (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-ramat-hasharon-(closed)/isr/2026/j-j60-isr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Raanana (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "27 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j60-raanana-(closed)/isr/2026/j-j60-isr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Johannesburg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-johannesburg/rsa/2025/j-j100-rsa-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 30,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Pretoria",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-pretoria/rsa/2025/j-j100-rsa-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Nairobi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-nairobi/ken/2025/j-j100-ken-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Haifa (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-haifa-(closed)/isr/2025/j-j100-isr-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Eindhoven",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-eindhoven/ned/2025/j-j60-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-004/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 162,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Pretoria",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "08 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-pretoria/rsa/2025/j-j200-rsa-2025-001/"
+            },
+            {
+              "tournamentName": "J60 Ramat Hasharon (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "20 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-ramat-hasharon-(closed)/isr/2026/j-j60-isr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Raanana (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "27 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-raanana-(closed)/isr/2026/j-j60-isr-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Johannesburg",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-johannesburg/rsa/2025/j-j100-rsa-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Pretoria",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-pretoria/rsa/2025/j-j100-rsa-2025-005/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "23 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 14,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Eindhoven",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "22 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-eindhoven/ned/2025/j-j60-ned-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Nairobi",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "03 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-nairobi/ken/2025/j-j60-ken-2025-004/"
+            },
+            {
+              "tournamentName": "J100 Nairobi",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Kenya",
+              "hostNationCode": "KEN",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-nairobi/ken/2025/j-j100-ken-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Potchefstroom",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "South Africa",
+              "hostNationCode": "RSA",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-potchefstroom/rsa/2026/j-j100-rsa-2026-003/"
+            },
+            {
+              "tournamentName": "J60 Haifa (CLOSED)",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Israel",
+              "hostNationCode": "ISR",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-haifa-(closed)/isr/2025/j-j200-isr-2025-001/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

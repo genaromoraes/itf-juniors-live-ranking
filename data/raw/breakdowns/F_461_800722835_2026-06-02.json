@@ -1,0 +1,239 @@
+{
+  "player": {
+    "player_id": "800722835",
+    "player_name": "SRISHTI KIRAN",
+    "first_name": "SRISHTI",
+    "last_name": "KIRAN",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "IND",
+    "country_name": "India",
+    "birth_date": "",
+    "birth_year": "2012",
+    "junior_last_year": "2030",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/srishti-kiran/800722835/ind/jt/s/",
+    "current_rank": "461",
+    "current_points": "201",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800722835,\"playerFamilyName\":\"KIRAN\",\"playerGivenName\":\"SRISHTI\",\"playerNationalityCode\":\"IND\",\"playerNationality\":\"India\",\"profileLink\":\"/en/players/srishti-kiran/800722835/ind/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2012,\"rankMovement\":5,\"rank\":461,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":14,\"points\":201,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800722835",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 185.00 + (64.00/4) =",
+      "Value": "201.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 185,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Santa Tecla",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "El Salvador",
+              "hostNationCode": "ESA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-santa-tecla/esa/2026/j-j60-esa-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-005/"
+            },
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Huamantla",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-huamantla/mex/2026/j-j30-mex-2026-001/"
+            },
+            {
+              "tournamentName": "J30 Huamantla",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 30,
+              "tournamentLink": "/en/tournament/j30-huamantla/mex/2026/j-j30-mex-2026-002/"
+            },
+            {
+              "tournamentName": "J30 Bengaluru",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 5,
+              "tournamentLink": "/en/tournament/j30-bengaluru/ind/2025/j-j30-ind-2025-007/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Santa Tecla",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "El Salvador",
+              "hostNationCode": "ESA",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-santa-tecla/esa/2026/j-j60-esa-2026-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 64,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 25,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-006/"
+            },
+            {
+              "tournamentName": "J30 Huamantla",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 13,
+              "tournamentLink": "/en/tournament/j30-huamantla/mex/2026/j-j30-mex-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Santa Tecla",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "El Salvador",
+              "hostNationCode": "ESA",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-santa-tecla/esa/2026/j-j60-esa-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Santa Tecla",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "El Salvador",
+              "hostNationCode": "ESA",
+              "startDate": "25 May 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 7,
+              "tournamentLink": "/en/tournament/j60-santa-tecla/esa/2026/j-j60-esa-2026-003/"
+            },
+            {
+              "tournamentName": "J30 Bengaluru",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "India",
+              "hostNationCode": "IND",
+              "startDate": "01 Sep 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-bengaluru/ind/2025/j-j30-ind-2025-007/"
+            },
+            {
+              "tournamentName": "J30 Huamantla",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Mexico",
+              "hostNationCode": "MEX",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 6,
+              "tournamentLink": "/en/tournament/j30-huamantla/mex/2026/j-j30-mex-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 0,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J30 Cabarete",
+              "category": "J30",
+              "drawType": "M",
+              "hostNation": "Dominican Republic",
+              "hostNationCode": "DOM",
+              "startDate": "20 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j30-cabarete/dom/2025/j-j30-dom-2025-005/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

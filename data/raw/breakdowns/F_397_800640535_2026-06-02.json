@@ -1,0 +1,486 @@
+{
+  "player": {
+    "player_id": "800640535",
+    "player_name": "Alexandra Bayuschenko",
+    "first_name": "Alexandra",
+    "last_name": "Bayuschenko",
+    "gender": "F",
+    "itf_gender_code": "G",
+    "country": "BLR",
+    "country_name": "Belarus",
+    "birth_date": "",
+    "birth_year": "2009",
+    "junior_last_year": "2027",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/alexandra-bayuschenko/800640535/blr/jt/s/",
+    "current_rank": "397",
+    "current_points": "227",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800640535,\"playerFamilyName\":\"Bayuschenko\",\"playerGivenName\":\"Alexandra\",\"playerNationalityCode\":\"BLR\",\"playerNationality\":\"Belarus\",\"profileLink\":\"/en/players/alexandra-bayuschenko/800640535/blr/jt/s/\",\"gender\":\"F\",\"hiddenPlayer\":false,\"birthYear\":2009,\"rankMovement\":3,\"rank\":397,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":33,\"points\":227,\"profileImage\":\"/media/1489/itf-uk-profile-placeholder-female.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800640535",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 164.00 + (252.00/4) =",
+      "Value": "227.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 164,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J200 Castricum",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-castricum/ned/2025/j-j200-ned-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Villach",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "27 Apr 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-villach/aut/2026/j-j200-aut-2026-001/"
+            },
+            {
+              "tournamentName": "J200 St. Poelten",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "05 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j200-st-poelten/aut/2026/j-j200-aut-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Saint Gregoire",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-saint-gregoire/fra/2025/j-j100-fra-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Fujairah",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-fujairah/uae/2026/j-j100-uae-2026-001/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 20,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Mogyorod",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-mogyorod/hun/2025/j-j60-hun-2025-003/"
+            },
+            {
+              "tournamentName": "J60 Maribor",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Slovenia",
+              "hostNationCode": "SLO",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-maribor/slo/2025/j-j60-slo-2025-007/"
+            },
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J300 Villena",
+              "category": "J300",
+              "drawType": "Q",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "16 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-villena/esp/2026/j-j300-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Basel",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-basel/sui/2025/j-j200-sui-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rutesheim",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "05 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-rutesheim/ger/2025/j-j200-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Belgrade",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "25 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-belgrade/srb/2025/j-j200-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Szekesfehervar",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-szekesfehervar/hun/2025/j-j200-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J200 Benicarlo",
+              "category": "J200",
+              "drawType": "Q",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "10 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-benicarlo/esp/2026/j-j200-esp-2026-002/"
+            },
+            {
+              "tournamentName": "J200 Hanover",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "11 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-hanover/ger/2026/j-j200-ger-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 252,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J300 Pancevo",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Serbia",
+              "hostNationCode": "SRB",
+              "startDate": "18 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j300-pancevo/srb/2025/j-j300-srb-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Basel",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Switzerland",
+              "hostNationCode": "SUI",
+              "startDate": "29 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j200-basel/sui/2025/j-j200-sui-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Saint Gregoire",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "France",
+              "hostNationCode": "FRA",
+              "startDate": "24 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-saint-gregoire/fra/2025/j-j100-fra-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "12 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Fujairah",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "05 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-fujairah/uae/2026/j-j100-uae-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Bruchkoebel",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-bruchkoebel/ger/2025/j-j100-ger-2025-002/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 29,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Trnava",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Slovakia",
+              "hostNationCode": "SVK",
+              "startDate": "10 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-trnava/svk/2025/j-j100-svk-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Mogyorod",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "14 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 14,
+              "tournamentLink": "/en/tournament/j60-mogyorod/hun/2025/j-j60-hun-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Castricum",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Netherlands",
+              "hostNationCode": "NED",
+              "startDate": "01 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-castricum/ned/2025/j-j200-ned-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Rutesheim",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Germany",
+              "hostNationCode": "GER",
+              "startDate": "05 Aug 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-rutesheim/ger/2025/j-j200-ger-2025-003/"
+            },
+            {
+              "tournamentName": "J200 Szekesfehervar",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Hungary",
+              "hostNationCode": "HUN",
+              "startDate": "22 Oct 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-szekesfehervar/hun/2025/j-j200-hun-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Valencia",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "02 Mar 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-valencia/esp/2026/j-j200-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Dubai",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "United Arab Emirates",
+              "hostNationCode": "UAE",
+              "startDate": "19 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-dubai/uae/2026/j-j100-uae-2026-003/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

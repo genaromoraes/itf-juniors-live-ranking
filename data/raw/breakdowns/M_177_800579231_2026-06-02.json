@@ -1,0 +1,434 @@
+{
+  "player": {
+    "player_id": "800579231",
+    "player_name": "Edwin Averjanov",
+    "first_name": "Edwin",
+    "last_name": "Averjanov",
+    "gender": "M",
+    "itf_gender_code": "B",
+    "country": "EST",
+    "country_name": "Estonia",
+    "birth_date": "",
+    "birth_year": "2008",
+    "junior_last_year": "2026",
+    "active_junior": "",
+    "profile_url": "https://www.itftennis.com/en/players/edwin-averjanov/800579231/est/jt/s/",
+    "current_rank": "177",
+    "current_points": "451",
+    "first_seen_date": "2026-06-02",
+    "last_seen_date": "2026-06-02",
+    "raw_json": "{\"playerId\":800579231,\"playerFamilyName\":\"Averjanov\",\"playerGivenName\":\"Edwin\",\"playerNationalityCode\":\"EST\",\"playerNationality\":\"Estonia\",\"profileLink\":\"/en/players/edwin-averjanov/800579231/est/jt/s/\",\"gender\":\"M\",\"hiddenPlayer\":false,\"birthYear\":2008,\"rankMovement\":-1,\"rank\":177,\"rankEqualFlag\":\"\",\"tournamentsPlayed\":29,\"points\":451,\"profileImage\":\"/media/1490/itf-uk-profile-placeholder-male.jpg?anchor=center&mode=crop&width=54&height=72&rnd=132174204480000000\",\"tournamentsPlayedSingles\":null,\"tournamentsPlayedDoubles\":null,\"pointsRankingSingles\":null,\"pointsRankingDoubles\":null,\"pointsRankingTotal\":null}"
+  },
+  "source_url": "https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?circuitCode=JT&matchTypeCode=S&playerId=800579231",
+  "json": {
+    "Value": {
+      "label": "Total Combined Ranking Points: 376.00 + (300.00/4) =",
+      "Value": "451.00"
+    },
+    "countable": [
+      {
+        "title": "Singles",
+        "countablePoints": {
+          "totalPoints": 376,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "WR",
+              "points": 100,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2026/j-j100-lat-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "08 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Varnamo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j100-varnamo/swe/2026/j-j100-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Vierumaki",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-vierumaki/fin/2025/j-j60-fin-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Tampere",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 60,
+              "tournamentLink": "/en/tournament/j60-tampere/fin/2025/j-j60-fin-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "SF",
+              "points": 36,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-004/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 58,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 20,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Kaarina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "SF",
+              "points": 18,
+              "tournamentLink": "/en/tournament/j60-kaarina/fin/2025/j-j60-fin-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            },
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "QF",
+              "points": 10,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-002/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R64",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Siauliai",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Lithuania",
+              "hostNationCode": "LTU",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-siauliai/ltu/2026/j-j200-ltu-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Sobota",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "26 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-sobota/pol/2026/j-j100-pol-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-003/"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Doubles",
+        "countablePoints": {
+          "totalPoints": 300,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J100 Varnamo",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Sweden",
+              "hostNationCode": "SWE",
+              "startDate": "18 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "WR",
+              "points": 75,
+              "tournamentLink": "/en/tournament/j100-varnamo/swe/2026/j-j100-swe-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Loughborough",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Great Britain",
+              "hostNationCode": "GBR",
+              "startDate": "09 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-loughborough/gbr/2026/j-j100-gbr-2026-002/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "13 Apr 2026",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2026/j-j100-lat-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Sobota",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Poland",
+              "hostNationCode": "POL",
+              "startDate": "26 May 2026",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j100-sobota/pol/2026/j-j100-pol-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Vierumaki",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-vierumaki/fin/2025/j-j60-fin-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Tampere",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "27 Oct 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-tampere/fin/2025/j-j60-fin-2025-003/"
+            }
+          ]
+        },
+        "nonCountablePoints": {
+          "totalPoints": 141,
+          "pointsBreakdown": [
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "17 Nov 2025",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "WR",
+              "points": 45,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-003/"
+            },
+            {
+              "tournamentName": "J100 Hanko",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "30 Mar 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "SF",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j100-hanko/fin/2026/j-j100-fin-2026-001/"
+            },
+            {
+              "tournamentName": "J60 Tallinn",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Estonia",
+              "hostNationCode": "EST",
+              "startDate": "24 Jun 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-tallinn/est/2025/j-j60-est-2025-002/"
+            },
+            {
+              "tournamentName": "J60 Kaarina",
+              "category": "J60",
+              "drawType": "M",
+              "hostNation": "Finland",
+              "hostNationCode": "FIN",
+              "startDate": "21 Jul 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "RU",
+              "points": 27,
+              "tournamentLink": "/en/tournament/j60-kaarina/fin/2025/j-j60-fin-2025-001/"
+            },
+            {
+              "tournamentName": "J100 Manacor",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Spain",
+              "hostNationCode": "ESP",
+              "startDate": "26 Jan 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "QF",
+              "points": 15,
+              "tournamentLink": "/en/tournament/j100-manacor/esp/2026/j-j100-esp-2026-001/"
+            },
+            {
+              "tournamentName": "J300 Oberpullendorf (Europe Regional Championships)",
+              "category": "J300",
+              "drawType": "M",
+              "hostNation": "Austria",
+              "hostNationCode": "AUT",
+              "startDate": "15 Sep 2025",
+              "surfaceDesc": "Clay",
+              "surfaceCode": "C",
+              "round": "R32",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j300-oberpullendorf-(europe-regional-championships)/aut/2025/j-j300-aut-2025-001/"
+            },
+            {
+              "tournamentName": "J200 Siauliai",
+              "category": "J200",
+              "drawType": "M",
+              "hostNation": "Lithuania",
+              "hostNationCode": "LTU",
+              "startDate": "17 Feb 2026",
+              "surfaceDesc": "Hard",
+              "surfaceCode": "H",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j200-siauliai/ltu/2026/j-j200-ltu-2026-001/"
+            },
+            {
+              "tournamentName": "J100 Aizkraukle",
+              "category": "J100",
+              "drawType": "M",
+              "hostNation": "Latvia",
+              "hostNationCode": "LAT",
+              "startDate": "01 Dec 2025",
+              "surfaceDesc": "Carpet",
+              "surfaceCode": "A",
+              "round": "R16",
+              "points": 0,
+              "tournamentLink": "/en/tournament/j100-aizkraukle/lat/2025/j-j100-lat-2025-004/"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
