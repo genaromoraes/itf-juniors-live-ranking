@@ -1,0 +1,1933 @@
+{
+  "tournament": {
+    "week_start": "2026-06-01",
+    "week_end": "2026-06-07",
+    "search_start": "2026-05-30",
+    "search_end": "2026-06-07",
+    "tournament_id": "",
+    "tournament_key": "J-J60-POL-2026-004",
+    "tournament_name": "J60 Gdansk",
+    "promotional_name": "Gdansk Open 2026",
+    "category": "J60",
+    "host_nation": "Poland",
+    "host_nation_code": "POL",
+    "location": "Gdansk",
+    "venue": "Gdansk",
+    "start_date": "2026-06-03",
+    "end_date": "2026-06-07",
+    "dates_raw": "03 Jun to 07 Jun 2026",
+    "surface": "Clay",
+    "surface_code": "C",
+    "indoor_outdoor": "Outdoor",
+    "tournament_link": "https://www.itftennis.com/en/tournament/j60-gdansk/pol/2026/j-j60-pol-2026-004/",
+    "live_link": "",
+    "source_url": "https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=JT&searchString=&skip=0&take=100&nationCodes=&zoneCodes=&dateFrom=2026-05-30&dateTo=2026-06-07&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=&singlesDrawFormat=",
+    "collected_at": "2026-06-02T21:33:43.467Z",
+    "raw_json": "{\"tournamentName\":\"J60 Gdansk\",\"dates\":\"03 Jun to 07 Jun 2026\",\"location\":\"Gdansk\",\"category\":\"J60\",\"prizeMoney\":\"\",\"liveLink\":\"\",\"surfaceDesc\":\"Clay\",\"surfaceCode\":\"C\",\"tourStatusCode\":null,\"tourStatusDesc\":null,\"indoorOrOutDoor\":\"Outdoor\",\"isRecognised\":false,\"recognisedTournamentLink\":\"/en/about-us/governance/tournament-recognition/home/\",\"id\":0,\"name\":\"J60 Gdansk\",\"promotionalName\":\"Gdansk Open 2026\",\"hostNation\":\"Poland\",\"hostNationCode\":\"POL\",\"venue\":\"Gdansk\",\"startDate\":\"2026-06-03T00:00:00\",\"endDate\":\"2026-06-07T00:00:00\",\"tournamentKey\":\"J-J60-POL-2026-004\",\"tennisCategoryCode\":\"JT\",\"tournamentLink\":\"/en/tournament/j60-gdansk/pol/2026/j-j60-pol-2026-004/\",\"hospitality\":null,\"year\":2026,\"liveStreamingUrl\":\"\"}"
+  },
+  "filters_url": "https://www.itftennis.com/tennis/api/TournamentApi/GetEventFilters?tournamentKey=j-j60-pol-2026-004",
+  "filters_json": {
+    "tournamentId": 1100203178,
+    "tourType": "N",
+    "circuitCode": "JT",
+    "filters": [
+      {
+        "subFilter": [
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              },
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Qualifying Draw",
+                "valueCode": "Q"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Singles",
+            "valueCode": "S"
+          },
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Doubles",
+            "valueCode": "D"
+          }
+        ],
+        "filterName": "Player Type",
+        "dataName": "playerTypeCode",
+        "valueDesc": "Boys",
+        "valueCode": "B"
+      },
+      {
+        "subFilter": [
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              },
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Qualifying Draw",
+                "valueCode": "Q"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Singles",
+            "valueCode": "S"
+          },
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Doubles",
+            "valueCode": "D"
+          }
+        ],
+        "filterName": "Player Type",
+        "dataName": "playerTypeCode",
+        "valueDesc": "Girls",
+        "valueCode": "G"
+      }
+    ]
+  },
+  "raw_draws": [
+    {
+      "eventInfo": {
+        "tournamentId": 1100203178,
+        "tourType": "N",
+        "weekNumber": 0,
+        "circuitCode": "JT",
+        "playerTypeCode": "B",
+        "playerTypeDesc": "Boys",
+        "matchTypeCode": "S",
+        "matchTypeDesc": "Singles",
+        "eventClassificationCode": "M",
+        "eventClassificationDesc": "Main Draw",
+        "drawsheetStructureCode": "KO",
+        "drawsheetStructureDesc": "Knock-out"
+      },
+      "method_used": "POST",
+      "url": "https://www.itftennis.com/tennis/api/TournamentApi/GetDrawsheet",
+      "body": {
+        "tournamentId": 1100203178,
+        "tourType": "N",
+        "weekNumber": 0,
+        "playerTypeCode": "B",
+        "matchTypeCode": "S",
+        "eventClassificationCode": "M",
+        "drawsheetStructureCode": "KO"
+      },
+      "matches_count": 31,
+      "json": {
+        "eventId": 1100696995,
+        "drawsheetStructure": "KO",
+        "tourType": null,
+        "koGroups": [
+          {
+            "groupName": null,
+            "rounds": [
+              {
+                "roundDesc": "1st Round",
+                "roundNumber": 1,
+                "matches": [
+                  {
+                    "matchId": 1183563199,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800627084&player2Id=800590837",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800627084,
+                            "nationality": "FRA",
+                            "givenName": "Jules",
+                            "familyName": "Rimbaud",
+                            "profileLink": "/en/players/jules-rimbaud/800627084/fra/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 1,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800590837,
+                            "nationality": "POL",
+                            "givenName": "Piotr",
+                            "familyName": "Kluj",
+                            "profileLink": "/en/players/piotr-kluj/800590837/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563200,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800677829&player2Id=800631686",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800677829,
+                            "nationality": "POL",
+                            "givenName": "Mateusz",
+                            "familyName": "Kas",
+                            "profileLink": "/en/players/mateusz-kas/800677829/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800631686,
+                            "nationality": "ITA",
+                            "givenName": "andrea",
+                            "familyName": "petrini",
+                            "profileLink": "/en/players/andrea-petrini/800631686/ita/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563201,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800636914&player2Id=800584996",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800636914,
+                            "nationality": "POL",
+                            "givenName": "Filip",
+                            "familyName": "Kiryllo",
+                            "profileLink": "/en/players/filip-kiryllo/800636914/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800584996,
+                            "nationality": "SVK",
+                            "givenName": "Dylan",
+                            "familyName": "Bairo",
+                            "profileLink": "/en/players/dylan-bairo/800584996/svk/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563202,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800707309&player2Id=800621604",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800707309,
+                            "nationality": "POL",
+                            "givenName": "Maksymilian",
+                            "familyName": "Puchalski",
+                            "profileLink": "/en/players/maksymilian-puchalski/800707309/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800621604,
+                            "nationality": "POL",
+                            "givenName": "Antoni",
+                            "familyName": "Kasperski",
+                            "profileLink": "/en/players/antoni-kasperski/800621604/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 7,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563203,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800777511&player2Id=800712709",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800777511,
+                            "nationality": "POL",
+                            "givenName": "Michal",
+                            "familyName": "Pielat",
+                            "profileLink": "/en/players/michal-pielat/800777511/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 3,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800712709,
+                            "nationality": "POL",
+                            "givenName": "Igor",
+                            "familyName": "Bartnik",
+                            "profileLink": "/en/players/igor-bartnik/800712709/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563204,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800697061&player2Id=800719788",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800697061,
+                            "nationality": "POL",
+                            "givenName": "Lukasz Andrzej",
+                            "familyName": "Maliszewski",
+                            "profileLink": "/en/players/lukasz-andrzej-maliszewski/800697061/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800719788,
+                            "nationality": "LAT",
+                            "givenName": "Vestards",
+                            "familyName": "Elsbergs",
+                            "profileLink": "/en/players/vestards-elsbergs/800719788/lat/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563205,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800709900&player2Id=800714580",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800709900,
+                            "nationality": "FIN",
+                            "givenName": "Akseli",
+                            "familyName": "Finnila",
+                            "profileLink": "/en/players/akseli-finnila/800709900/fin/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "16R"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800714580,
+                            "nationality": "POL",
+                            "givenName": "Jakub",
+                            "familyName": "Kolowiecki",
+                            "profileLink": "/en/players/jakub-kolowiecki/800714580/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563206,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800646189&player2Id=800598999",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800646189,
+                            "nationality": "POL",
+                            "givenName": "JERZY FILIP",
+                            "familyName": "URBAN",
+                            "profileLink": "/en/players/jerzy-filip-urban/800646189/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800598999,
+                            "nationality": "GER",
+                            "givenName": "Max",
+                            "familyName": "Geissinger",
+                            "profileLink": "/en/players/max-geissinger/800598999/ger/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 6,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563207,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800645550&player2Id=800710953",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800645550,
+                            "nationality": "POL",
+                            "givenName": "Hugo Pawel",
+                            "familyName": "Rytelewski",
+                            "profileLink": "/en/players/hugo-pawel-rytelewski/800645550/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 5,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800710953,
+                            "nationality": "ITA",
+                            "givenName": "Daniele",
+                            "familyName": "Longo",
+                            "profileLink": "/en/players/daniele-longo/800710953/ita/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563208,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800668138&player2Id=800696379",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800668138,
+                            "nationality": "POL",
+                            "givenName": "Patryk",
+                            "familyName": "Kowal",
+                            "profileLink": "/en/players/patryk-kowal/800668138/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800696379,
+                            "nationality": "POL",
+                            "givenName": "Mikolaj",
+                            "familyName": "Arent",
+                            "profileLink": "/en/players/mikolaj-arent/800696379/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563209,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800680251&player2Id=800655854",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800680251,
+                            "nationality": "FIN",
+                            "givenName": "Hugo",
+                            "familyName": "Eggert",
+                            "profileLink": "/en/players/hugo-eggert/800680251/fin/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800655854,
+                            "nationality": "POL",
+                            "givenName": "Emil",
+                            "familyName": "Drobko",
+                            "profileLink": "/en/players/emil-drobko/800655854/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563210,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800709169&player2Id=800675149",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800709169,
+                            "nationality": "POL",
+                            "givenName": "Aleksander",
+                            "familyName": "Bialowolski",
+                            "profileLink": "/en/players/aleksander-bialowolski/800709169/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800675149,
+                            "nationality": "GER",
+                            "givenName": "Jakob",
+                            "familyName": "Joggerst",
+                            "profileLink": "/en/players/jakob-joggerst/800675149/ger/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 4,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563211,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800604236&player2Id=800701388",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800604236,
+                            "nationality": "POL",
+                            "givenName": "Hubert",
+                            "familyName": "Plenkiewicz",
+                            "profileLink": "/en/players/hubert-plenkiewicz/800604236/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 8,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800701388,
+                            "nationality": "FIN",
+                            "givenName": "Emil",
+                            "familyName": "Torn",
+                            "profileLink": "/en/players/emil-torn/800701388/fin/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563212,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800648011&player2Id=800799435",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800648011,
+                            "nationality": "GER",
+                            "givenName": "Lukas",
+                            "familyName": "Lita",
+                            "profileLink": "/en/players/lukas-lita/800648011/ger/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800799435,
+                            "nationality": "POL",
+                            "givenName": "Tymon",
+                            "familyName": "Szamborski",
+                            "profileLink": "/en/players/tymon-szamborski/800799435/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563213,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800672563&player2Id=800674922",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800672563,
+                            "nationality": "ITA",
+                            "givenName": "Cesare",
+                            "familyName": "Cattaneo",
+                            "profileLink": "/en/players/cesare-cattaneo/800672563/ita/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "16R"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800674922,
+                            "nationality": "POL",
+                            "givenName": "BLAZEJ",
+                            "familyName": "KRZYSKO",
+                            "profileLink": "/en/players/blazej-krzysko/800674922/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563214,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800600564&player2Id=800599918",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800600564,
+                            "nationality": "POL",
+                            "givenName": "Mikolaj",
+                            "familyName": "Owramko",
+                            "profileLink": "/en/players/mikolaj-owramko/800600564/pol/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800599918,
+                            "nationality": "BEL",
+                            "givenName": "Nand",
+                            "familyName": "Vandepoele",
+                            "profileLink": "/en/players/nand-vandepoele/800599918/bel/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 2,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "2nd Round",
+                "roundNumber": 2,
+                "matches": [
+                  {
+                    "matchId": 1183563191,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563192,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563193,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563194,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563195,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563196,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563197,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563198,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Quarter-finals",
+                "roundNumber": 3,
+                "matches": [
+                  {
+                    "matchId": 1183563187,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563188,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563189,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563190,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Semi-finals",
+                "roundNumber": 4,
+                "matches": [
+                  {
+                    "matchId": 1183563185,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183563186,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Final",
+                "roundNumber": 5,
+                "matches": [
+                  {
+                    "matchId": 1183563184,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              }
+            ]
+          }
+        ],
+        "rrGroups": null
+      }
+    }
+  ]
+}

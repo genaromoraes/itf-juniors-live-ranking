@@ -18,16 +18,22 @@ const WEEK_RESULTS_ERRORS_FILE = path.join(
   OUT_DIR_CLEAN,
   "week_results_errors.csv"
 );
-
-// Por enquanto vamos testar só Roland Garros Junior.
-// Depois que estiver 100%, a gente muda para rodar todos os torneios da semana.
-const TARGET_TOURNAMENT_KEY = "J-JGS-FRA-2026-001";
+const WEEK_RESULTS_SUMMARY_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "week_results_summary.csv"
+);
 
 const EVENT_FILTERS_URL =
   "https://www.itftennis.com/tennis/api/TournamentApi/GetEventFilters";
 
 const DRAWSHEET_URL =
   "https://www.itftennis.com/tennis/api/TournamentApi/GetDrawsheet";
+
+const DELAY_BETWEEN_EVENTS_MS = 2000;
+const DELAY_BETWEEN_TOURNAMENTS_MS = 10000;
+const RETRY_DELAY_MS = 15000;
+const BLOCK_DELAY_MS = 90000;
+const MAX_RETRIES = 3;
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_RAW, { recursive: true });
@@ -66,6 +72,10 @@ function normalizeUrl(value) {
   if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
 
   return raw;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function getPlayerName(player) {
@@ -340,6 +350,19 @@ function buildEventFiltersUrl(tournamentKey) {
   return `${EVENT_FILTERS_URL}?${params.toString()}`;
 }
 
+function looksBlockedOrHtml(result) {
+  const contentType = String(result?.contentType || "").toLowerCase();
+  const textStart = String(result?.textStart || "").toLowerCase();
+
+  if (contentType.includes("text/html")) return true;
+  if (textStart.includes("_incapsula_resource")) return true;
+  if (textStart.includes("incapsula")) return true;
+  if (textStart.includes("imperva")) return true;
+  if (textStart.includes("<html")) return true;
+
+  return false;
+}
+
 async function fetchJsonInsideBrowser(page, url, options = {}) {
   return await page.evaluate(
     async ({ url, options }) => {
@@ -387,6 +410,45 @@ async function fetchJsonInsideBrowser(page, url, options = {}) {
   );
 }
 
+async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      console.log(`Tentativa ${attempt}/${MAX_RETRIES}: ${label}`);
+
+      const result = await fetchJsonInsideBrowser(page, url, options);
+
+      if (result.ok && result.json) {
+        return result;
+      }
+
+      const error = new Error(
+        `HTTP ${result.status}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
+      );
+
+      error.isBlocked = looksBlockedOrHtml(result);
+      throw error;
+    } catch (err) {
+      lastError = err;
+
+      if (err.isBlocked) {
+        console.log(
+          `Possível bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
+        );
+        await sleep(BLOCK_DELAY_MS);
+      } else if (attempt < MAX_RETRIES) {
+        console.log(
+          `Erro temporário. Esperando ${RETRY_DELAY_MS / 1000}s...`
+        );
+        await sleep(RETRY_DELAY_MS);
+      }
+    }
+  }
+
+  throw lastError;
+}
+
 async function fetchEventFilters(page, tournament) {
   const url = buildEventFiltersUrl(tournament.tournament_key);
 
@@ -394,13 +456,12 @@ async function fetchEventFilters(page, tournament) {
   console.log("Buscando filtros/eventos:");
   console.log(url);
 
-  const result = await fetchJsonInsideBrowser(page, url);
-
-  if (!result.ok || !result.json) {
-    throw new Error(
-      `Erro GetEventFilters HTTP ${result.status}. ${result.contentType}. ${result.textStart}`
-    );
-  }
+  const result = await fetchJsonWithRetry(
+    page,
+    url,
+    {},
+    `GetEventFilters ${tournament.tournament_key}`
+  );
 
   return {
     url,
@@ -435,12 +496,17 @@ async function fetchDrawsheet(page, eventInfo) {
     drawsheetStructureCode: eventInfo.drawsheetStructureCode,
   };
 
-  const result = await fetchJsonInsideBrowser(page, DRAWSHEET_URL, {
-    method: "POST",
-    body,
-  });
+  const result = await fetchJsonWithRetry(
+    page,
+    DRAWSHEET_URL,
+    {
+      method: "POST",
+      body,
+    },
+    `GetDrawsheet ${eventInfo.playerTypeDesc} ${eventInfo.matchTypeDesc} ${eventInfo.eventClassificationDesc}`
+  );
 
-  if (result.ok && result.json && hasDrawsheetContent(result.json)) {
+  if (result.json && hasDrawsheetContent(result.json)) {
     return {
       method_used: "POST",
       url: DRAWSHEET_URL,
@@ -449,9 +515,7 @@ async function fetchDrawsheet(page, eventInfo) {
     };
   }
 
-  throw new Error(
-    `Não consegui GetDrawsheet. POST status ${result.status}. Content-Type ${result.contentType}. Text: ${result.textStart}`
-  );
+  throw new Error("GetDrawsheet retornou JSON, mas sem conteúdo de chave.");
 }
 
 function splitTeamPlayers(matchRow, side) {
@@ -577,6 +641,11 @@ function buildPlayerResultsFromMatches(matches) {
   }
 
   return [...map.values()].sort((a, b) => {
+    const tournamentCompare = String(a.tournament_name).localeCompare(
+      String(b.tournament_name)
+    );
+    if (tournamentCompare !== 0) return tournamentCompare;
+
     const eventCompare = String(a.match_type_code).localeCompare(
       String(b.match_type_code)
     );
@@ -586,42 +655,67 @@ function buildPlayerResultsFromMatches(matches) {
   });
 }
 
-async function main() {
-  await ensureDirs();
+function getRawFilePath(tournament) {
+  const safeKey = tournament.tournament_key.replace(/[^a-zA-Z0-9_-]/g, "_");
+  return path.join(OUT_DIR_RAW, `${safeKey}_draws.json`);
+}
 
-  const tournaments = await readCsv(WEEK_TOURNAMENTS_FILE);
+async function readCachedTournament(tournament) {
+  const rawFile = getRawFilePath(tournament);
 
-  const tournament = tournaments.find(
-    (t) => t.tournament_key === TARGET_TOURNAMENT_KEY
-  );
+  try {
+    const text = await fs.readFile(rawFile, "utf8");
+    const parsed = JSON.parse(text);
 
-  if (!tournament) {
-    throw new Error(
-      `Não encontrei ${TARGET_TOURNAMENT_KEY} em data/clean/week_tournaments.csv`
-    );
+    if (Array.isArray(parsed.raw_draws) && parsed.raw_draws.length > 0) {
+      const matches = [];
+
+      for (const rawDraw of parsed.raw_draws) {
+        const eventInfo = rawDraw.eventInfo;
+        const drawsheetJson = rawDraw.json;
+
+        matches.push(
+          ...extractMatchesFromDrawsheet(drawsheetJson, eventInfo, tournament)
+        );
+      }
+
+      return {
+        matches,
+        errors: [],
+        summary: {
+          tournament_key: tournament.tournament_key,
+          tournament_name: tournament.tournament_name,
+          category: tournament.category,
+          events_found: parsed.raw_draws.length,
+          matches_found: matches.length,
+          errors_found: 0,
+          raw_file: rawFile,
+          from_cache: "true",
+          collected_at: new Date().toISOString(),
+        },
+      };
+    }
+  } catch {
+    return null;
   }
 
+  return null;
+}
+
+async function processTournament(page, tournament) {
   console.log("");
-  console.log("Torneio alvo:");
+  console.log("========================================");
   console.log(
-    `${tournament.tournament_name} | ${tournament.category} | ${tournament.tournament_key}`
+    `Torneio: ${tournament.tournament_name} | ${tournament.category} | ${tournament.tournament_key}`
   );
+  console.log("========================================");
 
-  const browser = await chromium.launch({
-    headless: false,
-  });
+  const cached = await readCachedTournament(tournament);
 
-  const context = await browser.newContext({
-    viewport: {
-      width: 1500,
-      height: 950,
-    },
-    locale: "en-US",
-    userAgent:
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
-  });
-
-  const page = await context.newPage();
+  if (cached) {
+    console.log(`Usando cache: ${cached.matches.length} partidas`);
+    return cached;
+  }
 
   const allMatches = [];
   const errors = [];
@@ -633,11 +727,10 @@ async function main() {
       timeout: 90000,
     });
 
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2500);
 
     const filters = await fetchEventFilters(page, tournament);
 
-    console.log("");
     console.log(`Eventos encontrados: ${filters.events.length}`);
 
     for (const eventInfo of filters.events) {
@@ -663,13 +756,14 @@ async function main() {
           json: drawsheet.json,
         });
 
-        await page.waitForTimeout(700);
+        await sleep(DELAY_BETWEEN_EVENTS_MS);
       } catch (err) {
         console.log(`ERRO evento: ${err.message}`);
 
         errors.push({
           tournament_key: tournament.tournament_key,
           tournament_name: tournament.tournament_name,
+          category: tournament.category,
           player_type_code: eventInfo.playerTypeCode,
           player_type_desc: eventInfo.playerTypeDesc,
           match_type_code: eventInfo.matchTypeCode,
@@ -683,12 +777,8 @@ async function main() {
       }
     }
 
-    const playerResults = buildPlayerResultsFromMatches(allMatches);
-
-    const safeKey = tournament.tournament_key.replace(/[^a-zA-Z0-9_-]/g, "_");
-
     await fs.writeFile(
-      path.join(OUT_DIR_RAW, `${safeKey}_draws.json`),
+      getRawFilePath(tournament),
       JSON.stringify(
         {
           tournament,
@@ -701,6 +791,106 @@ async function main() {
       ),
       "utf8"
     );
+
+    return {
+      matches: allMatches,
+      errors,
+      summary: {
+        tournament_key: tournament.tournament_key,
+        tournament_name: tournament.tournament_name,
+        category: tournament.category,
+        events_found: filters.events.length,
+        matches_found: allMatches.length,
+        errors_found: errors.length,
+        raw_file: getRawFilePath(tournament),
+        from_cache: "false",
+        collected_at: new Date().toISOString(),
+      },
+    };
+  } catch (err) {
+    console.log(`ERRO torneio: ${err.message}`);
+
+    errors.push({
+      tournament_key: tournament.tournament_key,
+      tournament_name: tournament.tournament_name,
+      category: tournament.category,
+      player_type_code: "",
+      player_type_desc: "",
+      match_type_code: "",
+      match_type_desc: "",
+      event_classification_code: "",
+      event_classification_desc: "",
+      drawsheet_structure_code: "",
+      error_message: err.message,
+      collected_at: new Date().toISOString(),
+    });
+
+    return {
+      matches: [],
+      errors,
+      summary: {
+        tournament_key: tournament.tournament_key,
+        tournament_name: tournament.tournament_name,
+        category: tournament.category,
+        events_found: 0,
+        matches_found: 0,
+        errors_found: errors.length,
+        raw_file: "",
+        from_cache: "false",
+        collected_at: new Date().toISOString(),
+      },
+    };
+  }
+}
+
+async function main() {
+  await ensureDirs();
+
+  const tournaments = await readCsv(WEEK_TOURNAMENTS_FILE);
+
+  console.log("");
+  console.log(`Torneios da semana carregados: ${tournaments.length}`);
+  console.log(`Pausa entre eventos: ${DELAY_BETWEEN_EVENTS_MS / 1000}s`);
+  console.log(`Pausa entre torneios: ${DELAY_BETWEEN_TOURNAMENTS_MS / 1000}s`);
+  console.log(`Tentativas por request: ${MAX_RETRIES}`);
+
+  const browser = await chromium.launch({
+    headless: false,
+  });
+
+  const context = await browser.newContext({
+    viewport: {
+      width: 1500,
+      height: 950,
+    },
+    locale: "en-US",
+    userAgent:
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+  });
+
+  const page = await context.newPage();
+
+  const allMatches = [];
+  const allErrors = [];
+  const summaries = [];
+
+  try {
+    for (let i = 0; i < tournaments.length; i++) {
+      const tournament = tournaments[i];
+
+      console.log("");
+      console.log(`[${i + 1}/${tournaments.length}]`);
+
+      const result = await processTournament(page, tournament);
+
+      allMatches.push(...result.matches);
+      allErrors.push(...result.errors);
+      summaries.push(result.summary);
+
+      await sleep(DELAY_BETWEEN_TOURNAMENTS_MS);
+    }
+
+    const playerResults = buildPlayerResultsFromMatches(allMatches);
 
     await writeCsv(WEEK_MATCHES_FILE, allMatches, [
       "tournament_key",
@@ -782,9 +972,10 @@ async function main() {
       "collected_at",
     ]);
 
-    await writeCsv(WEEK_RESULTS_ERRORS_FILE, errors, [
+    await writeCsv(WEEK_RESULTS_ERRORS_FILE, allErrors, [
       "tournament_key",
       "tournament_name",
+      "category",
       "player_type_code",
       "player_type_desc",
       "match_type_code",
@@ -796,17 +987,31 @@ async function main() {
       "collected_at",
     ]);
 
+    await writeCsv(WEEK_RESULTS_SUMMARY_FILE, summaries, [
+      "tournament_key",
+      "tournament_name",
+      "category",
+      "events_found",
+      "matches_found",
+      "errors_found",
+      "raw_file",
+      "from_cache",
+      "collected_at",
+    ]);
+
     console.log("");
     console.log("Finalizado.");
+    console.log(`Torneios processados: ${tournaments.length}`);
     console.log(`Partidas extraídas: ${allMatches.length}`);
     console.log(`Resultados por jogador: ${playerResults.length}`);
-    console.log(`Erros: ${errors.length}`);
+    console.log(`Erros: ${allErrors.length}`);
     console.log("");
     console.log("Arquivos gerados:");
     console.log("data/clean/week_matches.csv");
     console.log("data/clean/week_player_results.csv");
     console.log("data/clean/week_results_errors.csv");
-    console.log(`data/raw/week_results/${safeKey}_draws.json`);
+    console.log("data/clean/week_results_summary.csv");
+    console.log("data/raw/week_results/");
   } finally {
     await browser.close();
   }

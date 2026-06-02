@@ -1,0 +1,2249 @@
+{
+  "tournament": {
+    "week_start": "2026-06-01",
+    "week_end": "2026-06-07",
+    "search_start": "2026-05-30",
+    "search_end": "2026-06-07",
+    "tournament_id": "",
+    "tournament_key": "J-J30-INA-2026-002",
+    "tournament_name": "J30 Sukoharjo",
+    "promotional_name": "Detec International Junior Championships",
+    "category": "J30",
+    "host_nation": "Indonesia",
+    "host_nation_code": "INA",
+    "location": "Sukoharjo",
+    "venue": "Sukoharjo",
+    "start_date": "2026-06-01",
+    "end_date": "2026-06-07",
+    "dates_raw": "01 Jun to 07 Jun 2026",
+    "surface": "Hard",
+    "surface_code": "H",
+    "indoor_outdoor": "Outdoor",
+    "tournament_link": "https://www.itftennis.com/en/tournament/j30-sukoharjo/ina/2026/j-j30-ina-2026-002/",
+    "live_link": "",
+    "source_url": "https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=JT&searchString=&skip=0&take=100&nationCodes=&zoneCodes=&dateFrom=2026-05-30&dateTo=2026-06-07&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=&singlesDrawFormat=",
+    "collected_at": "2026-06-02T21:33:43.467Z",
+    "raw_json": "{\"tournamentName\":\"J30 Sukoharjo\",\"dates\":\"01 Jun to 07 Jun 2026\",\"location\":\"Sukoharjo\",\"category\":\"J30\",\"prizeMoney\":\"\",\"liveLink\":\"\",\"surfaceDesc\":\"Hard\",\"surfaceCode\":\"H\",\"tourStatusCode\":null,\"tourStatusDesc\":null,\"indoorOrOutDoor\":\"Outdoor\",\"isRecognised\":false,\"recognisedTournamentLink\":\"/en/about-us/governance/tournament-recognition/home/\",\"id\":0,\"name\":\"J30 Sukoharjo\",\"promotionalName\":\"Detec International Junior Championships\",\"hostNation\":\"Indonesia\",\"hostNationCode\":\"INA\",\"venue\":\"Sukoharjo\",\"startDate\":\"2026-06-01T00:00:00\",\"endDate\":\"2026-06-07T00:00:00\",\"tournamentKey\":\"J-J30-INA-2026-002\",\"tennisCategoryCode\":\"JT\",\"tournamentLink\":\"/en/tournament/j30-sukoharjo/ina/2026/j-j30-ina-2026-002/\",\"hospitality\":null,\"year\":2026,\"liveStreamingUrl\":\"\"}"
+  },
+  "filters_url": "https://www.itftennis.com/tennis/api/TournamentApi/GetEventFilters?tournamentKey=j-j30-ina-2026-002",
+  "filters_json": {
+    "tournamentId": 1100202610,
+    "tourType": "N",
+    "circuitCode": "JT",
+    "filters": [
+      {
+        "subFilter": [
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              },
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Qualifying Draw",
+                "valueCode": "Q"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Singles",
+            "valueCode": "S"
+          },
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Doubles",
+            "valueCode": "D"
+          }
+        ],
+        "filterName": "Player Type",
+        "dataName": "playerTypeCode",
+        "valueDesc": "Boys",
+        "valueCode": "B"
+      },
+      {
+        "subFilter": [
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              },
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Qualifying Draw",
+                "valueCode": "Q"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Singles",
+            "valueCode": "S"
+          },
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Doubles",
+            "valueCode": "D"
+          }
+        ],
+        "filterName": "Player Type",
+        "dataName": "playerTypeCode",
+        "valueDesc": "Girls",
+        "valueCode": "G"
+      }
+    ]
+  },
+  "raw_draws": [
+    {
+      "eventInfo": {
+        "tournamentId": 1100202610,
+        "tourType": "N",
+        "weekNumber": 0,
+        "circuitCode": "JT",
+        "playerTypeCode": "B",
+        "playerTypeDesc": "Boys",
+        "matchTypeCode": "S",
+        "matchTypeDesc": "Singles",
+        "eventClassificationCode": "M",
+        "eventClassificationDesc": "Main Draw",
+        "drawsheetStructureCode": "KO",
+        "drawsheetStructureDesc": "Knock-out"
+      },
+      "method_used": "POST",
+      "url": "https://www.itftennis.com/tennis/api/TournamentApi/GetDrawsheet",
+      "body": {
+        "tournamentId": 1100202610,
+        "tourType": "N",
+        "weekNumber": 0,
+        "playerTypeCode": "B",
+        "matchTypeCode": "S",
+        "eventClassificationCode": "M",
+        "drawsheetStructureCode": "KO"
+      },
+      "matches_count": 31,
+      "json": {
+        "eventId": 1100689498,
+        "drawsheetStructure": "KO",
+        "tourType": null,
+        "koGroups": [
+          {
+            "groupName": null,
+            "rounds": [
+              {
+                "roundDesc": "1st Round",
+                "roundNumber": 1,
+                "matches": [
+                  {
+                    "matchId": 1183559126,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670740&player2Id=800806271",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670740,
+                            "nationality": "INA",
+                            "givenName": "M Alfaradu",
+                            "familyName": "Sumirat",
+                            "profileLink": "/en/players/m-alfaradu-sumirat/800670740/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": 1,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800806271,
+                            "nationality": "INA",
+                            "givenName": "Raffa Rizky",
+                            "familyName": "Ramadhan",
+                            "profileLink": "/en/players/raffa-rizky-ramadhan/800806271/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 4,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559127,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670732&player2Id=800855792",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670732,
+                            "nationality": "INA",
+                            "givenName": "Jordan Faith",
+                            "familyName": "Suryaatmadja",
+                            "profileLink": "/en/players/jordan-faith-suryaatmadja/800670732/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800855792,
+                            "nationality": "AUS",
+                            "givenName": "Corey",
+                            "familyName": "Dixon",
+                            "profileLink": "/en/players/corey-dixon/800855792/aus/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559128,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800779343&player2Id=800780212",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800779343,
+                            "nationality": "INA",
+                            "givenName": "Lukman",
+                            "familyName": "Praditya Nugroho",
+                            "profileLink": "/en/players/lukman-praditya-nugroho/800779343/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 4,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800780212,
+                            "nationality": "HUN",
+                            "givenName": "Nandor",
+                            "familyName": "Karoly",
+                            "profileLink": "/en/players/nandor-karoly/800780212/hun/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559129,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800770740&player2Id=800671154",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800770740,
+                            "nationality": "INA",
+                            "givenName": "Rafael Enrico",
+                            "familyName": "Pribadi",
+                            "profileLink": "/en/players/rafael-enrico-pribadi/800770740/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 7,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "16R"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800671154,
+                            "nationality": "USA",
+                            "givenName": "Brian",
+                            "familyName": "Duan",
+                            "profileLink": "/en/players/brian-duan/800671154/usa/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 5,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 5,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559130,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670194&player2Id=800809606",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670194,
+                            "nationality": "INA",
+                            "givenName": "Rafa Jeconia verdasco",
+                            "familyName": "Mangunsong",
+                            "profileLink": "/en/players/rafa-jeconia-verdasco-mangunsong/800670194/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": 4,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800809606,
+                            "nationality": "TPE",
+                            "givenName": "Max",
+                            "familyName": "Johansson",
+                            "profileLink": "/en/players/max-johansson/800809606/tpe/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559131,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800704581&player2Id=800748703",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800704581,
+                            "nationality": "THA",
+                            "givenName": "Napradh",
+                            "familyName": "Lalai",
+                            "profileLink": "/en/players/napradh-lalai/800704581/tha/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 0,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 0,
+                            "losingScore": null
+                          },
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800748703,
+                            "nationality": "INA",
+                            "givenName": "Reaven Rio",
+                            "familyName": "Suryana",
+                            "profileLink": "/en/players/reaven-rio-suryana/800748703/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 4,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559132,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800845675&player2Id=800765326",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800845675,
+                            "nationality": "INA",
+                            "givenName": "Moh Galih",
+                            "familyName": "Prasetyo",
+                            "profileLink": "/en/players/moh-galih-prasetyo/800845675/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800765326,
+                            "nationality": "INA",
+                            "givenName": "Komang Bagus Wahyu",
+                            "familyName": "Purustama",
+                            "profileLink": "/en/players/komang-bagus-wahyu-purustama/800765326/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559133,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670040&player2Id=800584046",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670040,
+                            "nationality": "INA",
+                            "givenName": "Darren Adam",
+                            "familyName": "Sofian",
+                            "profileLink": "/en/players/darren-adam-sofian/800670040/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 4,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800584046,
+                            "nationality": "SGP",
+                            "givenName": "Ethan Matthew",
+                            "familyName": "Koh",
+                            "profileLink": "/en/players/ethan-matthew-koh/800584046/sgp/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": 6,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559134,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800814441&player2Id=800719896",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800814441,
+                            "nationality": "CHN",
+                            "givenName": "Haoxuan",
+                            "familyName": "Xu",
+                            "profileLink": "/en/players/haoxuan-xu/800814441/chn/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 4,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 7,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800719896,
+                            "nationality": "INA",
+                            "givenName": "MUCHAMMAD AZKA AZAM AL",
+                            "familyName": "ARSYAD",
+                            "profileLink": "/en/players/muchammad-azka-azam-al-arsyad/800719896/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559135,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800806463&player2Id=800791513",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800806463,
+                            "nationality": "MAS",
+                            "givenName": "Mohammad Ayyan",
+                            "familyName": "Waqas",
+                            "profileLink": "/en/players/mohammad-ayyan-waqas/800806463/mas/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800791513,
+                            "nationality": "INA",
+                            "givenName": "Muhammad Jafar",
+                            "familyName": "Harisah",
+                            "profileLink": "/en/players/muhammad-jafar-harisah/800791513/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559136,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800859590&player2Id=800742197",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800859590,
+                            "nationality": "AUS",
+                            "givenName": "Yuma",
+                            "familyName": "Takechi",
+                            "profileLink": "/en/players/yuma-takechi/800859590/aus/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": 6
+                          },
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800742197,
+                            "nationality": "INA",
+                            "givenName": "Mochamad Aryasatya D",
+                            "familyName": "Tarizky",
+                            "profileLink": "/en/players/mochamad-aryasatya-d-tarizky/800742197/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 7,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559137,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800779359&player2Id=800670475",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800779359,
+                            "nationality": "THA",
+                            "givenName": "Theerapat",
+                            "familyName": "Samritvanitcha",
+                            "profileLink": "/en/players/theerapat-samritvanitcha/800779359/tha/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670475,
+                            "nationality": "INA",
+                            "givenName": "Joachim Mika",
+                            "familyName": "Gunawan",
+                            "profileLink": "/en/players/joachim-mika-gunawan/800670475/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": 3,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559138,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670352&player2Id=800686686",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670352,
+                            "nationality": "INA",
+                            "givenName": "Rangga Wisnu Kresna",
+                            "familyName": "Rafansyah",
+                            "profileLink": "/en/players/rangga-wisnu-kresna-rafansyah/800670352/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": 8,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800686686,
+                            "nationality": "KOR",
+                            "givenName": "Do Hyeon",
+                            "familyName": "Kwak",
+                            "profileLink": "/en/players/do-hyeon-kwak/800686686/kor/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 2,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559139,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800718971&player2Id=800796369",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800718971,
+                            "nationality": "AUS",
+                            "givenName": "Taro",
+                            "familyName": "Inoue",
+                            "profileLink": "/en/players/taro-inoue/800718971/aus/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 4,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800796369,
+                            "nationality": "INA",
+                            "givenName": "Ahmad Zulfan",
+                            "familyName": "Dwi Sadewa",
+                            "profileLink": "/en/players/ahmad-zulfan-dwi-sadewa/800796369/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559140,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800789594&player2Id=800670988",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800789594,
+                            "nationality": "TPE",
+                            "givenName": "Cheng-Yu",
+                            "familyName": "Lin",
+                            "profileLink": "/en/players/cheng-yu-lin/800789594/tpe/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670988,
+                            "nationality": "INA",
+                            "givenName": "Gardan",
+                            "familyName": "Hermawan",
+                            "profileLink": "/en/players/gardan-hermawan/800670988/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 3,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559141,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800819889&player2Id=800671150",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800819889,
+                            "nationality": "INA",
+                            "givenName": "Raka Aiustha Gautama",
+                            "familyName": "Bayu",
+                            "profileLink": "/en/players/raka-aiustha-gautama-bayu/800819889/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 1,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "16R"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800671150,
+                            "nationality": "USA",
+                            "givenName": "Brandon",
+                            "familyName": "Duan",
+                            "profileLink": "/en/players/brandon-duan/800671150/usa/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          {
+                            "score": 6,
+                            "losingScore": null
+                          },
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": true,
+                        "seeding": 2,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "PC",
+                    "playStatusDesc": "Played and completed",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "2nd Round",
+                "roundNumber": 2,
+                "matches": [
+                  {
+                    "matchId": 1183559118,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670740&player2Id=800670732",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670740,
+                            "nationality": "INA",
+                            "givenName": "M Alfaradu",
+                            "familyName": "Sumirat",
+                            "profileLink": "/en/players/m-alfaradu-sumirat/800670740/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 1,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670732,
+                            "nationality": "INA",
+                            "givenName": "Jordan Faith",
+                            "familyName": "Suryaatmadja",
+                            "profileLink": "/en/players/jordan-faith-suryaatmadja/800670732/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559119,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800779343&player2Id=800770740",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800779343,
+                            "nationality": "INA",
+                            "givenName": "Lukman",
+                            "familyName": "Praditya Nugroho",
+                            "profileLink": "/en/players/lukman-praditya-nugroho/800779343/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800770740,
+                            "nationality": "INA",
+                            "givenName": "Rafael Enrico",
+                            "familyName": "Pribadi",
+                            "profileLink": "/en/players/rafael-enrico-pribadi/800770740/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "16R"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559120,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670194&player2Id=800748703",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670194,
+                            "nationality": "INA",
+                            "givenName": "Rafa Jeconia verdasco",
+                            "familyName": "Mangunsong",
+                            "profileLink": "/en/players/rafa-jeconia-verdasco-mangunsong/800670194/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 4,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800748703,
+                            "nationality": "INA",
+                            "givenName": "Reaven Rio",
+                            "familyName": "Suryana",
+                            "profileLink": "/en/players/reaven-rio-suryana/800748703/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559121,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800765326&player2Id=800584046",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800765326,
+                            "nationality": "INA",
+                            "givenName": "Komang Bagus Wahyu",
+                            "familyName": "Purustama",
+                            "profileLink": "/en/players/komang-bagus-wahyu-purustama/800765326/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800584046,
+                            "nationality": "SGP",
+                            "givenName": "Ethan Matthew",
+                            "familyName": "Koh",
+                            "profileLink": "/en/players/ethan-matthew-koh/800584046/sgp/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 6,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559122,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800719896&player2Id=800791513",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800719896,
+                            "nationality": "INA",
+                            "givenName": "MUCHAMMAD AZKA AZAM AL",
+                            "familyName": "ARSYAD",
+                            "profileLink": "/en/players/muchammad-azka-azam-al-arsyad/800719896/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800791513,
+                            "nationality": "INA",
+                            "givenName": "Muhammad Jafar",
+                            "familyName": "Harisah",
+                            "profileLink": "/en/players/muhammad-jafar-harisah/800791513/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559123,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800742197&player2Id=800670475",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800742197,
+                            "nationality": "INA",
+                            "givenName": "Mochamad Aryasatya D",
+                            "familyName": "Tarizky",
+                            "profileLink": "/en/players/mochamad-aryasatya-d-tarizky/800742197/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670475,
+                            "nationality": "INA",
+                            "givenName": "Joachim Mika",
+                            "familyName": "Gunawan",
+                            "profileLink": "/en/players/joachim-mika-gunawan/800670475/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 3,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559124,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800670352&player2Id=800796369",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800670352,
+                            "nationality": "INA",
+                            "givenName": "Rangga Wisnu Kresna",
+                            "familyName": "Rafansyah",
+                            "profileLink": "/en/players/rangga-wisnu-kresna-rafansyah/800670352/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 8,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800796369,
+                            "nationality": "INA",
+                            "givenName": "Ahmad Zulfan",
+                            "familyName": "Dwi Sadewa",
+                            "profileLink": "/en/players/ahmad-zulfan-dwi-sadewa/800796369/ina/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "WC"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559125,
+                    "h2hLink": "/en/head-to-head/?circuitCode=jt&player1Id=800789594&player2Id=800671150",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          {
+                            "playerId": 800789594,
+                            "nationality": "TPE",
+                            "givenName": "Cheng-Yu",
+                            "familyName": "Lin",
+                            "profileLink": "/en/players/cheng-yu-lin/800789594/tpe/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": "Q"
+                      },
+                      {
+                        "players": [
+                          {
+                            "playerId": 800671150,
+                            "nationality": "USA",
+                            "givenName": "Brandon",
+                            "familyName": "Duan",
+                            "profileLink": "/en/players/brandon-duan/800671150/usa/jt/s/",
+                            "hiddenPlayer": false
+                          },
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": 2,
+                        "tieNationCode": null,
+                        "entryStatus": "DA"
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Quarter-finals",
+                "roundNumber": 3,
+                "matches": [
+                  {
+                    "matchId": 1183559114,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559115,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559116,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559117,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Semi-finals",
+                "roundNumber": 4,
+                "matches": [
+                  {
+                    "matchId": 1183559112,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183559113,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Final",
+                "roundNumber": 5,
+                "matches": [
+                  {
+                    "matchId": 1183559111,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              }
+            ]
+          }
+        ],
+        "rrGroups": null
+      }
+    }
+  ]
+}

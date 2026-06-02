@@ -1,0 +1,551 @@
+{
+  "tournament": {
+    "week_start": "2026-06-01",
+    "week_end": "2026-06-07",
+    "search_start": "2026-05-30",
+    "search_end": "2026-06-07",
+    "tournament_id": "",
+    "tournament_key": "J-J30-NGR-2026-003",
+    "tournament_name": "J30 Abuja",
+    "promotional_name": "NASCO Group",
+    "category": "J30",
+    "host_nation": "Nigeria",
+    "host_nation_code": "NGR",
+    "location": "Abuja",
+    "venue": "Abuja",
+    "start_date": "2026-06-02",
+    "end_date": "2026-06-07",
+    "dates_raw": "02 Jun to 07 Jun 2026",
+    "surface": "Hard",
+    "surface_code": "H",
+    "indoor_outdoor": "Outdoor",
+    "tournament_link": "https://www.itftennis.com/en/tournament/j30-abuja/ngr/2026/j-j30-ngr-2026-003/",
+    "live_link": "",
+    "source_url": "https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=JT&searchString=&skip=0&take=100&nationCodes=&zoneCodes=&dateFrom=2026-05-30&dateTo=2026-06-07&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=&singlesDrawFormat=",
+    "collected_at": "2026-06-02T21:33:43.467Z",
+    "raw_json": "{\"tournamentName\":\"J30 Abuja\",\"dates\":\"02 Jun to 07 Jun 2026\",\"location\":\"Abuja\",\"category\":\"J30\",\"prizeMoney\":\"\",\"liveLink\":\"\",\"surfaceDesc\":\"Hard\",\"surfaceCode\":\"H\",\"tourStatusCode\":null,\"tourStatusDesc\":null,\"indoorOrOutDoor\":\"Outdoor\",\"isRecognised\":false,\"recognisedTournamentLink\":\"/en/about-us/governance/tournament-recognition/home/\",\"id\":0,\"name\":\"J30 Abuja\",\"promotionalName\":\"NASCO Group \",\"hostNation\":\"Nigeria\",\"hostNationCode\":\"NGR\",\"venue\":\"Abuja\",\"startDate\":\"2026-06-02T00:00:00\",\"endDate\":\"2026-06-07T00:00:00\",\"tournamentKey\":\"J-J30-NGR-2026-003\",\"tennisCategoryCode\":\"JT\",\"tournamentLink\":\"/en/tournament/j30-abuja/ngr/2026/j-j30-ngr-2026-003/\",\"hospitality\":null,\"year\":2026,\"liveStreamingUrl\":\"\"}"
+  },
+  "filters_url": "https://www.itftennis.com/tennis/api/TournamentApi/GetEventFilters?tournamentKey=j-j30-ngr-2026-003",
+  "filters_json": {
+    "tournamentId": 1100202080,
+    "tourType": "N",
+    "circuitCode": "JT",
+    "filters": [
+      {
+        "subFilter": [
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  },
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Round Robin",
+                    "valueCode": "RR"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Singles",
+            "valueCode": "S"
+          },
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Doubles",
+            "valueCode": "D"
+          }
+        ],
+        "filterName": "Player Type",
+        "dataName": "playerTypeCode",
+        "valueDesc": "Boys",
+        "valueCode": "B"
+      },
+      {
+        "subFilter": [
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  },
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Round Robin",
+                    "valueCode": "RR"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Singles",
+            "valueCode": "S"
+          },
+          {
+            "subFilter": [
+              {
+                "subFilter": [
+                  {
+                    "subFilter": null,
+                    "filterName": "Drawsheet Structure",
+                    "dataName": "drawsheetStructureCode",
+                    "valueDesc": "Knock-out",
+                    "valueCode": "KO"
+                  }
+                ],
+                "filterName": "Event Type",
+                "dataName": "eventClassificationCode",
+                "valueDesc": "Main Draw",
+                "valueCode": "M"
+              }
+            ],
+            "filterName": "Match Type",
+            "dataName": "matchTypeCode",
+            "valueDesc": "Doubles",
+            "valueCode": "D"
+          }
+        ],
+        "filterName": "Player Type",
+        "dataName": "playerTypeCode",
+        "valueDesc": "Girls",
+        "valueCode": "G"
+      }
+    ]
+  },
+  "raw_draws": [
+    {
+      "eventInfo": {
+        "tournamentId": 1100202080,
+        "tourType": "N",
+        "weekNumber": 0,
+        "circuitCode": "JT",
+        "playerTypeCode": "B",
+        "playerTypeDesc": "Boys",
+        "matchTypeCode": "S",
+        "matchTypeDesc": "Singles",
+        "eventClassificationCode": "M",
+        "eventClassificationDesc": "Main Draw",
+        "drawsheetStructureCode": "KO",
+        "drawsheetStructureDesc": "Knock-out"
+      },
+      "method_used": "POST",
+      "url": "https://www.itftennis.com/tennis/api/TournamentApi/GetDrawsheet",
+      "body": {
+        "tournamentId": 1100202080,
+        "tourType": "N",
+        "weekNumber": 0,
+        "playerTypeCode": "B",
+        "matchTypeCode": "S",
+        "eventClassificationCode": "M",
+        "drawsheetStructureCode": "KO"
+      },
+      "matches_count": 7,
+      "json": {
+        "eventId": 1100684028,
+        "drawsheetStructure": "KO",
+        "tourType": null,
+        "koGroups": [
+          {
+            "groupName": null,
+            "rounds": [
+              {
+                "roundDesc": "Quarter-finals",
+                "roundNumber": 1,
+                "matches": [
+                  {
+                    "matchId": 1183564979,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183564980,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183564981,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183564982,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Semi-finals",
+                "roundNumber": 2,
+                "matches": [
+                  {
+                    "matchId": 1183564977,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  },
+                  {
+                    "matchId": 1183564978,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              },
+              {
+                "roundDesc": "Final",
+                "roundNumber": 3,
+                "matches": [
+                  {
+                    "matchId": 1183564976,
+                    "h2hLink": "",
+                    "liveScoresLink": "",
+                    "teams": [
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      },
+                      {
+                        "players": [
+                          null,
+                          null
+                        ],
+                        "scores": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "isWinner": false,
+                        "seeding": null,
+                        "tieNationCode": null,
+                        "entryStatus": null
+                      }
+                    ],
+                    "playStatusCode": "TP",
+                    "playStatusDesc": "To be played",
+                    "resultStatusDesc": null,
+                    "resultStatusCode": null,
+                    "MatchTypeCode": null,
+                    "CircuitCode": null
+                  }
+                ],
+                "ties": null
+              }
+            ]
+          }
+        ],
+        "rrGroups": null
+      }
+    }
+  ]
+}
