@@ -11,6 +11,7 @@ const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
 const OUT_DIR_EXPORTS = path.resolve("data/exports");
 
 const HTML_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "live_ranking.html");
+const INDEX_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "index.html");
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_EXPORTS, { recursive: true });
@@ -1503,10 +1504,12 @@ async function main() {
   const html = buildHtml(rows, weekTournaments);
 
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
+  await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
 
   console.log("");
   console.log("HTML gerado:");
   console.log("data/exports/live_ranking.html");
+  console.log("data/exports/index.html");
   console.log("");
   console.log("Para abrir no navegador:");
   console.log(`file:///${HTML_OUTPUT_FILE.replaceAll("\\\\", "/")}`);
