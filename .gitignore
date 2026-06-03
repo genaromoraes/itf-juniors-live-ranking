@@ -143,3 +143,14 @@ vite.config.ts.timestamp-*
 .vite/
 logs/
 .env
+
+# Generated project data
+data/raw/
+data/exports/
+data/audit/
+logs/
+data/clean/*
+!data/clean/
+!data/clean/players.csv
+!data/clean/rankings_snapshot.csv
+!data/clean/points_ledger.csv
