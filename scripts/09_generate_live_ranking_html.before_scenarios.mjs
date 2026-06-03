@@ -224,74 +224,6 @@ function getLiveRoundLabel(resultText) {
   return parts[3] || "";
 }
 
-const ROUND_ORDER = ["R128", "R64", "R32", "R16", "QF", "SF", "F", "W"];
-
-const POINTS_BY_CATEGORY = {
-  JGS: { R128: 10, R64: 30, R32: 90, R16: 180, QF: 300, SF: 490, F: 700, W: 1000 },
-  J500: { R128: 5, R64: 15, R32: 45, R16: 90, QF: 150, SF: 245, F: 350, W: 500 },
-  J300: { R128: 3, R64: 9, R32: 27, R16: 54, QF: 90, SF: 147, F: 210, W: 300 },
-  J200: { R128: 2, R64: 6, R32: 18, R16: 36, QF: 60, SF: 98, F: 140, W: 200 },
-  J100: { R128: 1, R64: 3, R32: 9, R16: 18, QF: 30, SF: 49, F: 70, W: 100 },
-  J60: { R128: 0, R64: 2, R32: 5, R16: 11, QF: 18, SF: 29, F: 42, W: 60 },
-  J30: { R128: 0, R64: 1, R32: 2, R16: 5, QF: 9, SF: 15, F: 21, W: 30 },
-};
-
-function parseLiveResult(resultText) {
-  const parts = cleanText(resultText).split("|").map((part) => part.trim());
-  const pointsText = parts[0] || "";
-  const category = parts[2] || "";
-  const round = parts[3] || "";
-
-  return {
-    points: toNumber(pointsText),
-    category,
-    round,
-  };
-}
-
-function getLiveResultsFromBest(bestResults) {
-  return bestResults.filter((item) => item.toUpperCase().includes("LIVE"));
-}
-
-function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
-  const liveItems = getLiveResultsFromBest(bestResults);
-  if (!liveItems.length) return { nextRound: null, title: null };
-
-  const liveResult = parseLiveResult(liveItems[0]);
-  const category = liveResult.category || "JGS";
-  const categoryPoints = POINTS_BY_CATEGORY[category] || POINTS_BY_CATEGORY.JGS;
-  const currentRound = liveResult.round;
-  const currentPoints =
-    categoryPoints[currentRound] !== undefined
-      ? categoryPoints[currentRound]
-      : liveResult.points;
-
-  const currentIndex = ROUND_ORDER.indexOf(currentRound);
-  const nextRound = currentIndex >= 0 && currentIndex < ROUND_ORDER.length - 1
-    ? ROUND_ORDER[currentIndex + 1]
-    : null;
-
-  const nextRoundScenario = nextRound
-    ? {
-        eventType,
-        targetRound: nextRound,
-        projectedTotal:
-          livePoints + (categoryPoints[nextRound] - currentPoints) * multiplier,
-      }
-    : null;
-
-  const titleScenario = currentRound !== "W"
-    ? {
-        eventType,
-        targetRound: "W",
-        projectedTotal:
-          livePoints + (categoryPoints.W - currentPoints) * multiplier,
-      }
-    : null;
-
-  return { nextRound: nextRoundScenario, title: titleScenario };
-}
-
 function buildDataForHtml(rows) {
   return rows.map((row) => ({
     live_rank: toNumber(row.live_rank),
@@ -333,26 +265,6 @@ function buildDataForHtml(rows) {
     best_doubles: getBestDoubles(row),
 
     playing_this_week: getPlayingThisWeek(row),
-
-    next_round_scenarios: (() => {
-      const livePoints = toNumber(row.live_points);
-      const singles = getBestSingles(row);
-      const doubles = getBestDoubles(row);
-      const singlesScenario = getProjectedScenario(singles, livePoints, "singles", 1);
-      const doublesScenario = getProjectedScenario(doubles, livePoints, "doubles", 0.25);
-
-      return [singlesScenario.nextRound, doublesScenario.nextRound].filter(Boolean);
-    })(),
-
-    title_scenarios: (() => {
-      const livePoints = toNumber(row.live_points);
-      const singles = getBestSingles(row);
-      const doubles = getBestDoubles(row);
-      const singlesScenario = getProjectedScenario(singles, livePoints, "singles", 1);
-      const doublesScenario = getProjectedScenario(doubles, livePoints, "doubles", 0.25);
-
-      return [singlesScenario.title, doublesScenario.title].filter(Boolean);
-    })(),
 
     ranking_date: cleanText(row.ranking_date),
     calculated_at: cleanText(row.calculated_at),
@@ -969,7 +881,7 @@ td:nth-child(7) {
       <div>
         <h1>ITF Juniors Live Ranking</h1>
         <div class="creator">
-          Criado por Info Tênis Brasil
+          Criado por Info TÃªnis Brasil
           <a href="https://x.com/InfoTenisBrasil" target="_blank">X @InfoTenisBrasil</a>
           <span class="beta">BETA TEST</span>
         </div>
@@ -986,7 +898,7 @@ td:nth-child(7) {
         <div class="mini-control">
           <label>Idioma</label>
           <select id="languageSelect">
-            <option>Português</option>
+            <option>PortuguÃªs</option>
           </select>
         </div>
       </div>
@@ -995,11 +907,11 @@ td:nth-child(7) {
     <section class="filters">
       <div class="filter">
         <label>Buscar atleta</label>
-        <input id="searchInput" type="text" placeholder="Nome, país ou torneio" />
+        <input id="searchInput" type="text" placeholder="Nome, paÃ­s ou torneio" />
       </div>
 
       <div class="filter">
-        <label>Última atualização</label>
+        <label>Ãšltima atualizaÃ§Ã£o</label>
         <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
 
@@ -1030,13 +942,13 @@ td:nth-child(7) {
         <div class="ranking-card-header">
           <h2>Live ranking</h2>
           <div class="formula">
-            Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas
+            Pontos = âˆ‘ 6 melhores resultados de simples + âˆ‘ 25% dos 6 melhores resultados de duplas
           </div>
         </div>
 
         <div class="summary-row" style="padding: 12px 14px 0;">
           <span id="visibleSummary">Carregando...</span>
-          <span>Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
+          <span>Base oficial: ${escapeHtml(rankingDate || "nÃ£o informado")}</span>
         </div>
 
         <table>
@@ -1047,8 +959,8 @@ td:nth-child(7) {
               <th>Ano</th>
               <th>Pontos ao vivo</th>
               <th>Jogando esta<br />semana</th>
-              <th>Próx. rodada</th>
-              <th>Título</th>
+              <th>PrÃ³x. rodada</th>
+              <th>TÃ­tulo</th>
             </tr>
           </thead>
           <tbody id="rankingBody"></tbody>
@@ -1062,9 +974,9 @@ td:nth-child(7) {
         </section>
 
         <section class="side-card" id="profileCard">
-          <h3>Pontuações do atleta</h3>
+          <h3>PontuaÃ§Ãµes do atleta</h3>
           <div class="profile-empty">
-            Clique em um atleta da tabela para ver o resumo de pontuação.
+            Clique em um atleta da tabela para ver o resumo de pontuaÃ§Ã£o.
           </div>
         </section>
       </aside>
@@ -1159,32 +1071,28 @@ td:nth-child(7) {
       \`;
     }
 
-        function getNextRoundHtml(row) {
-      if (!row.next_round_scenarios || !row.next_round_scenarios.length) {
+    function getNextRoundHtml(row) {
+      if (row.has_live_result !== "true") {
         return '<span class="dash">-</span>';
       }
 
-      return row.next_round_scenarios
-        .map((scenario) => \`
-          <div class="small">
-            (\${scenario.eventType === "singles" ? "S" : "D"}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
-          </div>
-        \`)
-        .join("");
+      return \`
+        <div class="small">
+          A calcular
+        </div>
+      \`;
     }
 
     function getTitleHtml(row) {
-      if (!row.title_scenarios || !row.title_scenarios.length) {
+      if (row.has_live_result !== "true") {
         return '<span class="dash">-</span>';
       }
 
-      return row.title_scenarios
-        .map((scenario) => \`
-          <div class="small">
-            (\${scenario.eventType === "singles" ? "S" : "D"}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
-          </div>
-        \`)
-        .join("");
+      return \`
+        <div class="small">
+          A calcular
+        </div>
+      \`;
     }
 
     function passesFilters(row) {
@@ -1285,7 +1193,7 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
           <div class="result-card">
             <span class="result-status">\${escapeHtmlClient(source)}</span>
             <div><strong>\${escapeHtmlClient(tournament || "Torneio")}</strong></div>
-            <div class="small">\${escapeHtmlClient(category)} · \${escapeHtmlClient(date)} · \${escapeHtmlClient(round)}</div>
+            <div class="small">\${escapeHtmlClient(category)} Â· \${escapeHtmlClient(date)} Â· \${escapeHtmlClient(round)}</div>
             <div class="result-points">\${escapeHtmlClient(points)}</div>
           </div>
         \`;
@@ -1295,9 +1203,9 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
     function renderProfile(row) {
       if (!row) {
         profileCard.innerHTML = \`
-          <h3>Pontuações do atleta</h3>
+          <h3>PontuaÃ§Ãµes do atleta</h3>
           <div class="profile-empty">
-            Clique em um atleta da tabela para ver o resumo de pontuação.
+            Clique em um atleta da tabela para ver o resumo de pontuaÃ§Ã£o.
           </div>
         \`;
         return;
@@ -1306,22 +1214,22 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
       const flag = row.country_flag ? row.country_flag + " " : "";
 
       profileCard.innerHTML = \`
-        <h3>Pontuações do atleta</h3>
+        <h3>PontuaÃ§Ãµes do atleta</h3>
 
         <div class="profile-head">
           <div class="profile-flag">\${flag}</div>
           <div>
             <div class="profile-name">\${escapeHtmlClient(row.player_name)}</div>
             <div class="profile-meta">
-              oficial \${formatRankClient(row.official_rank)} · live \${formatRankClient(row.live_rank)} · \${formatChange(row.rank_change_vs_official)}
+              oficial \${formatRankClient(row.official_rank)} Â· live \${formatRankClient(row.live_rank)} Â· \${formatChange(row.rank_change_vs_official)}
             </div>
           </div>
         </div>
 
         <div class="profile-line">
-          <strong>\${formatNumberClient(row.live_points)}</strong> pontos ao vivo ·
-          oficial: \${formatNumberClient(row.official_points)} ·
-          máximo atual: \${formatNumberClient(row.live_points)}
+          <strong>\${formatNumberClient(row.live_points)}</strong> pontos ao vivo Â·
+          oficial: \${formatNumberClient(row.official_points)} Â·
+          mÃ¡ximo atual: \${formatNumberClient(row.live_points)}
           <br />
           \${statusTags(row)}
         </div>
@@ -1362,7 +1270,7 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
 
             <td class="player">
               <div class="player-name">\${flag}\${escapeHtmlClient(row.player_name)}</div>
-              <div class="player-meta">\${escapeHtmlClient(row.country)} · oficial \${formatRankClient(row.official_rank)}</div>
+              <div class="player-meta">\${escapeHtmlClient(row.country)} Â· oficial \${formatRankClient(row.official_rank)}</div>
             </td>
 
             <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
@@ -1427,8 +1335,8 @@ async function main() {
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
 
   console.log("");
-  console.log("HTML gerado:");
-  console.log("data/exports/live_ranking.html");
+  console.log("HTML v2 gerado:");
+  console.log("data/exports/live_ranking_v2.html");
   console.log("");
   console.log("Para abrir no navegador:");
   console.log(`file:///${HTML_OUTPUT_FILE.replaceAll("\\\\", "/")}`);
@@ -1440,4 +1348,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
