@@ -34,13 +34,45 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Restore generated data cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/clean/week_tournaments.csv
+            data/clean/week_tournaments_debug_all.csv
+            data/clean/week_matches.csv
+            data/clean/week_player_results.csv
+            data/clean/week_results_errors.csv
+            data/clean/week_results_summary.csv
+            data/clean/week_live_points.csv
+            data/clean/week_live_ledger_rows.csv
+            data/clean/live_combined_ledger_with_drops.csv
+            data/clean/live_dropped_points.csv
+            data/clean/live_ranking_with_drops.csv
+            data/clean/live_ranking_with_drops_top500.csv
+            data/clean/live_ranking_with_drops_changes.csv
+          key: live-ranking-data-${{ github.run_id }}
+          restore-keys: |
+            live-ranking-data-
+
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright Chromium
+        if: github.event_name != 'push'
         run: npx playwright install --with-deps chromium
 
-      - name: Build live ranking
+      - name: Check cached data for push deploy
+        if: github.event_name == 'push'
+        run: |
+          node -e "const fs=require('fs'); const files=['data/clean/week_tournaments.csv','data/clean/week_matches.csv','data/clean/week_player_results.csv']; const missing=files.filter((file)=>!fs.existsSync(file)); if (missing.length) { console.error('Missing generated data cache for push deploy:'); for (const file of missing) console.error('- '+file); console.error('Run the workflow manually once to execute npm run update:full and refresh the cache.'); process.exit(1); }"
+
+      - name: Build live ranking without scraping
+        if: github.event_name == 'push'
+        run: npm run update
+
+      - name: Build live ranking with fresh ITF data
+        if: github.event_name != 'push'
         run: npm run update:full
 
       - name: Upload Pages artifact

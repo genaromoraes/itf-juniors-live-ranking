@@ -66,6 +66,15 @@ Para buscar resultados novos da ITF e publicar dados atualizados:
 npm.cmd run update:full
 ```
 
+## Publicação no GitHub Pages
+
+O workflow de GitHub Pages separa os cenários:
+
+- Em `push` na branch `main`, usa dados gerados em cache e roda `npm run update`, sem scraping.
+- Em execução agendada ou manual, roda `npm run update:full`, busca dados novos da ITF e atualiza o cache.
+
+Isso evita gastar tempo buscando torneios/resultados quando a mudança é apenas visual.
+
 ## Política de dados
 
 O repositório mantém versionados apenas os dados-base essenciais para reproduzir o cálculo principal:
