@@ -13,6 +13,7 @@ const WEEK_PLAYER_RESULTS_FILE = path.resolve(
 const WEEK_LIVE_LEDGER_ROWS_FILE = path.resolve(
   "data/clean/week_live_ledger_rows.csv"
 );
+const DROPPED_POINTS_FILE = path.resolve("data/clean/live_dropped_points.csv");
 
 const OUT_DIR_EXPORTS = path.resolve("data/exports");
 
@@ -315,6 +316,77 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
   return map;
 }
 
+function getRankingImpact(row) {
+  const points = toNumber(row.points);
+  const eventType = cleanText(row.event_type).toLowerCase();
+
+  if (eventType === "doubles") {
+    return Number((points * 0.25).toFixed(2));
+  }
+
+  return points;
+}
+
+function getEventShortLabel(row) {
+  const eventType = cleanText(row.event_type).toLowerCase();
+
+  if (eventType === "singles") return "S";
+  if (eventType === "doubles") return "D";
+
+  return eventType.toUpperCase();
+}
+
+function buildPointDetail(row) {
+  const rawPoints = toNumber(row.points);
+  const impactPoints = getRankingImpact(row);
+
+  return {
+    event: getEventShortLabel(row),
+    tournament: cleanText(row.tournament_name),
+    category: cleanText(row.category),
+    round: cleanText(row.round),
+    raw_points: rawPoints,
+    impact_points: impactPoints,
+  };
+}
+
+function buildPointDetailsMap(weekLiveLedgerRows, droppedRows) {
+  const map = new Map();
+
+  function getPlayerDetails(playerId) {
+    if (!map.has(playerId)) {
+      map.set(playerId, { live: [], drops: [] });
+    }
+
+    return map.get(playerId);
+  }
+
+  for (const row of weekLiveLedgerRows) {
+    const playerId = cleanText(row.player_id);
+    const impactPoints = getRankingImpact(row);
+
+    if (!playerId || impactPoints <= 0) continue;
+
+    getPlayerDetails(playerId).live.push(buildPointDetail(row));
+  }
+
+  for (const row of droppedRows) {
+    const playerId = cleanText(row.player_id);
+    const impactPoints = getRankingImpact(row);
+
+    if (!playerId || impactPoints <= 0) continue;
+
+    getPlayerDetails(playerId).drops.push(buildPointDetail(row));
+  }
+
+  for (const details of map.values()) {
+    details.live.sort((a, b) => b.impact_points - a.impact_points);
+    details.drops.sort((a, b) => b.impact_points - a.impact_points);
+  }
+
+  return map;
+}
+
 const ROUND_ORDER = ["R128", "R64", "R32", "R16", "QF", "SF", "F", "W"];
 
 const POINTS_BY_CATEGORY = {
@@ -383,7 +455,11 @@ function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
   return { nextRound: nextRoundScenario, title: titleScenario };
 }
 
-function buildDataForHtml(rows, weekParticipationMap = new Map()) {
+function buildDataForHtml(
+  rows,
+  weekParticipationMap = new Map(),
+  pointDetailsMap = new Map()
+) {
   return rows.map((row) => ({
     live_rank: toNumber(row.live_rank),
     official_rank: toNumber(row.official_rank),
@@ -425,6 +501,8 @@ function buildDataForHtml(rows, weekParticipationMap = new Map()) {
 
     playing_this_week:
       weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
+    point_details:
+      pointDetailsMap.get(cleanText(row.player_id)) || { live: [], drops: [] },
 
     next_round_scenarios: (() => {
       const livePoints = toNumber(row.live_points);
@@ -530,8 +608,8 @@ function getStats(rows) {
   };
 }
 
-function buildHtml(rows, weekTournaments, weekParticipationMap) {
-  const data = buildDataForHtml(rows, weekParticipationMap);
+function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap) {
+  const data = buildDataForHtml(rows, weekParticipationMap, pointDetailsMap);
   const stats = getStats(rows);
   const tournamentGroups = groupWeekTournaments(weekTournaments);
 
@@ -816,6 +894,71 @@ function buildHtml(rows, weekTournaments, weekParticipationMap) {
   font-size: 15px;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+}
+
+    .points-cell {
+  min-width: 170px;
+}
+
+    .points-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+    .points-balance {
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+    .points-info-button {
+  margin-top: 6px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--green-dark);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+    .points-info-button:hover {
+  background: var(--panel-soft);
+}
+
+    .points-detail {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+}
+
+    .points-detail-section + .points-detail-section {
+  margin-top: 8px;
+}
+
+    .points-detail-title {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+    .points-detail-line {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #334155;
+  overflow-wrap: anywhere;
+}
+
+    .points-detail-impact {
+  font-weight: 950;
+  white-space: nowrap;
 }
 
     .small {
@@ -1171,6 +1314,7 @@ td:nth-child(7) {
     const profileCard = document.getElementById("profileCard");
 
     let selectedPlayerId = "";
+    let expandedPointsPlayerId = "";
 
     function escapeHtmlClient(value) {
       return String(value ?? "")
@@ -1242,33 +1386,67 @@ td:nth-child(7) {
       return "";
     }
 
-    function getPointsOriginText(row) {
-      const hasLive = row.has_live_result === "true";
-      const hasDrop = row.has_dropped_result === "true";
-      const singlesCount = Number(row.live_singles_results_counting || 0);
-      const doublesCount = Number(row.live_doubles_results_counting || 0);
-      const dropCount = Number(row.dropped_rows_count || 0);
-
-      if (hasLive && hasDrop) {
-        return "LIVE " + singlesCount + "S/" + doublesCount + "D · DROP " + dropCount;
-      } else if (hasLive) {
-        return "LIVE " + singlesCount + "S/" + doublesCount + "D";
-      } else if (hasDrop) {
-        return "DROP " + dropCount;
-      }
-      return "BASE";
-    }
-
     function getPointsHtml(row) {
       const balance = Number(row.points_change_vs_official || 0);
       const balanceClass = getBalanceClass(balance);
       const balanceSign = getBalanceSign(balance);
-      const originText = getPointsOriginText(row);
-
       const colorVar = balanceClass === 'green' ? 'green' : balanceClass === 'red' ? 'red' : 'muted';
-      return '<div class="points">' + formatNumberClient(row.live_points) + '</div>' +
-             '<div class="small" style="color: var(--' + colorVar + '); font-weight: 700;">' + balanceSign + formatNumberClient(balance) + ' na semana</div>' +
-             '<div class="small">' + escapeHtmlClient(originText) + '</div>';
+      const isExpanded = expandedPointsPlayerId === row.player_id;
+      const liveDetails = row.point_details?.live || [];
+      const dropDetails = row.point_details?.drops || [];
+      const hasDetails = liveDetails.length || dropDetails.length;
+      const buttonLabel = isExpanded ? "menos info" : "+ info";
+
+      return '<div class="points-cell">' +
+             '<div class="points-main">' +
+             '<span class="points">' + formatNumberClient(row.live_points) + '</span>' +
+             '<span class="points-balance" style="color: var(--' + colorVar + ');">' +
+             balanceSign + formatNumberClient(balance) +
+             '</span>' +
+             '</div>' +
+             '<div class="small">saldo vs. ranking oficial da semana</div>' +
+             (hasDetails
+               ? '<button class="points-info-button" type="button" onclick="togglePointsInfo(event, \\'' + escapeHtmlClient(row.player_id) + '\\')">' + buttonLabel + '</button>'
+               : '<div class="small">sem entradas ou drops nesta semana</div>') +
+             (isExpanded ? getPointsDetailHtml(row) : '') +
+             '</div>';
+    }
+
+    function getPointDetailLineHtml(item, sign, className) {
+      const raw = Number(item.raw_points || 0);
+      const impact = Number(item.impact_points || 0);
+      const rawText = raw !== impact ? ' <span class="small">(' + formatNumberClient(raw) + ' bruto)</span>' : '';
+      const context = [
+        item.event ? '(' + item.event + ')' : '',
+        item.category,
+        item.round,
+      ].filter(Boolean).join(' ');
+
+      return '<div class="points-detail-line">' +
+             '<span class="points-detail-impact ' + className + '">' + sign + formatNumberClient(impact) + '</span>' +
+             rawText +
+             ' · ' + escapeHtmlClient(item.tournament || "Torneio") +
+             (context ? ' · ' + escapeHtmlClient(context) : '') +
+             '</div>';
+    }
+
+    function getPointsDetailSectionHtml(title, items, sign, className) {
+      if (!items.length) return "";
+
+      return '<div class="points-detail-section">' +
+             '<div class="points-detail-title">' + title + '</div>' +
+             items.map((item) => getPointDetailLineHtml(item, sign, className)).join("") +
+             '</div>';
+    }
+
+    function getPointsDetailHtml(row) {
+      const liveDetails = row.point_details?.live || [];
+      const dropDetails = row.point_details?.drops || [];
+
+      return '<div class="points-detail">' +
+             getPointsDetailSectionHtml("Entrando", liveDetails, "+", "up") +
+             getPointsDetailSectionHtml("Caindo", dropDetails, "-", "down") +
+             '</div>';
     }
 
     function getWeeklyBalanceHtml(row) {
@@ -1518,7 +1696,6 @@ td:nth-child(7) {
 
             <td>
               \${getPointsHtml(row)}
-              <div class="small">\${statusTags(row)}</div>
             </td>
 
             <td class="week-cell">
@@ -1544,7 +1721,14 @@ td:nth-child(7) {
       renderTable();
     }
 
+    function togglePointsInfo(event, playerId) {
+      event.stopPropagation();
+      expandedPointsPlayerId = expandedPointsPlayerId === playerId ? "" : playerId;
+      renderTable();
+    }
+
     window.selectPlayer = selectPlayer;
+    window.togglePointsInfo = togglePointsInfo;
 
     searchInput.addEventListener("input", renderTable);
     genderFilter.addEventListener("change", () => {
@@ -1577,12 +1761,22 @@ async function main() {
   console.log("Lendo week_live_ledger_rows.csv...");
   const weekLiveLedgerRows = await readCsv(WEEK_LIVE_LEDGER_ROWS_FILE);
 
+  console.log("Lendo live_dropped_points.csv...");
+  const droppedRows = await readCsv(DROPPED_POINTS_FILE);
+
   const weekParticipationMap = buildWeekParticipationMap(
     weekPlayerResults,
     weekLiveLedgerRows
   );
 
-  const html = buildHtml(rows, weekTournaments, weekParticipationMap);
+  const pointDetailsMap = buildPointDetailsMap(weekLiveLedgerRows, droppedRows);
+
+  const html = buildHtml(
+    rows,
+    weekTournaments,
+    weekParticipationMap,
+    pointDetailsMap
+  );
 
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
   await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
