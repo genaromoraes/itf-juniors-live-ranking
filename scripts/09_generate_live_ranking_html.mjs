@@ -1142,6 +1142,82 @@ td:nth-child(7) {
       return tags.join("");
     }
 
+    function getBalanceClass(value) {
+      const n = Number(value || 0);
+      if (n > 0) return "green";
+      if (n < 0) return "red";
+      return "gray";
+    }
+
+    function getBalanceSign(value) {
+      const n = Number(value || 0);
+      if (n > 0) return "+";
+      return "";
+    }
+
+    function getPointsOriginText(row) {
+      const hasLive = row.has_live_result === "true";
+      const hasDrop = row.has_dropped_result === "true";
+      const singlesCount = Number(row.live_singles_results_counting || 0);
+      const doublesCount = Number(row.live_doubles_results_counting || 0);
+      const dropCount = Number(row.dropped_rows_count || 0);
+
+      if (hasLive && hasDrop) {
+        return "LIVE " + singlesCount + "S/" + doublesCount + "D · DROP " + dropCount;
+      } else if (hasLive) {
+        return "LIVE " + singlesCount + "S/" + doublesCount + "D";
+      } else if (hasDrop) {
+        return "DROP " + dropCount;
+      }
+      return "BASE";
+    }
+
+    function getPointsHtml(row) {
+      const balance = Number(row.points_change_vs_official || 0);
+      const balanceClass = getBalanceClass(balance);
+      const balanceSign = getBalanceSign(balance);
+      const originText = getPointsOriginText(row);
+
+      const colorVar = balanceClass === 'green' ? 'green' : balanceClass === 'red' ? 'red' : 'muted';
+      return '<div class="points">' + formatNumberClient(row.live_points) + '</div>' +
+             '<div class="small" style="color: var(--' + colorVar + '); font-weight: 700;">' + balanceSign + formatNumberClient(balance) + ' na semana</div>' +
+             '<div class="small">' + escapeHtmlClient(originText) + '</div>';
+    }
+
+    function getWeeklyBalanceHtml(row) {
+      const balance = Number(row.points_change_vs_official || 0);
+      const liveRaw = Number(row.live_raw_points_available || 0);
+      const estimatedDropped = Number(row.estimated_weighted_dropped || 0);
+      const singlesCount = Number(row.live_singles_results_counting || 0);
+      const doublesCount = Number(row.live_doubles_results_counting || 0);
+      const dropCount = Number(row.dropped_rows_count || 0);
+      const balanceClass = getBalanceClass(balance);
+      const balanceSign = getBalanceSign(balance);
+      const colorVar = balanceClass === 'green' ? 'green' : balanceClass === 'red' ? 'red' : 'muted';
+
+      return '<div class="profile-section">' +
+             '<div class="profile-section-title">Saldo da semana</div>' +
+             '<div class="profile-line">' +
+             '<strong style="color: var(--' + colorVar + ');">Saldo: ' + balanceSign + formatNumberClient(balance) + '</strong>' +
+             '</div>' +
+             '<div class="profile-line">' +
+             'Entrando live: ' + formatNumberClient(liveRaw) + ' bruto' +
+             '</div>' +
+             '<div class="profile-line">' +
+             'Drops estimados: ' + formatNumberClient(estimatedDropped) +
+             '</div>' +
+             '<div class="profile-line">' +
+             'Live no ranking: ' + singlesCount + 'S / ' + doublesCount + 'D' +
+             '</div>' +
+             '<div class="profile-line">' +
+             'Resultados dropados: ' + dropCount +
+             '</div>' +
+             '<div class="small" style="color: var(--muted); margin-top: 8px; font-style: italic;">' +
+             'Nota: O saldo final considera a recomposição dos 6 melhores resultados, portanto pode diferir do bruto menos drops.' +
+             '</div>' +
+             '</div>';
+    }
+
     function getPlayingHtml(row) {
       if (!row.playing_this_week) {
         return '<span class="dash">-</span>';
@@ -1326,6 +1402,8 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
           \${statusTags(row)}
         </div>
 
+        \${getWeeklyBalanceHtml(row)}
+
         <div class="profile-section">
           <div class="profile-section-title">Simples</div>
           \${renderResultCards(row.best_singles)}
@@ -1368,7 +1446,7 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
             <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
 
             <td>
-              <div class="points">\${formatNumberClient(row.live_points)}</div>
+              \${getPointsHtml(row)}
               <div class="small">\${statusTags(row)}</div>
             </td>
 
