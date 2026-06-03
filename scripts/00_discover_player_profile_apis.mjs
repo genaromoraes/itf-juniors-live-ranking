@@ -4,6 +4,7 @@ import { chromium } from "playwright";
 
 const OUT_DIR_RAW = path.resolve("data/raw");
 const TODAY = new Date().toISOString().slice(0, 10);
+const IS_CI = process.env.CI === "true";
 
 const PLAYER_URL =
   "https://www.itftennis.com/en/players/ksenia-efremova/800591535/fra/jt/s/";
@@ -97,7 +98,7 @@ function findInterestingArrays(json) {
 
 async function main() {
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({

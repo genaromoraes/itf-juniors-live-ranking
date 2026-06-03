@@ -5,6 +5,7 @@ import { stringify } from "csv-stringify/sync";
 
 const TOP_LIMIT = 500;
 const PAGE_SIZE = 100;
+const IS_CI = process.env.CI === "true";
 
 const OUT_DIR_RAW = path.resolve("data/raw");
 const OUT_DIR_CLEAN = path.resolve("data/clean");
@@ -478,7 +479,7 @@ async function main() {
   console.log("Abrindo navegador para criar sessão com a ITF...");
 
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({

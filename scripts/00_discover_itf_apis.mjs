@@ -4,6 +4,7 @@ import { chromium } from "playwright";
 
 const OUT_DIR_RAW = path.resolve("data/raw");
 const TODAY = new Date().toISOString().slice(0, 10);
+const IS_CI = process.env.CI === "true";
 
 await fs.mkdir(OUT_DIR_RAW, { recursive: true });
 
@@ -75,7 +76,7 @@ function extractRankingRows(json) {
 
 async function main() {
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({

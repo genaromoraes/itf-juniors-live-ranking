@@ -5,6 +5,7 @@ import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
 const LIMIT_PER_GENDER = 500;
+const IS_CI = process.env.CI === "true";
 
 // Controle de velocidade
 const DELAY_BETWEEN_PLAYERS_MS = 5000;
@@ -521,7 +522,7 @@ async function main() {
   console.log("Abrindo navegador para criar sessão com a ITF...");
 
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({

@@ -5,6 +5,7 @@ import { stringify } from "csv-stringify/sync";
 
 const OUT_DIR_RAW = path.resolve("data/raw");
 const OUT_DIR_CLEAN = path.resolve("data/clean");
+const IS_CI = process.env.CI === "true";
 
 const TODAY = new Date().toISOString().slice(0, 10);
 
@@ -496,7 +497,7 @@ async function main() {
   });
 
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({

@@ -3,6 +3,7 @@ import path from "path";
 import { chromium } from "playwright";
 
 const OUT_FILE = path.resolve("data/raw/calendar_debug_fields.json");
+const IS_CI = process.env.CI === "true";
 
 const CALENDAR_PAGE =
   "https://www.itftennis.com/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
@@ -29,7 +30,7 @@ function findArraysDeep(value, arrays = []) {
 async function main() {
   await fs.mkdir("data/raw", { recursive: true });
 
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ headless: IS_CI ? true : false });
 
   const context = await browser.newContext({
     viewport: { width: 1400, height: 900 },

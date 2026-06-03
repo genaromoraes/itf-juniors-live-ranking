@@ -5,6 +5,7 @@ import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
 const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
+const IS_CI = process.env.CI === "true";
 
 const OUT_DIR_RAW = path.resolve("data/raw/week_results");
 const OUT_DIR_CLEAN = path.resolve("data/clean");
@@ -855,7 +856,7 @@ async function main() {
   console.log(`Tentativas por request: ${MAX_RETRIES}`);
 
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({

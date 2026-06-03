@@ -5,6 +5,7 @@ import { parse } from "csv-parse/sync";
 
 const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
 const OUT_DIR = path.resolve("data/raw/tournament_api_discovery");
+const IS_CI = process.env.CI === "true";
 
 const TARGET_TOURNAMENT_KEY = "J-JGS-FRA-2026-001";
 
@@ -161,7 +162,7 @@ async function main() {
   console.log(tournamentUrl);
 
   const browser = await chromium.launch({
-    headless: false,
+    headless: IS_CI ? true : false,
   });
 
   const context = await browser.newContext({
