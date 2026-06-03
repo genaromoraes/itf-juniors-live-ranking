@@ -7,6 +7,12 @@ const LIVE_RANKING_FILE = path.resolve(
 );
 
 const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
+const WEEK_PLAYER_RESULTS_FILE = path.resolve(
+  "data/clean/week_player_results.csv"
+);
+const WEEK_LIVE_LEDGER_ROWS_FILE = path.resolve(
+  "data/clean/week_live_ledger_rows.csv"
+);
 
 const OUT_DIR_EXPORTS = path.resolve("data/exports");
 
@@ -225,6 +231,79 @@ function getLiveRoundLabel(resultText) {
   return parts[3] || "";
 }
 
+function normalizeWeekEventType(row) {
+  const eventType = cleanText(row.event_type).toLowerCase();
+  const matchType = cleanText(row.match_type_code).toUpperCase();
+
+  if (eventType === "singles" || matchType === "S") return "singles";
+  if (eventType === "doubles" || matchType === "D") return "doubles";
+
+  return eventType || matchType.toLowerCase();
+}
+
+function getWeekTournamentKey(row) {
+  return cleanText(row.tournament_key) || cleanText(row.tournament_name);
+}
+
+function buildLiveRoundMap(weekLiveLedgerRows) {
+  const map = new Map();
+
+  for (const row of weekLiveLedgerRows) {
+    const playerId = cleanText(row.player_id);
+    const tournamentKey = getWeekTournamentKey(row);
+    const eventType = normalizeWeekEventType(row);
+    const round = cleanText(row.round);
+
+    if (!playerId || !tournamentKey || !eventType || !round) continue;
+
+    map.set([playerId, tournamentKey, eventType].join("|"), round);
+  }
+
+  return map;
+}
+
+function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
+  const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
+  const map = new Map();
+
+  for (const row of weekPlayerResults) {
+    const playerId = cleanText(row.player_id);
+    const tournamentKey = getWeekTournamentKey(row);
+    const tournament = cleanText(row.tournament_name);
+    const eventType = normalizeWeekEventType(row);
+
+    if (!playerId || !tournamentKey || !tournament || !eventType) continue;
+
+    const participation =
+      map.get(playerId) ||
+      {
+        tournament,
+        tournamentKey,
+        singlesSummary: "",
+        doublesSummary: "",
+      };
+
+    if (participation.tournamentKey !== tournamentKey) continue;
+
+    const liveRound =
+      liveRoundMap.get([playerId, tournamentKey, eventType].join("|")) ||
+      liveRoundMap.get([playerId, tournament, eventType].join("|"));
+    const round = liveRound || cleanText(row.highest_round_name);
+
+    if (eventType === "singles" && round) {
+      participation.singlesSummary = `Simples: ${round}`;
+    }
+
+    if (eventType === "doubles" && round) {
+      participation.doublesSummary = `Duplas: ${round}`;
+    }
+
+    map.set(playerId, participation);
+  }
+
+  return map;
+}
+
 const ROUND_ORDER = ["R128", "R64", "R32", "R16", "QF", "SF", "F", "W"];
 
 const POINTS_BY_CATEGORY = {
@@ -293,7 +372,7 @@ function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
   return { nextRound: nextRoundScenario, title: titleScenario };
 }
 
-function buildDataForHtml(rows) {
+function buildDataForHtml(rows, weekParticipationMap = new Map()) {
   return rows.map((row) => ({
     live_rank: toNumber(row.live_rank),
     official_rank: toNumber(row.official_rank),
@@ -333,7 +412,8 @@ function buildDataForHtml(rows) {
     best_singles: getBestSingles(row),
     best_doubles: getBestDoubles(row),
 
-    playing_this_week: getPlayingThisWeek(row),
+    playing_this_week:
+      weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
 
     next_round_scenarios: (() => {
       const livePoints = toNumber(row.live_points);
@@ -439,8 +519,8 @@ function getStats(rows) {
   };
 }
 
-function buildHtml(rows, weekTournaments) {
-  const data = buildDataForHtml(rows);
+function buildHtml(rows, weekTournaments, weekParticipationMap) {
+  const data = buildDataForHtml(rows, weekParticipationMap);
   const stats = getStats(rows);
   const tournamentGroups = groupWeekTournaments(weekTournaments);
 
@@ -1501,7 +1581,18 @@ async function main() {
   console.log("Lendo week_tournaments.csv...");
   const weekTournaments = await readCsv(WEEK_TOURNAMENTS_FILE);
 
-  const html = buildHtml(rows, weekTournaments);
+  console.log("Lendo week_player_results.csv...");
+  const weekPlayerResults = await readCsv(WEEK_PLAYER_RESULTS_FILE);
+
+  console.log("Lendo week_live_ledger_rows.csv...");
+  const weekLiveLedgerRows = await readCsv(WEEK_LIVE_LEDGER_ROWS_FILE);
+
+  const weekParticipationMap = buildWeekParticipationMap(
+    weekPlayerResults,
+    weekLiveLedgerRows
+  );
+
+  const html = buildHtml(rows, weekTournaments, weekParticipationMap);
 
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
   await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
