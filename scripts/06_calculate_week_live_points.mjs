@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { pathToFileURL } from "url";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
@@ -26,6 +27,9 @@ const WEEK_LIVE_LEDGER_ROWS_FILE = path.join(
   OUT_DIR_CLEAN,
   "week_live_ledger_rows.csv"
 );
+
+const DOUBLES_RAW_POINTS_FACTOR = 0.75;
+const DOUBLES_RANKING_WEIGHT = 0.25;
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_CLEAN, { recursive: true });
@@ -336,7 +340,29 @@ function getRoundLabelFromResult(row, maxRoundOrderByEvent) {
   return getMainDrawRoundLabel(row, maxRoundOrderByEvent);
 }
 
-function getLivePoints(row, roundLabel, pointsMap) {
+function isMainDrawFirstRoundLoss(row) {
+  const eventClassification = normalizeEventClassification(
+    row.event_classification_code
+  );
+
+  return (
+    eventClassification === "main_draw" &&
+    toNumber(row.wins) === 0 &&
+    toNumber(row.losses) > 0
+  );
+}
+
+function adjustRawLivePointsForEventType(points, eventType) {
+  if (eventType !== "doubles") return points;
+
+  return Number((points * DOUBLES_RAW_POINTS_FACTOR).toFixed(2));
+}
+
+export function getLivePoints(row, roundLabel, pointsMap) {
+  if (isMainDrawFirstRoundLoss(row)) {
+    return 0;
+  }
+
   const category = normalizeCategory(row.category);
   const eventType = normalizeMatchType(row.match_type_code);
   const eventClassification = normalizeEventClassification(
@@ -351,13 +377,13 @@ function getLivePoints(row, roundLabel, pointsMap) {
   ].join("|");
 
   if (pointsMap.has(key)) {
-    return pointsMap.get(key);
+    return adjustRawLivePointsForEventType(pointsMap.get(key), eventType);
   }
 
   return 0;
 }
 
-function buildLivePointRows(playerResults, matchRows, pointsMap) {
+export function buildLivePointRows(playerResults, matchRows, pointsMap) {
   const maxRoundOrderByEvent = buildMaxRoundOrderByEventFromMatches(matchRows);
 
   return playerResults.map((row) => {
@@ -373,7 +399,9 @@ function buildLivePointRows(playerResults, matchRows, pointsMap) {
     const livePoints = getLivePoints(row, roundLabel, pointsMap);
 
     const doublesWeightedPoints =
-      eventType === "doubles" ? Number((livePoints / 4).toFixed(2)) : "";
+      eventType === "doubles"
+        ? Number((livePoints * DOUBLES_RANKING_WEIGHT).toFixed(2))
+        : "";
 
     return {
       tournament_key: row.tournament_key,
@@ -600,9 +628,11 @@ async function main() {
   console.log("data/config/junior_points_table.csv");
 }
 
-main().catch((err) => {
-  console.error("");
-  console.error("Erro fatal:");
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error("");
+    console.error("Erro fatal:");
+    console.error(err);
+    process.exit(1);
+  });
+}
