@@ -482,6 +482,22 @@ function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
   return { nextRound: nextRoundScenario, title: titleScenario };
 }
 
+function combineProjectedScenarios(singlesScenario, doublesScenario, livePoints) {
+  if (!singlesScenario || !doublesScenario) return null;
+
+  const singlesGain = singlesScenario.projectedTotal - livePoints;
+  const doublesGain = doublesScenario.projectedTotal - livePoints;
+  const sameRound = singlesScenario.targetRound === doublesScenario.targetRound;
+
+  return {
+    eventType: "combined",
+    targetRound: sameRound
+      ? singlesScenario.targetRound
+      : `${singlesScenario.targetRound}/${doublesScenario.targetRound}`,
+    projectedTotal: livePoints + singlesGain + doublesGain,
+  };
+}
+
 function buildDataForHtml(
   rows,
   weekParticipationMap = new Map(),
@@ -537,8 +553,17 @@ function buildDataForHtml(
       const doubles = getBestDoubles(row);
       const singlesScenario = getProjectedScenario(singles, livePoints, "singles", 1);
       const doublesScenario = getProjectedScenario(doubles, livePoints, "doubles", 0.25);
+      const combinedScenario = combineProjectedScenarios(
+        singlesScenario.nextRound,
+        doublesScenario.nextRound,
+        livePoints
+      );
 
-      return [singlesScenario.nextRound, doublesScenario.nextRound].filter(Boolean);
+      return [
+        singlesScenario.nextRound,
+        doublesScenario.nextRound,
+        combinedScenario,
+      ].filter(Boolean);
     })(),
 
     title_scenarios: (() => {
@@ -547,8 +572,17 @@ function buildDataForHtml(
       const doubles = getBestDoubles(row);
       const singlesScenario = getProjectedScenario(singles, livePoints, "singles", 1);
       const doublesScenario = getProjectedScenario(doubles, livePoints, "doubles", 0.25);
+      const combinedScenario = combineProjectedScenarios(
+        singlesScenario.title,
+        doublesScenario.title,
+        livePoints
+      );
 
-      return [singlesScenario.title, doublesScenario.title].filter(Boolean);
+      return [
+        singlesScenario.title,
+        doublesScenario.title,
+        combinedScenario,
+      ].filter(Boolean);
     })(),
 
     ranking_date: cleanText(row.ranking_date),
@@ -1545,7 +1579,7 @@ td:nth-child(7) {
       \`;
     }
 
-        function getNextRoundHtml(row) {
+    function getNextRoundHtml(row) {
       if (!row.next_round_scenarios || !row.next_round_scenarios.length) {
         return '<span class="dash">-</span>';
       }
@@ -1553,10 +1587,17 @@ td:nth-child(7) {
       return row.next_round_scenarios
         .map((scenario) => \`
           <div class="small">
-            (\${scenario.eventType === "singles" ? "S" : "D"}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
+            (\${getScenarioEventLabel(scenario)}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
           </div>
         \`)
         .join("");
+    }
+
+    function getScenarioEventLabel(scenario) {
+      if (scenario.eventType === "singles") return "S";
+      if (scenario.eventType === "doubles") return "D";
+      if (scenario.eventType === "combined") return "S+D";
+      return "";
     }
 
     function getTitleHtml(row) {
@@ -1567,7 +1608,7 @@ td:nth-child(7) {
       return row.title_scenarios
         .map((scenario) => \`
           <div class="small">
-            (\${scenario.eventType === "singles" ? "S" : "D"}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
+            (\${getScenarioEventLabel(scenario)}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
           </div>
         \`)
         .join("");
