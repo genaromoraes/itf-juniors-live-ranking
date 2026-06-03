@@ -363,16 +363,20 @@ function getEventShortLabel(row) {
   return eventType.toUpperCase();
 }
 
+function getTournamentYear(row) {
+  const startDate = cleanText(row.start_date);
+  const match = startDate.match(/\d{4}/);
+
+  return match ? match[0] : "";
+}
+
 function buildPointDetail(row) {
-  const rawPoints = toNumber(row.points);
   const impactPoints = getRankingImpact(row);
 
   return {
     event: getEventShortLabel(row),
     tournament: cleanText(row.tournament_name),
-    category: cleanText(row.category),
-    round: cleanText(row.round),
-    raw_points: rawPoints,
+    year: getTournamentYear(row),
     impact_points: impactPoints,
   };
 }
@@ -1496,15 +1500,14 @@ td:nth-child(7) {
     }
 
     function getPointDetailLineHtml(item, sign, className) {
-      const raw = Number(item.raw_points || 0);
       const impact = Number(item.impact_points || 0);
-      const rawText = raw !== impact ? ' <span class="small">(' + formatNumberClient(raw) + ' bruto)</span>' : '';
+      const yearText = item.year ? ' ' + escapeHtmlClient(item.year) : '';
       const eventText = item.event ? ' · ' + escapeHtmlClient(item.event) : '';
 
       return '<div class="points-detail-line">' +
              '<span class="points-detail-impact ' + className + '">' + sign + formatNumberClient(impact) + '</span>' +
-             rawText +
              ' · ' + escapeHtmlClient(item.tournament || "Torneio") +
+             yearText +
              eventText +
              '</div>';
     }
