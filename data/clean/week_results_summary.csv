@@ -1,23 +1,23 @@
 tournament_key,tournament_name,category,events_found,matches_found,errors_found,raw_file,from_cache,collected_at
-J-JGS-FRA-2026-001,Roland Garros Junior Championships,JGS,6,236,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-JGS-FRA-2026-001_draws.json,true,2026-06-02T22:50:46.140Z
-J-J100-GUA-2026-001,J100 Guatemala,J100,5,104,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J100-GUA-2026-001_draws.json,true,2026-06-02T22:50:56.149Z
-J-J30-SRI-2026-005,J30 Colombo,J30,6,124,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-SRI-2026-005_draws.json,true,2026-06-02T22:51:06.167Z
-J-J30-UGA-2026-002,J30 Kampala,J30,6,124,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-UGA-2026-002_draws.json,false,2026-06-02T22:51:39.959Z
-J-J30-CZE-2026-003,J30 Marianske Lazne,J30,8,92,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-CZE-2026-003_draws.json,false,2026-06-02T22:52:23.335Z
-J-J30-CYP-2026-004,J30 Nicosia,J30,6,132,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-CYP-2026-004_draws.json,false,2026-06-02T22:52:58.016Z
-J-J30-INA-2026-002,J30 Sukoharjo,J30,1,31,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-INA-2026-002_draws.json,true,2026-06-02T22:53:08.031Z
-J-J30-ARM-2026-004,J30 Yerevan,J30,6,108,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-ARM-2026-004_draws.json,false,2026-06-02T22:53:39.979Z
-J-J60-SWE-2026-003,J60 Bastad,J60,6,148,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-SWE-2026-003_draws.json,false,2026-06-02T22:54:13.763Z
-J-J60-USA-2026-003,J60 Champaign,J60,8,60,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-USA-2026-003_draws.json,false,2026-06-02T22:54:54.263Z
-J-J60-CHN-2026-008,J60 Chengdu,J60,8,92,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-CHN-2026-008_draws.json,false,2026-06-02T22:55:43.643Z
-J-J60-KGZ-2026-001,J60 Cholpon-Ata,J60,6,132,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-KGZ-2026-001_draws.json,false,2026-06-02T22:56:24.162Z
-J-J60-AUS-2026-001,J60 Darwin,J60,8,92,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-AUS-2026-001_draws.json,false,2026-06-02T22:57:07.203Z
-J-J60-CAN-2026-007,J60 Edmonton,J60,8,60,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-CAN-2026-007_draws.json,false,2026-06-02T22:57:48.017Z
-J-J60-BOL-2026-003,J60 Santa Cruz de la Sierra,J60,6,224,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-BOL-2026-003_draws.json,false,2026-06-02T22:58:28.454Z
-J-J30-NGR-2026-003,J30 Abuja,J30,1,7,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-NGR-2026-003_draws.json,true,2026-06-02T22:58:38.470Z
-J-J30-TUN-2026-002,J30 Bizerte,J30,8,60,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-TUN-2026-002_draws.json,false,2026-06-02T23:00:54.203Z
-J-J30-KOR-2026-010,J30 Gimcheon,J30,8,124,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-KOR-2026-010_draws.json,false,2026-06-02T23:02:51.087Z
-J-J60-AZE-2026-001,J60 Baku,J60,6,148,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-AZE-2026-001_draws.json,false,2026-06-02T23:04:30.684Z
-J-J60-RSA-2026-005,J60 Pretoria,J60,8,76,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-RSA-2026-005_draws.json,false,2026-06-02T23:06:10.798Z
-J-J60-POL-2026-004,J60 Gdansk,J60,1,31,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-POL-2026-004_draws.json,true,2026-06-02T23:06:20.801Z
-J-J60-JPN-2026-002,J60 Miki City,J60,6,148,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-JPN-2026-002_draws.json,false,2026-06-02T23:07:41.151Z
+J-JGS-FRA-2026-001,Roland Garros Junior Championships,JGS,6,236,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-JGS-FRA-2026-001_draws.json,true,2026-06-03T03:06:16.473Z
+J-J100-GUA-2026-001,J100 Guatemala,J100,5,104,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J100-GUA-2026-001_draws.json,true,2026-06-03T03:06:26.491Z
+J-J30-SRI-2026-005,J30 Colombo,J30,6,124,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-SRI-2026-005_draws.json,true,2026-06-03T03:06:36.507Z
+J-J30-UGA-2026-002,J30 Kampala,J30,6,124,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-UGA-2026-002_draws.json,true,2026-06-03T03:06:46.512Z
+J-J30-CZE-2026-003,J30 Marianske Lazne,J30,8,92,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-CZE-2026-003_draws.json,true,2026-06-03T03:06:56.529Z
+J-J30-CYP-2026-004,J30 Nicosia,J30,6,132,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-CYP-2026-004_draws.json,true,2026-06-03T03:07:06.541Z
+J-J30-INA-2026-002,J30 Sukoharjo,J30,1,31,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-INA-2026-002_draws.json,true,2026-06-03T03:07:16.551Z
+J-J30-ARM-2026-004,J30 Yerevan,J30,6,108,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-ARM-2026-004_draws.json,true,2026-06-03T03:07:26.558Z
+J-J60-SWE-2026-003,J60 Bastad,J60,6,148,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-SWE-2026-003_draws.json,true,2026-06-03T03:07:36.576Z
+J-J60-USA-2026-003,J60 Champaign,J60,8,60,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-USA-2026-003_draws.json,true,2026-06-03T03:07:46.588Z
+J-J60-CHN-2026-008,J60 Chengdu,J60,8,92,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-CHN-2026-008_draws.json,true,2026-06-03T03:07:56.607Z
+J-J60-KGZ-2026-001,J60 Cholpon-Ata,J60,6,132,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-KGZ-2026-001_draws.json,true,2026-06-03T03:08:06.620Z
+J-J60-AUS-2026-001,J60 Darwin,J60,8,92,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-AUS-2026-001_draws.json,true,2026-06-03T03:08:16.629Z
+J-J60-CAN-2026-007,J60 Edmonton,J60,8,60,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-CAN-2026-007_draws.json,true,2026-06-03T03:08:26.638Z
+J-J60-BOL-2026-003,J60 Santa Cruz de la Sierra,J60,6,224,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-BOL-2026-003_draws.json,true,2026-06-03T03:08:36.655Z
+J-J30-NGR-2026-003,J30 Abuja,J30,1,7,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-NGR-2026-003_draws.json,true,2026-06-03T03:08:46.659Z
+J-J30-TUN-2026-002,J30 Bizerte,J30,8,60,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-TUN-2026-002_draws.json,true,2026-06-03T03:08:56.673Z
+J-J30-KOR-2026-010,J30 Gimcheon,J30,8,124,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J30-KOR-2026-010_draws.json,true,2026-06-03T03:09:06.682Z
+J-J60-AZE-2026-001,J60 Baku,J60,6,148,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-AZE-2026-001_draws.json,true,2026-06-03T03:09:16.698Z
+J-J60-RSA-2026-005,J60 Pretoria,J60,8,76,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-RSA-2026-005_draws.json,true,2026-06-03T03:09:26.706Z
+J-J60-POL-2026-004,J60 Gdansk,J60,1,31,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-POL-2026-004_draws.json,true,2026-06-03T03:09:36.721Z
+J-J60-JPN-2026-002,J60 Miki City,J60,6,148,0,C:\Users\genar\Projetos\itf-juniors-live-ranking\data\raw\week_results\J-J60-JPN-2026-002_draws.json,true,2026-06-03T03:09:46.724Z
