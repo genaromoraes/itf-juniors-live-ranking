@@ -357,8 +357,8 @@ function getRankingImpact(row) {
 function getEventShortLabel(row) {
   const eventType = cleanText(row.event_type).toLowerCase();
 
-  if (eventType === "singles") return "S";
-  if (eventType === "doubles") return "D";
+  if (eventType === "singles") return "Simples";
+  if (eventType === "doubles") return "Duplas";
 
   return eventType.toUpperCase();
 }
@@ -1465,17 +1465,13 @@ td:nth-child(7) {
       const raw = Number(item.raw_points || 0);
       const impact = Number(item.impact_points || 0);
       const rawText = raw !== impact ? ' <span class="small">(' + formatNumberClient(raw) + ' bruto)</span>' : '';
-      const context = [
-        item.event ? '(' + item.event + ')' : '',
-        item.category,
-        item.round,
-      ].filter(Boolean).join(' ');
+      const eventText = item.event ? ' · ' + escapeHtmlClient(item.event) : '';
 
       return '<div class="points-detail-line">' +
              '<span class="points-detail-impact ' + className + '">' + sign + formatNumberClient(impact) + '</span>' +
              rawText +
              ' · ' + escapeHtmlClient(item.tournament || "Torneio") +
-             (context ? ' · ' + escapeHtmlClient(context) : '') +
+             eventText +
              '</div>';
     }
 
