@@ -86,13 +86,17 @@ function countryCodeToFlagEmoji(countryCode) {
   if (!code || code.length !== 3) return "";
 
   const iso3ToIso2 = {
+    ALG: "DZ",
     ARG: "AR",
     ARM: "AM",
     AUS: "AU",
     AUT: "AT",
     AZE: "AZ",
     BEL: "BE",
+    BIH: "BA",
+    BLR: "BY",
     BOL: "BO",
+    BOT: "BW",
     BRA: "BR",
     BUL: "BG",
     CAN: "CA",
@@ -103,8 +107,10 @@ function countryCodeToFlagEmoji(countryCode) {
     CYP: "CY",
     CZE: "CZ",
     DEN: "DK",
+    DOM: "DO",
     ECU: "EC",
     EGY: "EG",
+    ESA: "SV",
     ESP: "ES",
     EST: "EE",
     FIN: "FI",
@@ -121,33 +127,58 @@ function countryCodeToFlagEmoji(countryCode) {
     IRL: "IE",
     ISR: "IL",
     ITA: "IT",
+    JAM: "JM",
     JPN: "JP",
     KAZ: "KZ",
+    KEN: "KE",
     KGZ: "KG",
     KOR: "KR",
+    KSA: "SA",
     LAT: "LV",
+    LIE: "LI",
     LTU: "LT",
+    MAR: "MA",
+    MAS: "MY",
+    MDA: "MD",
+    MDV: "MV",
     MEX: "MX",
+    MKD: "MK",
+    MON: "MC",
+    NAM: "NA",
     NED: "NL",
+    NEP: "NP",
+    NGR: "NG",
+    NOR: "NO",
     NZL: "NZ",
+    PAK: "PK",
+    PAR: "PY",
     PER: "PE",
     POL: "PL",
     POR: "PT",
+    PUR: "PR",
     ROU: "RO",
     RSA: "ZA",
     RUS: "RU",
     SLO: "SI",
+    SGP: "SG",
     SRB: "RS",
     SRI: "LK",
+    SVK: "SK",
     SUI: "CH",
     SWE: "SE",
+    THA: "TH",
+    TJK: "TJ",
+    TKM: "TM",
     TPE: "TW",
     TUN: "TN",
     TUR: "TR",
+    UGA: "UG",
     UKR: "UA",
     URU: "UY",
     USA: "US",
     UZB: "UZ",
+    VEN: "VE",
+    ZIM: "ZW",
   };
 
   const iso2 = iso3ToIso2[code];
@@ -1404,10 +1435,9 @@ td:nth-child(7) {
              balanceSign + formatNumberClient(balance) +
              '</span>' +
              '</div>' +
-             '<div class="small">saldo vs. ranking oficial da semana</div>' +
              (hasDetails
                ? '<button class="points-info-button" type="button" onclick="togglePointsInfo(event, \\'' + escapeHtmlClient(row.player_id) + '\\')">' + buttonLabel + '</button>'
-               : '<div class="small">sem entradas ou drops nesta semana</div>') +
+               : '') +
              (isExpanded ? getPointsDetailHtml(row) : '') +
              '</div>';
     }
@@ -1689,7 +1719,7 @@ td:nth-child(7) {
 
             <td class="player">
               <div class="player-name">\${flag}\${escapeHtmlClient(row.player_name)}</div>
-              <div class="player-meta">\${escapeHtmlClient(row.country)} · oficial \${formatRankClient(row.official_rank)}</div>
+              <div class="player-meta">oficial \${formatRankClient(row.official_rank)}</div>
             </td>
 
             <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
