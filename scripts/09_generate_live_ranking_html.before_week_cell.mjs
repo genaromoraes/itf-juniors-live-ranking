@@ -1150,11 +1150,11 @@ td:nth-child(7) {
       const p = row.playing_this_week;
 
       return \`
-        <div><strong>\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong></div>
+        <div>\${escapeHtmlClient(p.tournament || "Torneio da semana")}</div>
         <div class="week-sub">
-          \${p.singlesSummary ? "🎾 " + escapeHtmlClient(p.singlesSummary) : ""}
+          \${p.singlesSummary ? escapeHtmlClient(p.singlesSummary) : ""}
           \${p.singlesSummary && p.doublesSummary ? "<br />" : ""}
-          \${p.doublesSummary ? "👥 " + escapeHtmlClient(p.doublesSummary) : ""}
+          \${p.doublesSummary ? escapeHtmlClient(p.doublesSummary) : ""}
         </div>
       \`;
     }
