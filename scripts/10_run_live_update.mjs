@@ -12,9 +12,7 @@ const STEPS = [
     name: "Buscar torneios da semana",
     command: "node",
     args: ["scripts/04_fetch_week_tournaments.mjs"],
-    requiredOutputs: [
-      "data/clean/week_tournaments.csv",
-    ],
+    requiredOutputs: ["data/clean/week_tournaments.csv"],
   },
   {
     name: "Buscar resultados da semana",
@@ -39,17 +37,28 @@ const STEPS = [
     command: "node",
     args: ["scripts/08_calculate_live_ranking_with_drops.mjs"],
     requiredOutputs: [
+      "data/clean/live_combined_ledger_with_drops.csv",
+      "data/clean/live_dropped_points.csv",
       "data/clean/live_ranking_with_drops.csv",
       "data/clean/live_ranking_with_drops_top500.csv",
       "data/clean/live_ranking_with_drops_changes.csv",
     ],
   },
   {
-    name: "Gerar página HTML",
+    name: "Gerar página HTML principal",
     command: "node",
     args: ["scripts/09_generate_live_ranking_html.mjs"],
+    requiredOutputs: ["data/exports/live_ranking.html"],
+  },
+  {
+    name: "Gerar auditoria por jogador",
+    command: "node",
+    args: ["scripts/11_generate_player_audit.mjs"],
     requiredOutputs: [
-      "data/exports/live_ranking.html",
+      "data/audit/player_audit_summary.csv",
+      "data/audit/player_audit_details.csv",
+      "data/audit/player_audit_brazilians.csv",
+      "data/audit/player_audit.html",
     ],
   },
 ];
@@ -173,9 +182,20 @@ async function printFinalSummary(startedAt) {
   console.log("data/clean/live_ranking_with_drops.csv");
   console.log("data/exports/live_ranking.html");
   console.log("");
-  console.log("Abra no navegador:");
+  console.log("Arquivos de auditoria gerados:");
+  console.log("data/audit/player_audit_summary.csv");
+  console.log("data/audit/player_audit_details.csv");
+  console.log("data/audit/player_audit_brazilians.csv");
+  console.log("data/audit/player_audit.html");
+  console.log("");
+  console.log("Abra o live ranking no navegador:");
   console.log(
     `file:///${path.resolve("data/exports/live_ranking.html").replaceAll("\\", "/")}`
+  );
+  console.log("");
+  console.log("Abra a auditoria no navegador:");
+  console.log(
+    `file:///${path.resolve("data/audit/player_audit.html").replaceAll("\\", "/")}`
   );
   console.log("");
   console.log(`Log salvo em: ${RUN_LOG_FILE}`);
@@ -236,7 +256,7 @@ main().catch(async (err) => {
     await appendLog("FAILED");
     await appendLog(err.stack || String(err));
   } catch {
-    // ignore log write errors
+    // ignora erro de escrita no log
   }
 
   process.exit(1);
