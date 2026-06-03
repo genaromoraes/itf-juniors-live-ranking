@@ -80,7 +80,7 @@ function formatDateTime(value) {
   });
 }
 
-function countryCodeToFlagEmoji(countryCode) {
+function countryCodeToIso2(countryCode) {
   const code = cleanText(countryCode).toUpperCase();
 
   if (!code || code.length !== 3) return "";
@@ -185,11 +185,7 @@ function countryCodeToFlagEmoji(countryCode) {
 
   if (!iso2) return "";
 
-  return iso2
-    .toUpperCase()
-    .replace(/./g, (char) =>
-      String.fromCodePoint(127397 + char.charCodeAt(0))
-    );
+  return iso2.toLowerCase();
 }
 
 function getGenderLabel(value) {
@@ -502,7 +498,7 @@ function buildDataForHtml(
     gender_label: getGenderLabel(row.gender),
 
     country: cleanText(row.country),
-    country_flag: countryCodeToFlagEmoji(row.country),
+    country_iso2: countryCodeToIso2(row.country),
     country_name: cleanText(row.country_name),
     birth_year: cleanText(row.birth_year),
 
@@ -904,11 +900,23 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
   }
 
     .player-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   font-weight: 800;
   line-height: 1.2;
   font-size: 14px;
   word-break: normal;
   overflow-wrap: anywhere;
+}
+
+    .country-flag {
+  width: 21px;
+  height: 15px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+  flex: 0 0 auto;
+  object-fit: cover;
 }
 
     .player-meta {
@@ -1370,6 +1378,17 @@ td:nth-child(7) {
       return n ? "#" + n : "NR";
     }
 
+    function getFlagHtml(row) {
+      const iso2 = String(row.country_iso2 || "").toLowerCase();
+
+      if (!iso2) return "";
+
+      const country = escapeHtmlClient(row.country || "");
+      const countryName = escapeHtmlClient(row.country_name || row.country || "");
+
+      return '<img class="country-flag" src="https://flagcdn.com/24x18/' + iso2 + '.png" alt="' + country + '" title="' + countryName + '" loading="lazy" />';
+    }
+
     function formatChange(value) {
       const n = Number(value || 0);
 
@@ -1658,7 +1677,7 @@ td:nth-child(7) {
         return;
       }
 
-      const flag = row.country_flag ? row.country_flag + " " : "";
+      const flag = getFlagHtml(row);
 
       profileCard.innerHTML = \`
         <h3>Pontuações do atleta</h3>
@@ -1708,7 +1727,7 @@ td:nth-child(7) {
       rankingBody.innerHTML = rows.map((row) => {
         const selected = selectedPlayerId === row.player_id ? "selected" : "";
         const moveClass = movementClass(row.rank_change_vs_official);
-        const flag = row.country_flag ? row.country_flag + " " : "";
+        const flag = getFlagHtml(row);
 
         return \`
           <tr class="\${selected}" onclick="selectPlayer('\${escapeHtmlClient(row.player_id)}')">
@@ -1718,8 +1737,7 @@ td:nth-child(7) {
             </td>
 
             <td class="player">
-              <div class="player-name">\${flag}\${escapeHtmlClient(row.player_name)}</div>
-              <div class="player-meta">oficial \${formatRankClient(row.official_rank)}</div>
+              <div class="player-name">\${flag}<span>\${escapeHtmlClient(row.player_name)}</span></div>
             </td>
 
             <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
