@@ -1,4 +1,4 @@
-﻿import fs from "fs/promises";
+import fs from "fs/promises";
 import path from "path";
 import { parse } from "csv-parse/sync";
 
@@ -352,15 +352,15 @@ function buildHtml(rows) {
     .cards {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .card {
       background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 13px 14px;
+      border-radius: 18px;
+      padding: 16px;
       box-shadow: var(--shadow);
     }
 
@@ -374,7 +374,7 @@ function buildHtml(rows) {
     }
 
     .card-value {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 950;
       letter-spacing: -0.05em;
     }
@@ -506,11 +506,6 @@ function buildHtml(rows) {
       vertical-align: middle;
     }
 
-    td:nth-child(4),
-    th:nth-child(4) {
-      min-width: 300px;
-    }
-
     tbody tr {
       cursor: pointer;
     }
@@ -636,15 +631,6 @@ function buildHtml(rows) {
       padding: 24px;
       color: var(--muted);
       line-height: 1.45;
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .side-empty strong {
-      color: var(--text);
-      font-size: 18px;
     }
 
     .profile-header {
@@ -807,11 +793,11 @@ function buildHtml(rows) {
       <div>
         <h1>ITF Juniors Live Ranking</h1>
         <div class="subtitle">
-          Ranking provisÃ³rio com base no ranking oficial, resultados ao vivo da semana e pontos que caem.
-          Base oficial: ${escapeHtml(rankingDate || "nÃ£o informado")}. Atualizado em: ${escapeHtml(calculatedAt)}.
+          Ranking provisório com base no ranking oficial, resultados ao vivo da semana e pontos que caem.
+          Base oficial: ${escapeHtml(rankingDate || "não informado")}. Atualizado em: ${escapeHtml(calculatedAt)}.
         </div>
       </div>
-      <div class="badge">Live ranking provisÃ³rio</div>
+      <div class="badge">Live ranking provisório</div>
     </div>
 
     <div class="cards">
@@ -854,11 +840,11 @@ function buildHtml(rows) {
       </div>
 
       <div class="filters">
-        <input id="searchInput" type="text" placeholder="Buscar jogador, paÃ­s ou ano de nascimento..." />
+        <input id="searchInput" type="text" placeholder="Buscar jogador, país ou ano de nascimento..." />
 
         <select id="movementFilter">
           <option value="ALL">Todos movimentos</option>
-          <option value="CHANGED">Somente mudanÃ§as</option>
+          <option value="CHANGED">Somente mudanças</option>
           <option value="UP">Subiu</option>
           <option value="DOWN">Caiu</option>
           <option value="LIVE">Com live</option>
@@ -912,18 +898,14 @@ function buildHtml(rows) {
 
       <aside class="side-panel" id="sidePanel">
         <div class="side-empty">
-          <div style="font-size: 34px; margin-bottom: 10px;">👤</div>
-          <strong>Selecione um jogador</strong>
-          <span style="display: block; margin-top: 8px;">
-            Clique em qualquer linha da tabela para ver o perfil completo:
-            ranking oficial, live ranking, pontos entrando, pontos caindo e melhores resultados.
-          </span>
+          <strong>Perfil do jogador</strong><br />
+          Clique em uma linha da tabela para ver ranking, pontos entrando, pontos caindo e melhores resultados.
         </div>
       </aside>
     </div>
 
     <div class="footer-note">
-      Ranking provisÃ³rio. Antes de usar como referÃªncia pÃºblica, valide a tabela de pontos ITF Junior e os pontos de qualifying.
+      Ranking provisório. Antes de usar como referência pública, valide a tabela de pontos ITF Junior e os pontos de qualifying.
     </div>
   </div>
 
@@ -1112,13 +1094,9 @@ function buildHtml(rows) {
       if (!row) {
         sidePanel.innerHTML = \`
           <div class="side-empty">
-          <div style="font-size: 34px; margin-bottom: 10px;">👤</div>
-          <strong>Selecione um jogador</strong>
-          <span style="display: block; margin-top: 8px;">
-            Clique em qualquer linha da tabela para ver o perfil completo:
-            ranking oficial, live ranking, pontos entrando, pontos caindo e melhores resultados.
-          </span>
-        </div>
+            <strong>Perfil do jogador</strong><br />
+            Clique em uma linha da tabela para ver ranking, pontos entrando, pontos caindo e melhores resultados.
+          </div>
         \`;
         return;
       }
@@ -1148,8 +1126,8 @@ function buildHtml(rows) {
 
           <div class="profile-name">\${escapeHtmlClient(row.player_name)}</div>
           <div class="profile-meta">
-            \${escapeHtmlClient(row.gender_label)} â€¢ \${flag}\${escapeHtmlClient(row.country || "-")}
-            \${row.birth_year ? " â€¢ " + escapeHtmlClient(row.birth_year) : ""}
+            \${escapeHtmlClient(row.gender_label)} • \${flag}\${escapeHtmlClient(row.country || "-")}
+            \${row.birth_year ? " • " + escapeHtmlClient(row.birth_year) : ""}
           </div>
         </div>
 
@@ -1161,7 +1139,7 @@ function buildHtml(rows) {
             </div>
 
             <div class="metric">
-              <div class="metric-label">DiferenÃ§a</div>
+              <div class="metric-label">Diferença</div>
               <div class="metric-value \${ptsClass}">
                 \${Number(row.points_change_vs_official || 0) > 0 ? "+" : ""}\${formatNumberClient(row.points_change_vs_official)}
               </div>
@@ -1235,7 +1213,7 @@ function buildHtml(rows) {
                 <div class="player-name">\${escapeHtmlClient(row.player_name)}</div>
                 <div class="player-meta">
                   \${flag}\${escapeHtmlClient(row.country || "-")}
-                  \${row.birth_year ? " â€¢ " + escapeHtmlClient(row.birth_year) : ""}
+                  \${row.birth_year ? " • " + escapeHtmlClient(row.birth_year) : ""}
                 </div>
               </td>
               <td>
