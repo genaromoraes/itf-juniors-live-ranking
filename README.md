@@ -1,5 +1,70 @@
 # itf-juniors-live-ranking
-Live ranking project for ITF Junior tennis rankings, points breakdowns and weekly results tracking.
+
+Projeto de live ranking do circuito ITF Junior, com ranking ao vivo, drops, resultados da semana, HTML estático e auditoria por jogador.
+
+## Comandos
+
+```bash
+npm install
+```
+
+Instala as dependências do projeto.
+
+```bash
+npm.cmd run update
+```
+
+Recalcula o ranking e regenera HTML/auditoria usando os dados já coletados em `data/clean/`. Não faz scraping.
+
+```bash
+npm.cmd run update:full
+```
+
+Busca torneios/resultados na ITF, recalcula tudo e regenera HTML/auditoria. Use este comando para atualizar os resultados da semana.
+
+```bash
+npm.cmd run generate
+```
+
+Regenera apenas o HTML em `data/exports/`. Use este comando para mudanças visuais.
+
+```bash
+npm.cmd run audit
+```
+
+Regenera apenas a auditoria por jogador em `data/audit/`.
+
+```bash
+npm.cmd test
+```
+
+Roda os testes.
+
+```bash
+npm.cmd run check
+```
+
+Verifica a sintaxe dos scripts `.mjs`.
+
+## Fluxos recomendados
+
+Para mudanças visuais no HTML:
+
+```bash
+npm.cmd run generate
+```
+
+Para recalcular usando dados já baixados:
+
+```bash
+npm.cmd run update
+```
+
+Para buscar resultados novos da ITF e publicar dados atualizados:
+
+```bash
+npm.cmd run update:full
+```
 
 ## Política de dados
 
@@ -21,7 +86,7 @@ Os demais arquivos são artefatos gerados automaticamente pelo pipeline e não s
 Esses arquivos são recriados localmente ao rodar:
 
 ```bash
-npm.cmd run update
+npm.cmd run update:full
 ```
 
 - `data/raw/` contém respostas brutas e arquivos intermediários da coleta.
@@ -34,7 +99,7 @@ Se o usuário clonar o projeto em outro computador, deve rodar:
 
 ```bash
 npm install
-npm.cmd run update
+npm.cmd run update:full
 ```
 
 Isso regenera os artefatos locais necessários.

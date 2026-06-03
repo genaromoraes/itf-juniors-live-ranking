@@ -41,7 +41,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Build live ranking
-        run: npm run update
+        run: npm run update:full
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

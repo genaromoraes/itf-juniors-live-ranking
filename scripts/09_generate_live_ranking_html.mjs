@@ -1086,22 +1086,17 @@ td:nth-child(7) {
 
       <div class="filter">
         <label>Categoria</label>
-       <select id="genderFilter">
-  <option value="M" selected>Masculino</option>
-  <option value="F">Feminino</option>
-  <option value="ALL">Todos</option>
-  <option value="BRA">🇧🇷 Brasileiros</option>
-</select>
+        <select id="genderFilter">
+          <option value="M" selected>Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
       </div>
 
       <div class="filter">
         <label>Ordenar por</label>
         <select id="sortFilter">
           <option value="RANK" selected>Ranking ao vivo</option>
-          <option value="RISE">Maiores subidas</option>
-          <option value="FALL">Maiores quedas</option>
-          <option value="POINTS_GAIN">Maior ganho de pontos</option>
-          <option value="POINTS_LOSS">Maior perda de pontos</option>
+          <option value="OFFICIAL_RANK">Ranking oficial</option>
         </select>
       </div>
     </section>
@@ -1348,13 +1343,9 @@ td:nth-child(7) {
       const gender = genderFilter.value;
       const search = searchInput.value.trim().toLowerCase();
 
-    if (gender === "BRA" && row.country !== "BRA") {
-  return false;
-}
-
-if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
-  return false;
-}
+      if (row.gender !== gender) {
+        return false;
+      }
 
       if (Number(row.live_rank || 0) > 500) {
         return false;
@@ -1384,29 +1375,17 @@ if (gender !== "ALL" && gender !== "BRA" && row.gender !== gender) {
 
     function sortRows(rows) {
       const sort = sortFilter.value;
+      const rankValue = (value) => {
+        const n = Number(value || 0);
+        return n > 0 ? n : Number.MAX_SAFE_INTEGER;
+      };
 
       return [...rows].sort((a, b) => {
-        if (sort === "RISE") {
-          const diff = Number(b.rank_change_vs_official || 0) - Number(a.rank_change_vs_official || 0);
-          if (diff !== 0) return diff;
+        if (sort === "OFFICIAL_RANK") {
+          return rankValue(a.official_rank) - rankValue(b.official_rank);
         }
 
-        if (sort === "FALL") {
-          const diff = Number(a.rank_change_vs_official || 0) - Number(b.rank_change_vs_official || 0);
-          if (diff !== 0) return diff;
-        }
-
-        if (sort === "POINTS_GAIN") {
-          const diff = Number(b.points_change_vs_official || 0) - Number(a.points_change_vs_official || 0);
-          if (diff !== 0) return diff;
-        }
-
-        if (sort === "POINTS_LOSS") {
-          const diff = Number(a.points_change_vs_official || 0) - Number(b.points_change_vs_official || 0);
-          if (diff !== 0) return diff;
-        }
-
-        return Number(a.live_rank || 0) - Number(b.live_rank || 0);
+        return rankValue(a.live_rank) - rankValue(b.live_rank);
       });
     }
 

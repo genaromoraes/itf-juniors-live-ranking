@@ -4,14 +4,16 @@
   "description": "Live ranking project for ITF Junior tennis rankings, points breakdowns and weekly results tracking.",
   "main": "index.js",
   "scripts": {
-    "update": "node scripts/10_run_live_update.mjs",
+    "update": "npm run update:local",
+    "update:full": "node scripts/10_run_live_update.mjs",
+    "update:local": "node scripts/10_run_local_update.mjs",
+    "generate": "node scripts/09_generate_live_ranking_html.mjs",
+    "audit": "node scripts/11_generate_player_audit.mjs",
     "check": "node scripts/check_project.mjs",
     "test": "node --test tests/*.test.mjs",
     "rankings": "node scripts/01_fetch_rankings.mjs",
     "breakdowns": "node scripts/02_fetch_initial_breakdowns.mjs",
-    "calculate": "node scripts/08_calculate_live_ranking_with_drops.mjs",
-    "generate": "node scripts/09_generate_live_ranking_html.mjs",
-    "audit": "node scripts/11_generate_player_audit.mjs"
+    "calculate": "node scripts/08_calculate_live_ranking_with_drops.mjs"
   },
   "repository": {
     "type": "git",
