@@ -1,4 +1,4 @@
-﻿import fs from "fs/promises";
+import fs from "fs/promises";
 import path from "path";
 import { parse } from "csv-parse/sync";
 
@@ -10,7 +10,7 @@ const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
 
 const OUT_DIR_EXPORTS = path.resolve("data/exports");
 
-const HTML_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "live_ranking.html");
+const HTML_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "live_ranking_v2.html");
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_EXPORTS, { recursive: true });
@@ -829,7 +829,7 @@ function buildHtml(rows, weekTournaments) {
       <div>
         <h1>ITF Juniors Live Ranking</h1>
         <div class="creator">
-          Criado por Info TÃªnis Brasil
+          Criado por Info Tênis Brasil
           <a href="https://x.com/InfoTenisBrasil" target="_blank">X @InfoTenisBrasil</a>
           <span class="beta">BETA TEST</span>
         </div>
@@ -846,7 +846,7 @@ function buildHtml(rows, weekTournaments) {
         <div class="mini-control">
           <label>Idioma</label>
           <select id="languageSelect">
-            <option>PortuguÃªs</option>
+            <option>Português</option>
           </select>
         </div>
       </div>
@@ -855,11 +855,11 @@ function buildHtml(rows, weekTournaments) {
     <section class="filters">
       <div class="filter">
         <label>Buscar atleta</label>
-        <input id="searchInput" type="text" placeholder="Nome, paÃ­s ou torneio" />
+        <input id="searchInput" type="text" placeholder="Nome, país ou torneio" />
       </div>
 
       <div class="filter">
-        <label>Ãšltima atualizaÃ§Ã£o</label>
+        <label>Última atualização</label>
         <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
 
@@ -889,13 +889,13 @@ function buildHtml(rows, weekTournaments) {
         <div class="ranking-card-header">
           <h2>Live ranking</h2>
           <div class="formula">
-            Pontos = âˆ‘ 6 melhores resultados de simples + âˆ‘ 25% dos 6 melhores resultados de duplas
+            Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas
           </div>
         </div>
 
         <div class="summary-row" style="padding: 12px 14px 0;">
           <span id="visibleSummary">Carregando...</span>
-          <span>Base oficial: ${escapeHtml(rankingDate || "nÃ£o informado")}</span>
+          <span>Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
         </div>
 
         <table>
@@ -906,8 +906,8 @@ function buildHtml(rows, weekTournaments) {
               <th>Ano</th>
               <th>Pontos ao vivo</th>
               <th>Jogando esta<br />semana</th>
-              <th>PrÃ³x. rodada</th>
-              <th>TÃ­tulo</th>
+              <th>Próx. rodada</th>
+              <th>Título</th>
             </tr>
           </thead>
           <tbody id="rankingBody"></tbody>
@@ -921,9 +921,9 @@ function buildHtml(rows, weekTournaments) {
         </section>
 
         <section class="side-card" id="profileCard">
-          <h3>PontuaÃ§Ãµes do atleta</h3>
+          <h3>Pontuações do atleta</h3>
           <div class="profile-empty">
-            Clique em um atleta da tabela para ver o resumo de pontuaÃ§Ã£o.
+            Clique em um atleta da tabela para ver o resumo de pontuação.
           </div>
         </section>
       </aside>
@@ -1136,7 +1136,7 @@ function buildHtml(rows, weekTournaments) {
           <div class="result-card">
             <span class="result-status">\${escapeHtmlClient(source)}</span>
             <div><strong>\${escapeHtmlClient(tournament || "Torneio")}</strong></div>
-            <div class="small">\${escapeHtmlClient(category)} Â· \${escapeHtmlClient(date)} Â· \${escapeHtmlClient(round)}</div>
+            <div class="small">\${escapeHtmlClient(category)} · \${escapeHtmlClient(date)} · \${escapeHtmlClient(round)}</div>
             <div class="result-points">\${escapeHtmlClient(points)}</div>
           </div>
         \`;
@@ -1146,9 +1146,9 @@ function buildHtml(rows, weekTournaments) {
     function renderProfile(row) {
       if (!row) {
         profileCard.innerHTML = \`
-          <h3>PontuaÃ§Ãµes do atleta</h3>
+          <h3>Pontuações do atleta</h3>
           <div class="profile-empty">
-            Clique em um atleta da tabela para ver o resumo de pontuaÃ§Ã£o.
+            Clique em um atleta da tabela para ver o resumo de pontuação.
           </div>
         \`;
         return;
@@ -1157,22 +1157,22 @@ function buildHtml(rows, weekTournaments) {
       const flag = row.country_flag ? row.country_flag + " " : "";
 
       profileCard.innerHTML = \`
-        <h3>PontuaÃ§Ãµes do atleta</h3>
+        <h3>Pontuações do atleta</h3>
 
         <div class="profile-head">
           <div class="profile-flag">\${flag}</div>
           <div>
             <div class="profile-name">\${escapeHtmlClient(row.player_name)}</div>
             <div class="profile-meta">
-              oficial \${formatRankClient(row.official_rank)} Â· live \${formatRankClient(row.live_rank)} Â· \${formatChange(row.rank_change_vs_official)}
+              oficial \${formatRankClient(row.official_rank)} · live \${formatRankClient(row.live_rank)} · \${formatChange(row.rank_change_vs_official)}
             </div>
           </div>
         </div>
 
         <div class="profile-line">
-          <strong>\${formatNumberClient(row.live_points)}</strong> pontos ao vivo Â·
-          oficial: \${formatNumberClient(row.official_points)} Â·
-          mÃ¡ximo atual: \${formatNumberClient(row.live_points)}
+          <strong>\${formatNumberClient(row.live_points)}</strong> pontos ao vivo ·
+          oficial: \${formatNumberClient(row.official_points)} ·
+          máximo atual: \${formatNumberClient(row.live_points)}
           <br />
           \${statusTags(row)}
         </div>
@@ -1213,7 +1213,7 @@ function buildHtml(rows, weekTournaments) {
 
             <td class="player">
               <div class="player-name">\${flag}\${escapeHtmlClient(row.player_name)}</div>
-              <div class="player-meta">\${escapeHtmlClient(row.country)} Â· oficial \${formatRankClient(row.official_rank)}</div>
+              <div class="player-meta">\${escapeHtmlClient(row.country)} · oficial \${formatRankClient(row.official_rank)}</div>
             </td>
 
             <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
