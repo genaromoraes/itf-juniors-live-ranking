@@ -262,6 +262,16 @@ function buildLiveRoundMap(weekLiveLedgerRows) {
   return map;
 }
 
+function getParticipationRoundLabel(row, round) {
+  const status = cleanText(row.status).toLowerCase();
+
+  if (status === "eliminated") {
+    return `${round} ❌`;
+  }
+
+  return round;
+}
+
 function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
   const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
   const map = new Map();
@@ -289,13 +299,14 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
       liveRoundMap.get([playerId, tournamentKey, eventType].join("|")) ||
       liveRoundMap.get([playerId, tournament, eventType].join("|"));
     const round = liveRound || cleanText(row.highest_round_name);
+    const roundLabel = round ? getParticipationRoundLabel(row, round) : "";
 
-    if (eventType === "singles" && round) {
-      participation.singlesSummary = `Simples: ${round}`;
+    if (eventType === "singles" && roundLabel) {
+      participation.singlesSummary = `Simples: ${roundLabel}`;
     }
 
-    if (eventType === "doubles" && round) {
-      participation.doublesSummary = `Duplas: ${round}`;
+    if (eventType === "doubles" && roundLabel) {
+      participation.doublesSummary = `Duplas: ${roundLabel}`;
     }
 
     map.set(playerId, participation);
