@@ -319,6 +319,8 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
         tournamentKey,
         singlesSummary: "",
         doublesSummary: "",
+        singlesStatus: "",
+        doublesStatus: "",
       };
 
     if (participation.tournamentKey !== tournamentKey) continue;
@@ -329,12 +331,20 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
     const round = liveRound || cleanText(row.highest_round_name);
     const roundLabel = round ? getParticipationRoundLabel(row, round) : "";
 
-    if (eventType === "singles" && roundLabel) {
-      participation.singlesSummary = `Simples: ${roundLabel}`;
+    if (eventType === "singles") {
+      participation.singlesStatus = cleanText(row.status).toLowerCase();
+
+      if (roundLabel) {
+        participation.singlesSummary = `Simples: ${roundLabel}`;
+      }
     }
 
-    if (eventType === "doubles" && roundLabel) {
-      participation.doublesSummary = `Duplas: ${roundLabel}`;
+    if (eventType === "doubles") {
+      participation.doublesStatus = cleanText(row.status).toLowerCase();
+
+      if (roundLabel) {
+        participation.doublesSummary = `Duplas: ${roundLabel}`;
+      }
     }
 
     map.set(playerId, participation);
@@ -502,6 +512,19 @@ function combineProjectedScenarios(singlesScenario, doublesScenario, livePoints)
   };
 }
 
+function shouldProjectEvent(row, weekParticipationMap, eventType) {
+  const participation = weekParticipationMap.get(cleanText(row.player_id));
+
+  if (!participation) return true;
+
+  const status =
+    eventType === "singles"
+      ? cleanText(participation.singlesStatus).toLowerCase()
+      : cleanText(participation.doublesStatus).toLowerCase();
+
+  return status !== "eliminated";
+}
+
 function buildDataForHtml(
   rows,
   weekParticipationMap = new Map(),
@@ -555,8 +578,12 @@ function buildDataForHtml(
       const livePoints = toNumber(row.live_points);
       const singles = getBestSingles(row);
       const doubles = getBestDoubles(row);
-      const singlesScenario = getProjectedScenario(singles, livePoints, "singles", 1);
-      const doublesScenario = getProjectedScenario(doubles, livePoints, "doubles", 0.25);
+      const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles")
+        ? getProjectedScenario(singles, livePoints, "singles", 1)
+        : { nextRound: null, title: null };
+      const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles")
+        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25)
+        : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
         singlesScenario.nextRound,
         doublesScenario.nextRound,
@@ -574,8 +601,12 @@ function buildDataForHtml(
       const livePoints = toNumber(row.live_points);
       const singles = getBestSingles(row);
       const doubles = getBestDoubles(row);
-      const singlesScenario = getProjectedScenario(singles, livePoints, "singles", 1);
-      const doublesScenario = getProjectedScenario(doubles, livePoints, "doubles", 0.25);
+      const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles")
+        ? getProjectedScenario(singles, livePoints, "singles", 1)
+        : { nextRound: null, title: null };
+      const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles")
+        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25)
+        : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
         singlesScenario.title,
         doublesScenario.title,
