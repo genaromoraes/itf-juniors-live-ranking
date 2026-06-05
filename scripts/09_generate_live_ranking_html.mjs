@@ -1059,6 +1059,44 @@ function buildHtml(
       white-space: nowrap;
     }
 
+    .sort-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      cursor: pointer;
+    }
+
+    .sort-header:hover,
+    .sort-header.active {
+      color: var(--green-dark);
+    }
+
+    .sort-indicator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(8, 117, 109, 0.08);
+      color: var(--green-dark);
+      font-size: 10px;
+      line-height: 1;
+      opacity: 0.36;
+    }
+
+    .sort-header.active .sort-indicator {
+      opacity: 1;
+    }
+
     td {
       padding: 16px 12px;
       border-bottom: 1px solid var(--border-soft);
@@ -1635,6 +1673,8 @@ td:nth-child(7) {
         <select id="sortFilter">
           <option value="RANK" selected>Ranking ao vivo</option>
           <option value="OFFICIAL_RANK">Ranking oficial</option>
+          <option value="PLAYER">Atleta</option>
+          <option value="YEAR">Ano</option>
         </select>
       </div>
     </section>
@@ -1656,9 +1696,24 @@ td:nth-child(7) {
         <table>
           <thead>
             <tr>
-              <th>Ranking<br />ao vivo</th>
-              <th>Atleta</th>
-              <th>Ano</th>
+              <th>
+                <button class="sort-header active" type="button" data-sort-header="RANK" onclick="setTableSort('RANK')">
+                  <span>Ranking<br />ao vivo</span>
+                  <span class="sort-indicator" data-sort-indicator="RANK">↑</span>
+                </button>
+              </th>
+              <th>
+                <button class="sort-header" type="button" data-sort-header="PLAYER" onclick="setTableSort('PLAYER')">
+                  <span>Atleta</span>
+                  <span class="sort-indicator" data-sort-indicator="PLAYER">↕</span>
+                </button>
+              </th>
+              <th>
+                <button class="sort-header" type="button" data-sort-header="YEAR" onclick="setTableSort('YEAR')">
+                  <span>Ano</span>
+                  <span class="sort-indicator" data-sort-indicator="YEAR">↕</span>
+                </button>
+              </th>
               <th>Pontos ao vivo</th>
               <th>Jogando esta<br />semana</th>
               <th>Próx. rodada</th>
@@ -1700,6 +1755,8 @@ td:nth-child(7) {
 
     let selectedPlayerId = "";
     let expandedPointsPlayerId = "";
+    let sortColumn = "RANK";
+    let sortDirection = "asc";
 
     function escapeHtmlClient(value) {
       return String(value ?? "")
@@ -1933,19 +1990,62 @@ td:nth-child(7) {
     }
 
     function sortRows(rows) {
-      const sort = sortFilter.value;
       const rankValue = (value) => {
         const n = Number(value || 0);
         return n > 0 ? n : Number.MAX_SAFE_INTEGER;
       };
 
       return [...rows].sort((a, b) => {
-        if (sort === "OFFICIAL_RANK") {
-          return rankValue(a.official_rank) - rankValue(b.official_rank);
+        let result = 0;
+
+        if (sortColumn === "OFFICIAL_RANK") {
+          result = rankValue(a.official_rank) - rankValue(b.official_rank);
+        } else if (sortColumn === "PLAYER") {
+          result = normalizeSearchText(a.player_name).localeCompare(
+            normalizeSearchText(b.player_name),
+            "pt-BR"
+          );
+        } else if (sortColumn === "YEAR") {
+          result = rankValue(a.birth_year) - rankValue(b.birth_year);
+        } else {
+          result = rankValue(a.live_rank) - rankValue(b.live_rank);
         }
 
-        return rankValue(a.live_rank) - rankValue(b.live_rank);
+        if (result === 0) {
+          result = rankValue(a.live_rank) - rankValue(b.live_rank);
+        }
+
+        return sortDirection === "desc" ? -result : result;
       });
+    }
+
+    function updateSortHeaders() {
+      document.querySelectorAll("[data-sort-header]").forEach((button) => {
+        const key = button.getAttribute("data-sort-header");
+        button.classList.toggle("active", key === sortColumn);
+      });
+
+      document.querySelectorAll("[data-sort-indicator]").forEach((indicator) => {
+        const key = indicator.getAttribute("data-sort-indicator");
+        indicator.textContent = key === sortColumn
+          ? (sortDirection === "asc" ? "↑" : "↓")
+          : "↕";
+      });
+    }
+
+    function setTableSort(column) {
+      if (sortColumn === column) {
+        sortDirection = sortDirection === "asc" ? "desc" : "asc";
+      } else {
+        sortColumn = column;
+        sortDirection = "asc";
+      }
+
+      if (Array.from(sortFilter.options).some((option) => option.value === sortColumn)) {
+        sortFilter.value = sortColumn;
+      }
+
+      renderTable();
     }
 
     function renderTournaments() {
@@ -2040,6 +2140,7 @@ td:nth-child(7) {
 
     function renderTable() {
       const rows = sortRows(rankingData.filter(passesFilters));
+      updateSortHeaders();
 
       visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos';
 
@@ -2101,6 +2202,7 @@ td:nth-child(7) {
 
     window.selectPlayer = selectPlayer;
     window.togglePointsInfo = togglePointsInfo;
+    window.setTableSort = setTableSort;
 
     searchInput.addEventListener("input", renderTable);
     countrySearchInput.addEventListener("input", renderTable);
@@ -2109,7 +2211,11 @@ td:nth-child(7) {
       renderProfile(null);
       renderTable();
     });
-    sortFilter.addEventListener("change", renderTable);
+    sortFilter.addEventListener("change", () => {
+      sortColumn = sortFilter.value;
+      sortDirection = "asc";
+      renderTable();
+    });
 
     renderTournaments();
     renderTable();
