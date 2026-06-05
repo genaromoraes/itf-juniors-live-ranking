@@ -1312,6 +1312,7 @@ td:nth-child(7) {
       <div>
         <h1>ITF Juniors Live Ranking</h1>
         <div class="creator">
+          Criado por
           <a href="https://x.com/InfoTenisBrasil" target="_blank">X @InfoTenisBrasil</a>
           <span class="beta">BETA TEST</span>
         </div>
