@@ -982,7 +982,7 @@ function buildHtml(
 
     .filters {
       display: grid;
-      grid-template-columns: minmax(280px, 1fr) 190px 170px 190px;
+      grid-template-columns: minmax(260px, 1.25fr) minmax(190px, 0.75fr) 190px 170px 190px;
       gap: 14px;
       align-items: end;
       margin-bottom: 22px;
@@ -1609,7 +1609,12 @@ td:nth-child(7) {
     <section class="filters">
       <div class="filter">
         <label>Buscar atleta</label>
-        <input id="searchInput" type="text" placeholder="Nome, país ou torneio" />
+        <input id="searchInput" type="text" placeholder="Nome do atleta" />
+      </div>
+
+      <div class="filter">
+        <label>Buscar país</label>
+        <input id="countrySearchInput" type="text" placeholder="País ou sigla" />
       </div>
 
       <div class="filter">
@@ -1685,6 +1690,7 @@ td:nth-child(7) {
     const tournamentGroups = ${tournamentGroupsJson};
 
     const searchInput = document.getElementById("searchInput");
+    const countrySearchInput = document.getElementById("countrySearchInput");
     const genderFilter = document.getElementById("genderFilter");
     const sortFilter = document.getElementById("sortFilter");
     const rankingBody = document.getElementById("rankingBody");
@@ -1702,6 +1708,19 @@ td:nth-child(7) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function normalizeSearchText(value) {
+      return String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\\u0300-\\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+    }
+
+    function includesSearch(value, search) {
+      if (!search) return true;
+      return normalizeSearchText(value).includes(search);
     }
 
     function formatNumberClient(value) {
@@ -1887,7 +1906,8 @@ td:nth-child(7) {
 
     function passesFilters(row) {
       const gender = genderFilter.value;
-      const search = searchInput.value.trim().toLowerCase();
+      const athleteSearch = normalizeSearchText(searchInput.value);
+      const countrySearch = normalizeSearchText(countrySearchInput.value);
 
       if (row.gender !== gender) {
         return false;
@@ -1897,23 +1917,16 @@ td:nth-child(7) {
         return false;
       }
 
-      if (search) {
-        const liveTournament = row.playing_this_week?.tournament || "";
+      if (athleteSearch && !includesSearch(row.player_name, athleteSearch)) {
+        return false;
+      }
 
-        const blob = [
-          row.player_name,
-          row.country,
-          row.country_name,
-          row.birth_year,
-          row.player_id,
-          liveTournament,
-        ]
-          .join(" ")
-          .toLowerCase();
-
-        if (!blob.includes(search)) {
-          return false;
-        }
+      if (
+        countrySearch &&
+        !includesSearch(row.country, countrySearch) &&
+        !includesSearch(row.country_name, countrySearch)
+      ) {
+        return false;
       }
 
       return true;
@@ -2090,6 +2103,7 @@ td:nth-child(7) {
     window.togglePointsInfo = togglePointsInfo;
 
     searchInput.addEventListener("input", renderTable);
+    countrySearchInput.addEventListener("input", renderTable);
     genderFilter.addEventListener("change", () => {
       selectedPlayerId = "";
       renderProfile(null);
