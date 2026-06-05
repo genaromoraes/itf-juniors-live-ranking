@@ -431,13 +431,24 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows) {
 const ROUND_ORDER = ["R128", "R64", "R32", "R16", "QF", "SF", "F", "W"];
 
 const POINTS_BY_CATEGORY = {
-  JGS: { R128: 10, R64: 30, R32: 90, R16: 180, QF: 300, SF: 490, F: 700, W: 1000 },
-  J500: { R128: 5, R64: 15, R32: 45, R16: 90, QF: 150, SF: 245, F: 350, W: 500 },
-  J300: { R128: 3, R64: 9, R32: 27, R16: 54, QF: 90, SF: 147, F: 210, W: 300 },
-  J200: { R128: 2, R64: 6, R32: 18, R16: 36, QF: 60, SF: 98, F: 140, W: 200 },
-  J100: { R128: 1, R64: 3, R32: 9, R16: 18, QF: 30, SF: 49, F: 70, W: 100 },
-  J60: { R128: 0, R64: 2, R32: 5, R16: 11, QF: 18, SF: 29, F: 42, W: 60 },
-  J30: { R128: 0, R64: 1, R32: 2, R16: 5, QF: 9, SF: 15, F: 21, W: 30 },
+  singles: {
+    JGS: { R128: 0, R64: 0, R32: 90, R16: 180, QF: 300, SF: 490, F: 700, W: 1000 },
+    J500: { R128: 0, R64: 0, R32: 45, R16: 90, QF: 150, SF: 250, F: 350, W: 500 },
+    J300: { R128: 0, R64: 0, R32: 30, R16: 60, QF: 100, SF: 140, F: 210, W: 300 },
+    J200: { R128: 0, R64: 0, R32: 18, R16: 36, QF: 60, SF: 100, F: 140, W: 200 },
+    J100: { R128: 0, R64: 0, R32: 5, R16: 10, QF: 20, SF: 36, F: 60, W: 100 },
+    J60: { R128: 0, R64: 0, R32: 0, R16: 5, QF: 10, SF: 18, F: 36, W: 60 },
+    J30: { R128: 0, R64: 0, R32: 0, R16: 2, QF: 5, SF: 9, F: 18, W: 30 },
+  },
+  doubles: {
+    JGS: { R128: 0, R64: 0, R32: 0, R16: 135, QF: 225, SF: 367, F: 525, W: 750 },
+    J500: { R128: 0, R64: 0, R32: 0, R16: 67, QF: 112, SF: 187, F: 262, W: 375 },
+    J300: { R128: 0, R64: 0, R32: 0, R16: 45, QF: 75, SF: 105, F: 157, W: 225 },
+    J200: { R128: 0, R64: 0, R32: 0, R16: 27, QF: 45, SF: 75, F: 105, W: 150 },
+    J100: { R128: 0, R64: 0, R32: 0, R16: 7, QF: 15, SF: 27, F: 45, W: 75 },
+    J60: { R128: 0, R64: 0, R32: 0, R16: 0, QF: 7, SF: 14, F: 27, W: 45 },
+    J30: { R128: 0, R64: 0, R32: 0, R16: 0, QF: 3, SF: 6, F: 13, W: 25 },
+  },
 };
 
 function parseLiveResult(resultText) {
@@ -463,7 +474,8 @@ function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
 
   const liveResult = parseLiveResult(liveItems[0]);
   const category = liveResult.category || "JGS";
-  const categoryPoints = POINTS_BY_CATEGORY[category] || POINTS_BY_CATEGORY.JGS;
+  const eventPoints = POINTS_BY_CATEGORY[eventType] || POINTS_BY_CATEGORY.singles;
+  const categoryPoints = eventPoints[category] || eventPoints.JGS;
   const currentRound = liveResult.round;
   const currentPoints =
     categoryPoints[currentRound] !== undefined

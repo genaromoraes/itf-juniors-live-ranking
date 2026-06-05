@@ -5,12 +5,24 @@ import { buildLivePointRows } from "../scripts/06_calculate_week_live_points.mjs
 const MAX_COUNTING_RESULTS = 6;
 const DOUBLES_WEIGHT = 0.25;
 
-const JGS_POINTS = {
+const OFFICIAL_POINTS_2026 = {
   singles: {
-    R16: 180,
+    JGS: { R32: 90, R16: 180, QF: 300, SF: 490, F: 700, W: 1000 },
+    J500: { R32: 45, R16: 90, QF: 150, SF: 250, F: 350, W: 500 },
+    J300: { R32: 30, R16: 60, QF: 100, SF: 140, F: 210, W: 300 },
+    J200: { R32: 18, R16: 36, QF: 60, SF: 100, F: 140, W: 200 },
+    J100: { R32: 5, R16: 10, QF: 20, SF: 36, F: 60, W: 100 },
+    J60: { R32: 0, R16: 5, QF: 10, SF: 18, F: 36, W: 60 },
+    J30: { R32: 0, R16: 2, QF: 5, SF: 9, F: 18, W: 30 },
   },
   doubles: {
-    R16: 135,
+    JGS: { R32: 0, R16: 135, QF: 225, SF: 367, F: 525, W: 750 },
+    J500: { R32: 0, R16: 67, QF: 112, SF: 187, F: 262, W: 375 },
+    J300: { R32: 0, R16: 45, QF: 75, SF: 105, F: 157, W: 225 },
+    J200: { R32: 0, R16: 27, QF: 45, SF: 75, F: 105, W: 150 },
+    J100: { R32: 0, R16: 7, QF: 15, SF: 27, F: 45, W: 75 },
+    J60: { R32: 0, R16: 0, QF: 7, SF: 14, F: 27, W: 45 },
+    J30: { R32: 0, R16: 0, QF: 3, SF: 6, F: 13, W: 25 },
   },
 };
 
@@ -47,7 +59,7 @@ function calculateRankingPoints({ singles = [], doubles = [] }) {
 function getJuniorPoints({ category, eventType, round, wonMatch = true }) {
   if (!wonMatch) return 0;
 
-  return JGS_POINTS[eventType]?.[round] ?? 0;
+  return OFFICIAL_POINTS_2026[eventType]?.[category]?.[round] ?? 0;
 }
 
 function dropResult(points, droppedPoint) {
@@ -148,6 +160,21 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(points, 180);
   });
 
+  test("2026 official singles table values are used for lower grades", () => {
+    assert.equal(getJuniorPoints({ category: "J500", eventType: "singles", round: "SF" }), 250);
+    assert.equal(getJuniorPoints({ category: "J300", eventType: "singles", round: "QF" }), 100);
+    assert.equal(getJuniorPoints({ category: "J100", eventType: "singles", round: "R16" }), 10);
+    assert.equal(getJuniorPoints({ category: "J60", eventType: "singles", round: "R32" }), 0);
+    assert.equal(getJuniorPoints({ category: "J30", eventType: "singles", round: "R16" }), 2);
+  });
+
+  test("2026 official doubles table values are used directly as raw points", () => {
+    assert.equal(getJuniorPoints({ category: "JGS", eventType: "doubles", round: "SF" }), 367);
+    assert.equal(getJuniorPoints({ category: "J500", eventType: "doubles", round: "R16" }), 67);
+    assert.equal(getJuniorPoints({ category: "J300", eventType: "doubles", round: "F" }), 157);
+    assert.equal(getJuniorPoints({ category: "J30", eventType: "doubles", round: "W" }), 25);
+  });
+
   test("production live calculation gives JGS doubles R16 135 raw and 33.75 weighted points", () => {
     const playerResults = [
       {
@@ -176,7 +203,7 @@ describe("ITF Junior ranking rules", () => {
     ];
 
     const pointsMap = new Map([
-      ["JGS|doubles|main_draw|R16", 180],
+      ["JGS|doubles|main_draw|R16", 135],
     ]);
 
     const [row] = buildLivePointRows(playerResults, matchRows, pointsMap);
@@ -184,6 +211,44 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(row.calculated_round_label, "R16");
     assert.equal(row.live_points_raw, 135);
     assert.equal(row.live_points_weighted, 33.75);
+  });
+
+  test("production live calculation uses official J500 doubles R16 raw points", () => {
+    const playerResults = [
+      {
+        tournament_key: "J-J500-BRA-2026-001",
+        tournament_name: "J500 Example",
+        category: "J500",
+        player_id: "123",
+        player_name: "Player Example",
+        player_type_code: "B",
+        match_type_code: "D",
+        event_classification_code: "M",
+        wins: "1",
+        losses: "0",
+        status: "still_alive_or_champion",
+      },
+    ];
+
+    const matchRows = [
+      {
+        tournament_key: "J-J500-BRA-2026-001",
+        player_type_code: "B",
+        match_type_code: "D",
+        event_classification_code: "M",
+        round_order: "5",
+      },
+    ];
+
+    const pointsMap = new Map([
+      ["J500|doubles|main_draw|R16", 67],
+    ]);
+
+    const [row] = buildLivePointRows(playerResults, matchRows, pointsMap);
+
+    assert.equal(row.calculated_round_label, "R16");
+    assert.equal(row.live_points_raw, 67);
+    assert.equal(row.live_points_weighted, 16.75);
   });
 
   test("production live calculation gives a JGS singles first-round loss 0 live points", () => {
