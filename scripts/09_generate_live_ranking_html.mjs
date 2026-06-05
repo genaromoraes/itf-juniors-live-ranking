@@ -14,6 +14,9 @@ const WEEK_LIVE_LEDGER_ROWS_FILE = path.resolve(
   "data/clean/week_live_ledger_rows.csv"
 );
 const DROPPED_POINTS_FILE = path.resolve("data/clean/live_dropped_points.csv");
+const LIVE_COMBINED_LEDGER_FILE = path.resolve(
+  "data/clean/live_combined_ledger_with_drops.csv"
+);
 
 const OUT_DIR_EXPORTS = path.resolve("data/exports");
 
@@ -428,6 +431,79 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows) {
   return map;
 }
 
+function sortLedgerResults(rows) {
+  return [...rows].sort((a, b) => {
+    const pointsDiff = toNumber(b.points) - toNumber(a.points);
+
+    if (pointsDiff !== 0) return pointsDiff;
+
+    const liveA = cleanText(a.source_type) === "live" ? 1 : 0;
+    const liveB = cleanText(b.source_type) === "live" ? 1 : 0;
+
+    if (liveA !== liveB) return liveB - liveA;
+
+    return cleanText(b.start_date).localeCompare(cleanText(a.start_date));
+  });
+}
+
+function buildResultKey(row) {
+  return [
+    cleanText(row.player_id),
+    cleanText(row.event_type),
+    cleanText(row.tournament_name),
+    cleanText(row.category),
+    cleanText(row.start_date),
+    cleanText(row.round),
+    toNumber(row.points),
+    cleanText(row.source_type),
+  ].join("|");
+}
+
+function buildPointCartelMap(combinedLedgerRows) {
+  const byPlayer = new Map();
+
+  for (const row of combinedLedgerRows) {
+    const playerId = cleanText(row.player_id);
+    const eventType = cleanText(row.event_type);
+
+    if (!playerId) continue;
+    if (eventType !== "singles" && eventType !== "doubles") continue;
+
+    if (!byPlayer.has(playerId)) {
+      byPlayer.set(playerId, { singles: [], doubles: [] });
+    }
+
+    byPlayer.get(playerId)[eventType].push(row);
+  }
+
+  const map = new Map();
+
+  for (const [playerId, groups] of byPlayer.entries()) {
+    const cartel = { singles: [], doubles: [] };
+
+    for (const eventType of ["singles", "doubles"]) {
+      const sorted = sortLedgerResults(groups[eventType]);
+      const countingKeys = new Set(
+        sorted.slice(0, 6).map((row) => buildResultKey(row))
+      );
+
+      cartel[eventType] = sorted.map((row) => ({
+        tournament: cleanText(row.tournament_name),
+        category: cleanText(row.category),
+        round: cleanText(row.round),
+        date: cleanText(row.start_date),
+        points: toNumber(row.points),
+        source: cleanText(row.source_type) === "live" ? "LIVE" : "",
+        counting: countingKeys.has(buildResultKey(row)),
+      }));
+    }
+
+    map.set(playerId, cartel);
+  }
+
+  return map;
+}
+
 const ROUND_ORDER = ["R128", "R64", "R32", "R16", "QF", "SF", "F", "W"];
 
 const POINTS_BY_CATEGORY = {
@@ -540,7 +616,8 @@ function shouldProjectEvent(row, weekParticipationMap, eventType) {
 function buildDataForHtml(
   rows,
   weekParticipationMap = new Map(),
-  pointDetailsMap = new Map()
+  pointDetailsMap = new Map(),
+  pointCartelMap = new Map()
 ) {
   return rows.map((row) => ({
     live_rank: toNumber(row.live_rank),
@@ -585,6 +662,8 @@ function buildDataForHtml(
       weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
     point_details:
       pointDetailsMap.get(cleanText(row.player_id)) || { live: [], drops: [] },
+    point_cartel:
+      pointCartelMap.get(cleanText(row.player_id)) || { singles: [], doubles: [] },
 
     next_round_scenarios: (() => {
       const livePoints = toNumber(row.live_points);
@@ -716,8 +795,19 @@ function getStats(rows) {
   };
 }
 
-function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap) {
-  const data = buildDataForHtml(rows, weekParticipationMap, pointDetailsMap);
+function buildHtml(
+  rows,
+  weekTournaments,
+  weekParticipationMap,
+  pointDetailsMap,
+  pointCartelMap
+) {
+  const data = buildDataForHtml(
+    rows,
+    weekParticipationMap,
+    pointDetailsMap,
+    pointCartelMap
+  );
   const stats = getStats(rows);
   const tournamentGroups = groupWeekTournaments(weekTournaments);
 
@@ -738,22 +828,29 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
   <title>ITF Juniors Live Ranking</title>
   <style>
     :root {
-      --bg: #eaf4f1;
-      --panel: #ffffff;
-      --panel-soft: #f7fbfa;
-      --text: #0f172a;
-      --muted: #52677a;
-      --border: #d6e4e1;
-      --green-dark: #0f766e;
-      --green: #047857;
-      --green-soft: #d1fae5;
-      --red: #dc2626;
-      --red-soft: #fee2e2;
-      --yellow: #b45309;
-      --yellow-soft: #fef3c7;
-      --blue: #0369a1;
-      --blue-soft: #e0f2fe;
-      --shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+      --bg: #f5f8f7;
+      --bg-glow: #e7f3ef;
+      --panel: rgba(255, 255, 255, 0.94);
+      --panel-solid: #ffffff;
+      --panel-soft: #f7faf9;
+      --text: #142432;
+      --muted: #66788a;
+      --muted-soft: #8a9aaa;
+      --border: #dfe9e6;
+      --border-soft: #edf3f1;
+      --green-dark: #08756d;
+      --green: #12805f;
+      --green-soft: #dff7ee;
+      --red: #d74855;
+      --red-soft: #ffe8eb;
+      --yellow: #a66a12;
+      --yellow-soft: #fff2d7;
+      --blue: #276f9f;
+      --blue-soft: #e8f3fb;
+      --shadow: 0 18px 50px rgba(26, 45, 57, 0.08);
+      --shadow-soft: 0 8px 24px rgba(26, 45, 57, 0.06);
+      --radius: 22px;
+      --radius-sm: 14px;
     }
 
     * {
@@ -761,103 +858,140 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
     }
 
     body {
-  margin: 0;
-  font-family: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
+      margin: 0;
+      font-family: "Inter", "SF Pro Display", "SF Pro Text", "Segoe UI", Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(220, 244, 236, 0.84), transparent 32rem),
+        linear-gradient(180deg, var(--bg-glow) 0%, var(--bg) 34%, #f9fbfa 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
 
     .page {
-      width: min(1660px, calc(100% - 70px));
+      width: min(1720px, calc(100% - 72px));
       margin: 0 auto;
-      padding: 36px 0 54px;
+      padding: 42px 0 64px;
     }
 
     .header {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 30px;
+      gap: 28px;
       align-items: start;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
 
     h1 {
-  margin: 0;
-  font-size: 56px;
-  line-height: 0.98;
-  letter-spacing: -0.06em;
-  color: var(--green-dark);
-  font-weight: 900;
-}
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(42px, 5.2vw, 74px);
+      line-height: 0.94;
+      letter-spacing: -0.055em;
+      color: var(--green-dark);
+      font-weight: 850;
+    }
 
     .creator {
-  margin-top: 10px;
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.35;
-}
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 15px;
+      line-height: 1.35;
+    }
 
     .creator a {
-      color: var(--blue);
+      color: var(--green-dark);
       text-decoration: none;
+      font-weight: 760;
     }
 
     .beta {
-  display: inline-flex;
-  margin-left: 8px;
-  background: #cceee5;
-  color: var(--green-dark);
-  border-radius: 999px;
-  padding: 5px 10px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-}
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      background: rgba(8, 117, 109, 0.1);
+      color: var(--green-dark);
+      border: 1px solid rgba(8, 117, 109, 0.12);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
 
     .top-controls {
       display: flex;
-      gap: 14px;
+      gap: 12px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
     }
 
     .mini-control {
       display: grid;
-      gap: 7px;
+      gap: 6px;
     }
 
     .mini-control label,
     .filter label {
-      font-size: 12px;
-      font-weight: 850;
+      font-size: 11px;
+      font-weight: 760;
       color: var(--muted);
+      letter-spacing: 0.01em;
     }
 
     select,
     input {
-      border: 1px solid #cbd5e1;
-      background: var(--panel);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-weight: 800;
+      min-height: 46px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 14px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 650;
       color: var(--text);
       outline: none;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
     }
 
     input {
       width: 100%;
     }
 
+    select:focus,
+    input:focus {
+      border-color: rgba(8, 117, 109, 0.38);
+      box-shadow: 0 0 0 4px rgba(8, 117, 109, 0.1);
+      background: #ffffff;
+    }
+
+    input:disabled {
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
     .filters {
       display: grid;
-      grid-template-columns: 1fr 170px 170px 200px;
-      gap: 18px;
+      grid-template-columns: minmax(280px, 1fr) 190px 170px 190px;
+      gap: 14px;
       align-items: end;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
     }
 
     .filter {
@@ -867,99 +1001,106 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 20px;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 22px;
       align-items: start;
     }
 
     .ranking-card,
     .side-card {
-      background: rgba(255, 255, 255, 0.88);
+      background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
+      backdrop-filter: blur(18px);
     }
 
     .ranking-card-header {
-      padding: 22px 24px 16px;
-      border-bottom: 1px solid var(--border);
+      padding: 24px 28px 18px;
+      border-bottom: 1px solid var(--border-soft);
     }
 
     .ranking-card-header h2 {
       margin: 0;
-      font-size: 19px;
-      letter-spacing: -0.02em;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      font-weight: 800;
     }
 
     .formula {
-      margin-top: 10px;
-      color: #334155;
-      font-size: 15px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       font-size: 13px;
     }
 
     thead {
-      background: var(--panel-soft);
+      background: rgba(247, 250, 249, 0.92);
     }
 
     th {
-  text-align: left;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.25;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 12px 10px;
-  border-bottom: 1px solid var(--border);
-  font-weight: 800;
-  white-space: nowrap;
-}
+      text-align: left;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.22;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border-soft);
+      font-weight: 760;
+      white-space: nowrap;
+    }
 
     td {
-  padding: 10px 10px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-  line-height: 1.3;
-}
+      padding: 16px 12px;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: middle;
+      line-height: 1.35;
+    }
 
     tbody tr {
       cursor: pointer;
+      transition: background 140ms ease, box-shadow 140ms ease;
     }
 
     tbody tr:hover {
-      background: #f4faf8;
+      background: rgba(235, 247, 243, 0.56);
     }
 
     tbody tr.selected {
-      background: #e9f6f2;
+      background: rgba(224, 244, 237, 0.82);
+      box-shadow: 4px 0 0 var(--green-dark) inset;
     }
 
     .rank {
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
+      font-size: 20px;
+      font-weight: 820;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
 
     .rank-change {
-  display: inline-flex;
-  min-width: 26px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 999px;
-  padding: 3px 7px;
-  font-size: 12px;
-  font-weight: 800;
-  margin-left: 8px;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
+      display: inline-flex;
+      min-width: 28px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-left: 8px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
 
     .up {
       background: var(--green-soft);
@@ -972,136 +1113,143 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
     }
 
     .same {
-      background: #e2e8f0;
+      background: #edf2f5;
       color: var(--muted);
     }
 
     .player {
-  min-width: 260px;
-  }
+      min-width: 260px;
+    }
 
     .player-name {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 800;
-  line-height: 1.2;
-  font-size: 14px;
-  word-break: normal;
-  overflow-wrap: anywhere;
-}
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 780;
+      line-height: 1.25;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
 
     .country-flag {
-  width: 21px;
-  height: 15px;
-  border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
-  flex: 0 0 auto;
-  object-fit: cover;
-}
+      width: 22px;
+      height: 16px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 1px rgba(20, 36, 50, 0.14), 0 4px 10px rgba(20, 36, 50, 0.08);
+      flex: 0 0 auto;
+      object-fit: cover;
+    }
 
     .player-meta {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.25;
-}
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
 
     .points {
-  font-weight: 800;
-  color: var(--green-dark);
-  font-size: 15px;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
+      font-weight: 830;
+      color: var(--green-dark);
+      font-size: 16px;
+      white-space: nowrap;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
 
     .points-cell {
-  min-width: 170px;
-}
+      min-width: 180px;
+    }
 
     .points-main {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
 
     .points-balance {
-  font-size: 12px;
-  font-weight: 900;
-  white-space: nowrap;
-}
+      font-size: 12px;
+      font-weight: 820;
+      white-space: nowrap;
+    }
 
     .points-info-button {
-  margin-top: 6px;
-  border: 1px solid var(--border);
-  background: #ffffff;
-  color: var(--green-dark);
-  border-radius: 999px;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 900;
-  line-height: 1;
-  cursor: pointer;
-}
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--green-dark);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(20, 36, 50, 0.04);
+    }
 
     .points-info-button:hover {
-  background: var(--panel-soft);
-}
+      background: #ffffff;
+      border-color: rgba(8, 117, 109, 0.26);
+    }
 
     .points-detail {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
-  color: var(--text);
-}
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      background: rgba(247, 250, 249, 0.82);
+      color: var(--text);
+    }
 
     .points-detail-section + .points-detail-section {
-  margin-top: 8px;
-}
+      margin-top: 10px;
+    }
 
     .points-detail-title {
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 820;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
     .points-detail-line {
-  margin-top: 4px;
-  font-size: 11px;
-  line-height: 1.35;
-  color: #334155;
-  overflow-wrap: anywhere;
-}
+      margin-top: 5px;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #3d5264;
+      overflow-wrap: anywhere;
+    }
 
     .points-detail-impact {
-  font-weight: 950;
-  white-space: nowrap;
-}
+      font-weight: 860;
+      white-space: nowrap;
+    }
 
     .small {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.35;
-}
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
 
     .week-cell {
-  min-width: 240px;
-  font-weight: 700;
-  line-height: 1.2;
-  word-break: normal;
-  overflow-wrap: anywhere;
-}
+      min-width: 250px;
+      font-weight: 760;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
 
     .week-sub {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.35;
-}
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 640;
+      line-height: 1.42;
+    }
 
     .dash {
       color: var(--muted);
@@ -1110,11 +1258,12 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
     .status-pill {
       display: inline-flex;
       border-radius: 999px;
-      padding: 3px 7px;
-      font-size: 11px;
-      font-weight: 950;
+      padding: 4px 7px;
+      font-size: 10px;
+      font-weight: 820;
       margin-right: 4px;
       white-space: nowrap;
+      letter-spacing: 0.04em;
     }
 
     .live {
@@ -1138,121 +1287,203 @@ function buildHtml(rows, weekTournaments, weekParticipationMap, pointDetailsMap)
     }
 
     .side-card h3 {
-  margin: 0 0 12px;
-  font-size: 18px;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  font-weight: 800;
-}
-
-    .side-card h3 {
-      margin: 0 0 12px;
+      margin: 0 0 16px;
       font-size: 17px;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    .side-card {
+      padding: 18px;
     }
 
     .tournament-group {
       display: grid;
-      grid-template-columns: 42px 1fr;
+      grid-template-columns: 44px 1fr;
       gap: 12px;
-      margin: 10px 0;
+      padding: 11px 0;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .tournament-group:first-child {
+      border-top: 0;
+      padding-top: 0;
     }
 
     .category-label {
-      font-weight: 950;
-      color: #991b1b;
-      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--red-soft);
+      color: #a33440;
+      font-weight: 820;
+      font-size: 11px;
     }
 
     .tournament-list {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.45;
-  font-weight: 600;
-}
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      font-weight: 610;
+    }
 
     .profile-empty {
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.5;
       font-size: 14px;
-      padding: 8px 0;
+      padding: 4px 0 2px;
     }
 
     .profile-head {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: flex-start;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .profile-flag {
-      font-size: 20px;
+      display: flex;
+      align-items: center;
+      padding-top: 2px;
+    }
+
+    .profile-flag .country-flag {
+      width: 26px;
+      height: 19px;
     }
 
     .profile-name {
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.2;
-}
+      font-size: 16px;
+      font-weight: 820;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
 
     .profile-meta {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.3;
-}
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
 
     .profile-line {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.45;
-  margin-bottom: 14px;
-}
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
 
     .profile-line strong {
       color: var(--text);
     }
 
     .profile-section {
-      margin-top: 16px;
+      margin-top: 18px;
     }
 
     .profile-section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
       font-size: 13px;
-      font-weight: 950;
-      margin-bottom: 8px;
+      font-weight: 820;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .profile-section-meta {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
     }
 
     .result-card {
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 8px;
-  background: #fbfdfc;
-  font-size: 12px;
-  line-height: 1.35;
-}
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-bottom: 9px;
+      background: rgba(248, 251, 250, 0.86);
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    .result-card.counting {
+      background: #ffffff;
+      border-color: rgba(8, 117, 109, 0.22);
+      box-shadow: 0 8px 24px rgba(26, 45, 57, 0.06);
+    }
+
+    .result-card.not-counting {
+      opacity: 0.58;
+      background: rgba(248, 251, 250, 0.54);
+      box-shadow: none;
+    }
+
+    .result-main {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .result-title {
+      font-weight: 780;
+      color: var(--text);
+      line-height: 1.28;
+    }
+
+    .result-card.not-counting .result-title {
+      font-weight: 660;
+    }
 
     .result-points {
-  font-weight: 800;
-  color: var(--green-dark);
-  font-variant-numeric: tabular-nums;
-}
+      margin-top: 6px;
+      font-weight: 830;
+      color: var(--green-dark);
+      font-variant-numeric: tabular-nums;
+    }
 
     .result-status {
       float: right;
       color: var(--muted);
       text-transform: uppercase;
       font-size: 10px;
-      font-weight: 950;
+      font-weight: 820;
+      border-radius: 999px;
+      background: #edf4f2;
+      padding: 3px 7px;
+    }
+
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 820;
+      white-space: nowrap;
+      color: var(--green-dark);
+      background: var(--green-soft);
+    }
+
+    .result-card.not-counting .result-badge {
+      color: var(--muted);
+      background: #edf2f5;
     }
 
     .summary-row {
-      margin-bottom: 10px;
       color: var(--muted);
       font-size: 13px;
       display: flex;
       justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-soft);
     }
 
     .summary-row strong {
@@ -1290,18 +1521,20 @@ td:nth-child(7) {
     @media (max-width: 1200px) {
       .page {
         width: min(100% - 24px, 100%);
-      }
-
-      h1 {
-        font-size: 42px;
+        padding-top: 26px;
       }
 
       .header {
         grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .top-controls {
+        justify-self: start;
       }
 
       .filters {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
 
       .layout {
@@ -1314,6 +1547,32 @@ td:nth-child(7) {
 
       table {
         min-width: 1100px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 16px, 100%);
+        padding-bottom: 36px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+
+      .top-controls {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ranking-card-header {
+        padding: 20px 18px 14px;
+      }
+
+      .summary-row {
+        flex-direction: column;
       }
     }
   </style>
@@ -1574,40 +1833,6 @@ td:nth-child(7) {
              '</div>';
     }
 
-    function getWeeklyBalanceHtml(row) {
-      const balance = Number(row.points_change_vs_official || 0);
-      const liveRaw = Number(row.live_raw_points_available || 0);
-      const estimatedDropped = Number(row.estimated_weighted_dropped || 0);
-      const singlesCount = Number(row.live_singles_results_counting || 0);
-      const doublesCount = Number(row.live_doubles_results_counting || 0);
-      const dropCount = Number(row.dropped_rows_count || 0);
-      const balanceClass = getBalanceClass(balance);
-      const balanceSign = getBalanceSign(balance);
-      const colorVar = balanceClass === 'green' ? 'green' : balanceClass === 'red' ? 'red' : 'muted';
-
-      return '<div class="profile-section">' +
-             '<div class="profile-section-title">Saldo da semana</div>' +
-             '<div class="profile-line">' +
-             '<strong style="color: var(--' + colorVar + ');">Saldo: ' + balanceSign + formatNumberClient(balance) + '</strong>' +
-             '</div>' +
-             '<div class="profile-line">' +
-             'Entrando live: ' + formatNumberClient(liveRaw) + ' bruto' +
-             '</div>' +
-             '<div class="profile-line">' +
-             'Drops estimados: ' + formatNumberClient(estimatedDropped) +
-             '</div>' +
-             '<div class="profile-line">' +
-             'Live no ranking: ' + singlesCount + 'S / ' + doublesCount + 'D' +
-             '</div>' +
-             '<div class="profile-line">' +
-             'Resultados dropados: ' + dropCount +
-             '</div>' +
-             '<div class="small" style="color: var(--muted); margin-top: 8px; font-style: italic;">' +
-             'Nota: O saldo final considera a recomposição dos 6 melhores resultados, portanto pode diferir do bruto menos drops.' +
-             '</div>' +
-             '</div>';
-    }
-
     function getPlayingHtml(row) {
       if (!row.playing_this_week) {
         return '<span class="dash">-</span>';
@@ -1729,24 +1954,42 @@ td:nth-child(7) {
       }
 
       return results.map((item) => {
-        const parts = item.split("|").map((part) => part.trim());
-
-        const points = parts[0] || "";
-        const source = parts[1] || "";
-        const category = parts[2] || "";
-        const round = parts[3] || "";
-        const tournament = parts[4] || "";
-        const date = parts[5] || "";
+        const cardClass = item.counting ? "counting" : "not-counting";
+        const badge = item.counting ? "Contando" : "Não contando";
+        const source = item.source ? ' · ' + escapeHtmlClient(item.source) : '';
+        const details = [
+          item.category,
+          item.date,
+          item.round,
+        ].filter(Boolean).map(escapeHtmlClient).join(" · ");
 
         return \`
-          <div class="result-card">
-            <span class="result-status">\${escapeHtmlClient(source)}</span>
-            <div><strong>\${escapeHtmlClient(tournament || "Torneio")}</strong></div>
-            <div class="small">\${escapeHtmlClient(category)} · \${escapeHtmlClient(date)} · \${escapeHtmlClient(round)}</div>
-            <div class="result-points">\${escapeHtmlClient(points)}</div>
+          <div class="result-card \${cardClass}">
+            <div class="result-main">
+              <div>
+                <div class="result-title">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
+                <div class="small">\${details}\${source}</div>
+              </div>
+              <span class="result-badge">\${badge}</span>
+            </div>
+            <div class="result-points">\${formatNumberClient(item.points)} pts</div>
           </div>
         \`;
       }).join("");
+    }
+
+    function renderCartelSection(title, results) {
+      const counting = results.filter((item) => item.counting);
+
+      return \`
+        <div class="profile-section">
+          <div class="profile-section-title">
+            <span>\${title}</span>
+            <span class="profile-section-meta">\${counting.length}/6 contando</span>
+          </div>
+          \${renderResultCards(results)}
+        </div>
+      \`;
     }
 
     function renderProfile(row) {
@@ -1769,31 +2012,16 @@ td:nth-child(7) {
           <div class="profile-flag">\${flag}</div>
           <div>
             <div class="profile-name">\${escapeHtmlClient(row.player_name)}</div>
-            <div class="profile-meta">
-              oficial \${formatRankClient(row.official_rank)} · live \${formatRankClient(row.live_rank)} · \${formatChange(row.rank_change_vs_official)}
-            </div>
+            <div class="profile-meta">\${formatNumberClient(row.live_points)} pts ao vivo</div>
           </div>
         </div>
 
         <div class="profile-line">
-          <strong>\${formatNumberClient(row.live_points)}</strong> pontos ao vivo ·
-          oficial: \${formatNumberClient(row.official_points)} ·
-          máximo atual: \${formatNumberClient(row.live_points)}
-          <br />
           \${statusTags(row)}
         </div>
 
-        \${getWeeklyBalanceHtml(row)}
-
-        <div class="profile-section">
-          <div class="profile-section-title">Simples</div>
-          \${renderResultCards(row.best_singles)}
-        </div>
-
-        <div class="profile-section">
-          <div class="profile-section-title">Duplas</div>
-          \${renderResultCards(row.best_doubles)}
-        </div>
+        \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
+        \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
       \`;
     }
 
@@ -1895,18 +2123,23 @@ async function main() {
   console.log("Lendo live_dropped_points.csv...");
   const droppedRows = await readCsv(DROPPED_POINTS_FILE);
 
+  console.log("Lendo live_combined_ledger_with_drops.csv...");
+  const combinedLedgerRows = await readCsv(LIVE_COMBINED_LEDGER_FILE);
+
   const weekParticipationMap = buildWeekParticipationMap(
     weekPlayerResults,
     weekLiveLedgerRows
   );
 
   const pointDetailsMap = buildPointDetailsMap(weekLiveLedgerRows, droppedRows);
+  const pointCartelMap = buildPointCartelMap(combinedLedgerRows);
 
   const html = buildHtml(
     rows,
     weekTournaments,
     weekParticipationMap,
-    pointDetailsMap
+    pointDetailsMap,
+    pointCartelMap
   );
 
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
