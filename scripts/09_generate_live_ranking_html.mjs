@@ -875,7 +875,7 @@ function buildHtml(
     .page {
       width: min(1720px, calc(100% - 72px));
       margin: 0 auto;
-      padding: 42px 0 64px;
+      padding: 30px 0 44px;
     }
 
     .header {
@@ -889,7 +889,7 @@ function buildHtml(
     h1 {
       margin: 0;
       max-width: 780px;
-      font-size: clamp(42px, 5.2vw, 74px);
+      font-size: clamp(38px, 4.5vw, 64px);
       line-height: 0.94;
       letter-spacing: -0.055em;
       color: var(--green-dark);
@@ -901,10 +901,10 @@ function buildHtml(
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 12px;
       color: var(--muted);
       font-weight: 650;
-      font-size: 15px;
+      font-size: 13px;
       line-height: 1.35;
     }
 
@@ -930,8 +930,8 @@ function buildHtml(
 
     .top-controls {
       display: flex;
-      gap: 12px;
-      padding: 10px;
+      gap: 10px;
+      padding: 8px;
       background: rgba(255, 255, 255, 0.58);
       border: 1px solid rgba(255, 255, 255, 0.74);
       border-radius: 18px;
@@ -954,12 +954,12 @@ function buildHtml(
 
     select,
     input {
-      min-height: 46px;
+      min-height: 38px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.9);
-      border-radius: 14px;
-      padding: 11px 14px;
-      font-size: 14px;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 13px;
       font-weight: 650;
       color: var(--text);
       outline: none;
@@ -986,10 +986,10 @@ function buildHtml(
     .filters {
       display: grid;
       grid-template-columns: minmax(260px, 1.25fr) minmax(190px, 0.75fr) 190px 170px 190px;
-      gap: 14px;
+      gap: 12px;
       align-items: end;
-      margin-bottom: 22px;
-      padding: 16px;
+      margin-bottom: 16px;
+      padding: 12px;
       background: rgba(255, 255, 255, 0.62);
       border: 1px solid rgba(255, 255, 255, 0.74);
       border-radius: var(--radius);
@@ -999,13 +999,13 @@ function buildHtml(
 
     .filter {
       display: grid;
-      gap: 8px;
+      gap: 6px;
     }
 
     .layout {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 340px;
-      gap: 22px;
+      gap: 16px;
       align-items: start;
     }
 
@@ -1020,21 +1020,21 @@ function buildHtml(
     }
 
     .ranking-card-header {
-      padding: 24px 28px 18px;
+      padding: 18px 22px 14px;
       border-bottom: 1px solid var(--border-soft);
     }
 
     .ranking-card-header h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 17px;
       letter-spacing: -0.03em;
       font-weight: 800;
     }
 
     .formula {
-      margin-top: 8px;
+      margin-top: 6px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.45;
     }
 
@@ -1042,7 +1042,7 @@ function buildHtml(
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     thead {
@@ -1052,11 +1052,11 @@ function buildHtml(
     th {
       text-align: left;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 9px;
       line-height: 1.22;
       text-transform: uppercase;
       letter-spacing: 0.07em;
-      padding: 14px 12px;
+      padding: 10px 9px;
       border-bottom: 1px solid var(--border-soft);
       font-weight: 760;
       white-space: nowrap;
@@ -1086,12 +1086,12 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       border-radius: 999px;
       background: rgba(8, 117, 109, 0.08);
       color: var(--green-dark);
-      font-size: 10px;
+      font-size: 9px;
       line-height: 1;
       opacity: 0.36;
     }
@@ -1101,10 +1101,10 @@ function buildHtml(
     }
 
     td {
-      padding: 16px 12px;
+      padding: 9px 9px;
       border-bottom: 1px solid var(--border-soft);
       vertical-align: middle;
-      line-height: 1.35;
+      line-height: 1.25;
     }
 
     tbody tr {
@@ -1122,7 +1122,7 @@ function buildHtml(
     }
 
     .rank {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 820;
       line-height: 1;
       letter-spacing: -0.02em;
@@ -1131,14 +1131,14 @@ function buildHtml(
 
     .rank-change {
       display: inline-flex;
-      min-width: 28px;
+      min-width: 24px;
       justify-content: center;
       align-items: center;
       border-radius: 999px;
-      padding: 4px 7px;
-      font-size: 11px;
+      padding: 3px 6px;
+      font-size: 10px;
       font-weight: 800;
-      margin-left: 8px;
+      margin-left: 6px;
       line-height: 1;
       font-variant-numeric: tabular-nums;
     }
@@ -1159,24 +1159,24 @@ function buildHtml(
     }
 
     .player {
-      min-width: 260px;
+      min-width: 220px;
     }
 
     .player-name {
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 7px;
       font-weight: 780;
-      line-height: 1.25;
-      font-size: 14px;
+      line-height: 1.18;
+      font-size: 13px;
       letter-spacing: -0.01em;
       word-break: normal;
       overflow-wrap: anywhere;
     }
 
     .country-flag {
-      width: 22px;
-      height: 16px;
+      width: 20px;
+      height: 14px;
       border-radius: 4px;
       box-shadow: 0 0 0 1px rgba(20, 36, 50, 0.14), 0 4px 10px rgba(20, 36, 50, 0.08);
       flex: 0 0 auto;
@@ -1194,30 +1194,30 @@ function buildHtml(
     .points {
       font-weight: 830;
       color: #12324a;
-      font-size: 17px;
+      font-size: 14px;
       white-space: nowrap;
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
     }
 
     .points-cell {
-      min-width: 180px;
+      min-width: 150px;
     }
 
     .points-main {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
     .points-balance {
       display: inline-flex;
       align-items: center;
-      min-height: 22px;
+      min-height: 18px;
       border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 11px;
+      padding: 2px 6px;
+      font-size: 10px;
       font-weight: 830;
       line-height: 1;
       white-space: nowrap;
@@ -1244,13 +1244,13 @@ function buildHtml(
     }
 
     .points-info-button {
-      margin-top: 8px;
+      margin-top: 5px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.78);
       color: var(--green-dark);
       border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 11px;
+      padding: 4px 8px;
+      font-size: 10px;
       font-weight: 800;
       line-height: 1;
       cursor: pointer;
@@ -1263,8 +1263,8 @@ function buildHtml(
     }
 
     .points-detail {
-      margin-top: 10px;
-      padding: 10px 12px;
+      margin-top: 7px;
+      padding: 8px 9px;
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-sm);
       background: rgba(247, 250, 249, 0.82);
@@ -1272,7 +1272,7 @@ function buildHtml(
     }
 
     .points-detail-section + .points-detail-section {
-      margin-top: 10px;
+      margin-top: 7px;
     }
 
     .points-detail-title {
@@ -1284,9 +1284,9 @@ function buildHtml(
     }
 
     .points-detail-line {
-      margin-top: 5px;
-      font-size: 11px;
-      line-height: 1.4;
+      margin-top: 4px;
+      font-size: 10px;
+      line-height: 1.32;
       color: #3d5264;
       overflow-wrap: anywhere;
     }
@@ -1298,14 +1298,14 @@ function buildHtml(
 
     .small {
       color: var(--muted);
-      font-size: 11px;
-      line-height: 1.45;
+      font-size: 10px;
+      line-height: 1.34;
     }
 
     .week-cell {
-      min-width: 250px;
+      min-width: 210px;
       font-weight: 760;
-      line-height: 1.25;
+      line-height: 1.18;
       letter-spacing: -0.01em;
       word-break: normal;
       overflow-wrap: anywhere;
@@ -1314,15 +1314,15 @@ function buildHtml(
     .week-tournament {
       display: flex;
       align-items: flex-start;
-      gap: 8px;
+      gap: 6px;
     }
 
     .week-sub {
-      margin-top: 7px;
+      margin-top: 4px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 640;
-      line-height: 1.42;
+      line-height: 1.28;
     }
 
     .dash {
@@ -1332,8 +1332,8 @@ function buildHtml(
     .status-pill {
       display: inline-flex;
       border-radius: 999px;
-      padding: 4px 7px;
-      font-size: 10px;
+      padding: 3px 6px;
+      font-size: 9px;
       font-weight: 820;
       margin-right: 4px;
       white-space: nowrap;
@@ -1359,11 +1359,11 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 38px;
-      height: 22px;
+      min-width: 34px;
+      height: 18px;
       border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 10px;
+      padding: 2px 7px;
+      font-size: 9px;
       font-weight: 840;
       line-height: 1;
       white-space: nowrap;
@@ -1416,26 +1416,26 @@ function buildHtml(
 
     .side {
       display: grid;
-      gap: 18px;
+      gap: 14px;
     }
 
     .side-card h3 {
-      margin: 0 0 16px;
-      font-size: 17px;
+      margin: 0 0 12px;
+      font-size: 15px;
       letter-spacing: -0.03em;
       line-height: 1.2;
       font-weight: 800;
     }
 
     .side-card {
-      padding: 18px;
+      padding: 14px;
     }
 
     .tournament-group {
       display: grid;
       grid-template-columns: 44px 1fr;
-      gap: 12px;
-      padding: 11px 0;
+      gap: 9px;
+      padding: 8px 0;
       border-top: 1px solid var(--border-soft);
     }
 
@@ -1446,23 +1446,23 @@ function buildHtml(
 
     .tournament-list {
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.55;
+      font-size: 11px;
+      line-height: 1.42;
       font-weight: 610;
     }
 
     .profile-empty {
       color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
-      padding: 4px 0 2px;
+      line-height: 1.38;
+      font-size: 12px;
+      padding: 2px 0;
     }
 
     .profile-head {
       display: flex;
-      gap: 12px;
+      gap: 9px;
       align-items: flex-start;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .profile-flag {
@@ -1472,29 +1472,29 @@ function buildHtml(
     }
 
     .profile-flag .country-flag {
-      width: 26px;
-      height: 19px;
+      width: 22px;
+      height: 16px;
     }
 
     .profile-name {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 820;
       line-height: 1.25;
       letter-spacing: -0.02em;
     }
 
     .profile-meta {
-      margin-top: 4px;
+      margin-top: 2px;
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
+      font-size: 11px;
+      line-height: 1.25;
     }
 
     .profile-line {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 12px;
+      line-height: 1.32;
+      margin-bottom: 9px;
     }
 
     .profile-line strong {
@@ -1502,23 +1502,23 @@ function buildHtml(
     }
 
     .profile-section {
-      margin-top: 18px;
+      margin-top: 13px;
     }
 
     .profile-section-title {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      gap: 10px;
-      font-size: 13px;
+      gap: 8px;
+      font-size: 12px;
       font-weight: 820;
-      margin-bottom: 10px;
+      margin-bottom: 7px;
       letter-spacing: -0.01em;
     }
 
     .profile-section-meta {
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 650;
       white-space: nowrap;
     }
@@ -1526,17 +1526,17 @@ function buildHtml(
     .result-card {
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-sm);
-      padding: 12px;
-      margin-bottom: 9px;
+      padding: 8px;
+      margin-bottom: 6px;
       background: rgba(248, 251, 250, 0.86);
-      font-size: 12px;
-      line-height: 1.42;
+      font-size: 11px;
+      line-height: 1.28;
     }
 
     .result-card.counting {
       background: #ffffff;
       border-color: var(--cat-border, rgba(8, 117, 109, 0.22));
-      box-shadow: 0 8px 24px rgba(26, 45, 57, 0.06);
+      box-shadow: 0 5px 14px rgba(26, 45, 57, 0.05);
     }
 
     .result-card.not-counting {
@@ -1549,19 +1549,19 @@ function buildHtml(
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 8px;
     }
 
     .result-title {
       font-weight: 780;
       color: var(--text);
-      line-height: 1.28;
+      line-height: 1.18;
     }
 
     .result-heading {
       display: flex;
       align-items: flex-start;
-      gap: 8px;
+      gap: 6px;
     }
 
     .result-card.not-counting .result-title {
@@ -1569,7 +1569,7 @@ function buildHtml(
     }
 
     .result-points {
-      margin-top: 6px;
+      margin-top: 4px;
       font-weight: 830;
       color: var(--green-dark);
       font-variant-numeric: tabular-nums;
@@ -1579,11 +1579,11 @@ function buildHtml(
       float: right;
       color: var(--muted);
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 820;
       border-radius: 999px;
       background: #edf4f2;
-      padding: 3px 7px;
+      padding: 2px 6px;
     }
 
     .result-badge {
@@ -1591,8 +1591,8 @@ function buildHtml(
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      padding: 3px 7px;
-      font-size: 10px;
+      padding: 2px 6px;
+      font-size: 9px;
       font-weight: 820;
       white-space: nowrap;
       color: var(--green-dark);
@@ -1606,10 +1606,10 @@ function buildHtml(
 
     .summary-row {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       display: flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 9px;
       border-bottom: 1px solid var(--border-soft);
     }
 
@@ -1673,7 +1673,7 @@ td:nth-child(7) {
       }
 
       table {
-        min-width: 1100px;
+        min-width: 980px;
       }
     }
 
@@ -1777,7 +1777,7 @@ td:nth-child(7) {
           </div>
         </div>
 
-        <div class="summary-row" style="padding: 12px 14px 0;">
+        <div class="summary-row" style="padding: 9px 12px 0;">
           <span id="visibleSummary">Carregando...</span>
           <span>Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
         </div>
