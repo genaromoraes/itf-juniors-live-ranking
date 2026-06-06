@@ -1193,8 +1193,8 @@ function buildHtml(
 
     .points {
       font-weight: 830;
-      color: var(--green-dark);
-      font-size: 16px;
+      color: #12324a;
+      font-size: 17px;
       white-space: nowrap;
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
@@ -1206,14 +1206,41 @@ function buildHtml(
 
     .points-main {
       display: flex;
-      align-items: baseline;
-      gap: 9px;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .points-balance {
-      font-size: 12px;
-      font-weight: 820;
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 830;
+      line-height: 1;
       white-space: nowrap;
+      border: 1px solid transparent;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .points-balance.positive {
+      color: #087047;
+      background: #e4f8ed;
+      border-color: #b9ecd0;
+    }
+
+    .points-balance.negative {
+      color: #b42334;
+      background: #ffe8eb;
+      border-color: #ffc6ce;
+    }
+
+    .points-balance.neutral {
+      color: var(--muted);
+      background: #edf2f5;
+      border-color: #dbe5ea;
     }
 
     .points-info-button {
@@ -1934,7 +1961,11 @@ td:nth-child(7) {
       const balance = Number(row.points_change_vs_official || 0);
       const balanceClass = getBalanceClass(balance);
       const balanceSign = getBalanceSign(balance);
-      const colorVar = balanceClass === 'green' ? 'green' : balanceClass === 'red' ? 'red' : 'muted';
+      const balanceTone = balanceClass === 'green'
+        ? 'positive'
+        : balanceClass === 'red'
+          ? 'negative'
+          : 'neutral';
       const isExpanded = expandedPointsPlayerId === row.player_id;
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
@@ -1944,7 +1975,7 @@ td:nth-child(7) {
       return '<div class="points-cell">' +
              '<div class="points-main">' +
              '<span class="points">' + formatNumberClient(row.live_points) + '</span>' +
-             '<span class="points-balance" style="color: var(--' + colorVar + ');">' +
+             '<span class="points-balance ' + balanceTone + '">' +
              balanceSign + formatNumberClient(balance) +
              '</span>' +
              '</div>' +
