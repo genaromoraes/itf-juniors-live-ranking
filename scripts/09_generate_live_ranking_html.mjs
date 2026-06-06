@@ -852,8 +852,8 @@ function buildHtml(
       --blue-soft: #e8f3fb;
       --shadow: 0 18px 50px rgba(26, 45, 57, 0.08);
       --shadow-soft: 0 8px 24px rgba(26, 45, 57, 0.06);
-      --radius: 22px;
-      --radius-sm: 14px;
+      --radius: 16px;
+      --radius-sm: 10px;
     }
 
     * {
@@ -873,23 +873,23 @@ function buildHtml(
     }
 
     .page {
-      width: min(1720px, calc(100% - 72px));
+      width: min(1760px, calc(100% - 48px));
       margin: 0 auto;
-      padding: 22px 0 34px;
+      padding: 16px 0 24px;
     }
 
     .header {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 28px;
+      gap: 18px;
       align-items: start;
-      margin-bottom: 30px;
+      margin-bottom: 18px;
     }
 
     h1 {
       margin: 0;
       max-width: 780px;
-      font-size: clamp(34px, 4vw, 56px);
+      font-size: clamp(30px, 3.4vw, 48px);
       line-height: 0.94;
       letter-spacing: -0.055em;
       color: var(--green-dark);
@@ -900,12 +900,12 @@ function buildHtml(
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 6px;
       color: var(--muted);
       font-weight: 650;
-      font-size: 12px;
-      line-height: 1.35;
+      font-size: 11px;
+      line-height: 1.2;
     }
 
     .creator a {
@@ -917,21 +917,21 @@ function buildHtml(
     .beta {
       display: inline-flex;
       align-items: center;
-      min-height: 20px;
+      min-height: 18px;
       background: rgba(8, 117, 109, 0.1);
       color: var(--green-dark);
       border: 1px solid rgba(8, 117, 109, 0.12);
       border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 9px;
+      padding: 2px 7px;
+      font-size: 8px;
       font-weight: 800;
       letter-spacing: 0.08em;
     }
 
     .top-controls {
       display: flex;
-      gap: 8px;
-      padding: 6px;
+      gap: 6px;
+      padding: 5px;
       background: rgba(255, 255, 255, 0.58);
       border: 1px solid rgba(255, 255, 255, 0.74);
       border-radius: 18px;
@@ -941,12 +941,12 @@ function buildHtml(
 
     .mini-control {
       display: grid;
-      gap: 6px;
+      gap: 3px;
     }
 
     .mini-control label,
     .filter label {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 760;
       color: var(--muted);
       letter-spacing: 0.01em;
@@ -954,12 +954,12 @@ function buildHtml(
 
     select,
     input {
-      min-height: 32px;
+      min-height: 28px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
-      padding: 6px 10px;
-      font-size: 12px;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 11px;
       font-weight: 650;
       color: var(--text);
       outline: none;
@@ -985,11 +985,11 @@ function buildHtml(
 
     .filters {
       display: grid;
-      grid-template-columns: minmax(260px, 1.25fr) minmax(190px, 0.75fr) 190px 170px 190px;
-      gap: 9px;
+      grid-template-columns: minmax(240px, 1.25fr) minmax(170px, 0.75fr) 170px 150px 170px;
+      gap: 7px;
       align-items: end;
-      margin-bottom: 12px;
-      padding: 9px;
+      margin-bottom: 8px;
+      padding: 7px;
       background: rgba(255, 255, 255, 0.62);
       border: 1px solid rgba(255, 255, 255, 0.74);
       border-radius: var(--radius);
@@ -999,13 +999,13 @@ function buildHtml(
 
     .filter {
       display: grid;
-      gap: 4px;
+      gap: 3px;
     }
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 315px;
-      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 8px;
       align-items: start;
     }
 
@@ -1020,29 +1020,29 @@ function buildHtml(
     }
 
     .ranking-card-header {
-      padding: 12px 16px 10px;
+      padding: 9px 12px 7px;
       border-bottom: 1px solid var(--border-soft);
     }
 
     .ranking-card-header h2 {
       margin: 0;
-      font-size: 15px;
+      font-size: 13px;
       letter-spacing: -0.03em;
       font-weight: 800;
     }
 
     .formula {
-      margin-top: 4px;
+      margin-top: 3px;
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.3;
+      font-size: 11px;
+      line-height: 1.18;
     }
 
     table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      font-size: 11px;
+      font-size: 10px;
     }
 
     thead {
@@ -1052,11 +1052,11 @@ function buildHtml(
     th {
       text-align: left;
       color: var(--muted);
-      font-size: 8.5px;
-      line-height: 1.12;
+      font-size: 8px;
+      line-height: 1.05;
       text-transform: uppercase;
       letter-spacing: 0.07em;
-      padding: 7px 7px;
+      padding: 5px 5px;
       border-bottom: 1px solid var(--border-soft);
       font-weight: 760;
       white-space: nowrap;
@@ -1065,7 +1065,7 @@ function buildHtml(
     .sort-header {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       border: 0;
       padding: 0;
       background: transparent;
@@ -1086,12 +1086,12 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 999px;
       background: rgba(8, 117, 109, 0.08);
       color: var(--green-dark);
-      font-size: 8px;
+      font-size: 7px;
       line-height: 1;
       opacity: 0.36;
     }
@@ -1101,10 +1101,10 @@ function buildHtml(
     }
 
     td {
-      padding: 5px 7px;
+      padding: 3px 5px;
       border-bottom: 1px solid var(--border-soft);
       vertical-align: middle;
-      line-height: 1.15;
+      line-height: 1.05;
     }
 
     tbody tr {
@@ -1122,7 +1122,7 @@ function buildHtml(
     }
 
     .rank {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 820;
       line-height: 1;
       letter-spacing: -0.02em;
@@ -1131,14 +1131,14 @@ function buildHtml(
 
     .rank-change {
       display: inline-flex;
-      min-width: 20px;
+      min-width: 18px;
       justify-content: center;
       align-items: center;
       border-radius: 999px;
-      padding: 2px 5px;
-      font-size: 9px;
+      padding: 1px 4px;
+      font-size: 8px;
       font-weight: 800;
-      margin-left: 5px;
+      margin-left: 4px;
       line-height: 1;
       font-variant-numeric: tabular-nums;
     }
@@ -1159,25 +1159,25 @@ function buildHtml(
     }
 
     .player {
-      min-width: 190px;
+      min-width: 170px;
     }
 
     .player-name {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-weight: 780;
-      line-height: 1.18;
-      font-size: 12px;
+      line-height: 1.08;
+      font-size: 11px;
       letter-spacing: -0.01em;
       word-break: normal;
       overflow-wrap: anywhere;
     }
 
     .country-flag {
-      width: 18px;
-      height: 13px;
-      border-radius: 3px;
+      width: 16px;
+      height: 11px;
+      border-radius: 2px;
       box-shadow: 0 0 0 1px rgba(20, 36, 50, 0.14), 0 4px 10px rgba(20, 36, 50, 0.08);
       flex: 0 0 auto;
       object-fit: cover;
@@ -1186,7 +1186,7 @@ function buildHtml(
     .player-meta {
       margin-top: 4px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 600;
       line-height: 1.25;
     }
@@ -1194,30 +1194,30 @@ function buildHtml(
     .points {
       font-weight: 830;
       color: #12324a;
-      font-size: 12px;
+      font-size: 11px;
       white-space: nowrap;
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
     }
 
     .points-cell {
-      min-width: 122px;
+      min-width: 156px;
     }
 
     .points-main {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       flex-wrap: wrap;
     }
 
     .points-balance {
       display: inline-flex;
       align-items: center;
-      min-height: 16px;
+      min-height: 14px;
       border-radius: 999px;
-      padding: 1px 5px;
-      font-size: 9px;
+      padding: 1px 4px;
+      font-size: 8px;
       font-weight: 830;
       line-height: 1;
       white-space: nowrap;
@@ -1244,17 +1244,17 @@ function buildHtml(
     }
 
     .points-info-button {
-      margin-top: 3px;
+      margin-top: 0;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.78);
       color: var(--green-dark);
       border-radius: 999px;
-      padding: 3px 7px;
-      font-size: 9px;
+      padding: 2px 6px;
+      font-size: 8px;
       font-weight: 800;
       line-height: 1;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(20, 36, 50, 0.04);
+      box-shadow: none;
     }
 
     .points-info-button:hover {
@@ -1263,8 +1263,8 @@ function buildHtml(
     }
 
     .points-detail {
-      margin-top: 5px;
-      padding: 6px 7px;
+      margin-top: 4px;
+      padding: 5px 6px;
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-sm);
       background: rgba(247, 250, 249, 0.82);
@@ -1272,21 +1272,21 @@ function buildHtml(
     }
 
     .points-detail-section + .points-detail-section {
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     .points-detail-title {
       color: var(--muted);
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 820;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
 
     .points-detail-line {
-      margin-top: 3px;
-      font-size: 9px;
-      line-height: 1.22;
+      margin-top: 2px;
+      font-size: 8px;
+      line-height: 1.14;
       color: #3d5264;
       overflow-wrap: anywhere;
     }
@@ -1298,14 +1298,14 @@ function buildHtml(
 
     .small {
       color: var(--muted);
-      font-size: 9px;
-      line-height: 1.22;
+      font-size: 8px;
+      line-height: 1.12;
     }
 
     .week-cell {
-      min-width: 182px;
+      min-width: 160px;
       font-weight: 760;
-      line-height: 1.12;
+      line-height: 1.04;
       letter-spacing: -0.01em;
       word-break: normal;
       overflow-wrap: anywhere;
@@ -1314,15 +1314,15 @@ function buildHtml(
     .week-tournament {
       display: flex;
       align-items: flex-start;
-      gap: 5px;
+      gap: 4px;
     }
 
     .week-sub {
-      margin-top: 2px;
+      margin-top: 1px;
       color: var(--muted);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 640;
-      line-height: 1.18;
+      line-height: 1.08;
     }
 
     .dash {
@@ -1332,8 +1332,8 @@ function buildHtml(
     .status-pill {
       display: inline-flex;
       border-radius: 999px;
-      padding: 2px 5px;
-      font-size: 8.5px;
+      padding: 1px 4px;
+      font-size: 8px;
       font-weight: 820;
       margin-right: 4px;
       white-space: nowrap;
@@ -1359,11 +1359,11 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 30px;
-      height: 16px;
+      min-width: 28px;
+      height: 14px;
       border-radius: 999px;
-      padding: 1px 6px;
-      font-size: 8.5px;
+      padding: 1px 5px;
+      font-size: 8px;
       font-weight: 840;
       line-height: 1;
       white-space: nowrap;
@@ -1416,26 +1416,26 @@ function buildHtml(
 
     .side {
       display: grid;
-      gap: 10px;
+      gap: 7px;
     }
 
     .side-card h3 {
-      margin: 0 0 8px;
-      font-size: 13px;
+      margin: 0 0 6px;
+      font-size: 12px;
       letter-spacing: -0.03em;
       line-height: 1.2;
       font-weight: 800;
     }
 
     .side-card {
-      padding: 10px;
+      padding: 7px;
     }
 
     .tournament-group {
       display: grid;
-      grid-template-columns: 36px 1fr;
-      gap: 7px;
-      padding: 5px 0;
+      grid-template-columns: 32px 1fr;
+      gap: 5px;
+      padding: 3px 0;
       border-top: 1px solid var(--border-soft);
     }
 
@@ -1446,23 +1446,23 @@ function buildHtml(
 
     .tournament-list {
       color: var(--muted);
-      font-size: 10px;
-      line-height: 1.28;
+      font-size: 9px;
+      line-height: 1.18;
       font-weight: 610;
     }
 
     .profile-empty {
       color: var(--muted);
-      line-height: 1.25;
-      font-size: 11px;
-      padding: 2px 0;
+      line-height: 1.15;
+      font-size: 10px;
+      padding: 1px 0;
     }
 
     .profile-head {
       display: flex;
-      gap: 7px;
+      gap: 5px;
       align-items: flex-start;
-      margin-bottom: 7px;
+      margin-bottom: 5px;
     }
 
     .profile-flag {
@@ -1472,12 +1472,12 @@ function buildHtml(
     }
 
     .profile-flag .country-flag {
-      width: 18px;
-      height: 13px;
+      width: 16px;
+      height: 11px;
     }
 
     .profile-name {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 820;
       line-height: 1.25;
       letter-spacing: -0.02em;
@@ -1486,15 +1486,15 @@ function buildHtml(
     .profile-meta {
       margin-top: 2px;
       color: var(--muted);
-      font-size: 10px;
-      line-height: 1.15;
+      font-size: 9px;
+      line-height: 1.08;
     }
 
     .profile-line {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--muted);
-      line-height: 1.32;
-      margin-bottom: 6px;
+      line-height: 1.14;
+      margin-bottom: 4px;
     }
 
     .profile-line strong {
@@ -1502,23 +1502,23 @@ function buildHtml(
     }
 
     .profile-section {
-      margin-top: 9px;
+      margin-top: 6px;
     }
 
     .profile-section-title {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      gap: 6px;
-      font-size: 11px;
+      gap: 4px;
+      font-size: 10px;
       font-weight: 820;
-      margin-bottom: 5px;
+      margin-bottom: 3px;
       letter-spacing: -0.01em;
     }
 
     .profile-section-meta {
       color: var(--muted);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 650;
       white-space: nowrap;
     }
@@ -1526,11 +1526,11 @@ function buildHtml(
     .result-card {
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-sm);
-      padding: 6px;
-      margin-bottom: 4px;
+      padding: 4px;
+      margin-bottom: 3px;
       background: rgba(248, 251, 250, 0.86);
-      font-size: 10px;
-      line-height: 1.16;
+      font-size: 9px;
+      line-height: 1.08;
     }
 
     .result-card.counting {
@@ -1549,19 +1549,19 @@ function buildHtml(
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 6px;
+      gap: 4px;
     }
 
     .result-title {
       font-weight: 780;
       color: var(--text);
-      line-height: 1.18;
+      line-height: 1.08;
     }
 
     .result-heading {
       display: flex;
       align-items: flex-start;
-      gap: 5px;
+      gap: 4px;
     }
 
     .result-card.not-counting .result-title {
@@ -1569,7 +1569,7 @@ function buildHtml(
     }
 
     .result-points {
-      margin-top: 3px;
+      margin-top: 2px;
       font-weight: 830;
       color: var(--green-dark);
       font-variant-numeric: tabular-nums;
@@ -1579,11 +1579,11 @@ function buildHtml(
       float: right;
       color: var(--muted);
       text-transform: uppercase;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 820;
       border-radius: 999px;
       background: #edf4f2;
-      padding: 2px 6px;
+      padding: 1px 5px;
     }
 
     .result-badge {
@@ -1591,8 +1591,8 @@ function buildHtml(
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      padding: 1px 5px;
-      font-size: 8.5px;
+      padding: 1px 4px;
+      font-size: 8px;
       font-weight: 820;
       white-space: nowrap;
       color: var(--green-dark);
@@ -1606,10 +1606,10 @@ function buildHtml(
 
     .summary-row {
       color: var(--muted);
-      font-size: 10px;
+      font-size: 9px;
       display: flex;
       justify-content: space-between;
-      gap: 7px;
+      gap: 5px;
       border-bottom: 1px solid var(--border-soft);
     }
 
@@ -1673,7 +1673,7 @@ td:nth-child(7) {
       }
 
       table {
-        min-width: 900px;
+        min-width: 820px;
       }
     }
 
@@ -1777,7 +1777,7 @@ td:nth-child(7) {
           </div>
         </div>
 
-        <div class="summary-row" style="padding: 6px 9px 0;">
+        <div class="summary-row" style="padding: 4px 7px 0;">
           <span id="visibleSummary">Carregando...</span>
           <span>Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
         </div>
@@ -1978,10 +1978,10 @@ td:nth-child(7) {
              '<span class="points-balance ' + balanceTone + '">' +
              balanceSign + formatNumberClient(balance) +
              '</span>' +
-             '</div>' +
              (hasDetails
                ? '<button class="points-info-button" type="button" onclick="togglePointsInfo(event, \\'' + escapeHtmlClient(row.player_id) + '\\')">' + buttonLabel + '</button>'
                : '') +
+             '</div>' +
              (isExpanded ? getPointsDetailHtml(row) : '') +
              '</div>';
     }
