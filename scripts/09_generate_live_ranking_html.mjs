@@ -311,6 +311,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
     const playerId = cleanText(row.player_id);
     const tournamentKey = getWeekTournamentKey(row);
     const tournament = cleanText(row.tournament_name);
+    const category = cleanText(row.category || row.tournament_category);
     const eventType = normalizeWeekEventType(row);
 
     if (!playerId || !tournamentKey || !tournament || !eventType) continue;
@@ -320,6 +321,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
       {
         tournament,
         tournamentKey,
+        category,
         singlesSummary: "",
         doublesSummary: "",
         singlesStatus: "",
@@ -389,6 +391,7 @@ function buildPointDetail(row) {
   return {
     event: getEventShortLabel(row),
     tournament: cleanText(row.tournament_name),
+    category: cleanText(row.category),
     year: getTournamentYear(row),
     impact_points: impactPoints,
   };
@@ -1281,6 +1284,12 @@ function buildHtml(
       overflow-wrap: anywhere;
     }
 
+    .week-tournament {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
     .week-sub {
       margin-top: 7px;
       color: var(--muted);
@@ -1319,6 +1328,65 @@ function buildHtml(
       color: var(--blue);
     }
 
+    .category-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 22px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 840;
+      line-height: 1;
+      white-space: nowrap;
+      color: var(--cat-color, var(--green-dark));
+      background: var(--cat-bg, var(--green-soft));
+      border: 1px solid var(--cat-border, rgba(8, 117, 109, 0.14));
+    }
+
+    .cat-jgs {
+      --cat-color: #6d3d09;
+      --cat-bg: #fff1c7;
+      --cat-border: #f1d27a;
+    }
+
+    .cat-j500 {
+      --cat-color: #7c2d12;
+      --cat-bg: #ffeadb;
+      --cat-border: #fdba74;
+    }
+
+    .cat-j300 {
+      --cat-color: #075985;
+      --cat-bg: #e0f2fe;
+      --cat-border: #7dd3fc;
+    }
+
+    .cat-j200 {
+      --cat-color: #166534;
+      --cat-bg: #dcfce7;
+      --cat-border: #86efac;
+    }
+
+    .cat-j100 {
+      --cat-color: #5b21b6;
+      --cat-bg: #ede9fe;
+      --cat-border: #c4b5fd;
+    }
+
+    .cat-j60 {
+      --cat-color: #9f1239;
+      --cat-bg: #ffe4e6;
+      --cat-border: #fda4af;
+    }
+
+    .cat-j30 {
+      --cat-color: #475569;
+      --cat-bg: #f1f5f9;
+      --cat-border: #cbd5e1;
+    }
+
     .side {
       display: grid;
       gap: 18px;
@@ -1347,18 +1415,6 @@ function buildHtml(
     .tournament-group:first-child {
       border-top: 0;
       padding-top: 0;
-    }
-
-    .category-label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 24px;
-      border-radius: 999px;
-      background: var(--red-soft);
-      color: #a33440;
-      font-weight: 820;
-      font-size: 11px;
     }
 
     .tournament-list {
@@ -1452,7 +1508,7 @@ function buildHtml(
 
     .result-card.counting {
       background: #ffffff;
-      border-color: rgba(8, 117, 109, 0.22);
+      border-color: var(--cat-border, rgba(8, 117, 109, 0.22));
       box-shadow: 0 8px 24px rgba(26, 45, 57, 0.06);
     }
 
@@ -1473,6 +1529,12 @@ function buildHtml(
       font-weight: 780;
       color: var(--text);
       line-height: 1.28;
+    }
+
+    .result-heading {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
     }
 
     .result-card.not-counting .result-title {
@@ -1780,6 +1842,22 @@ td:nth-child(7) {
       return normalizeSearchText(value).includes(search);
     }
 
+    function getCategoryClass(category) {
+      const key = String(category || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "");
+
+      return key ? "cat-" + key : "";
+    }
+
+    function getCategoryChipHtml(category) {
+      if (!category) return "";
+
+      return '<span class="category-chip ' + getCategoryClass(category) + '">' +
+             escapeHtmlClient(category) +
+             '</span>';
+    }
+
     function formatNumberClient(value) {
       const n = Number(value || 0);
 
@@ -1884,6 +1962,7 @@ td:nth-child(7) {
 
       return '<div class="points-detail-line">' +
              '<span class="points-detail-impact ' + className + '">' + sign + formatNumberClient(impact) + '</span>' +
+             (item.category ? ' ' + getCategoryChipHtml(item.category) : '') +
              ' · ' + escapeHtmlClient(item.tournament || "Torneio") +
              yearText +
              eventText +
@@ -1917,7 +1996,10 @@ td:nth-child(7) {
       const p = row.playing_this_week;
 
       return \`
-        <div><strong>\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong></div>
+        <div class="week-tournament">
+          \${getCategoryChipHtml(p.category)}
+          <strong>\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong>
+        </div>
         <div class="week-sub">
           \${p.singlesSummary ? "🎾 " + escapeHtmlClient(p.singlesSummary) : ""}
           \${p.singlesSummary && p.doublesSummary ? "<br />" : ""}
@@ -2052,7 +2134,7 @@ td:nth-child(7) {
       weekTournaments.innerHTML = tournamentGroups.map((group) => {
         return \`
           <div class="tournament-group">
-            <div class="category-label">\${escapeHtmlClient(group.category)}</div>
+            <div>\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
               \${group.items.map((item) => escapeHtmlClient(item.name)).join(", ")}
             </div>
@@ -2070,18 +2152,23 @@ td:nth-child(7) {
         const cardClass = item.counting ? "counting" : "not-counting";
         const badge = item.counting ? "Contando" : "Não contando";
         const source = item.source ? ' · ' + escapeHtmlClient(item.source) : '';
+        const categoryClass = getCategoryClass(item.category);
         const details = [
-          item.category,
           item.date,
           item.round,
         ].filter(Boolean).map(escapeHtmlClient).join(" · ");
 
         return \`
-          <div class="result-card \${cardClass}">
+          <div class="result-card \${cardClass} \${categoryClass}">
             <div class="result-main">
               <div>
-                <div class="result-title">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
-                <div class="small">\${details}\${source}</div>
+                <div class="result-heading">
+                  \${getCategoryChipHtml(item.category)}
+                  <div>
+                    <div class="result-title">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
+                    <div class="small">\${details}\${source}</div>
+                  </div>
+                </div>
               </div>
               <span class="result-badge">\${badge}</span>
             </div>
