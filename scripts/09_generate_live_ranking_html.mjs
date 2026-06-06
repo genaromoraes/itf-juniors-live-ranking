@@ -306,6 +306,19 @@ function getParticipationRoundLabel(row, round) {
 function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
   const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
   const map = new Map();
+  const priorityByEvent = new Map();
+
+  function getClassificationPriority(row) {
+    const classification = cleanText(row.event_classification_code).toUpperCase();
+
+    if (classification === "M") return 2;
+    if (classification === "Q") return 1;
+    return 0;
+  }
+
+  function getParticipationEventKey(playerId, tournamentKey, eventType) {
+    return [playerId, tournamentKey, eventType].join("|");
+  }
 
   for (const row of weekPlayerResults) {
     const playerId = cleanText(row.player_id);
@@ -315,6 +328,12 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
     const eventType = normalizeWeekEventType(row);
 
     if (!playerId || !tournamentKey || !tournament || !eventType) continue;
+
+    const eventKey = getParticipationEventKey(playerId, tournamentKey, eventType);
+    const priority = getClassificationPriority(row);
+    const currentPriority = priorityByEvent.get(eventKey) ?? -1;
+
+    if (priority < currentPriority) continue;
 
     const participation =
       map.get(playerId) ||
@@ -331,8 +350,10 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
     if (participation.tournamentKey !== tournamentKey) continue;
 
     const liveRound =
-      liveRoundMap.get([playerId, tournamentKey, eventType].join("|")) ||
-      liveRoundMap.get([playerId, tournament, eventType].join("|"));
+      priority >= currentPriority
+        ? liveRoundMap.get([playerId, tournamentKey, eventType].join("|")) ||
+          liveRoundMap.get([playerId, tournament, eventType].join("|"))
+        : "";
     const round = liveRound || cleanText(row.highest_round_name);
     const roundLabel = round ? getParticipationRoundLabel(row, round) : "";
 
@@ -352,6 +373,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
       }
     }
 
+    priorityByEvent.set(eventKey, priority);
     map.set(playerId, participation);
   }
 

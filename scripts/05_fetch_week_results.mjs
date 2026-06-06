@@ -35,6 +35,8 @@ const DELAY_BETWEEN_TOURNAMENTS_MS = 10000;
 const RETRY_DELAY_MS = 15000;
 const BLOCK_DELAY_MS = 90000;
 const MAX_RETRIES = 3;
+const USE_WEEK_RESULTS_CACHE =
+  String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_RAW, { recursive: true });
@@ -711,11 +713,15 @@ async function processTournament(page, tournament) {
   );
   console.log("========================================");
 
-  const cached = await readCachedTournament(tournament);
+  if (USE_WEEK_RESULTS_CACHE) {
+    const cached = await readCachedTournament(tournament);
 
-  if (cached) {
-    console.log(`Usando cache: ${cached.matches.length} partidas`);
-    return cached;
+    if (cached) {
+      console.log(`Usando cache: ${cached.matches.length} partidas`);
+      return cached;
+    }
+  } else {
+    console.log("Cache ignorado: relendo resultados da semana.");
   }
 
   const allMatches = [];
