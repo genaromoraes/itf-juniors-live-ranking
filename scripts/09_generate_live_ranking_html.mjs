@@ -1416,45 +1416,45 @@ function buildHtml(
     }
 
     .cat-jgs {
-      --cat-color: #9a3412;
-      --cat-bg: #fff7ed;
-      --cat-border: #fed7aa;
+      --cat-color: #123C4A;
+      --cat-bg: #F7F3EA;
+      --cat-border: #123C4A;
     }
 
     .cat-j500 {
-      --cat-color: #0f766e;
-      --cat-bg: #f0fdfa;
-      --cat-border: #99f6e4;
+      --cat-color: #4F6F7A;
+      --cat-bg: #F7F3EA;
+      --cat-border: #4F6F7A;
     }
 
     .cat-j300 {
-      --cat-color: #1d4ed8;
-      --cat-bg: #eff6ff;
-      --cat-border: #bfdbfe;
+      --cat-color: #2B2B2B;
+      --cat-bg: #E8DDC8;
+      --cat-border: #C28A5C;
     }
 
     .cat-j200 {
-      --cat-color: #047857;
-      --cat-bg: #ecfdf5;
-      --cat-border: #a7f3d0;
+      --cat-color: #123C4A;
+      --cat-bg: #A7BFA3;
+      --cat-border: #A7BFA3;
     }
 
     .cat-j100 {
-      --cat-color: #6d28d9;
-      --cat-bg: #f5f3ff;
-      --cat-border: #ddd6fe;
+      --cat-color: #2B2B2B;
+      --cat-bg: #F7F3EA;
+      --cat-border: #A7BFA3;
     }
 
     .cat-j60 {
-      --cat-color: #be123c;
-      --cat-bg: #fff1f2;
-      --cat-border: #fecdd3;
+      --cat-color: #C28A5C;
+      --cat-bg: #F7F3EA;
+      --cat-border: #C28A5C;
     }
 
     .cat-j30 {
-      --cat-color: #475569;
-      --cat-bg: #f8fafc;
-      --cat-border: #cbd5e1;
+      --cat-color: #4F6F7A;
+      --cat-bg: #F7F3EA;
+      --cat-border: #E8DDC8;
     }
 
     .side {
