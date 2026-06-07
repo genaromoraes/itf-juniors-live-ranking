@@ -1612,7 +1612,7 @@ function buildHtml(
     }
 
     .result-card {
-      border: 1px solid var(--border-soft);
+      border: 1px solid rgba(223, 233, 230, 0.72);
       border-radius: var(--radius-sm);
       padding: 4px;
       margin-bottom: 3px;
@@ -1623,13 +1623,14 @@ function buildHtml(
 
     .result-card.counting {
       background: #ffffff;
-      border-color: var(--cat-border, rgba(8, 117, 109, 0.22));
+      border-color: rgba(18, 128, 95, 0.38);
       box-shadow: 0 5px 14px rgba(26, 45, 57, 0.05);
     }
 
     .result-card.not-counting {
       opacity: 0.58;
       background: rgba(248, 251, 250, 0.54);
+      border-color: rgba(237, 243, 241, 0.86);
       box-shadow: none;
     }
 
@@ -1649,6 +1650,10 @@ function buildHtml(
       display: flex;
       align-items: flex-start;
       gap: 4px;
+    }
+
+    .result-category-scope {
+      display: contents;
     }
 
     .result-card.not-counting .result-title {
@@ -2292,9 +2297,9 @@ td:nth-child(7) {
         ].filter(Boolean).map(escapeHtmlClient).join(" · ");
 
         return \`
-          <div class="result-card \${cardClass} \${categoryClass}">
+          <div class="result-card \${cardClass}">
             <div class="result-main">
-              <div>
+              <div class="result-category-scope \${categoryClass}">
                 <div class="result-heading">
                   \${getCategoryChipHtml(item.category)}
                   <div>
