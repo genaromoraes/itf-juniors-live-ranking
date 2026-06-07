@@ -307,6 +307,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
   const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
   const map = new Map();
   const priorityByEvent = new Map();
+  const today = new Date().toISOString().slice(0, 10);
 
   function getClassificationPriority(row) {
     const classification = cleanText(row.event_classification_code).toUpperCase();
@@ -325,6 +326,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
     const tournamentKey = getWeekTournamentKey(row);
     const tournament = cleanText(row.tournament_name);
     const category = cleanText(row.category || row.tournament_category);
+    const endDate = cleanText(row.end_date);
     const eventType = normalizeWeekEventType(row);
 
     if (!playerId || !tournamentKey || !tournament || !eventType) continue;
@@ -341,6 +343,8 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
         tournament,
         tournamentKey,
         category,
+        endDate,
+        isFinishedByDate: endDate ? endDate <= today : false,
         singlesSummary: "",
         doublesSummary: "",
         singlesStatus: "",
@@ -628,14 +632,15 @@ function combineProjectedScenarios(singlesScenario, doublesScenario, livePoints)
 function shouldProjectEvent(row, weekParticipationMap, eventType) {
   const participation = weekParticipationMap.get(cleanText(row.player_id));
 
-  if (!participation) return true;
+  if (!participation) return false;
+  if (participation.isFinishedByDate) return false;
 
   const status =
     eventType === "singles"
       ? cleanText(participation.singlesStatus).toLowerCase()
       : cleanText(participation.doublesStatus).toLowerCase();
 
-  return status !== "eliminated";
+  return status === "still_alive_or_champion";
 }
 
 function buildDataForHtml(
