@@ -1085,13 +1085,13 @@ function buildHtml(
     th {
       text-align: left;
       color: var(--muted);
-      font-size: 8px;
+      font-size: 9px;
       line-height: 1.05;
       text-transform: uppercase;
       letter-spacing: 0.07em;
       padding: 5px 5px;
       border-bottom: 1px solid var(--border-soft);
-      font-weight: 600;
+      font-weight: 700;
       white-space: nowrap;
     }
 
@@ -1488,9 +1488,9 @@ function buildHtml(
     }
 
     .cat-j60 {
-      --cat-color: #C28A5C;
-      --cat-bg: #F7F3EA;
-      --cat-border: #C28A5C;
+      --cat-color: #B42334;
+      --cat-bg: #FFF1F2;
+      --cat-border: #F4A7B2;
     }
 
     .cat-j30 {
@@ -1858,8 +1858,6 @@ td:nth-child(7) {
         <select id="sortFilter">
           <option value="RANK" selected>Ranking ao vivo</option>
           <option value="OFFICIAL_RANK">Ranking oficial</option>
-          <option value="PLAYER">Atleta</option>
-          <option value="YEAR">Ano</option>
         </select>
       </div>
     </section>
