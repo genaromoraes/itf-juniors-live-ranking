@@ -1409,6 +1409,10 @@ function buildHtml(
       font-weight: 600;
     }
 
+    .week-result-item.title strong {
+      font-weight: 700;
+    }
+
     .week-result-item.eliminated strong {
       color: var(--muted);
     }
@@ -1420,8 +1424,14 @@ function buildHtml(
     .week-result-item .out {
       color: var(--red);
       font-weight: 700;
-      font-size: 11px;
+      font-size: 13px;
       line-height: 0.8;
+    }
+
+    .week-result-item .trophy {
+      font-size: 13px;
+      line-height: 0.8;
+      vertical-align: -1px;
     }
 
     .dash {
@@ -2111,7 +2121,14 @@ td:nth-child(7) {
     }
 
     function getWeekRoundDisplay(round) {
-      return round.toUpperCase() === "W" ? "🏆" : round;
+      if (/^1st\\s+round$/i.test(round)) return "R1";
+      return round;
+    }
+
+    function getWeekRoundHtml(round) {
+      const display = getWeekRoundDisplay(round);
+      if (display.toUpperCase() === "W") return '<span class="trophy">🏆</span>';
+      return escapeHtmlClient(display);
     }
 
     function getWeekResultHtml(label, summary) {
@@ -2123,10 +2140,15 @@ td:nth-child(7) {
         .replace(/^Duplas:\\s*/i, "")
         .replace(/❌/g, "")
         .trim();
-      const className = eliminated ? "week-result-item eliminated" : "week-result-item";
+      const isTitle = round.toUpperCase() === "W";
+      const className = [
+        "week-result-item",
+        eliminated ? "eliminated" : "",
+        isTitle ? "title" : "",
+      ].filter(Boolean).join(" ");
 
       return '<span class="' + className + '">' +
-             label + ' <strong>' + escapeHtmlClient(getWeekRoundDisplay(round || "-")) + '</strong>' +
+             label + ' <strong>' + getWeekRoundHtml(round || "-") + '</strong>' +
              (eliminated ? ' <span class="out">×</span>' : '') +
              '</span>';
     }
