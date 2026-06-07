@@ -1053,7 +1053,11 @@ function buildHtml(
     }
 
     .ranking-card-header {
-      padding: 9px 12px 7px;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 10px;
+      padding: 7px 8px;
       border-bottom: 1px solid var(--border-soft);
     }
 
@@ -1065,10 +1069,10 @@ function buildHtml(
     }
 
     .formula {
-      margin-top: 3px;
       color: var(--muted);
-      font-size: 11px;
-      line-height: 1.18;
+      font-size: 9px;
+      line-height: 1.1;
+      white-space: nowrap;
     }
 
     table {
@@ -1714,9 +1718,9 @@ function buildHtml(
       color: var(--muted);
       font-size: 9px;
       display: flex;
-      justify-content: space-between;
       gap: 5px;
-      border-bottom: 1px solid var(--border-soft);
+      align-items: baseline;
+      white-space: nowrap;
     }
 
     .summary-row strong {
@@ -1801,11 +1805,7 @@ td:nth-child(7) {
       }
 
       .ranking-card-header {
-        padding: 20px 18px 14px;
-      }
-
-      .summary-row {
-        flex-direction: column;
+        padding: 10px 10px 8px;
       }
     }
   </style>
@@ -1876,14 +1876,11 @@ td:nth-child(7) {
       <section class="ranking-card">
         <div class="ranking-card-header">
           <h2>Live ranking</h2>
-          <div class="formula">
-            Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas
-          </div>
-        </div>
-
-        <div class="summary-row" style="padding: 4px 7px 0;">
-          <span id="visibleSummary">Carregando...</span>
-          <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
+          <span class="formula">Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas</span>
+          <span class="summary-row">
+            <span id="visibleSummary">Carregando...</span>
+            <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
+          </span>
         </div>
 
         <table>
