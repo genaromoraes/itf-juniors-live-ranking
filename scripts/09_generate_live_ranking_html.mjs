@@ -895,7 +895,7 @@ function buildHtml(
 
     body {
       margin: 0;
-      font-family: "Inter", "SF Pro Display", "SF Pro Text", "Segoe UI", Arial, Helvetica, sans-serif;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at top left, rgba(220, 244, 236, 0.84), transparent 32rem),
         linear-gradient(180deg, var(--bg-glow) 0%, var(--bg) 34%, #f9fbfa 100%);
@@ -922,11 +922,11 @@ function buildHtml(
     h1 {
       margin: 0;
       max-width: 780px;
-      font-size: clamp(30px, 3.4vw, 48px);
-      line-height: 0.94;
-      letter-spacing: -0.055em;
+      font-size: clamp(32px, 3vw, 42px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
       color: var(--green-dark);
-      font-weight: 850;
+      font-weight: 800;
     }
 
     .creator {
@@ -936,7 +936,7 @@ function buildHtml(
       gap: 6px;
       margin-top: 6px;
       color: var(--muted);
-      font-weight: 650;
+      font-weight: 500;
       font-size: 11px;
       line-height: 1.2;
     }
@@ -944,7 +944,7 @@ function buildHtml(
     .creator a {
       color: var(--green-dark);
       text-decoration: none;
-      font-weight: 760;
+      font-weight: 600;
     }
 
     .beta {
@@ -957,7 +957,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 2px 7px;
       font-size: 8px;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.08em;
     }
 
@@ -980,7 +980,7 @@ function buildHtml(
     .mini-control label,
     .filter label {
       font-size: 9px;
-      font-weight: 760;
+      font-weight: 500;
       color: var(--muted);
       letter-spacing: 0.01em;
     }
@@ -993,7 +993,7 @@ function buildHtml(
       border-radius: 8px;
       padding: 4px 8px;
       font-size: 11px;
-      font-weight: 650;
+      font-weight: 500;
       color: var(--text);
       outline: none;
       box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
@@ -1061,7 +1061,7 @@ function buildHtml(
       margin: 0;
       font-size: 13px;
       letter-spacing: -0.03em;
-      font-weight: 800;
+      font-weight: 700;
     }
 
     .formula {
@@ -1091,7 +1091,7 @@ function buildHtml(
       letter-spacing: 0.07em;
       padding: 5px 5px;
       border-bottom: 1px solid var(--border-soft);
-      font-weight: 760;
+      font-weight: 600;
       white-space: nowrap;
     }
 
@@ -1156,7 +1156,7 @@ function buildHtml(
 
     .rank {
       font-size: 13px;
-      font-weight: 820;
+      font-weight: 700;
       line-height: 1;
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
@@ -1170,7 +1170,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 1px 4px;
       font-size: 8px;
-      font-weight: 800;
+      font-weight: 700;
       margin-left: 4px;
       line-height: 1;
       font-variant-numeric: tabular-nums;
@@ -1199,7 +1199,7 @@ function buildHtml(
       display: flex;
       align-items: center;
       gap: 5px;
-      font-weight: 780;
+      font-weight: 600;
       line-height: 1.08;
       font-size: 11px;
       letter-spacing: -0.01em;
@@ -1220,12 +1220,12 @@ function buildHtml(
       margin-top: 4px;
       color: var(--muted);
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 400;
       line-height: 1.25;
     }
 
     .points {
-      font-weight: 830;
+      font-weight: 700;
       color: #12324a;
       font-size: 11px;
       white-space: nowrap;
@@ -1251,7 +1251,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 1px 4px;
       font-size: 8px;
-      font-weight: 830;
+      font-weight: 700;
       line-height: 1;
       white-space: nowrap;
       border: 1px solid transparent;
@@ -1284,7 +1284,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 2px 6px;
       font-size: 8px;
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1;
       cursor: pointer;
       box-shadow: none;
@@ -1311,7 +1311,7 @@ function buildHtml(
     .points-detail-title {
       color: var(--muted);
       font-size: 8px;
-      font-weight: 820;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
@@ -1325,7 +1325,7 @@ function buildHtml(
     }
 
     .points-detail-impact {
-      font-weight: 860;
+      font-weight: 700;
       white-space: nowrap;
     }
 
@@ -1337,7 +1337,7 @@ function buildHtml(
 
     .week-cell {
       min-width: 160px;
-      font-weight: 760;
+      font-weight: 600;
       line-height: 1.04;
       letter-spacing: -0.01em;
       word-break: normal;
@@ -1352,7 +1352,7 @@ function buildHtml(
 
     .tournament-name {
       color: var(--cat-color, var(--text));
-      font-weight: 820;
+      font-weight: 700;
     }
 
     .week-tournament .tournament-name,
@@ -1364,7 +1364,7 @@ function buildHtml(
       margin-top: 1px;
       color: var(--muted);
       font-size: 8px;
-      font-weight: 640;
+      font-weight: 500;
       line-height: 1.08;
     }
 
@@ -1377,7 +1377,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 1px 4px;
       font-size: 8px;
-      font-weight: 820;
+      font-weight: 700;
       margin-right: 4px;
       white-space: nowrap;
       letter-spacing: 0.04em;
@@ -1407,7 +1407,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 1px 5px;
       font-size: 8px;
-      font-weight: 840;
+      font-weight: 700;
       line-height: 1;
       white-space: nowrap;
       color: var(--cat-color, var(--green-dark));
@@ -1467,7 +1467,7 @@ function buildHtml(
       font-size: 12px;
       letter-spacing: -0.03em;
       line-height: 1.2;
-      font-weight: 800;
+      font-weight: 700;
     }
 
     .side-card {
@@ -1490,13 +1490,13 @@ function buildHtml(
     .tournament-list {
       font-size: 9px;
       line-height: 1.18;
-      font-weight: 680;
+      font-weight: 500;
     }
 
     .tournament-list .tournament-name + .tournament-name::before {
       content: ", ";
       color: var(--muted);
-      font-weight: 610;
+      font-weight: 400;
     }
 
     .profile-empty {
@@ -1526,7 +1526,7 @@ function buildHtml(
 
     .profile-name {
       font-size: 11px;
-      font-weight: 820;
+      font-weight: 700;
       line-height: 1.25;
       letter-spacing: -0.02em;
     }
@@ -1559,7 +1559,7 @@ function buildHtml(
       align-items: baseline;
       gap: 4px;
       font-size: 10px;
-      font-weight: 820;
+      font-weight: 700;
       margin-bottom: 3px;
       letter-spacing: -0.01em;
     }
@@ -1567,7 +1567,7 @@ function buildHtml(
     .profile-section-meta {
       color: var(--muted);
       font-size: 8px;
-      font-weight: 650;
+      font-weight: 500;
       white-space: nowrap;
     }
 
@@ -1601,7 +1601,7 @@ function buildHtml(
     }
 
     .result-title {
-      font-weight: 780;
+      font-weight: 600;
       line-height: 1.08;
     }
 
@@ -1612,12 +1612,12 @@ function buildHtml(
     }
 
     .result-card.not-counting .result-title {
-      font-weight: 660;
+      font-weight: 500;
     }
 
     .result-points {
       margin-top: 2px;
-      font-weight: 830;
+      font-weight: 700;
       color: var(--green-dark);
       font-variant-numeric: tabular-nums;
     }
@@ -1627,7 +1627,7 @@ function buildHtml(
       color: var(--muted);
       text-transform: uppercase;
       font-size: 8px;
-      font-weight: 820;
+      font-weight: 700;
       border-radius: 999px;
       background: #edf4f2;
       padding: 1px 5px;
@@ -1640,7 +1640,7 @@ function buildHtml(
       border-radius: 999px;
       padding: 1px 4px;
       font-size: 8px;
-      font-weight: 820;
+      font-weight: 700;
       white-space: nowrap;
       color: var(--green-dark);
       background: var(--green-soft);
@@ -1666,7 +1666,7 @@ function buildHtml(
 input,
 select,
 button {
-  font-family: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
 }
 
 table,
