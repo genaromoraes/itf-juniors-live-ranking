@@ -1282,15 +1282,29 @@ function buildHtml(
       background: rgba(255, 255, 255, 0.78);
       color: var(--green-dark);
       border-radius: 999px;
-      padding: 2px 6px;
+      width: 16px;
+      height: 16px;
+      padding: 0;
       font-size: 8px;
       font-weight: 700;
       line-height: 1;
       cursor: pointer;
       box-shadow: none;
+      opacity: 0;
+      transform: translateY(1px);
+      transition: opacity 140ms ease, border-color 140ms ease, background 140ms ease, transform 140ms ease;
     }
 
-    .points-info-button:hover {
+    tbody tr:hover .points-info-button,
+    tbody tr.selected .points-info-button,
+    .points-cell:focus-within .points-info-button,
+    .points-info-button.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .points-info-button:hover,
+    .points-info-button.active {
       background: #ffffff;
       border-color: rgba(8, 117, 109, 0.26);
     }
@@ -1638,17 +1652,19 @@ function buildHtml(
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      padding: 1px 4px;
+      padding: 1px 3px;
       font-size: 8px;
-      font-weight: 700;
+      font-weight: 500;
       white-space: nowrap;
-      color: var(--green-dark);
-      background: var(--green-soft);
+      color: color-mix(in srgb, var(--cat-color, var(--muted)) 72%, var(--muted));
+      background: transparent;
+      border: 1px solid color-mix(in srgb, var(--cat-border, var(--border)) 60%, transparent);
     }
 
     .result-card.not-counting .result-badge {
       color: var(--muted);
-      background: #edf2f5;
+      background: transparent;
+      border-color: var(--border-soft);
     }
 
     .summary-row {
@@ -1974,21 +1990,7 @@ td:nth-child(7) {
     }
 
     function statusTags(row) {
-      const tags = [];
-
-      if (!row.official_rank) {
-        tags.push('<span class="status-pill new">NEW</span>');
-      }
-
-      if (row.has_live_result === "true") {
-        tags.push('<span class="status-pill live">LIVE</span>');
-      }
-
-      if (row.has_dropped_result === "true") {
-        tags.push('<span class="status-pill drop">DROP</span>');
-      }
-
-      return tags.join("");
+      return "";
     }
 
     function getBalanceClass(value) {
@@ -2017,7 +2019,9 @@ td:nth-child(7) {
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
       const hasDetails = liveDetails.length || dropDetails.length;
-      const buttonLabel = isExpanded ? "menos info" : "+ info";
+      const buttonLabel = "i";
+      const buttonTitle = isExpanded ? "Ocultar detalhes dos pontos" : "Ver detalhes dos pontos";
+      const buttonClass = isExpanded ? "points-info-button active" : "points-info-button";
 
       return '<div class="points-cell">' +
              '<div class="points-main">' +
@@ -2026,7 +2030,7 @@ td:nth-child(7) {
              balanceSign + formatNumberClient(balance) +
              '</span>' +
              (hasDetails
-               ? '<button class="points-info-button" type="button" onclick="togglePointsInfo(event, \\'' + escapeHtmlClient(row.player_id) + '\\')">' + buttonLabel + '</button>'
+               ? '<button class="' + buttonClass + '" type="button" title="' + buttonTitle + '" aria-label="' + buttonTitle + '" onclick="togglePointsInfo(event, \\'' + escapeHtmlClient(row.player_id) + '\\')">' + buttonLabel + '</button>'
                : '') +
              '</div>' +
              (isExpanded ? getPointsDetailHtml(row) : '') +
@@ -2286,6 +2290,7 @@ td:nth-child(7) {
       }
 
       const flag = getFlagHtml(row);
+      const tags = statusTags(row);
 
       profileCard.innerHTML = \`
         <h3>Pontuações do atleta</h3>
@@ -2298,9 +2303,7 @@ td:nth-child(7) {
           </div>
         </div>
 
-        <div class="profile-line">
-          \${statusTags(row)}
-        </div>
+        \${tags ? '<div class="profile-line">' + tags + '</div>' : ''}
 
         \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
         \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
