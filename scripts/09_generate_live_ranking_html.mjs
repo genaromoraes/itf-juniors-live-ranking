@@ -1416,45 +1416,45 @@ function buildHtml(
     }
 
     .cat-jgs {
-      --cat-color: #8a5a00;
-      --cat-bg: #fff4d6;
-      --cat-border: #e6c36a;
+      --cat-color: #9a3412;
+      --cat-bg: #fff7ed;
+      --cat-border: #fed7aa;
     }
 
     .cat-j500 {
-      --cat-color: #00756f;
-      --cat-bg: #dff7f3;
-      --cat-border: #8edbd3;
+      --cat-color: #0f766e;
+      --cat-bg: #f0fdfa;
+      --cat-border: #99f6e4;
     }
 
     .cat-j300 {
-      --cat-color: #2563eb;
-      --cat-bg: #e8f0ff;
-      --cat-border: #b7ccff;
+      --cat-color: #1d4ed8;
+      --cat-bg: #eff6ff;
+      --cat-border: #bfdbfe;
     }
 
     .cat-j200 {
-      --cat-color: #15803d;
-      --cat-bg: #e8f7ed;
-      --cat-border: #b8e2c4;
+      --cat-color: #047857;
+      --cat-bg: #ecfdf5;
+      --cat-border: #a7f3d0;
     }
 
     .cat-j100 {
-      --cat-color: #7c3aed;
-      --cat-bg: #f1ebff;
-      --cat-border: #d5c4ff;
+      --cat-color: #6d28d9;
+      --cat-bg: #f5f3ff;
+      --cat-border: #ddd6fe;
     }
 
     .cat-j60 {
-      --cat-color: #be6b00;
-      --cat-bg: #fff0df;
-      --cat-border: #ffc987;
+      --cat-color: #be123c;
+      --cat-bg: #fff1f2;
+      --cat-border: #fecdd3;
     }
 
     .cat-j30 {
-      --cat-color: #64748b;
-      --cat-bg: #f3f6f9;
-      --cat-border: #ccd6e0;
+      --cat-color: #475569;
+      --cat-bg: #f8fafc;
+      --cat-border: #cbd5e1;
     }
 
     .side {
