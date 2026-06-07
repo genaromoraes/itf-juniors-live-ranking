@@ -1162,6 +1162,16 @@ function buildHtml(
       font-variant-numeric: tabular-nums;
     }
 
+    .rank-meta {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 500;
+      line-height: 1.05;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
     .rank-change {
       display: inline-flex;
       min-width: 18px;
@@ -1881,7 +1891,7 @@ td:nth-child(7) {
             <tr>
               <th>
                 <button class="sort-header active" type="button" data-sort-header="RANK" onclick="setTableSort('RANK')">
-                  <span>Ranking<br />ao vivo</span>
+                  <span id="rankHeaderLabel">Ranking<br />ao vivo</span>
                   <span class="sort-indicator" data-sort-indicator="RANK">↑</span>
                 </button>
               </th>
@@ -2240,15 +2250,23 @@ td:nth-child(7) {
     function updateSortHeaders() {
       document.querySelectorAll("[data-sort-header]").forEach((button) => {
         const key = button.getAttribute("data-sort-header");
-        button.classList.toggle("active", key === sortColumn);
+        button.classList.toggle("active", key === sortColumn || (key === "RANK" && sortColumn === "OFFICIAL_RANK"));
       });
 
       document.querySelectorAll("[data-sort-indicator]").forEach((indicator) => {
         const key = indicator.getAttribute("data-sort-indicator");
-        indicator.textContent = key === sortColumn
+        const active = key === sortColumn || (key === "RANK" && sortColumn === "OFFICIAL_RANK");
+        indicator.textContent = active
           ? (sortDirection === "asc" ? "↑" : "↓")
           : "↕";
       });
+
+      const rankHeaderLabel = document.getElementById("rankHeaderLabel");
+      if (rankHeaderLabel) {
+        rankHeaderLabel.innerHTML = sortColumn === "OFFICIAL_RANK"
+          ? "Ranking<br />oficial"
+          : "Ranking<br />ao vivo";
+      }
     }
 
     function setTableSort(column) {
@@ -2362,6 +2380,21 @@ td:nth-child(7) {
       \`;
     }
 
+    function getRankingCellHtml(row) {
+      if (sortColumn === "OFFICIAL_RANK") {
+        const officialRank = Number(row.official_rank || 0);
+        const officialPoints = Number(row.official_points || 0);
+
+        return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>' +
+               '<div class="rank-meta">' + formatNumberClient(officialPoints) + ' pts</div>';
+      }
+
+      const moveClass = movementClass(row.rank_change_vs_official);
+
+      return '<span class="rank">' + row.live_rank + '</span>' +
+             '<span class="rank-change ' + moveClass + '">' + formatChange(row.rank_change_vs_official) + '</span>';
+    }
+
     function renderTable() {
       const rows = sortRows(rankingData.filter(passesFilters));
       updateSortHeaders();
@@ -2375,14 +2408,12 @@ td:nth-child(7) {
 
       rankingBody.innerHTML = rows.map((row) => {
         const selected = selectedPlayerId === row.player_id ? "selected" : "";
-        const moveClass = movementClass(row.rank_change_vs_official);
         const flag = getFlagHtml(row);
 
         return \`
           <tr class="\${selected}" onclick="selectPlayer('\${escapeHtmlClient(row.player_id)}')">
             <td>
-              <span class="rank">\${row.live_rank}</span>
-              <span class="rank-change \${moveClass}">\${formatChange(row.rank_change_vs_official)}</span>
+              \${getRankingCellHtml(row)}
             </td>
 
             <td class="player">
