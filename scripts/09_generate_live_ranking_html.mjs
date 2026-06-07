@@ -1883,7 +1883,7 @@ td:nth-child(7) {
 
         <div class="summary-row" style="padding: 4px 7px 0;">
           <span id="visibleSummary">Carregando...</span>
-          <span>Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
+          <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
         </div>
 
         <table>
@@ -1936,6 +1936,7 @@ td:nth-child(7) {
   <script>
     const rankingData = ${dataJson};
     const tournamentGroups = ${tournamentGroupsJson};
+    const officialRankingDate = ${JSON.stringify(rankingDate || "não informado")};
 
     const searchInput = document.getElementById("searchInput");
     const countrySearchInput = document.getElementById("countrySearchInput");
@@ -2266,6 +2267,13 @@ td:nth-child(7) {
         rankHeaderLabel.innerHTML = sortColumn === "OFFICIAL_RANK"
           ? "Ranking<br />oficial"
           : "Ranking<br />ao vivo";
+      }
+
+      const rankingContext = document.getElementById("rankingContext");
+      if (rankingContext) {
+        rankingContext.textContent = sortColumn === "OFFICIAL_RANK"
+          ? "Ranking oficial ITF: " + officialRankingDate
+          : "Base oficial: " + officialRankingDate;
       }
     }
 
