@@ -1406,6 +1406,10 @@ function buildHtml(
       font-weight: 700;
     }
 
+    .week-result-item.title {
+      font-weight: 700;
+    }
+
     .week-result-item.eliminated strong {
       color: var(--muted);
     }
