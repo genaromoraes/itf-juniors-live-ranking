@@ -1406,6 +1406,8 @@ function buildHtml(
     .week-result-item .out {
       color: var(--red);
       font-weight: 700;
+      font-size: 11px;
+      line-height: 0.8;
     }
 
     .dash {
