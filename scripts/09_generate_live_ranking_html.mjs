@@ -1377,34 +1377,33 @@ function buildHtml(
     .week-sub {
       display: flex;
       flex-wrap: wrap;
-      gap: 3px;
+      gap: 4px;
       margin-top: 2px;
       color: var(--muted);
       font-size: 8px;
       font-weight: 500;
-      line-height: 1;
+      line-height: 1.08;
     }
 
-    .week-result-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-      min-height: 13px;
-      border: 1px solid color-mix(in srgb, var(--cat-border, var(--border)) 54%, transparent);
-      border-radius: 999px;
-      padding: 1px 4px;
-      color: var(--cat-color, var(--text));
-      background: color-mix(in srgb, var(--cat-bg, #ffffff) 68%, #ffffff);
+    .week-result-item {
+      color: var(--muted);
       white-space: nowrap;
     }
 
-    .week-result-chip.eliminated {
-      color: var(--muted);
-      background: rgba(247, 250, 249, 0.72);
-      border-color: var(--border-soft);
+    .week-result-item strong {
+      color: var(--cat-color, var(--text));
+      font-weight: 600;
     }
 
-    .week-result-chip .out {
+    .week-result-item.eliminated strong {
+      color: var(--muted);
+    }
+
+    .week-result-separator {
+      color: var(--muted-soft);
+    }
+
+    .week-result-item .out {
       color: var(--red);
       font-weight: 700;
     }
@@ -2098,7 +2097,11 @@ td:nth-child(7) {
              '</div>';
     }
 
-    function getWeekResultChipHtml(label, summary) {
+    function getWeekRoundDisplay(round) {
+      return round.toUpperCase() === "W" ? "🏆" : round;
+    }
+
+    function getWeekResultHtml(label, summary) {
       if (!summary) return "";
 
       const eliminated = summary.includes("❌");
@@ -2107,12 +2110,11 @@ td:nth-child(7) {
         .replace(/^Duplas:\\s*/i, "")
         .replace(/❌/g, "")
         .trim();
-      const className = eliminated ? "week-result-chip eliminated" : "week-result-chip";
+      const className = eliminated ? "week-result-item eliminated" : "week-result-item";
 
       return '<span class="' + className + '">' +
-             '<span>' + label + '</span>' +
-             '<strong>' + escapeHtmlClient(round || "-") + '</strong>' +
-             (eliminated ? '<span class="out">×</span>' : '') +
+             label + ' <strong>' + escapeHtmlClient(getWeekRoundDisplay(round || "-")) + '</strong>' +
+             (eliminated ? ' <span class="out">×</span>' : '') +
              '</span>';
     }
 
@@ -2124,9 +2126,9 @@ td:nth-child(7) {
       const p = row.playing_this_week;
       const categoryClass = getCategoryClass(p.category);
       const resultChips = [
-        getWeekResultChipHtml("S", p.singlesSummary),
-        getWeekResultChipHtml("D", p.doublesSummary),
-      ].filter(Boolean).join("");
+        getWeekResultHtml("Singles", p.singlesSummary),
+        getWeekResultHtml("Doubles", p.doublesSummary),
+      ].filter(Boolean).join('<span class="week-result-separator">·</span>');
 
       return \`
         <div class="week-tournament \${categoryClass}">
