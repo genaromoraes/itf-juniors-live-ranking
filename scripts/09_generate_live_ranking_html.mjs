@@ -749,6 +749,11 @@ function buildDataForHtml(
 function groupWeekTournaments(tournaments) {
   const map = new Map();
 
+  function getTournamentDisplayName(name, category) {
+    const escapedCategory = category.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return name.replace(new RegExp(`^${escapedCategory}\\s+`, "i"), "");
+  }
+
   for (const row of tournaments) {
     const category = cleanText(row.category || row.tournament_category || "OUTROS");
     const name = cleanText(row.tournament_name);
@@ -762,6 +767,7 @@ function groupWeekTournaments(tournaments) {
 
     map.get(category).push({
       name,
+      displayName: getTournamentDisplayName(name, category),
       country,
     });
   }
@@ -1410,45 +1416,45 @@ function buildHtml(
     }
 
     .cat-jgs {
-      --cat-color: #6d3d09;
-      --cat-bg: #fff1c7;
-      --cat-border: #f1d27a;
+      --cat-color: #8a5a00;
+      --cat-bg: #fff4d6;
+      --cat-border: #e6c36a;
     }
 
     .cat-j500 {
-      --cat-color: #7c2d12;
-      --cat-bg: #ffeadb;
-      --cat-border: #fdba74;
+      --cat-color: #00756f;
+      --cat-bg: #dff7f3;
+      --cat-border: #8edbd3;
     }
 
     .cat-j300 {
-      --cat-color: #075985;
-      --cat-bg: #e0f2fe;
-      --cat-border: #7dd3fc;
+      --cat-color: #2563eb;
+      --cat-bg: #e8f0ff;
+      --cat-border: #b7ccff;
     }
 
     .cat-j200 {
-      --cat-color: #166534;
-      --cat-bg: #dcfce7;
-      --cat-border: #86efac;
+      --cat-color: #15803d;
+      --cat-bg: #e8f7ed;
+      --cat-border: #b8e2c4;
     }
 
     .cat-j100 {
-      --cat-color: #5b21b6;
-      --cat-bg: #ede9fe;
-      --cat-border: #c4b5fd;
+      --cat-color: #7c3aed;
+      --cat-bg: #f1ebff;
+      --cat-border: #d5c4ff;
     }
 
     .cat-j60 {
-      --cat-color: #9f1239;
-      --cat-bg: #ffe4e6;
-      --cat-border: #fda4af;
+      --cat-color: #be6b00;
+      --cat-bg: #fff0df;
+      --cat-border: #ffc987;
     }
 
     .cat-j30 {
-      --cat-color: #475569;
-      --cat-bg: #f1f5f9;
-      --cat-border: #cbd5e1;
+      --cat-color: #64748b;
+      --cat-bg: #f3f6f9;
+      --cat-border: #ccd6e0;
     }
 
     .side {
@@ -2212,7 +2218,7 @@ td:nth-child(7) {
           <div class="tournament-group \${categoryClass}">
             <div>\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
-              \${group.items.map((item) => '<span class="tournament-name">' + escapeHtmlClient(item.name) + '</span>').join("")}
+              \${group.items.map((item) => '<span class="tournament-name" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>').join("")}
             </div>
           </div>
         \`;
