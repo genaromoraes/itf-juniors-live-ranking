@@ -1344,6 +1344,16 @@ function buildHtml(
       gap: 4px;
     }
 
+    .tournament-name {
+      color: var(--cat-color, var(--text));
+      font-weight: 820;
+    }
+
+    .week-tournament .tournament-name,
+    .result-title.tournament-name {
+      color: var(--cat-color, var(--text));
+    }
+
     .week-sub {
       margin-top: 1px;
       color: var(--muted);
@@ -1472,9 +1482,14 @@ function buildHtml(
     }
 
     .tournament-list {
-      color: var(--muted);
       font-size: 9px;
       line-height: 1.18;
+      font-weight: 680;
+    }
+
+    .tournament-list .tournament-name + .tournament-name::before {
+      content: ", ";
+      color: var(--muted);
       font-weight: 610;
     }
 
@@ -1581,7 +1596,6 @@ function buildHtml(
 
     .result-title {
       font-weight: 780;
-      color: var(--text);
       line-height: 1.08;
     }
 
@@ -2017,11 +2031,12 @@ td:nth-child(7) {
       const impact = Number(item.impact_points || 0);
       const yearText = item.year ? ' ' + escapeHtmlClient(item.year) : '';
       const eventText = item.event ? ' · ' + escapeHtmlClient(item.event) : '';
+      const categoryClass = getCategoryClass(item.category);
 
-      return '<div class="points-detail-line">' +
+      return '<div class="points-detail-line ' + categoryClass + '">' +
              '<span class="points-detail-impact ' + className + '">' + sign + formatNumberClient(impact) + '</span>' +
              (item.category ? ' ' + getCategoryChipHtml(item.category) : '') +
-             ' · ' + escapeHtmlClient(item.tournament || "Torneio") +
+             ' · <span class="tournament-name">' + escapeHtmlClient(item.tournament || "Torneio") + '</span>' +
              yearText +
              eventText +
              '</div>';
@@ -2052,11 +2067,12 @@ td:nth-child(7) {
       }
 
       const p = row.playing_this_week;
+      const categoryClass = getCategoryClass(p.category);
 
       return \`
-        <div class="week-tournament">
+        <div class="week-tournament \${categoryClass}">
           \${getCategoryChipHtml(p.category)}
-          <strong>\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong>
+          <strong class="tournament-name">\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong>
         </div>
         <div class="week-sub">
           \${p.singlesSummary ? "🎾 " + escapeHtmlClient(p.singlesSummary) : ""}
@@ -2190,11 +2206,13 @@ td:nth-child(7) {
 
     function renderTournaments() {
       weekTournaments.innerHTML = tournamentGroups.map((group) => {
+        const categoryClass = getCategoryClass(group.category);
+
         return \`
-          <div class="tournament-group">
+          <div class="tournament-group \${categoryClass}">
             <div>\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
-              \${group.items.map((item) => escapeHtmlClient(item.name)).join(", ")}
+              \${group.items.map((item) => '<span class="tournament-name">' + escapeHtmlClient(item.name) + '</span>').join("")}
             </div>
           </div>
         \`;
@@ -2223,7 +2241,7 @@ td:nth-child(7) {
                 <div class="result-heading">
                   \${getCategoryChipHtml(item.category)}
                   <div>
-                    <div class="result-title">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
+                    <div class="result-title tournament-name">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
                     <div class="small">\${details}\${source}</div>
                   </div>
                 </div>
