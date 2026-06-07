@@ -1061,13 +1061,6 @@ function buildHtml(
       border-bottom: 1px solid var(--border-soft);
     }
 
-    .ranking-card-header h2 {
-      margin: 0;
-      font-size: 13px;
-      letter-spacing: -0.03em;
-      font-weight: 700;
-    }
-
     .formula {
       color: var(--muted);
       font-size: 9px;
@@ -1885,7 +1878,6 @@ td:nth-child(7) {
     <main class="layout">
       <section class="ranking-card">
         <div class="ranking-card-header">
-          <h2>Live ranking</h2>
           <span class="formula">Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas</span>
           <span class="summary-row">
             <span id="visibleSummary">Carregando...</span>
