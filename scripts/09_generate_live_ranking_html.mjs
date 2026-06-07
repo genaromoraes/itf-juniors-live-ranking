@@ -1375,11 +1375,38 @@ function buildHtml(
     }
 
     .week-sub {
-      margin-top: 1px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 2px;
       color: var(--muted);
       font-size: 8px;
       font-weight: 500;
-      line-height: 1.08;
+      line-height: 1;
+    }
+
+    .week-result-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      min-height: 13px;
+      border: 1px solid color-mix(in srgb, var(--cat-border, var(--border)) 54%, transparent);
+      border-radius: 999px;
+      padding: 1px 4px;
+      color: var(--cat-color, var(--text));
+      background: color-mix(in srgb, var(--cat-bg, #ffffff) 68%, #ffffff);
+      white-space: nowrap;
+    }
+
+    .week-result-chip.eliminated {
+      color: var(--muted);
+      background: rgba(247, 250, 249, 0.72);
+      border-color: var(--border-soft);
+    }
+
+    .week-result-chip .out {
+      color: var(--red);
+      font-weight: 700;
     }
 
     .dash {
@@ -2071,6 +2098,24 @@ td:nth-child(7) {
              '</div>';
     }
 
+    function getWeekResultChipHtml(label, summary) {
+      if (!summary) return "";
+
+      const eliminated = summary.includes("❌");
+      const round = summary
+        .replace(/^Simples:\\s*/i, "")
+        .replace(/^Duplas:\\s*/i, "")
+        .replace(/❌/g, "")
+        .trim();
+      const className = eliminated ? "week-result-chip eliminated" : "week-result-chip";
+
+      return '<span class="' + className + '">' +
+             '<span>' + label + '</span>' +
+             '<strong>' + escapeHtmlClient(round || "-") + '</strong>' +
+             (eliminated ? '<span class="out">×</span>' : '') +
+             '</span>';
+    }
+
     function getPlayingHtml(row) {
       if (!row.playing_this_week) {
         return '<span class="dash">-</span>';
@@ -2078,17 +2123,17 @@ td:nth-child(7) {
 
       const p = row.playing_this_week;
       const categoryClass = getCategoryClass(p.category);
+      const resultChips = [
+        getWeekResultChipHtml("S", p.singlesSummary),
+        getWeekResultChipHtml("D", p.doublesSummary),
+      ].filter(Boolean).join("");
 
       return \`
         <div class="week-tournament \${categoryClass}">
           \${getCategoryChipHtml(p.category)}
           <strong class="tournament-name">\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong>
         </div>
-        <div class="week-sub">
-          \${p.singlesSummary ? "🎾 " + escapeHtmlClient(p.singlesSummary) : ""}
-          \${p.singlesSummary && p.doublesSummary ? "<br />" : ""}
-          \${p.doublesSummary ? "👥 " + escapeHtmlClient(p.doublesSummary) : ""}
-        </div>
+        \${resultChips ? '<div class="week-sub ' + categoryClass + '">' + resultChips + '</div>' : ''}
       \`;
     }
 
