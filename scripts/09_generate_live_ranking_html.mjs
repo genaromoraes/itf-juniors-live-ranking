@@ -293,14 +293,31 @@ function buildLiveRoundMap(weekLiveLedgerRows) {
   return map;
 }
 
-function getParticipationRoundLabel(row, round) {
-  const status = cleanText(row.status).toLowerCase();
+function getClassificationLabel(row) {
+  const classification = cleanText(row.event_classification_code).toUpperCase();
+  const classificationDesc = cleanText(row.event_classification_desc).toLowerCase();
 
-  if (status === "eliminated") {
-    return `${round} ❌`;
+  if (
+    classification === "Q" ||
+    classificationDesc.includes("qual") ||
+    classificationDesc.includes("qualification")
+  ) {
+    return "Qualy";
   }
 
-  return round;
+  return "";
+}
+
+function getParticipationRoundLabel(row, round) {
+  const status = cleanText(row.status).toLowerCase();
+  const classificationLabel = getClassificationLabel(row);
+  const displayRound = classificationLabel ? `${classificationLabel} ${round}` : round;
+
+  if (status === "eliminated") {
+    return `${displayRound} ❌`;
+  }
+
+  return displayRound;
 }
 
 function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
@@ -411,6 +428,15 @@ function getTournamentYear(row) {
   return match ? match[0] : "";
 }
 
+function getDetailKey(detail) {
+  return [
+    cleanText(detail.event),
+    cleanText(detail.tournament),
+    cleanText(detail.category),
+    cleanText(detail.year),
+  ].join("|");
+}
+
 function buildPointDetail(row) {
   const impactPoints = getRankingImpact(row);
 
@@ -423,38 +449,154 @@ function buildPointDetail(row) {
   };
 }
 
-function buildPointDetailsMap(weekLiveLedgerRows, droppedRows) {
+function parseBestResultForDetail(resultText, eventType, { includeLive = false } = {}) {
+  const parts = cleanText(resultText).split("|").map((part) => part.trim());
+
+  if (parts.length < 6) return null;
+
+  const source = cleanText(parts[1]).toUpperCase();
+
+  if (source === "LIVE" && !includeLive) return null;
+
+  return {
+    event: eventType === "doubles" ? "Duplas" : "Simples",
+    tournament: cleanText(parts[4]),
+    category: cleanText(parts[2]),
+    year: getTournamentYear({ start_date: cleanText(parts[5]) }),
+    impact_points:
+      eventType === "doubles"
+        ? Number((toNumber(parts[0]) * 0.25).toFixed(2))
+        : toNumber(parts[0]),
+    source,
+  };
+}
+
+function getReplacementDetailsForRow(row, dropDetails = []) {
+  const liveImpact = getCountingLiveDetailsForRow(row).reduce(
+    (sum, detail) => sum + toNumber(detail.impact_points),
+    0
+  );
+
+  const dropImpact = dropDetails.reduce(
+    (sum, detail) => sum + toNumber(detail.impact_points),
+    0
+  );
+  const balance = toNumber(row.points_change_vs_official);
+  const replacementImpact = Number((balance - liveImpact + dropImpact).toFixed(2));
+
+  if (replacementImpact <= 0) return [];
+
+  return [
+    {
+      event: "Cartel",
+      tournament: "Resultado(s) existentes que passaram a contar",
+      category: "",
+      year: "",
+      impact_points: replacementImpact,
+    },
+  ];
+}
+
+function getCountingLiveDetailsForRow(row) {
+  const bestItems = [
+    ...getBestSingles(row).map((item) => ({ item, eventType: "singles" })),
+    ...getBestDoubles(row).map((item) => ({ item, eventType: "doubles" })),
+  ];
+
+  return bestItems
+    .map(({ item, eventType }) =>
+      parseBestResultForDetail(item, eventType, { includeLive: true })
+    )
+    .filter((detail) => detail && detail.source === "LIVE")
+    .map(({ source, ...detail }) => detail);
+}
+
+function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
   const map = new Map();
 
   function getPlayerDetails(playerId) {
     if (!map.has(playerId)) {
-      map.set(playerId, { live: [], drops: [] });
+      map.set(playerId, { live: [], drops: [], replacements: [], adjustments: [] });
     }
 
     return map.get(playerId);
   }
 
-  for (const row of weekLiveLedgerRows) {
-    const playerId = cleanText(row.player_id);
-    const impactPoints = getRankingImpact(row);
-
-    if (!playerId || impactPoints <= 0) continue;
-
-    getPlayerDetails(playerId).live.push(buildPointDetail(row));
-  }
-
   for (const row of droppedRows) {
     const playerId = cleanText(row.player_id);
     const impactPoints = getRankingImpact(row);
+    const wasCountable =
+      cleanText(row.countable_status) === "countable" ||
+      cleanText(row.is_countable_at_collection).toLowerCase() === "true";
 
-    if (!playerId || impactPoints <= 0) continue;
+    if (!playerId || impactPoints <= 0 || !wasCountable) continue;
 
     getPlayerDetails(playerId).drops.push(buildPointDetail(row));
+  }
+
+  for (const row of rankingRows) {
+    const playerId = cleanText(row.player_id);
+
+    if (!playerId) continue;
+
+    const details = getPlayerDetails(playerId);
+    const existingKeys = new Set([
+      ...details.live.map(getDetailKey),
+      ...details.drops.map(getDetailKey),
+    ]);
+
+    for (const liveDetail of getCountingLiveDetailsForRow(row)) {
+      if (existingKeys.has(getDetailKey(liveDetail))) continue;
+
+      details.live.push(liveDetail);
+      existingKeys.add(getDetailKey(liveDetail));
+    }
+
+    for (const replacement of getReplacementDetailsForRow(row, details.drops)) {
+      if (existingKeys.has(getDetailKey(replacement))) continue;
+
+      details.replacements.push(replacement);
+      existingKeys.add(getDetailKey(replacement));
+    }
+
+    const liveImpact = details.live.reduce(
+      (sum, detail) => sum + toNumber(detail.impact_points),
+      0
+    );
+    const replacementImpact = details.replacements.reduce(
+      (sum, detail) => sum + toNumber(detail.impact_points),
+      0
+    );
+    const dropImpact = details.drops.reduce(
+      (sum, detail) => sum + toNumber(detail.impact_points),
+      0
+    );
+    const detailBalance = Number(
+      (liveImpact + replacementImpact - dropImpact).toFixed(2)
+    );
+    const actualBalance = toNumber(row.points_change_vs_official);
+    const adjustment = Number((actualBalance - detailBalance).toFixed(2));
+
+    if (Math.abs(adjustment) >= 0.01) {
+      details.adjustments.push({
+        event: "Top 6",
+        tournament:
+          adjustment < 0
+            ? "Resultado(s) que deixaram de contar"
+            : "Recomposição dos melhores resultados",
+        category: "",
+        year: "",
+        impact_points: Math.abs(adjustment),
+        direction: adjustment > 0 ? "up" : "down",
+      });
+    }
   }
 
   for (const details of map.values()) {
     details.live.sort((a, b) => b.impact_points - a.impact_points);
     details.drops.sort((a, b) => b.impact_points - a.impact_points);
+    details.replacements.sort((a, b) => b.impact_points - a.impact_points);
+    details.adjustments.sort((a, b) => b.impact_points - a.impact_points);
   }
 
   return map;
@@ -691,7 +833,8 @@ function buildDataForHtml(
     playing_this_week:
       weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
     point_details:
-      pointDetailsMap.get(cleanText(row.player_id)) || { live: [], drops: [] },
+      pointDetailsMap.get(cleanText(row.player_id)) ||
+      { live: [], drops: [], replacements: [], adjustments: [] },
     point_cartel:
       pointCartelMap.get(cleanText(row.player_id)) || { singles: [], doubles: [] },
 
@@ -2067,7 +2210,13 @@ td:nth-child(7) {
       const isExpanded = expandedPointsPlayerId === row.player_id;
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
-      const hasDetails = liveDetails.length || dropDetails.length;
+      const replacementDetails = row.point_details?.replacements || [];
+      const adjustmentDetails = row.point_details?.adjustments || [];
+      const hasDetails =
+        liveDetails.length ||
+        dropDetails.length ||
+        replacementDetails.length ||
+        adjustmentDetails.length;
       const buttonLabel = "i";
       const buttonTitle = isExpanded ? "Ocultar detalhes dos pontos" : "Ver detalhes dos pontos";
       const buttonClass = isExpanded ? "points-info-button active" : "points-info-button";
@@ -2110,12 +2259,32 @@ td:nth-child(7) {
              '</div>';
     }
 
+    function getPointsAdjustmentSectionHtml(items) {
+      if (!items.length) return "";
+
+      return '<div class="points-detail-section">' +
+             '<div class="points-detail-title">Ajuste top 6</div>' +
+             items.map((item) => {
+               const isUp = item.direction === "up";
+               return getPointDetailLineHtml(
+                 item,
+                 isUp ? "+" : "-",
+                 isUp ? "up" : "down"
+               );
+             }).join("") +
+             '</div>';
+    }
+
     function getPointsDetailHtml(row) {
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
+      const replacementDetails = row.point_details?.replacements || [];
+      const adjustmentDetails = row.point_details?.adjustments || [];
 
       return '<div class="points-detail">' +
              getPointsDetailSectionHtml("Entrando", liveDetails, "+", "up") +
+             getPointsDetailSectionHtml("Substituindo", replacementDetails, "+", "same") +
+             getPointsAdjustmentSectionHtml(adjustmentDetails) +
              getPointsDetailSectionHtml("Caindo", dropDetails, "-", "down") +
              '</div>';
     }
@@ -2533,7 +2702,11 @@ async function main() {
     weekLiveLedgerRows
   );
 
-  const pointDetailsMap = buildPointDetailsMap(weekLiveLedgerRows, droppedRows);
+  const pointDetailsMap = buildPointDetailsMap(
+    weekLiveLedgerRows,
+    droppedRows,
+    rows
+  );
   const pointCartelMap = buildPointCartelMap(combinedLedgerRows);
 
   const html = buildHtml(
