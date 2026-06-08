@@ -486,15 +486,27 @@ function getReplacementDetailsForRow(row, dropDetails = []) {
 
   if (replacementImpact <= 0) return [];
 
-  return [
-    {
-      event: "Cartel",
-      tournament: "Resultado(s) existentes que passaram a contar",
-      category: "",
-      year: "",
-      impact_points: replacementImpact,
-    },
+  const bestItems = [
+    ...getBestSingles(row).map((item) => ({ item, eventType: "singles" })),
+    ...getBestDoubles(row).map((item) => ({ item, eventType: "doubles" })),
   ];
+  const candidates = bestItems
+    .map(({ item, eventType }) => parseBestResultForDetail(item, eventType))
+    .filter((detail) => detail && detail.impact_points > 0)
+    .map(({ source, ...detail }) => detail)
+    .sort((a, b) => a.impact_points - b.impact_points);
+
+  const selected = [];
+  let remaining = replacementImpact;
+
+  for (const candidate of candidates) {
+    if (remaining <= 0) break;
+
+    selected.push(candidate);
+    remaining = Number((remaining - candidate.impact_points).toFixed(2));
+  }
+
+  return selected;
 }
 
 function getCountingLiveDetailsForRow(row) {
@@ -516,7 +528,7 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
 
   function getPlayerDetails(playerId) {
     if (!map.has(playerId)) {
-      map.set(playerId, { live: [], drops: [], replacements: [], adjustments: [] });
+      map.set(playerId, { live: [], drops: [], adjustments: [] });
     }
 
     return map.get(playerId);
@@ -555,15 +567,11 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
     for (const replacement of getReplacementDetailsForRow(row, details.drops)) {
       if (existingKeys.has(getDetailKey(replacement))) continue;
 
-      details.replacements.push(replacement);
+      details.live.push(replacement);
       existingKeys.add(getDetailKey(replacement));
     }
 
     const liveImpact = details.live.reduce(
-      (sum, detail) => sum + toNumber(detail.impact_points),
-      0
-    );
-    const replacementImpact = details.replacements.reduce(
       (sum, detail) => sum + toNumber(detail.impact_points),
       0
     );
@@ -572,7 +580,7 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
       0
     );
     const detailBalance = Number(
-      (liveImpact + replacementImpact - dropImpact).toFixed(2)
+      (liveImpact - dropImpact).toFixed(2)
     );
     const actualBalance = toNumber(row.points_change_vs_official);
     const adjustment = Number((actualBalance - detailBalance).toFixed(2));
@@ -595,7 +603,6 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
   for (const details of map.values()) {
     details.live.sort((a, b) => b.impact_points - a.impact_points);
     details.drops.sort((a, b) => b.impact_points - a.impact_points);
-    details.replacements.sort((a, b) => b.impact_points - a.impact_points);
     details.adjustments.sort((a, b) => b.impact_points - a.impact_points);
   }
 
@@ -834,7 +841,7 @@ function buildDataForHtml(
       weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
     point_details:
       pointDetailsMap.get(cleanText(row.player_id)) ||
-      { live: [], drops: [], replacements: [], adjustments: [] },
+      { live: [], drops: [], adjustments: [] },
     point_cartel:
       pointCartelMap.get(cleanText(row.player_id)) || { singles: [], doubles: [] },
 
@@ -2210,12 +2217,10 @@ td:nth-child(7) {
       const isExpanded = expandedPointsPlayerId === row.player_id;
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
-      const replacementDetails = row.point_details?.replacements || [];
       const adjustmentDetails = row.point_details?.adjustments || [];
       const hasDetails =
         liveDetails.length ||
         dropDetails.length ||
-        replacementDetails.length ||
         adjustmentDetails.length;
       const buttonLabel = "i";
       const buttonTitle = isExpanded ? "Ocultar detalhes dos pontos" : "Ver detalhes dos pontos";
@@ -2278,12 +2283,10 @@ td:nth-child(7) {
     function getPointsDetailHtml(row) {
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
-      const replacementDetails = row.point_details?.replacements || [];
       const adjustmentDetails = row.point_details?.adjustments || [];
 
       return '<div class="points-detail">' +
              getPointsDetailSectionHtml("Entrando", liveDetails, "+", "up") +
-             getPointsDetailSectionHtml("Substituindo", replacementDetails, "+", "same") +
              getPointsAdjustmentSectionHtml(adjustmentDetails) +
              getPointsDetailSectionHtml("Caindo", dropDetails, "-", "down") +
              '</div>';
