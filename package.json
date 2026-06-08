@@ -9,6 +9,8 @@
     "update:local": "node scripts/10_run_local_update.mjs",
     "generate": "node scripts/09_generate_live_ranking_html.mjs",
     "audit": "node scripts/11_generate_player_audit.mjs",
+    "start-week": "node scripts/13_start_week.mjs",
+    "rollover:week": "node scripts/13_start_week.mjs",
     "check": "node scripts/check_project.mjs",
     "test": "node --test tests/*.test.mjs",
     "reconcile:official": "node scripts/12_reconcile_official_ranking.mjs",
