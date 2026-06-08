@@ -471,44 +471,6 @@ function parseBestResultForDetail(resultText, eventType, { includeLive = false }
   };
 }
 
-function getReplacementDetailsForRow(row, dropDetails = []) {
-  const liveImpact = getCountingLiveDetailsForRow(row).reduce(
-    (sum, detail) => sum + toNumber(detail.impact_points),
-    0
-  );
-
-  const dropImpact = dropDetails.reduce(
-    (sum, detail) => sum + toNumber(detail.impact_points),
-    0
-  );
-  const balance = toNumber(row.points_change_vs_official);
-  const replacementImpact = Number((balance - liveImpact + dropImpact).toFixed(2));
-
-  if (replacementImpact <= 0) return [];
-
-  const bestItems = [
-    ...getBestSingles(row).map((item) => ({ item, eventType: "singles" })),
-    ...getBestDoubles(row).map((item) => ({ item, eventType: "doubles" })),
-  ];
-  const candidates = bestItems
-    .map(({ item, eventType }) => parseBestResultForDetail(item, eventType))
-    .filter((detail) => detail && detail.impact_points > 0)
-    .map(({ source, ...detail }) => detail)
-    .sort((a, b) => a.impact_points - b.impact_points);
-
-  const selected = [];
-  let remaining = replacementImpact;
-
-  for (const candidate of candidates) {
-    if (remaining <= 0) break;
-
-    selected.push(candidate);
-    remaining = Number((remaining - candidate.impact_points).toFixed(2));
-  }
-
-  return selected;
-}
-
 function getCountingLiveDetailsForRow(row) {
   const bestItems = [
     ...getBestSingles(row).map((item) => ({ item, eventType: "singles" })),
@@ -564,12 +526,6 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
       existingKeys.add(getDetailKey(liveDetail));
     }
 
-    for (const replacement of getReplacementDetailsForRow(row, details.drops)) {
-      if (existingKeys.has(getDetailKey(replacement))) continue;
-
-      details.live.push(replacement);
-      existingKeys.add(getDetailKey(replacement));
-    }
   }
 
   for (const details of map.values()) {
