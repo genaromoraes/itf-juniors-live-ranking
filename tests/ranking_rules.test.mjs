@@ -4,6 +4,7 @@ import { buildLivePointRows } from "../scripts/06_calculate_week_live_points.mjs
 
 const MAX_COUNTING_RESULTS = 6;
 const DOUBLES_WEIGHT = 0.25;
+const TIE_BREAK_CATEGORIES = ["JGS", "J500", "J300", "J200", "J100", "J60", "J30"];
 
 const OFFICIAL_POINTS_2026 = {
   singles: {
@@ -54,6 +55,27 @@ function calculateWeightedDoubles(points) {
 
 function calculateRankingPoints({ singles = [], doubles = [] }) {
   return sumBestSingles(singles) + calculateWeightedDoubles(doubles);
+}
+
+function buildTieBreakVector({ singles = [], doubles = [] }) {
+  const categoryPoints = (results) =>
+    TIE_BREAK_CATEGORIES.map((category) =>
+      results
+        .filter((result) => result.counting !== false && result.category === category)
+        .reduce((total, result) => total + toValidPoint(result.points), 0)
+    );
+
+  return [...categoryPoints(singles), ...categoryPoints(doubles)];
+}
+
+function compareTieBreakVectorDesc(a, b) {
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    const diff = (b[i] || 0) - (a[i] || 0);
+
+    if (diff !== 0) return diff;
+  }
+
+  return 0;
 }
 
 function getJuniorPoints({ category, eventType, round, wonMatch = true }) {
@@ -117,6 +139,50 @@ describe("ITF Junior ranking rules", () => {
 
     assert.deepEqual(bestWithLive, [500, 300, 200, 180, 100, 60]);
     assert.equal(sumBestSingles(bestWithLive), 1340);
+  });
+
+  test("breaks total-point ties by counting singles category points first", () => {
+    const grandSlamSingles = buildTieBreakVector({
+      singles: [{ category: "JGS", points: 180 }],
+    });
+
+    const j500Singles = buildTieBreakVector({
+      singles: [{ category: "J500", points: 180 }],
+    });
+
+    assert.ok(compareTieBreakVectorDesc(grandSlamSingles, j500Singles) < 0);
+  });
+
+  test("ignores non-counting results in ranking tie-breaks", () => {
+    const playerWithNonCountingGrandSlam = buildTieBreakVector({
+      singles: [
+        { category: "JGS", points: 180, counting: false },
+        { category: "J500", points: 180 },
+      ],
+    });
+
+    const playerWithCountingGrandSlam = buildTieBreakVector({
+      singles: [{ category: "JGS", points: 180 }],
+    });
+
+    assert.ok(
+      compareTieBreakVectorDesc(
+        playerWithCountingGrandSlam,
+        playerWithNonCountingGrandSlam
+      ) < 0
+    );
+  });
+
+  test("uses doubles category points only after all singles category tie-breaks", () => {
+    const singlesJ300 = buildTieBreakVector({
+      singles: [{ category: "J300", points: 60 }],
+    });
+
+    const doublesJGS = buildTieBreakVector({
+      doubles: [{ category: "JGS", points: 750 }],
+    });
+
+    assert.ok(compareTieBreakVectorDesc(singlesJ300, doublesJGS) < 0);
   });
 
   test("JGS doubles R16 is worth 135 raw points", () => {

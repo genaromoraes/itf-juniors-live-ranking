@@ -46,6 +46,8 @@ const DROP_CUTOFF_MODE = "week_end";
 // exemplo: const MANUAL_DROP_CUTOFF_DATE = "2026-06-07";
 const MANUAL_DROP_CUTOFF_DATE = "";
 
+const TIE_BREAK_CATEGORIES = ["JGS", "J500", "J300", "J200", "J100", "J60", "J30"];
+
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_CLEAN, { recursive: true });
 }
@@ -331,6 +333,66 @@ function sumPoints(rows) {
   return rows.reduce((sum, row) => sum + toNumber(row.points), 0);
 }
 
+function normalizeTieBreakCategory(value) {
+  const category = cleanText(value).toUpperCase();
+
+  if (
+    category === "GS" ||
+    category === "GRAND SLAM" ||
+    category === "YOUTH OLYMPICS"
+  ) {
+    return "JGS";
+  }
+
+  return category;
+}
+
+function buildCategoryPointVector(rows) {
+  return TIE_BREAK_CATEGORIES.map((category) =>
+    sumPoints(
+      rows.filter((row) => normalizeTieBreakCategory(row.category) === category)
+    )
+  );
+}
+
+function buildTieBreakVector(bestSingles, bestDoubles) {
+  return [
+    ...buildCategoryPointVector(bestSingles),
+    ...buildCategoryPointVector(bestDoubles),
+  ].map((value) => Number(value.toFixed(2)));
+}
+
+function compareTieBreakVectorDesc(a, b) {
+  const vectorA = Array.isArray(a._tie_break_points) ? a._tie_break_points : [];
+  const vectorB = Array.isArray(b._tie_break_points) ? b._tie_break_points : [];
+  const maxLength = Math.max(vectorA.length, vectorB.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    const diff = toNumber(vectorB[i]) - toNumber(vectorA[i]);
+
+    if (diff !== 0) return diff;
+  }
+
+  return 0;
+}
+
+function compareLiveRankingRows(a, b) {
+  const pointsDiff = toNumber(b.live_points) - toNumber(a.live_points);
+
+  if (pointsDiff !== 0) return pointsDiff;
+
+  const tieBreakDiff = compareTieBreakVectorDesc(a, b);
+
+  if (tieBreakDiff !== 0) return tieBreakDiff;
+
+  const officialA = toNumber(a.official_rank) || 999999;
+  const officialB = toNumber(b.official_rank) || 999999;
+
+  if (officialA !== officialB) return officialA - officialB;
+
+  return String(a.player_name).localeCompare(String(b.player_name));
+}
+
 function formatResult(row) {
   if (!row) return "";
 
@@ -376,6 +438,7 @@ function calculatePlayerLiveRanking(rows, snapshotMap, droppedRows) {
   const doublesRawPoints = sumPoints(bestDoubles);
   const doublesWeightedPoints = doublesRawPoints / 4;
   const livePoints = singlesPoints + doublesWeightedPoints;
+  const tieBreakPoints = buildTieBreakVector(bestSingles, bestDoubles);
 
   const liveSinglesRowsUsed = bestSingles.filter(
     (row) => row.source_type === "live"
@@ -446,6 +509,8 @@ function calculatePlayerLiveRanking(rows, snapshotMap, droppedRows) {
     best_doubles_5: formatResult(bestDoubles[4]),
     best_doubles_6: formatResult(bestDoubles[5]),
 
+    _tie_break_points: tieBreakPoints,
+
     calculated_at: new Date().toISOString(),
   };
 }
@@ -466,36 +531,11 @@ function assignLiveRanks(rows) {
   const ranked = [];
 
   for (const [, genderRows] of byGender.entries()) {
-    const sorted = [...genderRows].sort((a, b) => {
-      const diff = toNumber(b.live_points) - toNumber(a.live_points);
-
-      if (diff !== 0) return diff;
-
-      const officialA = toNumber(a.official_rank) || 999999;
-      const officialB = toNumber(b.official_rank) || 999999;
-
-      if (officialA !== officialB) return officialA - officialB;
-
-      return String(a.player_name).localeCompare(String(b.player_name));
-    });
-
-    let previousPoints = null;
-    let previousRank = 0;
+    const sorted = [...genderRows].sort(compareLiveRankingRows);
 
     for (let i = 0; i < sorted.length; i++) {
       const row = sorted[i];
-      const currentPoints = toNumber(row.live_points);
-
-      let rank;
-
-      if (previousPoints !== null && currentPoints === previousPoints) {
-        rank = previousRank;
-      } else {
-        rank = i + 1;
-      }
-
-      previousPoints = currentPoints;
-      previousRank = rank;
+      const rank = i + 1;
 
       ranked.push({
         ...row,
