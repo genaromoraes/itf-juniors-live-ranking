@@ -1142,6 +1142,10 @@ function buildHtml(
       transition: background 140ms ease, box-shadow 140ms ease;
     }
 
+    tbody tr:nth-child(even) {
+      background: rgba(18, 60, 74, 0.018);
+    }
+
     tbody tr:hover {
       background: rgba(235, 247, 243, 0.56);
     }
