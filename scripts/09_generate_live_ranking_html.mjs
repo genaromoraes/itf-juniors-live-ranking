@@ -528,7 +528,7 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
 
   function getPlayerDetails(playerId) {
     if (!map.has(playerId)) {
-      map.set(playerId, { live: [], drops: [], adjustments: [] });
+      map.set(playerId, { live: [], drops: [] });
     }
 
     return map.get(playerId);
@@ -570,40 +570,11 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
       details.live.push(replacement);
       existingKeys.add(getDetailKey(replacement));
     }
-
-    const liveImpact = details.live.reduce(
-      (sum, detail) => sum + toNumber(detail.impact_points),
-      0
-    );
-    const dropImpact = details.drops.reduce(
-      (sum, detail) => sum + toNumber(detail.impact_points),
-      0
-    );
-    const detailBalance = Number(
-      (liveImpact - dropImpact).toFixed(2)
-    );
-    const actualBalance = toNumber(row.points_change_vs_official);
-    const adjustment = Number((actualBalance - detailBalance).toFixed(2));
-
-    if (Math.abs(adjustment) >= 0.01) {
-      details.adjustments.push({
-        event: "Top 6",
-        tournament:
-          adjustment < 0
-            ? "Resultado(s) que deixaram de contar"
-            : "Recomposição dos melhores resultados",
-        category: "",
-        year: "",
-        impact_points: Math.abs(adjustment),
-        direction: adjustment > 0 ? "up" : "down",
-      });
-    }
   }
 
   for (const details of map.values()) {
     details.live.sort((a, b) => b.impact_points - a.impact_points);
     details.drops.sort((a, b) => b.impact_points - a.impact_points);
-    details.adjustments.sort((a, b) => b.impact_points - a.impact_points);
   }
 
   return map;
@@ -841,7 +812,7 @@ function buildDataForHtml(
       weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
     point_details:
       pointDetailsMap.get(cleanText(row.player_id)) ||
-      { live: [], drops: [], adjustments: [] },
+      { live: [], drops: [] },
     point_cartel:
       pointCartelMap.get(cleanText(row.player_id)) || { singles: [], doubles: [] },
 
@@ -2217,11 +2188,9 @@ td:nth-child(7) {
       const isExpanded = expandedPointsPlayerId === row.player_id;
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
-      const adjustmentDetails = row.point_details?.adjustments || [];
       const hasDetails =
         liveDetails.length ||
-        dropDetails.length ||
-        adjustmentDetails.length;
+        dropDetails.length;
       const buttonLabel = "i";
       const buttonTitle = isExpanded ? "Ocultar detalhes dos pontos" : "Ver detalhes dos pontos";
       const buttonClass = isExpanded ? "points-info-button active" : "points-info-button";
@@ -2264,30 +2233,12 @@ td:nth-child(7) {
              '</div>';
     }
 
-    function getPointsAdjustmentSectionHtml(items) {
-      if (!items.length) return "";
-
-      return '<div class="points-detail-section">' +
-             '<div class="points-detail-title">Ajuste top 6</div>' +
-             items.map((item) => {
-               const isUp = item.direction === "up";
-               return getPointDetailLineHtml(
-                 item,
-                 isUp ? "+" : "-",
-                 isUp ? "up" : "down"
-               );
-             }).join("") +
-             '</div>';
-    }
-
     function getPointsDetailHtml(row) {
       const liveDetails = row.point_details?.live || [];
       const dropDetails = row.point_details?.drops || [];
-      const adjustmentDetails = row.point_details?.adjustments || [];
 
       return '<div class="points-detail">' +
              getPointsDetailSectionHtml("Entrando", liveDetails, "+", "up") +
-             getPointsAdjustmentSectionHtml(adjustmentDetails) +
              getPointsDetailSectionHtml("Caindo", dropDetails, "-", "down") +
              '</div>';
     }
