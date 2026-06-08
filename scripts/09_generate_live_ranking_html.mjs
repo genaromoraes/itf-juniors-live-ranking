@@ -716,7 +716,7 @@ function shouldProjectEvent(row, weekParticipationMap, eventType) {
       ? cleanText(participation.singlesStatus).toLowerCase()
       : cleanText(participation.doublesStatus).toLowerCase();
 
-  return status === "still_alive_or_champion";
+  return status === "still_alive_or_champion" || status === "not_started_or_unknown";
 }
 
 function buildDataForHtml(
