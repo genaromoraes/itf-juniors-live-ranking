@@ -1798,9 +1798,9 @@ function buildHtml(
       gap: 4px;
       margin-top: 2px;
       color: var(--muted);
-      font-size: 8px;
+      font-size: 9px;
       font-weight: 500;
-      line-height: 1.08;
+      line-height: 1.12;
     }
 
     .week-result-item {
@@ -2496,6 +2496,18 @@ td:nth-child(7) {
              '</span>';
     }
 
+    function getTournamentDisplayNameClient(name, category) {
+      const text = String(name || "").trim();
+      const categoryText = String(category || "").trim();
+
+      if (!text || !categoryText) return text;
+
+      const prefix = categoryText.toLowerCase() + " ";
+      return text.toLowerCase().startsWith(prefix)
+        ? text.slice(categoryText.length).trimStart()
+        : text;
+    }
+
     function formatNumberClient(value) {
       const n = Number(value || 0);
 
@@ -2663,6 +2675,10 @@ td:nth-child(7) {
 
       const p = row.playing_this_week;
       const categoryClass = getCategoryClass(p.category);
+      const tournamentName = getTournamentDisplayNameClient(
+        p.tournament || "Torneio da semana",
+        p.category
+      );
       const resultChips = [
         getWeekResultHtml("🎾 Simples", p.singlesSummary),
         getWeekResultHtml("👥 Duplas", p.doublesSummary),
@@ -2671,7 +2687,7 @@ td:nth-child(7) {
       return \`
         <div class="week-tournament \${categoryClass}">
           \${getCategoryChipHtml(p.category)}
-          <strong class="tournament-name">\${escapeHtmlClient(p.tournament || "Torneio da semana")}</strong>
+          <strong class="tournament-name">\${escapeHtmlClient(tournamentName)}</strong>
         </div>
         \${resultChips ? '<div class="week-sub ' + categoryClass + '">' + resultChips + '</div>' : ''}
       \`;
