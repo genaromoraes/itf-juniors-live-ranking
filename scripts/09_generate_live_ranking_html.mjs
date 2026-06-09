@@ -2164,7 +2164,7 @@ td:nth-child(7) {
       </div>
 
       <div class="filter">
-        <label>Última atualização (Brasília)</label>
+        <label>Última atualização (UTC-3)</label>
         <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
 
