@@ -1724,46 +1724,17 @@ function buildHtml(
       border: 1px solid var(--cat-border, rgba(8, 117, 109, 0.14));
     }
 
-    .cat-jgs {
-      --cat-color: #123C4A;
-      --cat-bg: #F7F3EA;
-      --cat-border: #123C4A;
-    }
-
-    .cat-j500 {
-      --cat-color: #4F6F7A;
-      --cat-bg: #F7F3EA;
-      --cat-border: #4F6F7A;
-    }
-
-    .cat-j300 {
-      --cat-color: #2B2B2B;
-      --cat-bg: #E8DDC8;
-      --cat-border: #C28A5C;
-    }
-
-    .cat-j200 {
-      --cat-color: #123C4A;
-      --cat-bg: #A7BFA3;
-      --cat-border: #A7BFA3;
-    }
-
-    .cat-j100 {
-      --cat-color: #2B2B2B;
-      --cat-bg: #F7F3EA;
-      --cat-border: #A7BFA3;
-    }
-
-    .cat-j60 {
-      --cat-color: #B42334;
-      --cat-bg: #FFF1F2;
-      --cat-border: #F4A7B2;
-    }
-
+    .cat-jgs,
+    .cat-j500,
+    .cat-j300,
+    .cat-j200,
+    .cat-j100,
+    .cat-j60,
     .cat-j30 {
-      --cat-color: #4F6F7A;
-      --cat-bg: #F7F3EA;
-      --cat-border: #E8DDC8;
+      --cat-color: var(--green-dark);
+      --cat-bg: var(--green-soft);
+      --cat-soft: var(--green-soft);
+      --cat-border: rgba(8, 117, 109, 0.2);
     }
 
     .side {
