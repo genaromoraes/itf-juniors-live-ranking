@@ -1812,19 +1812,26 @@ function buildHtml(
 
     .projection-list {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 86px;
-      line-height: 1.05;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3px;
+      min-width: 112px;
+      max-width: 190px;
+      line-height: 1;
     }
 
     .projection-item {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
-      color: var(--muted);
+      gap: 3px;
+      min-height: 15px;
+      padding: 1px 4px;
+      border: 1px solid var(--cat-border, var(--border));
+      border-radius: 999px;
+      background: var(--cat-soft, rgba(247, 250, 249, 0.9));
+      color: var(--cat-color, var(--text));
       font-size: 8px;
-      font-weight: 500;
+      font-weight: 600;
       white-space: nowrap;
     }
 
@@ -1832,13 +1839,6 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 46px;
-      height: 14px;
-      padding: 0 5px;
-      border: 1px solid var(--cat-border, var(--border));
-      border-radius: 999px;
-      background: var(--cat-soft, rgba(247, 250, 249, 0.9));
-      color: var(--cat-color, var(--text));
       font-size: 7px;
       font-weight: 700;
       line-height: 1;
@@ -2664,8 +2664,8 @@ td:nth-child(7) {
     }
 
     function getScenarioEventLabel(scenario) {
-      if (scenario.eventType === "singles") return "🎾 Simples";
-      if (scenario.eventType === "doubles") return "👥 Duplas";
+      if (scenario.eventType === "singles") return "🎾";
+      if (scenario.eventType === "doubles") return "👥";
       if (scenario.eventType === "combined") return "🎾+👥";
       return "";
     }
