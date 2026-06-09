@@ -1072,10 +1072,14 @@ function buildHtml(
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ITF Juniors Live Ranking</title>
+  <script>
+    document.documentElement.dataset.theme = localStorage.getItem("itf-live-theme") || "light";
+  </script>
   <style>
     :root {
       --bg: #f5f8f7;
       --bg-glow: #e7f3ef;
+      --bg-bottom: #f9fbfa;
       --panel: rgba(255, 255, 255, 0.94);
       --panel-solid: #ffffff;
       --panel-soft: #f7faf9;
@@ -1099,6 +1103,31 @@ function buildHtml(
       --radius-sm: 10px;
     }
 
+    :root[data-theme="dark"] {
+      --bg: #101820;
+      --bg-glow: #14252b;
+      --bg-bottom: #0d141a;
+      --panel: rgba(18, 28, 36, 0.94);
+      --panel-solid: #121c24;
+      --panel-soft: #17242d;
+      --text: #e7eef2;
+      --muted: #9aacb8;
+      --muted-soft: #71838f;
+      --border: #2a3a44;
+      --border-soft: #21313a;
+      --green-dark: #61c6b8;
+      --green: #72d5ad;
+      --green-soft: rgba(97, 198, 184, 0.16);
+      --red: #ff8390;
+      --red-soft: rgba(255, 131, 144, 0.15);
+      --yellow: #f3c36c;
+      --yellow-soft: rgba(243, 195, 108, 0.16);
+      --blue: #8cc8f1;
+      --blue-soft: rgba(140, 200, 241, 0.16);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -1108,11 +1137,17 @@ function buildHtml(
       font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at top left, rgba(220, 244, 236, 0.84), transparent 32rem),
-        linear-gradient(180deg, var(--bg-glow) 0%, var(--bg) 34%, #f9fbfa 100%);
+        linear-gradient(180deg, var(--bg-glow) 0%, var(--bg) 34%, var(--bg-bottom) 100%);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
+    }
+
+    :root[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at top left, rgba(32, 88, 96, 0.42), transparent 32rem),
+        linear-gradient(180deg, var(--bg-glow) 0%, var(--bg) 38%, var(--bg-bottom) 100%);
     }
 
     .page {
@@ -1226,6 +1261,33 @@ function buildHtml(
       background: rgba(255, 255, 255, 0.62);
     }
 
+    :root[data-theme="dark"] .top-controls,
+    :root[data-theme="dark"] .filters {
+      background: rgba(18, 28, 36, 0.74);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    :root[data-theme="dark"] select,
+    :root[data-theme="dark"] input,
+    :root[data-theme="dark"] .toggle-button {
+      color: var(--text);
+      background: rgba(17, 27, 35, 0.9);
+      border-color: var(--border);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+    }
+
+    :root[data-theme="dark"] select:focus,
+    :root[data-theme="dark"] input:focus {
+      background: #111b23;
+      border-color: rgba(97, 198, 184, 0.48);
+      box-shadow: 0 0 0 4px rgba(97, 198, 184, 0.12);
+    }
+
+    :root[data-theme="dark"] input:disabled {
+      color: var(--muted);
+      background: rgba(17, 27, 35, 0.62);
+    }
+
     .filters {
       display: grid;
       grid-template-columns: minmax(220px, 1.2fr) minmax(150px, 0.7fr) 160px 130px 150px 130px;
@@ -1311,6 +1373,11 @@ function buildHtml(
       background: rgba(255, 255, 255, 0.96);
     }
 
+    :root[data-theme="dark"] .toggle-button:has(input:checked) {
+      border-color: rgba(97, 198, 184, 0.36);
+      background: rgba(25, 42, 50, 0.96);
+    }
+
     .layout {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 290px;
@@ -1353,6 +1420,10 @@ function buildHtml(
 
     thead {
       background: rgba(247, 250, 249, 0.92);
+    }
+
+    :root[data-theme="dark"] thead {
+      background: rgba(23, 36, 45, 0.92);
     }
 
     th {
@@ -1429,6 +1500,18 @@ function buildHtml(
     tbody tr.selected {
       background: rgba(224, 244, 237, 0.82);
       box-shadow: 4px 0 0 var(--green-dark) inset;
+    }
+
+    :root[data-theme="dark"] tbody tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    :root[data-theme="dark"] tbody tr:hover {
+      background: rgba(97, 198, 184, 0.08);
+    }
+
+    :root[data-theme="dark"] tbody tr.selected {
+      background: rgba(97, 198, 184, 0.14);
     }
 
     .rank {
@@ -1513,7 +1596,7 @@ function buildHtml(
 
     .points {
       font-weight: 700;
-      color: #12324a;
+      color: var(--text);
       font-size: 11px;
       white-space: nowrap;
       letter-spacing: -0.02em;
@@ -1563,6 +1646,25 @@ function buildHtml(
       border-color: #dbe5ea;
     }
 
+    :root[data-theme="dark"] .points-balance.positive {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: rgba(114, 213, 173, 0.26);
+    }
+
+    :root[data-theme="dark"] .points-balance.negative {
+      color: var(--red);
+      background: var(--red-soft);
+      border-color: rgba(255, 131, 144, 0.28);
+    }
+
+    :root[data-theme="dark"] .points-balance.neutral,
+    :root[data-theme="dark"] .same {
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border);
+    }
+
     .points-info-button {
       margin-top: 0;
       border: 1px solid var(--border);
@@ -1596,6 +1698,16 @@ function buildHtml(
       border-color: rgba(8, 117, 109, 0.26);
     }
 
+    :root[data-theme="dark"] .points-info-button {
+      background: rgba(17, 27, 35, 0.82);
+    }
+
+    :root[data-theme="dark"] .points-info-button:hover,
+    :root[data-theme="dark"] .points-info-button.active {
+      background: rgba(25, 42, 50, 0.96);
+      border-color: rgba(97, 198, 184, 0.34);
+    }
+
     .points-detail {
       margin-top: 4px;
       padding: 5px 6px;
@@ -1603,6 +1715,10 @@ function buildHtml(
       border-radius: var(--radius-sm);
       background: rgba(247, 250, 249, 0.82);
       color: var(--text);
+    }
+
+    :root[data-theme="dark"] .points-detail {
+      background: rgba(17, 27, 35, 0.86);
     }
 
     .points-detail-section + .points-detail-section {
@@ -1815,6 +1931,19 @@ function buildHtml(
       --cat-border: rgba(79, 95, 107, 0.22);
     }
 
+    :root[data-theme="dark"] .cat-jgs,
+    :root[data-theme="dark"] .cat-j500,
+    :root[data-theme="dark"] .cat-j300,
+    :root[data-theme="dark"] .cat-j200,
+    :root[data-theme="dark"] .cat-j100,
+    :root[data-theme="dark"] .cat-j60,
+    :root[data-theme="dark"] .cat-j30 {
+      --cat-color: var(--muted);
+      --cat-bg: rgba(255, 255, 255, 0.05);
+      --cat-soft: rgba(255, 255, 255, 0.05);
+      --cat-border: rgba(255, 255, 255, 0.12);
+    }
+
     .side {
       display: grid;
       gap: 7px;
@@ -1866,6 +1995,11 @@ function buildHtml(
       color: var(--muted);
       font-weight: 600;
       line-height: 1.1;
+    }
+
+    :root[data-theme="dark"] .week-tournament-name {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border);
     }
 
     .profile-empty {
@@ -1963,6 +2097,22 @@ function buildHtml(
       box-shadow: none;
     }
 
+    :root[data-theme="dark"] .result-card {
+      background: rgba(17, 27, 35, 0.82);
+      border-color: var(--border);
+    }
+
+    :root[data-theme="dark"] .result-card.counting {
+      background: rgba(22, 36, 45, 0.94);
+      border-color: rgba(97, 198, 184, 0.34);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    :root[data-theme="dark"] .result-card.not-counting {
+      background: rgba(17, 27, 35, 0.54);
+      border-color: var(--border-soft);
+    }
+
     .result-main {
       display: flex;
       align-items: flex-start;
@@ -2005,6 +2155,10 @@ function buildHtml(
       border-radius: 999px;
       background: #edf4f2;
       padding: 1px 5px;
+    }
+
+    :root[data-theme="dark"] .result-status {
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .result-badge {
@@ -2138,9 +2292,11 @@ td:nth-child(7) {
       <div class="top-controls">
         <div class="mini-control">
           <label>Tema</label>
-          <select id="themeSelect">
-            <option>Claro</option>
-          </select>
+          <label class="toggle-button theme-toggle" for="themeToggle">
+            <input id="themeToggle" type="checkbox" />
+            <span class="toggle-track"></span>
+            <span>Escuro</span>
+          </label>
         </div>
 
         <div class="mini-control">
@@ -2258,6 +2414,7 @@ td:nth-child(7) {
 
     const searchInput = document.getElementById("searchInput");
     const countrySearchInput = document.getElementById("countrySearchInput");
+    const themeToggle = document.getElementById("themeToggle");
     const genderFilter = document.getElementById("genderFilter");
     const sortFilter = document.getElementById("sortFilter");
     const playingOnlyFilter = document.getElementById("playingOnlyFilter");
@@ -2270,6 +2427,14 @@ td:nth-child(7) {
     let expandedPointsPlayerId = "";
     let sortColumn = "RANK";
     let sortDirection = "asc";
+
+    function applyTheme(theme) {
+      const normalizedTheme = theme === "dark" ? "dark" : "light";
+
+      document.documentElement.dataset.theme = normalizedTheme;
+      themeToggle.checked = normalizedTheme === "dark";
+      localStorage.setItem("itf-live-theme", normalizedTheme);
+    }
 
     function escapeHtmlClient(value) {
       return String(value ?? "")
@@ -2825,6 +2990,9 @@ td:nth-child(7) {
 
     searchInput.addEventListener("input", renderTable);
     countrySearchInput.addEventListener("input", renderTable);
+    themeToggle.addEventListener("change", () => {
+      applyTheme(themeToggle.checked ? "dark" : "light");
+    });
     playingOnlyFilter.addEventListener("change", renderTable);
     genderFilter.addEventListener("change", () => {
       selectedPlayerId = "";
@@ -2838,6 +3006,7 @@ td:nth-child(7) {
     });
 
     renderTournaments();
+    applyTheme(localStorage.getItem("itf-live-theme") || "light");
     renderTable();
   </script>
 </body>
