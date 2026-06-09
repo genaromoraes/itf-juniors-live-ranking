@@ -1827,27 +1827,28 @@ function buildHtml(
 
     .projection-list {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
-      gap: 3px;
-      min-width: 112px;
-      max-width: 190px;
+      gap: 2px;
+      min-width: 0;
+      max-width: none;
       line-height: 1;
     }
 
     .projection-item {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      min-height: 15px;
-      padding: 1px 4px;
+      gap: 2px;
+      min-height: 14px;
+      padding: 1px 3px;
       border: 1px solid var(--cat-border, var(--border));
       border-radius: 999px;
       background: var(--cat-soft, rgba(247, 250, 249, 0.9));
       color: var(--cat-color, var(--text));
-      font-size: 8px;
+      font-size: 7px;
       font-weight: 600;
       white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     .projection-chip {
@@ -1867,6 +1868,12 @@ function buildHtml(
     .projection-points {
       color: var(--muted);
       font-weight: 600;
+    }
+
+    .projection-item .trophy {
+      font-size: 11px;
+      line-height: 0.8;
+      vertical-align: -1px;
     }
 
     .week-result-separator {
@@ -2694,6 +2701,37 @@ td:nth-child(7) {
         .join("/");
     }
 
+    function isTitleProjection(round) {
+      return String(round || "")
+        .split("/")
+        .some((part) => part.toUpperCase() === "W");
+    }
+
+    function getProjectionItemHtml(scenario) {
+      const eventLabel = getScenarioEventLabel(scenario);
+      const roundHtml = getProjectionRoundHtml(scenario.targetRound);
+      const pointsHtml = formatNumberClient(scenario.projectedTotal);
+      const isTitle = isTitleProjection(scenario.targetRound);
+
+      if (isTitle) {
+        return \`
+            <div class="projection-item projection-item-title">
+              <span class="projection-main">\${roundHtml}</span>
+              <span class="projection-chip">\${eventLabel}</span>
+              <span class="projection-points">\${pointsHtml}</span>
+            </div>
+          \`;
+      }
+
+      return \`
+            <div class="projection-item">
+              <span class="projection-chip">\${eventLabel}</span>
+              <span class="projection-main">\${roundHtml}</span>
+              <span class="projection-points">\${pointsHtml}</span>
+            </div>
+          \`;
+    }
+
     function getProjectionListHtml(row, scenarios) {
       const categoryClass = row.playing_this_week
         ? getCategoryClass(row.playing_this_week.category)
@@ -2701,13 +2739,7 @@ td:nth-child(7) {
 
       return '<div class="projection-list ' + categoryClass + '">' +
         scenarios
-          .map((scenario) => \`
-            <div class="projection-item">
-              <span class="projection-chip">\${getScenarioEventLabel(scenario)}</span>
-              <span class="projection-main">\${getProjectionRoundHtml(scenario.targetRound)}</span>
-              <span class="projection-points">\${formatNumberClient(scenario.projectedTotal)}</span>
-            </div>
-          \`)
+          .map((scenario) => getProjectionItemHtml(scenario))
           .join("") +
         '</div>';
     }
