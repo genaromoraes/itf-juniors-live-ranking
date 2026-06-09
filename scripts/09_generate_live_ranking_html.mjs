@@ -649,19 +649,77 @@ function getLiveResultsFromBest(bestResults) {
   return bestResults.filter((item) => item.toUpperCase().includes("LIVE"));
 }
 
-function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
+function normalizeProjectionRound(value) {
+  const text = cleanText(value)
+    .replace("❌", "")
+    .replace("🏆", "W")
+    .replace(/^Simples:\s*/i, "")
+    .replace(/^Duplas:\s*/i, "")
+    .replace(/^Singles\s*/i, "")
+    .replace(/^Doubles\s*/i, "")
+    .replace(/^Qualy\s*/i, "")
+    .trim()
+    .toUpperCase();
+
+  if (text === "WR") return "W";
+  if (text === "1ST ROUND" || text === "R1") return "R32";
+
+  const match = text.match(/\b(R128|R64|R32|R16|QF|SF|F|W)\b/);
+  return match ? match[1] : "";
+}
+
+function getParticipationRound(participation, eventType) {
+  if (!participation) return "";
+
+  const summary =
+    eventType === "singles"
+      ? participation.singlesSummary
+      : participation.doublesSummary;
+
+  return normalizeProjectionRound(summary);
+}
+
+function getProjectedTotalFromTopSix(bestResults, livePoints, multiplier, targetRawPoints) {
+  const parsedResults = bestResults
+    .map((item) => ({
+      text: item,
+      result: parseLiveResult(item),
+      isLive: item.toUpperCase().includes("LIVE"),
+    }))
+    .filter((item) => Number.isFinite(item.result.points));
+  const liveIndex = parsedResults.findIndex((item) => item.isLive);
+  const currentRawPoints = parsedResults
+    .map((item) => item.result.points)
+    .sort((a, b) => b - a)
+    .slice(0, 6);
+  const projectedRawPoints = parsedResults.map((item) => item.result.points);
+
+  if (liveIndex >= 0) {
+    projectedRawPoints[liveIndex] = targetRawPoints;
+  } else {
+    projectedRawPoints.push(targetRawPoints);
+  }
+
+  const currentContribution = currentRawPoints.reduce((sum, points) => sum + points, 0);
+  const projectedContribution = projectedRawPoints
+    .sort((a, b) => b - a)
+    .slice(0, 6)
+    .reduce((sum, points) => sum + points, 0);
+
+  return livePoints + (projectedContribution - currentContribution) * multiplier;
+}
+
+function getProjectedScenario(bestResults, livePoints, eventType, multiplier, participation) {
   const liveItems = getLiveResultsFromBest(bestResults);
-  if (!liveItems.length) return { nextRound: null, title: null };
+  const participationRound = getParticipationRound(participation, eventType);
+
+  if (!liveItems.length && !participationRound) return { nextRound: null, title: null };
 
   const liveResult = parseLiveResult(liveItems[0]);
-  const category = liveResult.category || "JGS";
+  const category = liveResult.category || cleanText(participation?.category) || "JGS";
   const eventPoints = POINTS_BY_CATEGORY[eventType] || POINTS_BY_CATEGORY.singles;
   const categoryPoints = eventPoints[category] || eventPoints.JGS;
-  const currentRound = liveResult.round;
-  const currentPoints =
-    categoryPoints[currentRound] !== undefined
-      ? categoryPoints[currentRound]
-      : liveResult.points;
+  const currentRound = normalizeProjectionRound(liveResult.round) || participationRound;
 
   const currentIndex = ROUND_ORDER.indexOf(currentRound);
   const nextRound = currentIndex >= 0 && currentIndex < ROUND_ORDER.length - 1
@@ -672,8 +730,12 @@ function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
     ? {
         eventType,
         targetRound: nextRound,
-        projectedTotal:
-          livePoints + (categoryPoints[nextRound] - currentPoints) * multiplier,
+        projectedTotal: getProjectedTotalFromTopSix(
+          bestResults,
+          livePoints,
+          multiplier,
+          categoryPoints[nextRound] || 0
+        ),
       }
     : null;
 
@@ -681,8 +743,12 @@ function getProjectedScenario(bestResults, livePoints, eventType, multiplier) {
     ? {
         eventType,
         targetRound: "W",
-        projectedTotal:
-          livePoints + (categoryPoints.W - currentPoints) * multiplier,
+        projectedTotal: getProjectedTotalFromTopSix(
+          bestResults,
+          livePoints,
+          multiplier,
+          categoryPoints.W || 0
+        ),
       }
     : null;
 
@@ -776,11 +842,12 @@ function buildDataForHtml(
       const livePoints = toNumber(row.live_points);
       const singles = getBestSingles(row);
       const doubles = getBestDoubles(row);
+      const participation = weekParticipationMap.get(cleanText(row.player_id));
       const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles")
-        ? getProjectedScenario(singles, livePoints, "singles", 1)
+        ? getProjectedScenario(singles, livePoints, "singles", 1, participation)
         : { nextRound: null, title: null };
       const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles")
-        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25)
+        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25, participation)
         : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
         singlesScenario.nextRound,
@@ -799,11 +866,12 @@ function buildDataForHtml(
       const livePoints = toNumber(row.live_points);
       const singles = getBestSingles(row);
       const doubles = getBestDoubles(row);
+      const participation = weekParticipationMap.get(cleanText(row.player_id));
       const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles")
-        ? getProjectedScenario(singles, livePoints, "singles", 1)
+        ? getProjectedScenario(singles, livePoints, "singles", 1, participation)
         : { nextRound: null, title: null };
       const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles")
-        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25)
+        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25, participation)
         : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
         singlesScenario.title,
