@@ -1757,6 +1757,7 @@ function buildHtml(
     .tournament-group {
       display: grid;
       grid-template-columns: 32px 1fr;
+      align-items: center;
       gap: 5px;
       padding: 3px 0;
       border-top: 1px solid var(--border-soft);
@@ -1768,6 +1769,9 @@ function buildHtml(
     }
 
     .tournament-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       font-size: 9px;
       line-height: 1.18;
       font-weight: 500;
@@ -2593,12 +2597,13 @@ td:nth-child(7) {
 
     function renderCartelSection(title, results) {
       const counting = results.filter((item) => item.counting);
+      const total = results.length;
 
       return \`
         <div class="profile-section">
           <div class="profile-section-title">
             <span>\${title}</span>
-            <span class="profile-section-meta">\${counting.length}/6 contando</span>
+            <span class="profile-section-meta">\${counting.length}/\${total}</span>
           </div>
           \${renderResultCards(results)}
         </div>
