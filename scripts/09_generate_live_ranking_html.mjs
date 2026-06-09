@@ -1839,13 +1839,13 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       gap: 2px;
-      min-height: 14px;
-      padding: 1px 3px;
+      min-height: 16px;
+      padding: 1px 4px;
       border: 1px solid var(--cat-border, var(--border));
       border-radius: 999px;
       background: var(--cat-soft, rgba(247, 250, 249, 0.9));
       color: var(--cat-color, var(--text));
-      font-size: 7px;
+      font-size: 8.5px;
       font-weight: 600;
       white-space: nowrap;
       flex: 0 0 auto;
@@ -1855,7 +1855,7 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 7px;
+      font-size: 8px;
       font-weight: 700;
       line-height: 1;
     }
@@ -1871,7 +1871,7 @@ function buildHtml(
     }
 
     .projection-item .trophy {
-      font-size: 11px;
+      font-size: 12px;
       line-height: 0.8;
       vertical-align: -1px;
     }
@@ -2242,7 +2242,7 @@ td,
 td:nth-child(6),
 td:nth-child(7) {
   white-space: nowrap;
-  min-width: 110px;
+  min-width: 126px;
 }
     @media (max-width: 1200px) {
       .page {
