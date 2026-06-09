@@ -836,6 +836,21 @@ function combineProjectedScenarios(singlesScenario, doublesScenario, livePoints)
   };
 }
 
+function getMeaningfulProjectionScenarios(scenarios, livePoints) {
+  const meaningful = scenarios.filter(
+    (scenario) => scenario && scenario.projectedTotal > livePoints
+  );
+  const bestIndividualTotal = meaningful
+    .filter((scenario) => scenario.eventType !== "combined")
+    .reduce((max, scenario) => Math.max(max, scenario.projectedTotal), livePoints);
+
+  return meaningful.filter(
+    (scenario) =>
+      scenario.eventType !== "combined" ||
+      scenario.projectedTotal > bestIndividualTotal
+  );
+}
+
 function shouldProjectEvent(row, weekParticipationMap, eventType) {
   const participation = weekParticipationMap.get(cleanText(row.player_id));
 
@@ -920,11 +935,11 @@ function buildDataForHtml(
         livePoints
       );
 
-      return [
+      return getMeaningfulProjectionScenarios([
         singlesScenario.nextRound,
         doublesScenario.nextRound,
         combinedScenario,
-      ].filter((scenario) => scenario && scenario.projectedTotal > livePoints);
+      ], livePoints);
     })(),
 
     title_scenarios: (() => {
@@ -944,11 +959,11 @@ function buildDataForHtml(
         livePoints
       );
 
-      return [
+      return getMeaningfulProjectionScenarios([
         singlesScenario.title,
         doublesScenario.title,
         combinedScenario,
-      ].filter(Boolean);
+      ], livePoints);
     })(),
 
     ranking_date: cleanText(row.ranking_date),
