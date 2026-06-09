@@ -10,6 +10,7 @@ const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
 const WEEK_PLAYER_RESULTS_FILE = path.resolve(
   "data/clean/week_player_results.csv"
 );
+const WEEK_MATCHES_FILE = path.resolve("data/clean/week_matches.csv");
 const WEEK_LIVE_LEDGER_ROWS_FILE = path.resolve(
   "data/clean/week_live_ledger_rows.csv"
 );
@@ -320,10 +321,11 @@ function getParticipationRoundLabel(row, round) {
   return displayRound;
 }
 
-function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
+function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMatches = []) {
   const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
   const map = new Map();
   const priorityByEvent = new Map();
+  const maxRoundOrderByEvent = new Map();
   const today = new Date().toISOString().slice(0, 10);
 
   function getClassificationPriority(row) {
@@ -336,6 +338,45 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
 
   function getParticipationEventKey(playerId, tournamentKey, eventType) {
     return [playerId, tournamentKey, eventType].join("|");
+  }
+
+  function getDrawEventKey(row) {
+    return [
+      getWeekTournamentKey(row),
+      cleanText(row.player_type_code),
+      cleanText(row.match_type_code),
+      cleanText(row.event_classification_code),
+    ].join("|");
+  }
+
+  function getTechnicalRoundFromOrder(row) {
+    const order = toNumber(row.highest_round_order);
+    const maxOrder = maxRoundOrderByEvent.get(getDrawEventKey(row)) || 0;
+
+    if (!order || !maxOrder) return "";
+
+    const firstRoundIndex = ROUND_ORDER.indexOf("F") - maxOrder + 1;
+    const roundIndex = firstRoundIndex + order - 1;
+
+    return ROUND_ORDER[roundIndex] || "";
+  }
+
+  for (const row of weekMatches) {
+    const eventKey = getDrawEventKey(row);
+    const order = toNumber(row.round_order);
+
+    if (!eventKey || !order) continue;
+
+    maxRoundOrderByEvent.set(eventKey, Math.max(maxRoundOrderByEvent.get(eventKey) || 0, order));
+  }
+
+  for (const row of weekPlayerResults) {
+    const eventKey = getDrawEventKey(row);
+    const order = toNumber(row.highest_round_order);
+
+    if (!eventKey || !order) continue;
+
+    maxRoundOrderByEvent.set(eventKey, Math.max(maxRoundOrderByEvent.get(eventKey) || 0, order));
   }
 
   for (const row of weekPlayerResults) {
@@ -366,6 +407,8 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
         doublesSummary: "",
         singlesStatus: "",
         doublesStatus: "",
+        singlesRound: "",
+        doublesRound: "",
       };
 
     if (participation.tournamentKey !== tournamentKey) continue;
@@ -377,9 +420,11 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
         : "";
     const round = liveRound || cleanText(row.highest_round_name);
     const roundLabel = round ? getParticipationRoundLabel(row, round) : "";
+    const technicalRound = normalizeProjectionRound(liveRound) || getTechnicalRoundFromOrder(row);
 
     if (eventType === "singles") {
       participation.singlesStatus = cleanText(row.status).toLowerCase();
+      participation.singlesRound = technicalRound;
 
       if (roundLabel) {
         participation.singlesSummary = `Simples: ${roundLabel}`;
@@ -388,6 +433,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows) {
 
     if (eventType === "doubles") {
       participation.doublesStatus = cleanText(row.status).toLowerCase();
+      participation.doublesRound = technicalRound;
 
       if (roundLabel) {
         participation.doublesSummary = `Duplas: ${roundLabel}`;
@@ -670,6 +716,13 @@ function normalizeProjectionRound(value) {
 
 function getParticipationRound(participation, eventType) {
   if (!participation) return "";
+
+  const technicalRound =
+    eventType === "singles"
+      ? cleanText(participation.singlesRound)
+      : cleanText(participation.doublesRound);
+
+  if (technicalRound) return technicalRound;
 
   const summary =
     eventType === "singles"
@@ -2666,6 +2719,9 @@ async function main() {
   console.log("Lendo week_player_results.csv...");
   const weekPlayerResults = await readCsv(WEEK_PLAYER_RESULTS_FILE);
 
+  console.log("Lendo week_matches.csv...");
+  const weekMatches = await readCsv(WEEK_MATCHES_FILE);
+
   console.log("Lendo week_live_ledger_rows.csv...");
   const weekLiveLedgerRows = await readCsv(WEEK_LIVE_LEDGER_ROWS_FILE);
 
@@ -2677,7 +2733,8 @@ async function main() {
 
   const weekParticipationMap = buildWeekParticipationMap(
     weekPlayerResults,
-    weekLiveLedgerRows
+    weekLiveLedgerRows,
+    weekMatches
   );
 
   const pointDetailsMap = buildPointDetailsMap(
