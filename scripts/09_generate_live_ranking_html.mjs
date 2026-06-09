@@ -312,13 +312,24 @@ function getClassificationLabel(row) {
 function getParticipationRoundLabel(row, round) {
   const status = cleanText(row.status).toLowerCase();
   const classificationLabel = getClassificationLabel(row);
-  const displayRound = classificationLabel ? `${classificationLabel} ${round}` : round;
+  const visibleRound = getDisplayRoundLabel(round);
+  const displayRound = classificationLabel ? `${classificationLabel} ${visibleRound}` : visibleRound;
 
   if (status === "eliminated") {
     return `${displayRound} ❌`;
   }
 
   return displayRound;
+}
+
+function getDisplayRoundLabel(round) {
+  const text = cleanText(round);
+
+  if (/^1st\s+round$/i.test(text)) return "R1";
+  if (/^2nd\s+round$/i.test(text)) return "R2";
+  if (/^3rd\s+round$/i.test(text)) return "R3";
+
+  return text;
 }
 
 function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMatches = []) {
@@ -2424,6 +2435,8 @@ td:nth-child(7) {
 
     function getWeekRoundDisplay(round) {
       if (/^1st\\s+round$/i.test(round)) return "R1";
+      if (/^2nd\\s+round$/i.test(round)) return "R2";
+      if (/^3rd\\s+round$/i.test(round)) return "R3";
       return round;
     }
 
@@ -2660,7 +2673,7 @@ td:nth-child(7) {
         const categoryClass = getCategoryClass(item.category);
         const details = [
           item.date,
-          item.round,
+          getWeekRoundDisplay(item.round),
         ].filter(Boolean).map(escapeHtmlClient).join(" · ");
 
         return \`
