@@ -912,7 +912,7 @@ function buildDataForHtml(
         singlesScenario.nextRound,
         doublesScenario.nextRound,
         combinedScenario,
-      ].filter(Boolean);
+      ].filter((scenario) => scenario && scenario.projectedTotal > livePoints);
     })(),
 
     title_scenarios: (() => {
@@ -1731,10 +1731,10 @@ function buildHtml(
     .cat-j100,
     .cat-j60,
     .cat-j30 {
-      --cat-color: var(--green-dark);
-      --cat-bg: var(--green-soft);
-      --cat-soft: var(--green-soft);
-      --cat-border: rgba(8, 117, 109, 0.2);
+      --cat-color: #4f5f6b;
+      --cat-bg: rgba(247, 250, 249, 0.9);
+      --cat-soft: rgba(247, 250, 249, 0.9);
+      --cat-border: rgba(79, 95, 107, 0.22);
     }
 
     .side {
@@ -2376,8 +2376,8 @@ td:nth-child(7) {
       const p = row.playing_this_week;
       const categoryClass = getCategoryClass(p.category);
       const resultChips = [
-        getWeekResultHtml("Singles", p.singlesSummary),
-        getWeekResultHtml("Doubles", p.doublesSummary),
+        getWeekResultHtml("🎾", p.singlesSummary),
+        getWeekResultHtml("👥", p.doublesSummary),
       ].filter(Boolean).join('<span class="week-result-separator">·</span>');
 
       return \`
@@ -2398,9 +2398,9 @@ td:nth-child(7) {
     }
 
     function getScenarioEventLabel(scenario) {
-      if (scenario.eventType === "singles") return "S";
-      if (scenario.eventType === "doubles") return "D";
-      if (scenario.eventType === "combined") return "S+D";
+      if (scenario.eventType === "singles") return "🎾";
+      if (scenario.eventType === "doubles") return "👥";
+      if (scenario.eventType === "combined") return "🎾👥";
       return "";
     }
 
