@@ -1838,15 +1838,22 @@ function buildHtml(
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      gap: 4px;
       font-size: 9px;
       line-height: 1.18;
       font-weight: 500;
     }
 
-    .tournament-list .tournament-name + .tournament-name::before {
-      content: ", ";
+    .week-tournament-name {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 1px 5px;
+      background: rgba(247, 250, 249, 0.82);
+      border: 1px solid var(--border-soft);
       color: var(--muted);
-      font-weight: 400;
+      font-weight: 600;
+      line-height: 1.1;
     }
 
     .profile-empty {
@@ -2634,7 +2641,7 @@ td:nth-child(7) {
           <div class="tournament-group \${categoryClass}">
             <div>\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
-              \${group.items.map((item) => '<span class="tournament-name" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>').join("")}
+              \${group.items.map((item) => '<span class="week-tournament-name" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>').join("")}
             </div>
           </div>
         \`;
