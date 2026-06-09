@@ -1616,6 +1616,50 @@ function buildHtml(
       color: var(--muted);
     }
 
+    .projection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 86px;
+      line-height: 1.05;
+    }
+
+    .projection-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .projection-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      height: 14px;
+      padding: 0 4px;
+      border: 1px solid var(--cat-border, var(--border));
+      border-radius: 999px;
+      background: var(--cat-soft, rgba(247, 250, 249, 0.9));
+      color: var(--cat-color, var(--text));
+      font-size: 7px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .projection-main {
+      color: var(--cat-color, var(--text));
+      font-weight: 700;
+    }
+
+    .projection-points {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
     .week-result-separator {
       color: var(--muted-soft);
     }
@@ -2379,13 +2423,7 @@ td:nth-child(7) {
         return '<span class="dash">-</span>';
       }
 
-      return row.next_round_scenarios
-        .map((scenario) => \`
-          <div class="small">
-            (\${getScenarioEventLabel(scenario)}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
-          </div>
-        \`)
-        .join("");
+      return getProjectionListHtml(row, row.next_round_scenarios);
     }
 
     function getScenarioEventLabel(scenario) {
@@ -2395,18 +2433,30 @@ td:nth-child(7) {
       return "";
     }
 
+    function getProjectionListHtml(row, scenarios) {
+      const categoryClass = row.playing_this_week
+        ? getCategoryClass(row.playing_this_week.category)
+        : "";
+
+      return '<div class="projection-list ' + categoryClass + '">' +
+        scenarios
+          .map((scenario) => \`
+            <div class="projection-item">
+              <span class="projection-chip">\${getScenarioEventLabel(scenario)}</span>
+              <span class="projection-main">\${escapeHtmlClient(scenario.targetRound)}</span>
+              <span class="projection-points">\${formatNumberClient(scenario.projectedTotal)}</span>
+            </div>
+          \`)
+          .join("") +
+        '</div>';
+    }
+
     function getTitleHtml(row) {
       if (!row.title_scenarios || !row.title_scenarios.length) {
         return '<span class="dash">-</span>';
       }
 
-      return row.title_scenarios
-        .map((scenario) => \`
-          <div class="small">
-            (\${getScenarioEventLabel(scenario)}) \${escapeHtmlClient(scenario.targetRound)} \${formatNumberClient(scenario.projectedTotal)}
-          </div>
-        \`)
-        .join("");
+      return getProjectionListHtml(row, row.title_scenarios);
     }
 
     function passesFilters(row) {
