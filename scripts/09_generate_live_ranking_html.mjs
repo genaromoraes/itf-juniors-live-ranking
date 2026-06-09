@@ -1216,7 +1216,7 @@ function buildHtml(
 
     .filters {
       display: grid;
-      grid-template-columns: minmax(240px, 1.25fr) minmax(170px, 0.75fr) 170px 150px 170px;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(150px, 0.7fr) 160px 130px 150px 130px;
       gap: 7px;
       align-items: end;
       margin-bottom: 8px;
@@ -1231,6 +1231,72 @@ function buildHtml(
     .filter {
       display: grid;
       gap: 3px;
+    }
+
+    .toggle-filter {
+      align-self: stretch;
+    }
+
+    .toggle-button {
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    }
+
+    .toggle-button input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .toggle-track {
+      width: 25px;
+      height: 14px;
+      border-radius: 999px;
+      background: #d7e0df;
+      position: relative;
+      flex: 0 0 auto;
+      transition: background 160ms ease;
+    }
+
+    .toggle-track::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.18);
+      transition: transform 160ms ease;
+    }
+
+    .toggle-button input:checked + .toggle-track {
+      background: var(--green-dark);
+    }
+
+    .toggle-button input:checked + .toggle-track::after {
+      transform: translateX(11px);
+    }
+
+    .toggle-button:has(input:checked) {
+      color: var(--text);
+      border-color: rgba(8, 117, 109, 0.25);
+      background: rgba(255, 255, 255, 0.96);
     }
 
     .layout {
@@ -2098,6 +2164,15 @@ td:nth-child(7) {
           <option value="OFFICIAL_RANK">Ranking oficial</option>
         </select>
       </div>
+
+      <div class="filter toggle-filter">
+        <label>Filtro semanal</label>
+        <label class="toggle-button" for="playingOnlyFilter">
+          <input id="playingOnlyFilter" type="checkbox" />
+          <span class="toggle-track"></span>
+          <span>Jogando</span>
+        </label>
+      </div>
     </section>
 
     <main class="layout">
@@ -2166,6 +2241,7 @@ td:nth-child(7) {
     const countrySearchInput = document.getElementById("countrySearchInput");
     const genderFilter = document.getElementById("genderFilter");
     const sortFilter = document.getElementById("sortFilter");
+    const playingOnlyFilter = document.getElementById("playingOnlyFilter");
     const rankingBody = document.getElementById("rankingBody");
     const visibleSummary = document.getElementById("visibleSummary");
     const weekTournaments = document.getElementById("weekTournaments");
@@ -2447,12 +2523,17 @@ td:nth-child(7) {
       const gender = genderFilter.value;
       const athleteSearch = normalizeSearchText(searchInput.value);
       const countrySearch = normalizeSearchText(countrySearchInput.value);
+      const playingOnly = playingOnlyFilter.checked;
 
       if (row.gender !== gender) {
         return false;
       }
 
       if (Number(row.live_rank || 0) > 500) {
+        return false;
+      }
+
+      if (playingOnly && !row.playing_this_week) {
         return false;
       }
 
@@ -2723,6 +2804,7 @@ td:nth-child(7) {
 
     searchInput.addEventListener("input", renderTable);
     countrySearchInput.addEventListener("input", renderTable);
+    playingOnlyFilter.addEventListener("change", renderTable);
     genderFilter.addEventListener("change", () => {
       selectedPlayerId = "";
       renderProfile(null);
