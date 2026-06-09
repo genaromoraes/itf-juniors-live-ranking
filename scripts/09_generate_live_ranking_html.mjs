@@ -1638,9 +1638,9 @@ function buildHtml(
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 18px;
+      min-width: 46px;
       height: 14px;
-      padding: 0 4px;
+      padding: 0 5px;
       border: 1px solid var(--cat-border, var(--border));
       border-radius: 999px;
       background: var(--cat-soft, rgba(247, 250, 249, 0.9));
@@ -2376,8 +2376,8 @@ td:nth-child(7) {
       const p = row.playing_this_week;
       const categoryClass = getCategoryClass(p.category);
       const resultChips = [
-        getWeekResultHtml("🎾", p.singlesSummary),
-        getWeekResultHtml("👥", p.doublesSummary),
+        getWeekResultHtml("🎾 Simples", p.singlesSummary),
+        getWeekResultHtml("👥 Duplas", p.doublesSummary),
       ].filter(Boolean).join('<span class="week-result-separator">·</span>');
 
       return \`
@@ -2398,10 +2398,19 @@ td:nth-child(7) {
     }
 
     function getScenarioEventLabel(scenario) {
-      if (scenario.eventType === "singles") return "🎾";
-      if (scenario.eventType === "doubles") return "👥";
-      if (scenario.eventType === "combined") return "🎾👥";
+      if (scenario.eventType === "singles") return "🎾 Simples";
+      if (scenario.eventType === "doubles") return "👥 Duplas";
+      if (scenario.eventType === "combined") return "🎾+👥";
       return "";
+    }
+
+    function getProjectionRoundHtml(round) {
+      const text = escapeHtmlClient(round);
+
+      return text
+        .split("/")
+        .map((part) => part.toUpperCase() === "W" ? '<span class="trophy">🏆</span>' : part)
+        .join("/");
     }
 
     function getProjectionListHtml(row, scenarios) {
@@ -2414,7 +2423,7 @@ td:nth-child(7) {
           .map((scenario) => \`
             <div class="projection-item">
               <span class="projection-chip">\${getScenarioEventLabel(scenario)}</span>
-              <span class="projection-main">\${escapeHtmlClient(scenario.targetRound)}</span>
+              <span class="projection-main">\${getProjectionRoundHtml(scenario.targetRound)}</span>
               <span class="projection-points">\${formatNumberClient(scenario.projectedTotal)}</span>
             </div>
           \`)
