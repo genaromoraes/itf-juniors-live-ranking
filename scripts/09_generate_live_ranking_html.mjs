@@ -81,6 +81,7 @@ function formatDateTime(value) {
   return date.toLocaleString("pt-BR", {
     dateStyle: "short",
     timeStyle: "short",
+    timeZone: "America/Sao_Paulo",
   });
 }
 
@@ -2163,7 +2164,7 @@ td:nth-child(7) {
       </div>
 
       <div class="filter">
-        <label>Última atualização</label>
+        <label>Última atualização (Brasília)</label>
         <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
 
