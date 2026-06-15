@@ -354,6 +354,20 @@ function buildEventFiltersUrl(tournamentKey) {
   return `${EVENT_FILTERS_URL}?${params.toString()}`;
 }
 
+function buildDrawsheetUrl(eventInfo) {
+  const params = new URLSearchParams({
+    drawsheetStructureCode: String(eventInfo.drawsheetStructureCode || ""),
+    eventClassificationCode: String(eventInfo.eventClassificationCode || ""),
+    matchTypeCode: String(eventInfo.matchTypeCode || ""),
+    playerTypeCode: String(eventInfo.playerTypeCode || ""),
+    tourType: String(eventInfo.tourType || "N"),
+    tournamentId: String(Number(eventInfo.tournamentId)),
+    weekNumber: String(Number(eventInfo.weekNumber ?? 0)),
+  });
+
+  return `${DRAWSHEET_URL}?${params.toString()}`;
+}
+
 function looksBlockedOrHtml(result) {
   const contentType = String(result?.contentType || "").toLowerCase();
   const textStart = String(result?.textStart || "").toLowerCase();
@@ -521,31 +535,22 @@ async function fetchDrawsheet(page, eventInfo) {
     `Buscando chave: ${eventInfo.playerTypeDesc} ${eventInfo.matchTypeDesc} ${eventInfo.eventClassificationDesc}`
   );
 
-  const body = {
-    tournamentId: Number(eventInfo.tournamentId),
-    tourType: eventInfo.tourType || "N",
-    weekNumber: Number(eventInfo.weekNumber ?? 0),
-    playerTypeCode: eventInfo.playerTypeCode,
-    matchTypeCode: eventInfo.matchTypeCode,
-    eventClassificationCode: eventInfo.eventClassificationCode,
-    drawsheetStructureCode: eventInfo.drawsheetStructureCode,
-  };
+  const url = buildDrawsheetUrl(eventInfo);
 
   const result = await fetchJsonWithRetry(
     page,
-    DRAWSHEET_URL,
+    url,
     {
-      method: "POST",
-      body,
+      method: "GET",
     },
     `GetDrawsheet ${eventInfo.playerTypeDesc} ${eventInfo.matchTypeDesc} ${eventInfo.eventClassificationDesc}`
   );
 
   if (result.json && hasDrawsheetContent(result.json)) {
     return {
-      method_used: "POST",
-      url: DRAWSHEET_URL,
-      body,
+      method_used: "GET",
+      url,
+      body: null,
       json: result.json,
     };
   }
