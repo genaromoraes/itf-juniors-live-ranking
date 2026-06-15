@@ -6,6 +6,12 @@ const PROJECT_ROOT = process.cwd();
 
 const LOG_DIR = path.resolve("logs");
 const RUN_LOG_FILE = path.join(LOG_DIR, "live_update_last_run.log");
+const DEFAULT_PIPELINE_TIMEOUT_MS = 32 * 60 * 1000;
+const PIPELINE_TIMEOUT_MS_ENV = Number(process.env.ITF_PIPELINE_TIMEOUT_MS);
+const PIPELINE_TIMEOUT_MS =
+  Number.isFinite(PIPELINE_TIMEOUT_MS_ENV) && PIPELINE_TIMEOUT_MS_ENV > 0
+    ? PIPELINE_TIMEOUT_MS_ENV
+    : DEFAULT_PIPELINE_TIMEOUT_MS;
 
 const STEPS = [
   {
@@ -80,6 +86,21 @@ function formatDuration(ms) {
   return `${minutes}min ${restSeconds}s`;
 }
 
+class PipelineTimeoutError extends Error {
+  constructor(pipelineTimeoutMs, stepName = "") {
+    const limit = formatDuration(pipelineTimeoutMs);
+    const stepSuffix = stepName ? ` na etapa "${stepName}"` : "";
+
+    super(
+      `A atualização excedeu o limite total de ${limit}${stepSuffix} e foi interrompida de forma controlada.`
+    );
+
+    this.name = "PipelineTimeoutError";
+    this.pipelineTimeoutMs = pipelineTimeoutMs;
+    this.stepName = stepName;
+  }
+}
+
 async function ensureDirs() {
   await fs.mkdir(LOG_DIR, { recursive: true });
 }
@@ -111,9 +132,20 @@ async function checkRequiredOutputs(step) {
   return missing;
 }
 
-function runCommand(step) {
+function runCommand(step, pipelineStartedAt, pipelineTimeoutMs) {
+  const elapsedBeforeStart = Date.now() - pipelineStartedAt;
+  const remainingMs = pipelineTimeoutMs - elapsedBeforeStart;
+
+  if (remainingMs <= 0) {
+    throw new PipelineTimeoutError(pipelineTimeoutMs, step.name);
+  }
+
   return new Promise((resolve, reject) => {
     const startedAt = Date.now();
+    let settled = false;
+    let timedOut = false;
+    let pipelineTimer = null;
+    let forceKillTimer = null;
 
     console.log("");
     console.log("==================================================");
@@ -132,29 +164,121 @@ function runCommand(step) {
       },
     });
 
-    child.stdout.on("data", async (data) => {
+    const cleanup = () => {
+      if (pipelineTimer) {
+        clearTimeout(pipelineTimer);
+        pipelineTimer = null;
+      }
+
+      if (forceKillTimer) {
+        clearTimeout(forceKillTimer);
+        forceKillTimer = null;
+      }
+    };
+
+    const settleResolve = () => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve();
+    };
+
+    const settleReject = (error) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      reject(error);
+    };
+
+    const stopChildProcess = () => {
+      if (!child.pid) {
+        return;
+      }
+
+      if (process.platform === "win32") {
+        const killer = spawn(
+          "taskkill",
+          ["/pid", String(child.pid), "/T", "/F"],
+          {
+            stdio: "ignore",
+            shell: false,
+          }
+        );
+
+        killer.on("error", () => {
+          // ignora falha ao tentar encerrar processo
+        });
+
+        return;
+      }
+
+      try {
+        child.kill("SIGTERM");
+      } catch {
+        // ignora falha ao tentar encerrar processo
+      }
+
+      forceKillTimer = setTimeout(() => {
+        try {
+          child.kill("SIGKILL");
+        } catch {
+          // ignora falha ao tentar encerrar processo
+        }
+      }, 5000);
+    };
+
+    pipelineTimer = setTimeout(() => {
+      timedOut = true;
+
+      const timeoutError = new PipelineTimeoutError(pipelineTimeoutMs, step.name);
+
+      console.error("");
+      console.error(`Limite total atingido durante a etapa: ${step.name}`);
+      appendLog(`TIMEOUT: ${timeoutError.message}`).catch(() => {});
+
+      stopChildProcess();
+    }, remainingMs);
+
+    child.stdout.on("data", (data) => {
       const text = data.toString();
       process.stdout.write(text);
-      await appendLog(text.trimEnd());
+      appendLog(text.trimEnd()).catch(() => {
+        // ignora erro de escrita no log
+      });
     });
 
-    child.stderr.on("data", async (data) => {
+    child.stderr.on("data", (data) => {
       const text = data.toString();
       process.stderr.write(text);
-      await appendLog(text.trimEnd());
+      appendLog(text.trimEnd()).catch(() => {
+        // ignora erro de escrita no log
+      });
     });
 
-    child.on("error", reject);
+    child.on("error", (error) => {
+      if (timedOut) {
+        settleReject(new PipelineTimeoutError(pipelineTimeoutMs, step.name));
+        return;
+      }
+
+      settleReject(error);
+    });
 
     child.on("close", (code) => {
       const duration = formatDuration(Date.now() - startedAt);
 
+      if (timedOut) {
+        console.error(`Etapa interrompida por timeout global: ${step.name}`);
+        settleReject(new PipelineTimeoutError(pipelineTimeoutMs, step.name));
+        return;
+      }
+
       if (code === 0) {
         console.log("");
         console.log(`✅ Etapa concluída: ${step.name} (${duration})`);
-        resolve();
+        settleResolve();
       } else {
-        reject(
+        settleReject(
           new Error(
             `A etapa "${step.name}" falhou com código ${code}. Veja o log em ${RUN_LOG_FILE}`
           )
@@ -211,21 +335,27 @@ async function main() {
     `ITF Juniors live update started at ${nowIso()}\n\n`,
     "utf8"
   );
+  await appendLog(`Limite total do pipeline: ${formatDuration(PIPELINE_TIMEOUT_MS)}`);
 
   console.log("");
   console.log("==================================================");
   console.log("ITF JUNIORS LIVE RANKING — UPDATE COMPLETO");
   console.log("==================================================");
   console.log(`Início: ${nowIso()}`);
+  console.log(`Limite total do pipeline: ${formatDuration(PIPELINE_TIMEOUT_MS)}`);
   console.log("");
 
   for (const step of STEPS) {
+    if (Date.now() - startedAt >= PIPELINE_TIMEOUT_MS) {
+      throw new PipelineTimeoutError(PIPELINE_TIMEOUT_MS, step.name);
+    }
+
     await appendLog("");
     await appendLog("==================================================");
     await appendLog(`STEP: ${step.name}`);
     await appendLog("==================================================");
 
-    await runCommand(step);
+    await runCommand(step, startedAt, PIPELINE_TIMEOUT_MS);
 
     const missingOutputs = await checkRequiredOutputs(step);
 
@@ -247,7 +377,15 @@ main().catch(async (err) => {
   console.error("==================================================");
   console.error("❌ ATUALIZAÇÃO INTERROMPIDA");
   console.error("==================================================");
-  console.error(err.message || err);
+
+  if (err instanceof PipelineTimeoutError) {
+    console.error(
+      `A atualização excedeu o limite total de ${formatDuration(err.pipelineTimeoutMs)} e foi interrompida de forma controlada.`
+    );
+  } else {
+    console.error(err.message || err);
+  }
+
   console.error("");
   console.error(`Veja o log em: ${RUN_LOG_FILE}`);
 
