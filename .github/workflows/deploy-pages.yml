@@ -56,6 +56,31 @@ jobs:
           restore-keys: |
             live-ranking-data-
 
+      - name: Backup last valid generated data
+        if: github.event_name != 'push'
+        run: |
+          mkdir -p .last-valid-data/data/clean
+          files=(
+            week_tournaments.csv
+            week_tournaments_debug_all.csv
+            week_matches.csv
+            week_player_results.csv
+            week_results_errors.csv
+            week_results_summary.csv
+            week_live_points.csv
+            week_live_ledger_rows.csv
+            live_combined_ledger_with_drops.csv
+            live_dropped_points.csv
+            live_ranking_with_drops.csv
+            live_ranking_with_drops_top500.csv
+            live_ranking_with_drops_changes.csv
+          )
+          for file in "${files[@]}"; do
+            if [ -f "data/clean/$file" ]; then
+              cp "data/clean/$file" ".last-valid-data/data/clean/$file"
+            fi
+          done
+
       - name: Install dependencies
         run: npm ci
 
@@ -73,8 +98,52 @@ jobs:
         run: npm run update
 
       - name: Build live ranking with fresh ITF data
+        id: scrape
         if: github.event_name != 'push'
+        continue-on-error: true
         run: npm run update:full
+
+      - name: Restore last valid data after scraping failure
+        if: github.event_name != 'push' && steps.scrape.outcome == 'failure'
+        run: |
+          echo "ITF scraping failed. Restoring the last valid generated data from cache."
+          for file in week_tournaments.csv week_matches.csv week_player_results.csv; do
+            if [ ! -f ".last-valid-data/data/clean/$file" ]; then
+              echo "Missing required cached file: .last-valid-data/data/clean/$file"
+              echo "No valid cached data is available to restore after scraping failure."
+              exit 1
+            fi
+          done
+          mkdir -p data/clean
+          files=(
+            week_tournaments.csv
+            week_tournaments_debug_all.csv
+            week_matches.csv
+            week_player_results.csv
+            week_results_errors.csv
+            week_results_summary.csv
+            week_live_points.csv
+            week_live_ledger_rows.csv
+            live_combined_ledger_with_drops.csv
+            live_dropped_points.csv
+            live_ranking_with_drops.csv
+            live_ranking_with_drops_top500.csv
+            live_ranking_with_drops_changes.csv
+          )
+          for file in "${files[@]}"; do
+            if [ -f ".last-valid-data/data/clean/$file" ]; then
+              cp -f ".last-valid-data/data/clean/$file" "data/clean/$file"
+            fi
+          done
+
+      - name: Build live ranking from last valid data
+        if: github.event_name != 'push' && steps.scrape.outcome == 'failure'
+        run: npm run update
+
+      - name: Report stale ITF data
+        if: github.event_name != 'push' && steps.scrape.outcome == 'failure'
+        run: |
+          echo "WARNING: ITF scraping failed. GitHub Pages will be deployed using the last valid cached data."
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
