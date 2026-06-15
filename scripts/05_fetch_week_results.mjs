@@ -32,9 +32,10 @@ const DRAWSHEET_URL =
 
 const DELAY_BETWEEN_EVENTS_MS = 2000;
 const DELAY_BETWEEN_TOURNAMENTS_MS = 10000;
-const RETRY_DELAY_MS = 15000;
-const BLOCK_DELAY_MS = 90000;
-const MAX_RETRIES = 3;
+const REQUEST_TIMEOUT_MS = 30000;
+const RETRY_DELAY_MS = 10000;
+const BLOCK_DELAY_MS = 15000;
+const MAX_RETRIES = 2;
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
 
@@ -368,7 +369,7 @@ function looksBlockedOrHtml(result) {
 
 async function fetchJsonInsideBrowser(page, url, options = {}) {
   return await page.evaluate(
-    async ({ url, options }) => {
+    async ({ url, options, timeoutMs }) => {
       const headers = {
         accept: "application/json, text/plain, */*",
       };
@@ -377,39 +378,62 @@ async function fetchJsonInsideBrowser(page, url, options = {}) {
         headers["content-type"] = "application/json";
       }
 
-      const response = await fetch(url, {
-        method: options.method || "GET",
-        credentials: "include",
-        headers,
-        body: options.body ? JSON.stringify(options.body) : undefined,
-      });
-
-      const contentType = response.headers.get("content-type") || "";
-      const text = await response.text();
-
-      let json = null;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
       try {
-        json = JSON.parse(text);
-      } catch {
+        const response = await fetch(url, {
+          method: options.method || "GET",
+          credentials: "include",
+          headers,
+          body: options.body ? JSON.stringify(options.body) : undefined,
+          signal: controller.signal,
+        });
+
+        const contentType = response.headers.get("content-type") || "";
+        const text = await response.text();
+
+        let json = null;
+
+        try {
+          json = JSON.parse(text);
+        } catch {
+          return {
+            ok: response.ok,
+            status: response.status,
+            contentType,
+            textStart: text.slice(0, 500),
+            json: null,
+            timedOut: false,
+          };
+        }
+
         return {
           ok: response.ok,
           status: response.status,
           contentType,
-          textStart: text.slice(0, 500),
-          json: null,
+          textStart: "",
+          json,
+          timedOut: false,
         };
-      }
+      } catch (err) {
+        const timedOut = err?.name === "AbortError";
 
-      return {
-        ok: response.ok,
-        status: response.status,
-        contentType,
-        textStart: "",
-        json,
-      };
+        return {
+          ok: false,
+          status: 0,
+          contentType: "",
+          textStart: timedOut
+            ? `Request timeout after ${timeoutMs}ms`
+            : String(err?.message || err),
+          json: null,
+          timedOut,
+        };
+      } finally {
+        clearTimeout(timeoutId);
+      }
     },
-    { url, options }
+    { url, options, timeoutMs: REQUEST_TIMEOUT_MS }
   );
 }
 
@@ -426,21 +450,29 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
         return result;
       }
 
+      const errorPrefix = result.timedOut
+        ? "Request timeout"
+        : `HTTP ${result.status}`;
       const error = new Error(
-        `HTTP ${result.status}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
+        `${errorPrefix}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
       );
 
-      error.isBlocked = looksBlockedOrHtml(result);
+      error.isBlocked = !result.timedOut && looksBlockedOrHtml(result);
+      error.timedOut = result.timedOut;
       throw error;
     } catch (err) {
       lastError = err;
+
+      if (attempt >= MAX_RETRIES) {
+        throw lastError;
+      }
 
       if (err.isBlocked) {
         console.log(
           `Possível bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
         );
         await sleep(BLOCK_DELAY_MS);
-      } else if (attempt < MAX_RETRIES) {
+      } else {
         console.log(
           `Erro temporário. Esperando ${RETRY_DELAY_MS / 1000}s...`
         );
