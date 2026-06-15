@@ -23,6 +23,10 @@ const DEBUG_ALL_FILE = path.join(
   OUT_DIR_CLEAN,
   "week_tournaments_debug_all.csv"
 );
+const REQUEST_TIMEOUT_MS = 30000;
+const RETRY_DELAY_MS = 10000;
+const BLOCK_DELAY_MS = 15000;
+const MAX_RETRIES = 2;
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_RAW, { recursive: true });
@@ -43,6 +47,10 @@ function normalizeUrl(value) {
   if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
 
   return raw;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function getFirst(obj, keys) {
@@ -363,40 +371,126 @@ function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
 }
 
 async function fetchJsonInsideBrowser(page, url) {
-  return await page.evaluate(async (url) => {
-    const response = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        accept: "application/json, text/plain, */*",
-      },
-    });
+  return await page.evaluate(
+    async ({ url, timeoutMs }) => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    const contentType = response.headers.get("content-type") || "";
-    const text = await response.text();
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            accept: "application/json, text/plain, */*",
+          },
+          signal: controller.signal,
+        });
 
-    let json = null;
+        const contentType = response.headers.get("content-type") || "";
+        const text = await response.text();
 
+        let json = null;
+
+        try {
+          json = JSON.parse(text);
+        } catch {
+          return {
+            ok: response.ok,
+            status: response.status,
+            contentType,
+            textStart: text.slice(0, 500),
+            json: null,
+            timedOut: false,
+          };
+        }
+
+        return {
+          ok: response.ok,
+          status: response.status,
+          contentType,
+          textStart: "",
+          json,
+          timedOut: false,
+        };
+      } catch (err) {
+        const timedOut = err?.name === "AbortError";
+
+        return {
+          ok: false,
+          status: 0,
+          contentType: "",
+          textStart: timedOut
+            ? `Request timeout after ${timeoutMs}ms`
+            : String(err?.message || err),
+          json: null,
+          timedOut,
+        };
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    },
+    { url, timeoutMs: REQUEST_TIMEOUT_MS }
+  );
+}
+
+function looksBlockedOrHtml(result) {
+  const contentType = String(result?.contentType || "").toLowerCase();
+  const textStart = String(result?.textStart || "").toLowerCase();
+
+  if (contentType.includes("text/html")) return true;
+  if (textStart.includes("incapsula")) return true;
+  if (textStart.includes("imperva")) return true;
+  if (textStart.includes("_incapsula_resource")) return true;
+  if (textStart.includes("<html")) return true;
+
+  return false;
+}
+
+async function fetchJsonWithRetry(page, url, label = "calendar request") {
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      json = JSON.parse(text);
-    } catch {
-      return {
-        ok: response.ok,
-        status: response.status,
-        contentType,
-        textStart: text.slice(0, 500),
-        json: null,
-      };
-    }
+      console.log(`Tentativa ${attempt}/${MAX_RETRIES}: ${label}`);
 
-    return {
-      ok: response.ok,
-      status: response.status,
-      contentType,
-      textStart: "",
-      json,
-    };
-  }, url);
+      const result = await fetchJsonInsideBrowser(page, url);
+
+      if (result.ok && result.json) {
+        return result;
+      }
+
+      const errorPrefix = result.timedOut
+        ? "Request timeout"
+        : `HTTP ${result.status}`;
+      const error = new Error(
+        `${errorPrefix}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
+      );
+
+      error.isBlocked = !result.timedOut && looksBlockedOrHtml(result);
+      error.timedOut = result.timedOut;
+      throw error;
+    } catch (err) {
+      lastError = err;
+
+      if (attempt >= MAX_RETRIES) {
+        throw lastError;
+      }
+
+      if (err.isBlocked) {
+        console.log(
+          `Possível bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
+        );
+        await sleep(BLOCK_DELAY_MS);
+      } else {
+        console.log(
+          `Erro temporário. Esperando ${RETRY_DELAY_MS / 1000}s...`
+        );
+        await sleep(RETRY_DELAY_MS);
+      }
+    }
+  }
+
+  throw lastError;
 }
 
 async function fetchCalendarAllPages(page, weekWindow) {
@@ -416,7 +510,11 @@ async function fetchCalendarAllPages(page, weekWindow) {
     console.log(`Buscando calendário skip=${skip}, take=${take}`);
     console.log(url);
 
-    const result = await fetchJsonInsideBrowser(page, url);
+    const result = await fetchJsonWithRetry(
+      page,
+      url,
+      `GetCalendar skip=${skip}, take=${take}`
+    );
 
     if (!result.ok || !result.json) {
       throw new Error(
