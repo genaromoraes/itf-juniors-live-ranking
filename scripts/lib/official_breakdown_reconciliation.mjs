@@ -12,9 +12,9 @@ import {
   toNumber,
 } from "./weekly_ledger.mjs";
 import {
-  BASELINE_POLICY,
   OFFICIAL_PLAYER_COLUMNS,
   OFFICIAL_SNAPSHOT_COLUMNS,
+  STAGED_POLICY,
   calculateLedgerPoints,
   compareCalculatedAgainstSnapshot,
   detectBlockedHtml,
@@ -28,6 +28,7 @@ export const NETWORK_MODE_BROWSER = "browser";
 export const NETWORK_MODE_AUTO = "auto";
 export const RANKING_PAGE =
   "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
+export const FINAL_VALIDATION_POLICY = STAGED_POLICY;
 
 export const FETCH_ATTEMPT_COLUMNS = [
   "timestamp",
@@ -293,6 +294,9 @@ export function buildDefaultNetworkReport() {
   return {
     get_rankings_calls: 0,
     get_ranking_points_calls: 0,
+    cached_breakdowns: 0,
+    network_breakdowns: 0,
+    breakdown_cache_dir: "",
     direct_attempts: 0,
     browser_attempts: 0,
     html_responses: 0,
@@ -390,8 +394,18 @@ async function closeBrowserState(browserState) {
   if (browserState.browser) await browserState.browser.close().catch(() => {});
 }
 
-export async function readCachedBreakdown({ outputDir, player, sourceUrl }) {
-  const rawFile = path.join(outputDir, "raw", "breakdowns", `${player.player_id}.json`);
+function buildOutputBreakdownFile(outputDir, playerId) {
+  return path.join(outputDir, "raw", "breakdowns", `${playerId}.json`);
+}
+
+function displayPath(filePath, outputDir) {
+  const relative = path.relative(outputDir, filePath);
+  return relative && !relative.startsWith("..") && !path.isAbsolute(relative)
+    ? relative.replace(/\\/g, "/")
+    : filePath;
+}
+
+async function tryReadBreakdownFile({ rawFile, player, sourceUrl }) {
   if (!(await fileExists(rawFile))) return null;
 
   try {
@@ -411,8 +425,33 @@ export async function readCachedBreakdown({ outputDir, player, sourceUrl }) {
   }
 }
 
+export async function readCachedBreakdown({
+  outputDir,
+  player,
+  sourceUrl,
+  breakdownCacheDir = "",
+}) {
+  const externalFile = breakdownCacheDir
+    ? path.join(breakdownCacheDir, `${player.player_id}.json`)
+    : "";
+  const outputFile = buildOutputBreakdownFile(outputDir, player.player_id);
+  const candidates = [externalFile, outputFile].filter(Boolean);
+
+  for (const rawFile of candidates) {
+    const cached = await tryReadBreakdownFile({ rawFile, player, sourceUrl });
+    if (cached) {
+      return {
+        ...cached,
+        external: rawFile === externalFile,
+      };
+    }
+  }
+
+  return null;
+}
+
 async function saveBreakdown({ outputDir, player, sourceUrl, json }) {
-  const rawFile = path.join(outputDir, "raw", "breakdowns", `${player.player_id}.json`);
+  const rawFile = buildOutputBreakdownFile(outputDir, player.player_id);
   await fs.mkdir(path.dirname(rawFile), { recursive: true });
   await fs.writeFile(
     rawFile,
@@ -561,6 +600,7 @@ export async function fetchSelectedBreakdowns({
   players,
   outputDir,
   networkMode = NETWORK_MODE_AUTO,
+  breakdownCacheDir = "",
   deps = {},
 }) {
   const attempts = [];
@@ -569,13 +609,29 @@ export async function fetchSelectedBreakdowns({
   const errors = [];
   const byPlayerId = new Map();
   const browserState = {};
+  report.breakdown_cache_dir = breakdownCacheDir;
 
   try {
     for (const player of players) {
       const sourceUrl = buildRankingPointsUrl(player.player_id);
-      const cached = await readCachedBreakdown({ outputDir, player, sourceUrl });
+      const cached = await readCachedBreakdown({
+        outputDir,
+        player,
+        sourceUrl,
+        breakdownCacheDir,
+      });
 
       if (cached) {
+        report.cached_breakdowns += 1;
+        let rawFile = cached.rawFile;
+        if (cached.external) {
+          rawFile = await saveBreakdown({
+            outputDir,
+            player,
+            sourceUrl: cached.sourceUrl,
+            json: cached.json,
+          });
+        }
         const rows = extractLedgerRowsFromRankingPoints({
           json: cached.json,
           player,
@@ -591,11 +647,12 @@ export async function fetchSelectedBreakdowns({
           rows_found: rows.length,
           status: "ok",
           error_message: "",
-          raw_file: path.relative(outputDir, cached.rawFile).replace(/\\/g, "/"),
+          raw_file: displayPath(rawFile, outputDir),
         });
         continue;
       }
 
+      report.network_breakdowns += 1;
       const context = {
         outputDir,
         player,
@@ -662,7 +719,7 @@ export async function fetchSelectedBreakdowns({
         rows_found: rows.length,
         status: "ok",
         error_message: "",
-        raw_file: path.relative(outputDir, rawFile).replace(/\\/g, "/"),
+        raw_file: displayPath(rawFile, outputDir),
       });
     }
   } finally {
@@ -868,13 +925,25 @@ export function validateLedgerForOfficialPlayers({ ledgerRows, playersNextRows }
   };
 }
 
-export function runFinalValidation({ ledgerRows, snapshotRows }) {
+export function countExpiredRowsIgnored(ledgerRows, dropCutoff) {
+  return ledgerRows.filter((row) => {
+    const dropDate = cleanText(row.drop_date_calculated);
+    return isIsoDate(dropDate) && dropDate <= dropCutoff;
+  }).length;
+}
+
+export function runFinalValidation({
+  ledgerRows,
+  snapshotRows,
+  dropCutoff,
+  policy = FINAL_VALIDATION_POLICY,
+}) {
   const calculatedRows = calculateLedgerPoints(ledgerRows, {
-    policy: BASELINE_POLICY,
-    dropCutoff: "",
+    policy,
+    dropCutoff,
   });
   const comparison = compareCalculatedAgainstSnapshot(calculatedRows, snapshotRows, {
-    baselinePolicy: BASELINE_POLICY,
+    baselinePolicy: policy,
   });
   const ledgerPlayers = new Set(ledgerRows.map((row) => cleanText(row.player_id)).filter(Boolean));
   const officialIds = new Set(snapshotRows.map((row) => cleanText(row.player_id)).filter(Boolean));
@@ -893,6 +962,10 @@ export function runFinalValidation({ ledgerRows, snapshotRows }) {
     finalMissingLedger: missing.length,
     uniqueLedgerPlayers: ledgerPlayers.size,
     ledgerPlayersOutsideOfficial: outside.length,
+    finalValidationPolicy: policy,
+    finalDropCutoff: dropCutoff,
+    finalExpiredRowsIgnored:
+      policy === STAGED_POLICY ? countExpiredRowsIgnored(ledgerRows, dropCutoff) : 0,
     outside,
     missing,
   };
@@ -926,7 +999,9 @@ export function isSafeForPromotion({
     finalValidation.finalExact === expectedOfficialTotal &&
     finalValidation.finalDivergent === 0 &&
     finalValidation.finalMissingLedger === 0 &&
+    finalValidation.uniqueLedgerPlayers === expectedOfficialTotal &&
     finalValidation.ledgerPlayersOutsideOfficial === 0 &&
+    fetchResult.errors.length === 0 &&
     fetchResult.networkReport.get_rankings_calls === 0
   );
 }

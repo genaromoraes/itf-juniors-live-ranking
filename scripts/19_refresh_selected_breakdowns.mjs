@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
+  FINAL_VALIDATION_POLICY,
   NETWORK_MODE_AUTO,
   NETWORK_MODE_BROWSER,
   NETWORK_MODE_DIRECT,
@@ -18,7 +19,7 @@ import {
   writeJson,
   writeReconciliationArtifacts,
 } from "./lib/official_breakdown_reconciliation.mjs";
-import { cleanText } from "./lib/weekly_ledger.mjs";
+import { cleanText, isIsoDate } from "./lib/weekly_ledger.mjs";
 
 const EXPECTED_OFFICIAL_TOTAL = 1000;
 
@@ -33,13 +34,16 @@ function parseArgs(argv = process.argv.slice(2)) {
   const weekCloseDir = cleanText(readArg("week-close-dir"));
   const oldPlayersFile = cleanText(readArg("old-players-file"));
   const outputDir = cleanText(readArg("output-dir"));
+  const breakdownCacheDir = cleanText(readArg("breakdown-cache-dir"));
 
   return {
     validationDir: validationDir ? path.resolve(validationDir) : "",
     weekCloseDir: weekCloseDir ? path.resolve(weekCloseDir) : "",
     oldPlayersFile: oldPlayersFile ? path.resolve(oldPlayersFile) : "",
     rankingDate: cleanText(readArg("ranking-date")),
+    dropCutoff: cleanText(readArg("drop-cutoff")),
     outputDir: outputDir ? path.resolve(outputDir) : "",
+    breakdownCacheDir: breakdownCacheDir ? path.resolve(breakdownCacheDir) : "",
     networkMode:
       cleanText(readArg("network-mode", NETWORK_MODE_AUTO)).toLowerCase() ||
       NETWORK_MODE_AUTO,
@@ -59,6 +63,10 @@ function validateArgs(args) {
   ensureArg(args.oldPlayersFile, "Informe --old-players-file.", errors);
   ensureArg(args.rankingDate, "Informe --ranking-date=YYYY-MM-DD.", errors);
   ensureArg(args.outputDir, "Informe --output-dir.", errors);
+  ensureArg(!args.dropCutoff || isIsoDate(args.dropCutoff), "Use --drop-cutoff=YYYY-MM-DD.", errors);
+  if (args.mode === "run") {
+    ensureArg(args.dropCutoff, "Informe --drop-cutoff=YYYY-MM-DD em mode=run.", errors);
+  }
   ensureArg(
     ["dry-run", "run"].includes(args.mode),
     "Use --mode=dry-run ou --mode=run.",
@@ -92,7 +100,7 @@ function buildDryRunEndpoints(playersToRefresh) {
   return playersToRefresh.map((row) => buildRankingPointsUrl(row.player_id));
 }
 
-function buildSummary({
+export function buildSummary({
   args,
   startedAt,
   finishedAt,
@@ -111,6 +119,7 @@ function buildSummary({
     source_week_close_dir: args.weekCloseDir,
     old_players_file: args.oldPlayersFile,
     output_dir: args.outputDir,
+    breakdown_cache_dir: args.breakdownCacheDir,
     started_at: startedAt,
     finished_at: finishedAt,
     duration_seconds:
@@ -125,6 +134,8 @@ function buildSummary({
     breakdowns_requested: inputValidation.playersToRefresh,
     breakdowns_ok: fetchResult.summaries.filter((row) => row.status === "ok").length,
     breakdowns_failed: fetchResult.errors.length,
+    cached_breakdowns: fetchResult.networkReport.cached_breakdowns,
+    network_breakdowns: fetchResult.networkReport.network_breakdowns,
     get_rankings_calls: fetchResult.networkReport.get_rankings_calls,
     get_ranking_points_calls: fetchResult.networkReport.get_ranking_points_calls,
     direct_attempts: fetchResult.networkReport.direct_attempts,
@@ -141,6 +152,9 @@ function buildSummary({
     final_ledger_rows: ledgerParts.nextRows.length,
     ledger_validation_passed: ledgerValidation.valid,
     ledger_validation_errors: ledgerValidation.errors,
+    final_validation_policy: finalValidation.finalValidationPolicy,
+    final_drop_cutoff: finalValidation.finalDropCutoff,
+    final_expired_rows_ignored: finalValidation.finalExpiredRowsIgnored,
     final_total: finalValidation.finalTotal,
     final_exact: finalValidation.finalExact,
     final_percentage: finalValidation.finalPercentage,
@@ -173,7 +187,10 @@ export async function runReconciliation(args, deps = {}) {
     console.log(`week-close-dir: ${args.weekCloseDir}`);
     console.log(`old-players-file: ${args.oldPlayersFile}`);
     console.log(`ranking-date: ${args.rankingDate}`);
+    console.log(`final-validation-policy: ${FINAL_VALIDATION_POLICY}`);
+    console.log(`final-drop-cutoff: ${args.dropCutoff}`);
     console.log(`network-mode: ${args.networkMode}`);
+    console.log(`breakdown-cache-dir: ${args.breakdownCacheDir}`);
     console.log(`players-to-refresh: ${inputValidation.playersToRefresh}`);
     console.log("endpoints PlayerRankApi/GetRankingPoints:");
     for (const endpoint of buildDryRunEndpoints(inputs.playersToRefresh)) {
@@ -216,6 +233,7 @@ export async function runReconciliation(args, deps = {}) {
     players: refreshPlayers,
     outputDir,
     networkMode: args.networkMode,
+    breakdownCacheDir: args.breakdownCacheDir,
     deps,
   });
 
@@ -237,6 +255,8 @@ export async function runReconciliation(args, deps = {}) {
   const finalValidation = runFinalValidation({
     ledgerRows: ledgerParts.nextRows,
     snapshotRows: inputs.officialSnapshot,
+    dropCutoff: args.dropCutoff,
+    policy: FINAL_VALIDATION_POLICY,
   });
   const safeForPromotion = isSafeForPromotion({
     inputValidation,

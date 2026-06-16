@@ -55,6 +55,19 @@ async function createTempOutputDir() {
   return fs.mkdtemp(path.join(os.tmpdir(), "selected-breakdown-"));
 }
 
+async function writeCachedBreakdown(cacheDir, playerId, payload) {
+  await fs.mkdir(cacheDir, { recursive: true });
+  await fs.writeFile(
+    path.join(cacheDir, `${playerId}.json`),
+    JSON.stringify({
+      player_id: playerId,
+      source_url: buildRankingPointsUrl(playerId),
+      json: payload,
+    }),
+    "utf8"
+  );
+}
+
 describe("selected breakdown network collection", () => {
   test("direct mode fetches only GetRankingPoints for selected players", async () => {
     const outputDir = await createTempOutputDir();
@@ -119,6 +132,110 @@ describe("selected breakdown network collection", () => {
     assert.equal(result.summaries[0].from_cache, "true");
     assert.equal(result.byPlayerId.get("p1")[0].points, 88);
     assert.equal(result.networkReport.get_ranking_points_calls, 0);
+  });
+
+  test("external cache with 57 valid JSONs makes zero network calls", async () => {
+    const outputDir = await createTempOutputDir();
+    const cacheDir = await createTempOutputDir();
+    const selected = Array.from({ length: 57 }, (_, index) =>
+      player({ player_id: `p${index + 1}` })
+    );
+
+    for (const selectedPlayer of selected) {
+      await writeCachedBreakdown(
+        cacheDir,
+        selectedPlayer.player_id,
+        rankingPointsPayload(100)
+      );
+    }
+
+    const result = await fetchSelectedBreakdowns({
+      players: selected,
+      outputDir,
+      breakdownCacheDir: cacheDir,
+      networkMode: NETWORK_MODE_AUTO,
+      deps: {
+        directRequest: async () => {
+          throw new Error("direct should not run");
+        },
+        browserRequest: async () => {
+          throw new Error("browser should not run");
+        },
+        sleep: async () => {},
+      },
+    });
+
+    assert.equal(result.errors.length, 0);
+    assert.equal(result.networkReport.cached_breakdowns, 57);
+    assert.equal(result.networkReport.network_breakdowns, 0);
+    assert.equal(result.networkReport.get_ranking_points_calls, 0);
+    assert.equal(result.networkReport.breakdown_cache_dir, cacheDir);
+    assert.equal(result.summaries.every((row) => row.from_cache === "true"), true);
+    assert.ok(await fs.stat(path.join(outputDir, "raw", "breakdowns", "p1.json")));
+  });
+
+  test("partial external cache fetches only missing players", async () => {
+    const outputDir = await createTempOutputDir();
+    const cacheDir = await createTempOutputDir();
+    await writeCachedBreakdown(cacheDir, "p1", rankingPointsPayload(100));
+    let directCalls = 0;
+
+    const result = await fetchSelectedBreakdowns({
+      players: [player({ player_id: "p1" }), player({ player_id: "p2" })],
+      outputDir,
+      breakdownCacheDir: cacheDir,
+      networkMode: NETWORK_MODE_DIRECT,
+      deps: {
+        directRequest: async ({ url }) => {
+          directCalls += 1;
+          assert.match(url, /playerId=p2/);
+          return {
+            status: 200,
+            contentType: "application/json",
+            text: JSON.stringify(rankingPointsPayload(80)),
+          };
+        },
+        sleep: async () => {},
+      },
+    });
+
+    assert.equal(result.errors.length, 0);
+    assert.equal(directCalls, 1);
+    assert.equal(result.networkReport.cached_breakdowns, 1);
+    assert.equal(result.networkReport.network_breakdowns, 1);
+    assert.equal(result.networkReport.get_ranking_points_calls, 1);
+  });
+
+  test("invalid external cache is rejected and fetched again", async () => {
+    const outputDir = await createTempOutputDir();
+    const cacheDir = await createTempOutputDir();
+    await fs.mkdir(cacheDir, { recursive: true });
+    await fs.writeFile(path.join(cacheDir, "p1.json"), JSON.stringify({ countable: [] }), "utf8");
+    let directCalls = 0;
+
+    const result = await fetchSelectedBreakdowns({
+      players: [player()],
+      outputDir,
+      breakdownCacheDir: cacheDir,
+      networkMode: NETWORK_MODE_DIRECT,
+      deps: {
+        directRequest: async () => {
+          directCalls += 1;
+          return {
+            status: 200,
+            contentType: "application/json",
+            text: JSON.stringify(rankingPointsPayload(70)),
+          };
+        },
+        sleep: async () => {},
+      },
+    });
+
+    assert.equal(result.errors.length, 0);
+    assert.equal(directCalls, 1);
+    assert.equal(result.networkReport.cached_breakdowns, 0);
+    assert.equal(result.networkReport.network_breakdowns, 1);
+    assert.equal(result.summaries[0].from_cache, "false");
   });
 
   test("invalid cache is ignored and refreshed", async () => {
