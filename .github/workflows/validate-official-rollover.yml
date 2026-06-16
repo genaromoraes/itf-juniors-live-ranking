@@ -1,0 +1,300 @@
+name: Validate Official Rollover
+
+on:
+  workflow_dispatch:
+    inputs:
+      week_start:
+        description: "Closed week start date (YYYY-MM-DD)"
+        required: true
+        type: string
+      week_end:
+        description: "Closed week end date (YYYY-MM-DD)"
+        required: true
+        type: string
+      ranking_date:
+        description: "Official ranking date to compare (YYYY-MM-DD)"
+        required: true
+        type: string
+      drop_cutoff:
+        description: "Drop cutoff date for staged ledger (YYYY-MM-DD)"
+        required: true
+        type: string
+      network_mode:
+        description: "Official ranking network mode"
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - direct
+          - browser
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    env:
+      WEEK_START: ${{ inputs.week_start }}
+      WEEK_END: ${{ inputs.week_end }}
+      RANKING_DATE: ${{ inputs.ranking_date }}
+      DROP_CUTOFF: ${{ inputs.drop_cutoff }}
+      NETWORK_MODE: ${{ inputs.network_mode }}
+      BACKFILL_DIR: data/backfills/week_${{ inputs.week_start }}_${{ inputs.week_end }}
+      WEEK_CLOSE_DIR: data/staging/week_close_${{ inputs.week_end }}
+      VALIDATION_DIR: data/staging/official_validation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
+      LOG_DIR: logs/manual-official-validation
+      ARTIFACT_NAME: official-rollover-${{ inputs.ranking_date }}-${{ github.run_id }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Restore generated data cache
+        id: generated-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/clean/week_tournaments.csv
+            data/clean/week_tournaments_debug_all.csv
+            data/clean/week_matches.csv
+            data/clean/week_player_results.csv
+            data/clean/week_results_errors.csv
+            data/clean/week_results_summary.csv
+            data/clean/week_live_points.csv
+            data/clean/week_live_ledger_rows.csv
+            data/clean/live_combined_ledger_with_drops.csv
+            data/clean/live_dropped_points.csv
+            data/clean/live_ranking_with_drops.csv
+            data/clean/live_ranking_with_drops_top500.csv
+            data/clean/live_ranking_with_drops_changes.csv
+          key: live-ranking-data-${{ github.run_id }}
+          restore-keys: |
+            live-ranking-data-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Validate restored base files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$LOG_DIR"
+          {
+            echo "Cache hit: ${{ steps.generated-cache.outputs.cache-hit }}"
+            echo "Commit: $GITHUB_SHA"
+            echo ""
+            node -e '
+            const fs = require("fs");
+            const crypto = require("crypto");
+            const { parse } = require("csv-parse/sync");
+            const files = ["data/clean/players.csv", "data/clean/rankings_snapshot.csv", "data/clean/points_ledger.csv"];
+            const sha256 = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+            const readCsv = (file) => parse(fs.readFileSync(file, "utf8"), { columns: true, skip_empty_lines: true });
+            for (const file of files) {
+              if (!fs.existsSync(file)) throw new Error(`Arquivo-base ausente: ${file}`);
+              const stat = fs.statSync(file);
+              if (stat.size === 0) throw new Error(`Arquivo-base vazio: ${file}`);
+              const rows = readCsv(file);
+              console.log(`${file}`);
+              console.log(`  size=${stat.size}`);
+              console.log(`  rows=${rows.length}`);
+              console.log(`  sha256=${sha256(file)}`);
+            }
+            const snapshotRows = readCsv("data/clean/rankings_snapshot.csv");
+            const playersRows = readCsv("data/clean/players.csv");
+            const ledgerRows = readCsv("data/clean/points_ledger.csv");
+            const rankingDates = [...new Set(snapshotRows.map((row) => row.ranking_date).filter(Boolean))];
+            const genderCounts = playersRows.reduce((counts, row) => {
+              const gender = (row.gender || "").trim() || "unknown";
+              counts[gender] = (counts[gender] || 0) + 1;
+              return counts;
+            }, {});
+            const ledgerPlayers = new Set(ledgerRows.map((row) => row.player_id).filter(Boolean));
+            console.log("");
+            console.log(`ranking_date=${rankingDates.join(", ") || "nao disponivel"}`);
+            console.log(`players_by_gender=${JSON.stringify(genderCounts)}`);
+            console.log(`unique_ledger_players=${ledgerPlayers.size}`);
+            '
+          } | tee "$LOG_DIR/environment_report.txt"
+
+      - name: Run tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check scripts/17_backfill_week.mjs
+          node --check scripts/16_close_week.mjs
+          node --check scripts/18_validate_staged_ledger_against_official.mjs
+          npm test
+          npm run check
+
+      - name: Run isolated official rollover validation
+        id: pipeline
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$LOG_DIR" "$BACKFILL_DIR" "$WEEK_CLOSE_DIR" "$VALIDATION_DIR"
+          echo "failed" > "$LOG_DIR/pipeline_status.txt"
+
+          run_logged() {
+            local log_file="$1"
+            shift
+            echo "Running: $*" | tee "$LOG_DIR/$log_file"
+            set +e
+            "$@" 2>&1 | tee -a "$LOG_DIR/$log_file"
+            local code=${PIPESTATUS[0]}
+            set -e
+            if [ "$code" -ne 0 ]; then
+              echo "Command failed with exit code $code" | tee -a "$LOG_DIR/$log_file"
+              return "$code"
+            fi
+          }
+
+          run_logged backfill.log \
+            node scripts/17_backfill_week.mjs \
+              --week-start="$WEEK_START" \
+              --week-end="$WEEK_END" \
+              --output-dir="$BACKFILL_DIR" \
+              --mode=run
+
+          run_logged close_week.log \
+            node scripts/16_close_week.mjs \
+              --source-dir="$BACKFILL_DIR" \
+              --week-start="$WEEK_START" \
+              --week-end="$WEEK_END" \
+              --mode=dry-run
+
+          if [ ! -s "$WEEK_CLOSE_DIR/points_ledger.next.csv" ]; then
+            echo "Missing or empty $WEEK_CLOSE_DIR/points_ledger.next.csv" | tee -a "$LOG_DIR/close_week.log"
+            exit 1
+          fi
+
+          run_logged official_validation.log \
+            node scripts/18_validate_staged_ledger_against_official.mjs \
+              --ledger-file="$WEEK_CLOSE_DIR/points_ledger.next.csv" \
+              --old-players-file=data/clean/players.csv \
+              --old-snapshot-file=data/clean/rankings_snapshot.csv \
+              --ranking-date="$RANKING_DATE" \
+              --drop-cutoff="$DROP_CUTOFF" \
+              --output-dir="$VALIDATION_DIR" \
+              --baseline-policy=as-collected \
+              --network-mode="$NETWORK_MODE" \
+              --mode=run
+
+          echo "success" > "$LOG_DIR/pipeline_status.txt"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e '
+          const fs = require("fs");
+          const path = require("path");
+          const env = process.env;
+          const validationDir = env.VALIDATION_DIR;
+          const backfillReport = path.join(env.BACKFILL_DIR, "backfill_report.json");
+          const closeReport = path.join(env.WEEK_CLOSE_DIR, "close_week_report.json");
+          const validationSummary = path.join(validationDir, "validation_summary.json");
+          const networkReport = path.join(validationDir, "network_report.json");
+          const environmentReport = path.join(env.LOG_DIR, "environment_report.txt");
+          const pipelineStatus = path.join(env.LOG_DIR, "pipeline_status.txt");
+          const readJson = (file) => {
+            if (!fs.existsSync(file)) return {};
+            try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return {}; }
+          };
+          const get = (value) => value === undefined || value === null || value === "" ? "nao disponivel" : value;
+          const envLine = (pattern) => {
+            if (!fs.existsSync(environmentReport)) return "nao disponivel";
+            const line = fs.readFileSync(environmentReport, "utf8").split(/\r?\n/).find((item) => item.startsWith(pattern));
+            return line ? line.slice(pattern.length) : "nao disponivel";
+          };
+          const backfill = readJson(backfillReport);
+          const close = readJson(closeReport);
+          const summary = readJson(validationSummary);
+          const network = readJson(networkReport);
+          const status = fs.existsSync(pipelineStatus) ? fs.readFileSync(pipelineStatus, "utf8").trim() : "nao disponivel";
+          console.log("# Validate Official Rollover");
+          console.log("");
+          console.log(`- week_start: ${env.WEEK_START}`);
+          console.log(`- week_end: ${env.WEEK_END}`);
+          console.log(`- ranking_date: ${env.RANKING_DATE}`);
+          console.log(`- drop_cutoff: ${env.DROP_CUTOFF}`);
+          console.log(`- network_mode: ${env.NETWORK_MODE}`);
+          console.log(`- commit: ${env.GITHUB_SHA}`);
+          console.log(`- artifact: ${env.ARTIFACT_NAME}`);
+          console.log(`- pipeline_status: ${status}`);
+          console.log("");
+          console.log("## Base");
+          console.log(`- ranking_date restaurada: ${envLine("ranking_date=")}`);
+          console.log("");
+          console.log("## Pipeline");
+          console.log(`- backfill validation_passed: ${get(backfill.validation_passed)}`);
+          console.log(`- close_week validation_passed: ${get(close.validation_passed)}`);
+          console.log(`- baseline_total: ${get(summary.baseline_total)}`);
+          console.log(`- baseline_exact: ${get(summary.baseline_exact)}`);
+          console.log(`- official_snapshot_valid: ${get(summary.official_snapshot_valid)}`);
+          console.log(`- comparison_completed: ${get(summary.comparison_completed)}`);
+          console.log("");
+          console.log("## Network");
+          console.log(`- direct attempts: ${get(network.direct_attempts)}`);
+          console.log(`- browser attempts: ${get(network.browser_attempts)}`);
+          console.log(`- HTML: ${get(network.html_responses)}`);
+          console.log(`- Incapsula: ${get(network.incapsula_responses)}`);
+          console.log(`- HTTP 403: ${get(network.http_403)}`);
+          console.log(`- GetPlayerRankings calls: ${get(network.get_rankings_calls)}`);
+          console.log(`- GetRankingPoints calls: ${get(network.get_ranking_points_calls)}`);
+          console.log("");
+          console.log("## Comparison");
+          console.log(`- continuing_players: ${get(summary.continuing_players)}`);
+          console.log(`- exact_matches: ${get(summary.exact_matches)}`);
+          console.log(`- point_differences: ${get(summary.point_differences)}`);
+          console.log(`- new_top500_entrants: ${get(summary.new_top500_entrants)}`);
+          console.log(`- removed_from_top500: ${get(summary.removed_from_top500)}`);
+          console.log(`- missing_ledger: ${get(summary.missing_ledger)}`);
+          console.log(`- players_to_refresh: ${get(summary.players_to_refresh)}`);
+          if (network.get_ranking_points_calls && Number(network.get_ranking_points_calls) !== 0) process.exitCode = 1;
+          ' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload official rollover artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: |
+            data/backfills/week_${{ inputs.week_start }}_${{ inputs.week_end }}/
+            data/staging/week_close_${{ inputs.week_end }}/
+            data/staging/official_validation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}/
+            logs/manual-official-validation/
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Fail if isolated pipeline failed
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.pipeline.outcome }}" != "success" ]; then
+            echo "The isolated rollover validation pipeline failed. See uploaded artifact: $ARTIFACT_NAME"
+            exit 1
+          fi
+          if [ -f "$VALIDATION_DIR/network_report.json" ]; then
+            calls=$(node -e "const fs=require('fs'); const p=process.argv[1]; const j=fs.existsSync(p)?JSON.parse(fs.readFileSync(p,'utf8')):{}; console.log(j.get_ranking_points_calls ?? 0)" "$VALIDATION_DIR/network_report.json")
+            if [ "$calls" != "0" ]; then
+              echo "GetRankingPoints calls must be zero, got $calls"
+              exit 1
+            fi
+          fi
