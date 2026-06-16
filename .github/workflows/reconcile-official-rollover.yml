@@ -1,0 +1,148 @@
+name: Reconcile Official Rollover
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "GitHub Actions run id containing the official rollover artifact"
+        required: true
+        default: "27630911036"
+      source_artifact_name:
+        description: "Artifact name produced by Validate Official Rollover"
+        required: true
+        default: "official-rollover-2026-06-15-27630911036"
+      ranking_date:
+        description: "Official ITF ranking date to reconcile"
+        required: true
+        default: "2026-06-15"
+      network_mode:
+        description: "Network mode for PlayerRankApi/GetRankingPoints"
+        required: true
+        default: "auto"
+        type: choice
+        options:
+          - auto
+          - direct
+          - browser
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      NETWORK_MODE: ${{ inputs.network_mode }}
+      RANKING_DATE: ${{ inputs.ranking_date }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      RECONCILIATION_DIR: data/staging/official_reconciliation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
+      LOG_DIR: logs/manual-official-reconciliation
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Download official rollover artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.source_artifact_name }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: imported-rollover
+
+      - name: Resolve imported paths
+        run: |
+          set -euo pipefail
+          week_end="$(node -e "const d=new Date('${RANKING_DATE}T00:00:00Z'); d.setUTCDate(d.getUTCDate()-1); console.log(d.toISOString().slice(0,10));")"
+          validation_dir="imported-rollover/data/staging/official_validation_${RANKING_DATE}_github_run_${SOURCE_RUN_ID}"
+          week_close_dir="imported-rollover/data/staging/week_close_${week_end}"
+          echo "VALIDATION_DIR=${validation_dir}" >> "$GITHUB_ENV"
+          echo "WEEK_CLOSE_DIR=${week_close_dir}" >> "$GITHUB_ENV"
+          test -f "${week_close_dir}/points_ledger.next.csv"
+          test -d "${validation_dir}"
+          test -f "${validation_dir}/official_players.csv"
+          test -f "${validation_dir}/official_rankings_snapshot.csv"
+          test -f "${validation_dir}/players_to_refresh.csv"
+          test -f "${validation_dir}/validation_summary.json"
+
+      - name: Validate scripts
+        run: |
+          node --check scripts/19_refresh_selected_breakdowns.mjs
+          npm test
+          npm run check
+
+      - name: Run selective official reconciliation
+        id: reconcile
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          mkdir -p "$LOG_DIR"
+          node scripts/19_refresh_selected_breakdowns.mjs \
+            --validation-dir="$VALIDATION_DIR" \
+            --week-close-dir="$WEEK_CLOSE_DIR" \
+            --old-players-file=data/clean/players.csv \
+            --ranking-date="$RANKING_DATE" \
+            --output-dir="$RECONCILIATION_DIR" \
+            --network-mode="$NETWORK_MODE" \
+            --mode=run 2>&1 | tee "$LOG_DIR/reconciliation.log"
+
+      - name: Copy reconciliation log
+        if: always()
+        run: |
+          mkdir -p "$LOG_DIR"
+          if [ -f "$RECONCILIATION_DIR/validation_run.log" ]; then
+            cp "$RECONCILIATION_DIR/validation_run.log" "$LOG_DIR/validation_run.log"
+          fi
+
+      - name: Upload reconciliation artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-reconciliation-${{ inputs.ranking_date }}-${{ github.run_id }}
+          path: |
+            ${{ env.RECONCILIATION_DIR }}
+            logs/manual-official-reconciliation/
+          retention-days: 7
+
+      - name: Fail if reconciliation is not promotable
+        if: always()
+        run: |
+          summary="$RECONCILIATION_DIR/official_reconciliation_summary.json"
+          if [ ! -f "$summary" ]; then
+            echo "Missing reconciliation summary: $summary"
+            exit 1
+          fi
+          node - "$summary" <<'NODE'
+          const fs = require("fs");
+          const summary = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+          const failures = [];
+          if (summary.breakdowns_failed !== 0) {
+            failures.push(`breakdowns_failed=${summary.breakdowns_failed}`);
+          }
+          if (summary.final_exact !== 1000) {
+            failures.push(`final_exact=${summary.final_exact}`);
+          }
+          if (summary.mode_safe_for_promotion !== true) {
+            failures.push("mode_safe_for_promotion=false");
+          }
+          if (failures.length > 0) {
+            console.error(`Official reconciliation failed: ${failures.join(", ")}`);
+            process.exit(1);
+          }
+          console.log("Official reconciliation is safe for promotion.");
+          NODE

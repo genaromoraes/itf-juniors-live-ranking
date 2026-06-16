@@ -1,0 +1,315 @@
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import {
+  buildPlayersNext,
+  buildReconciledLedger,
+  isSafeForPromotion,
+  runFinalValidation,
+  sortLedgerRows,
+  validateInputs,
+  validateLedgerForOfficialPlayers,
+} from "../scripts/lib/official_breakdown_reconciliation.mjs";
+
+function officialPlayer(index, overrides = {}) {
+  const gender = index <= 500 ? "M" : "F";
+  return {
+    player_id: `p${index}`,
+    player_name: `Player ${index}`,
+    first_name: "Player",
+    last_name: String(index),
+    gender,
+    country: "BRA",
+    country_name: "Brazil",
+    birth_year: "2009",
+    current_rank: gender === "M" ? index : index - 500,
+    current_points: "100",
+    first_seen_date: "2026-06-15",
+    last_seen_date: "2026-06-15",
+    ...overrides,
+  };
+}
+
+function officialSnapshot(index, overrides = {}) {
+  const gender = index <= 500 ? "M" : "F";
+  return {
+    ranking_date: "2026-06-15",
+    gender,
+    rank: gender === "M" ? index : index - 500,
+    player_id: `p${index}`,
+    player_name: `Player ${index}`,
+    official_points: "100",
+    ...overrides,
+  };
+}
+
+function ledgerRow(overrides = {}) {
+  return {
+    player_id: "p1",
+    player_name: "Player 1",
+    gender: "M",
+    country: "BRA",
+    country_name: "Brazil",
+    birth_year: "2009",
+    event_type: "singles",
+    countable_status: "countable",
+    tournament_name: "Tournament",
+    category: "J100",
+    draw_type: "main_draw",
+    host_nation: "Brazil",
+    host_nation_code: "BRA",
+    surface: "Clay",
+    surface_code: "C",
+    start_date: "2026-01-01",
+    drop_date_calculated: "2026-12-31",
+    round: "W",
+    points: "100",
+    tournament_link: "https://example.test",
+    is_countable_at_collection: "true",
+    is_live: "false",
+    status: "confirmed_from_initial_breakdown",
+    source_url: "",
+    collected_at: "2026-06-15T00:00:00.000Z",
+    raw_json: "{}",
+    ...overrides,
+  };
+}
+
+function fullOfficialPlayers() {
+  return Array.from({ length: 1000 }, (_, index) => officialPlayer(index + 1));
+}
+
+function fullOfficialSnapshot() {
+  return Array.from({ length: 1000 }, (_, index) => officialSnapshot(index + 1));
+}
+
+function validationSummary(overrides = {}) {
+  return {
+    comparison_completed: true,
+    baseline_valid: true,
+    official_snapshot_valid: true,
+    new_ranking_date_received: "2026-06-15",
+    official_total: 1000,
+    official_male: 500,
+    official_female: 500,
+    players_to_refresh: 57,
+    point_differences: 47,
+    new_top500_entrants: 10,
+    removed_from_top500: 2,
+    missing_ledger: 0,
+    ...overrides,
+  };
+}
+
+function refreshRows() {
+  return [
+    ...Array.from({ length: 47 }, (_, index) => ({
+      ...officialPlayer(index + 1),
+      classification: "point_difference",
+      refresh_required: "true",
+      refresh_reason: "point_difference",
+    })),
+    ...Array.from({ length: 10 }, (_, index) => ({
+      ...officialPlayer(index + 48),
+      classification: "new_top500_entrant",
+      refresh_required: "true",
+      refresh_reason: "new_top500_entrant",
+    })),
+  ];
+}
+
+describe("official breakdown reconciliation", () => {
+  test("validates guardrails from the official rollover artifact", () => {
+    const result = validateInputs({
+      validationSummary: validationSummary(),
+      officialPlayers: fullOfficialPlayers(),
+      officialSnapshot: fullOfficialSnapshot(),
+      playersToRefresh: refreshRows(),
+      playersToPreserve: [],
+      newEntrants: refreshRows().filter(
+        (row) => row.classification === "new_top500_entrant"
+      ),
+      removedPlayers: [
+        { player_id: "old1", gender: "M" },
+        { player_id: "old2", gender: "F" },
+      ],
+      rankingDate: "2026-06-15",
+    });
+
+    assert.equal(result.valid, true);
+    assert.equal(result.playersToRefresh, 57);
+    assert.equal(result.pointDifferencePlayers, 47);
+    assert.equal(result.newPlayers, 10);
+  });
+
+  test("rejects duplicate refresh player ids before network collection", () => {
+    const result = validateInputs({
+      validationSummary: validationSummary({ players_to_refresh: 2 }),
+      officialPlayers: fullOfficialPlayers(),
+      officialSnapshot: fullOfficialSnapshot(),
+      playersToRefresh: [
+        { player_id: "p1", classification: "point_difference" },
+        { player_id: "p1", classification: "point_difference" },
+      ],
+      playersToPreserve: [],
+      newEntrants: [],
+      removedPlayers: [
+        { player_id: "old1", gender: "M" },
+        { player_id: "old2", gender: "F" },
+      ],
+      rankingDate: "2026-06-15",
+    });
+
+    assert.equal(result.valid, false);
+    assert.match(result.errors.join("\n"), /duplicado/);
+  });
+
+  test("builds players.next from official top 1000 while preserving old empty-field context", () => {
+    const playersNext = buildPlayersNext({
+      officialPlayers: [
+        officialPlayer(1, { country_name: "", first_seen_date: "" }),
+      ],
+      oldPlayers: [
+        officialPlayer(1, {
+          country_name: "Brazil",
+          first_seen_date: "2026-06-08",
+          local_note: "keep",
+        }),
+      ],
+    });
+
+    assert.equal(playersNext.length, 1);
+    assert.equal(playersNext[0].country_name, "Brazil");
+    assert.equal(playersNext[0].first_seen_date, "2026-06-08");
+    assert.equal(playersNext[0].local_note, "keep");
+  });
+
+  test("refresh rows replace all old rows for selected players and archive removed players", () => {
+    const oldRefreshRow = ledgerRow({ player_id: "p2", tournament_name: "Old Refresh" });
+    const preserved = ledgerRow({
+      player_id: "p1",
+      tournament_name: "Preserved",
+      raw_json: "{\"byte\":\"same\"}",
+    });
+    const removed = ledgerRow({ player_id: "old1", tournament_name: "Removed" });
+    const outside = ledgerRow({ player_id: "external", tournament_name: "External" });
+    const fresh = ledgerRow({
+      player_id: "p2",
+      tournament_name: "Fresh Refresh",
+      points: "120",
+    });
+
+    const result = buildReconciledLedger({
+      weekCloseLedgerRows: [oldRefreshRow, preserved, removed, outside],
+      playersNextRows: [officialPlayer(1), officialPlayer(2)],
+      playersToRefresh: [{ player_id: "p2" }],
+      removedPlayers: [{ player_id: "old1" }],
+      breakdownRowsByPlayer: new Map([["p2", [fresh]]]),
+    });
+
+    assert.deepEqual(result.preservedRows[0], preserved);
+    assert.deepEqual(result.removedArchiveRows, [removed]);
+    assert.deepEqual(result.refreshedOldRows, [oldRefreshRow]);
+    assert.equal(result.nextRows.some((row) => row.player_id === "external"), false);
+    assert.equal(result.nextRows.some((row) => row.tournament_name === "Old Refresh"), false);
+    assert.equal(result.nextRows.some((row) => row.tournament_name === "Fresh Refresh"), true);
+  });
+
+  test("merge is idempotent with identical ordered content", () => {
+    const fresh = ledgerRow({ player_id: "p2", tournament_name: "Fresh Refresh" });
+    const args = {
+      playersNextRows: [officialPlayer(1), officialPlayer(2)],
+      playersToRefresh: [{ player_id: "p2" }],
+      removedPlayers: [],
+      breakdownRowsByPlayer: new Map([["p2", [fresh]]]),
+    };
+    const first = buildReconciledLedger({
+      ...args,
+      weekCloseLedgerRows: [
+        ledgerRow({ player_id: "p1", tournament_name: "A" }),
+        ledgerRow({ player_id: "p2", tournament_name: "Old" }),
+      ],
+    });
+    const second = buildReconciledLedger({
+      ...args,
+      weekCloseLedgerRows: first.nextRows,
+    });
+
+    assert.deepEqual(second.nextRows, first.nextRows);
+    assert.deepEqual(first.nextRows, sortLedgerRows(first.nextRows));
+  });
+
+  test("stores doubles as raw points and applies 25 percent only during validation", () => {
+    const ledgerRows = [
+      ledgerRow({
+        event_type: "doubles",
+        player_id: "p1",
+        points: "100",
+      }),
+    ];
+    const final = runFinalValidation({
+      ledgerRows,
+      snapshotRows: [
+        officialSnapshot(1, {
+          official_points: "25",
+        }),
+      ],
+    });
+
+    assert.equal(ledgerRows[0].points, "100");
+    assert.equal(final.finalExact, 1);
+    assert.equal(final.comparison.rows[0].doubles_raw_total, 100);
+    assert.equal(final.comparison.rows[0].doubles_weighted_total, 25);
+  });
+
+  test("promotion requires exact 1000 over 1000 and no network misuse", () => {
+    const ledgerRows = fullOfficialSnapshot().map((snapshot) =>
+      ledgerRow({
+        player_id: snapshot.player_id,
+        player_name: snapshot.player_name,
+        gender: snapshot.gender,
+        tournament_name: `Tournament ${snapshot.player_id}`,
+        points: "100",
+      })
+    );
+    const final = runFinalValidation({
+      ledgerRows,
+      snapshotRows: fullOfficialSnapshot(),
+    });
+    const ledgerValidation = validateLedgerForOfficialPlayers({
+      ledgerRows,
+      playersNextRows: fullOfficialPlayers(),
+    });
+    const safe = isSafeForPromotion({
+      inputValidation: { valid: true },
+      fetchResult: {
+        errors: [],
+        networkReport: { get_rankings_calls: 0 },
+      },
+      ledgerValidation,
+      finalValidation: final,
+    });
+
+    assert.equal(final.finalExact, 1000);
+    assert.equal(safe, true);
+  });
+
+  test("promotion is blocked when any GetPlayerRankings call is reported", () => {
+    const safe = isSafeForPromotion({
+      inputValidation: { valid: true },
+      fetchResult: {
+        errors: [],
+        networkReport: { get_rankings_calls: 1 },
+      },
+      ledgerValidation: { valid: true },
+      finalValidation: {
+        finalTotal: 1000,
+        finalExact: 1000,
+        finalDivergent: 0,
+        finalMissingLedger: 0,
+        ledgerPlayersOutsideOfficial: 0,
+      },
+    });
+
+    assert.equal(safe, false);
+  });
+});
