@@ -105,6 +105,18 @@ function liveRow(overrides = {}) {
   };
 }
 
+function untrackedLiveRow(overrides = {}) {
+  return liveRow({
+    player_id: "p2",
+    player_name: "Player Two",
+    gender: "F",
+    country: "ARG",
+    event_type: "singles",
+    points: "20",
+    ...overrides,
+  });
+}
+
 async function writeCsv(filePath, rows, columns) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   await fs.writeFile(
@@ -218,6 +230,32 @@ describe("weekly ledger close", () => {
     assert.equal(result.rows[0].points, "135");
   });
 
+  test("rejects untracked players as expected and does not block validation when tracked rows exist", () => {
+    const plan = buildCloseWeekPlan({
+      baseRows: [baseLedgerRow()],
+      playersRows: [PLAYER],
+      tournamentRows: [TOURNAMENT],
+      liveRows: [liveRow(), untrackedLiveRow()],
+      weekStart: "2026-06-08",
+      weekEnd: "2026-06-14",
+      currentDate: "2026-06-15",
+    });
+
+    assert.equal(plan.report.validation_passed, true);
+    assert.equal(plan.report.mode_safe_for_apply, true);
+    assert.equal(plan.report.tracked_rows_eligible, 1);
+    assert.equal(plan.report.untracked_rows_rejected, 1);
+    assert.equal(plan.report.untracked_players_rejected, 1);
+    assert.equal(plan.report.expected_rows_rejected, 1);
+    assert.equal(plan.report.fatal_rows_rejected, 0);
+    assert.match(
+      plan.report.warnings.join("\n"),
+      /1 linhas de 1 jogadores nao acompanhados foram ignoradas/
+    );
+    assert.equal(plan.rejectedRows[0].rejection_reason, "player_not_tracked");
+    assert.equal(plan.rejectedRows[0].rejection_severity, "expected");
+  });
+
   test("replaces existing rows by key without round or points", () => {
     const old = baseLedgerRow({
       event_type: "doubles",
@@ -301,6 +339,27 @@ describe("weekly ledger close", () => {
     assert.equal(plan.report.validation_passed, true);
   });
 
+  test("fails when there are only untracked players", () => {
+    const plan = buildCloseWeekPlan({
+      baseRows: [baseLedgerRow()],
+      playersRows: [PLAYER],
+      tournamentRows: [TOURNAMENT],
+      liveRows: [untrackedLiveRow()],
+      weekStart: "2026-06-08",
+      weekEnd: "2026-06-14",
+      currentDate: "2026-06-15",
+    });
+
+    assert.equal(plan.report.validation_passed, false);
+    assert.equal(plan.report.mode_safe_for_apply, false);
+    assert.equal(plan.report.tracked_rows_eligible, 0);
+    assert.equal(plan.report.untracked_rows_rejected, 1);
+    assert.match(
+      plan.report.safety_errors.join("\n"),
+      /Nao existem linhas elegiveis de jogadores acompanhados/
+    );
+  });
+
   test("rejects an in-progress week", () => {
     const plan = buildCloseWeekPlan({
       baseRows: [baseLedgerRow()],
@@ -347,6 +406,85 @@ describe("weekly ledger close", () => {
 
     assert.equal(plan.rejectedRows.length, 1);
     assert.equal(plan.report.validation_passed, false);
+    assert.equal(plan.rejectedRows[0].rejection_reason, "missing_player_id");
+    assert.equal(plan.rejectedRows[0].rejection_severity, "fatal");
+  });
+
+  test("treats invalid points as fatal", () => {
+    const plan = buildCloseWeekPlan({
+      baseRows: [baseLedgerRow()],
+      playersRows: [PLAYER],
+      tournamentRows: [TOURNAMENT],
+      liveRows: [liveRow({ points: "abc" })],
+      weekStart: "2026-06-08",
+      weekEnd: "2026-06-14",
+      currentDate: "2026-06-15",
+    });
+
+    assert.equal(plan.report.validation_passed, false);
+    assert.equal(plan.report.fatal_rows_rejected, 1);
+    assert.equal(plan.rejectedRows[0].rejection_reason, "invalid_points");
+    assert.equal(plan.rejectedRows[0].rejection_severity, "fatal");
+  });
+
+  test("treats invalid start_date as fatal", () => {
+    const plan = buildCloseWeekPlan({
+      baseRows: [baseLedgerRow()],
+      playersRows: [PLAYER],
+      tournamentRows: [TOURNAMENT],
+      liveRows: [liveRow({ start_date: "2026/06/08" })],
+      weekStart: "2026-06-08",
+      weekEnd: "2026-06-14",
+      currentDate: "2026-06-15",
+    });
+
+    assert.equal(plan.report.validation_passed, false);
+    assert.equal(plan.report.fatal_rows_rejected, 1);
+    assert.equal(plan.rejectedRows[0].rejection_reason, "invalid_start_date");
+    assert.equal(plan.rejectedRows[0].rejection_severity, "fatal");
+  });
+
+  test("reports split counts for tracked, untracked, expected, and fatal rows", () => {
+    const plan = buildCloseWeekPlan({
+      baseRows: [baseLedgerRow()],
+      playersRows: [PLAYER],
+      tournamentRows: [TOURNAMENT],
+      liveRows: [liveRow(), untrackedLiveRow(), liveRow({ player_id: "", points: "abc" })],
+      weekStart: "2026-06-08",
+      weekEnd: "2026-06-14",
+      currentDate: "2026-06-15",
+    });
+
+    assert.equal(plan.report.live_rows_received, 3);
+    assert.equal(plan.report.live_rows_positive_points, 2);
+    assert.equal(plan.report.tracked_rows_eligible, 1);
+    assert.equal(plan.report.untracked_rows_rejected, 1);
+    assert.equal(plan.report.untracked_players_rejected, 1);
+    assert.equal(plan.report.expected_rows_rejected, 1);
+    assert.equal(plan.report.fatal_rows_rejected, 1);
+  });
+
+  test("apply ignores expected external rejections and never adds them", async () => {
+    const { root, sourceDir } = await makeFixture();
+    await writeCsv(
+      path.join(sourceDir, "week_live_ledger_rows.csv"),
+      [liveRow(), untrackedLiveRow()],
+      LEDGER_COLUMNS
+    );
+
+    execFileSync(process.execPath, [
+      SCRIPT_PATH,
+      `--source-dir=${sourceDir}`,
+      "--week-start=2026-06-08",
+      "--week-end=2026-06-14",
+      "--mode=apply",
+      "--confirm-closed-week=true",
+    ], { cwd: root });
+
+    const rows = await readCsv(path.join(root, "data/clean/points_ledger.csv"));
+
+    assert.equal(rows.length, 2);
+    assert.equal(rows.some((row) => row.player_id === "p2"), false);
   });
 
   test("dry-run accepts files directly in source-dir and does not alter points_ledger.csv", async () => {

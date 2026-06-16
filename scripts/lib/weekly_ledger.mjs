@@ -34,6 +34,10 @@ export const REQUIRED_SOURCE_FILES = [
   "week_matches.csv",
 ];
 
+export const EXPECTED_REJECTION_REASON = "player_not_tracked";
+export const EXPECTED_REJECTION_SEVERITY = "expected";
+export const FATAL_REJECTION_SEVERITY = "fatal";
+
 export function cleanText(value) {
   if (value === undefined || value === null) return "";
   return String(value).replace(/\s+/g, " ").trim();
@@ -110,6 +114,24 @@ export function parseRawJson(value) {
   } catch {
     return null;
   }
+}
+
+export function isExpectedRejectionReason(reason) {
+  return cleanText(reason) === EXPECTED_REJECTION_REASON;
+}
+
+export function getRejectionSeverity(reason) {
+  return isExpectedRejectionReason(reason)
+    ? EXPECTED_REJECTION_SEVERITY
+    : FATAL_REJECTION_SEVERITY;
+}
+
+function buildRejectedRow(row, rejectionReason) {
+  return {
+    ...row,
+    rejection_reason: rejectionReason,
+    rejection_severity: getRejectionSeverity(rejectionReason),
+  };
 }
 
 export function buildPlayersMap(playersRows) {
@@ -232,38 +254,41 @@ export function transformLiveRows({
     const playerId = cleanText(row.player_id);
     const eventType = cleanText(row.event_type);
     const startDate = cleanText(row.start_date);
+    const tournamentName = cleanText(row.tournament_name);
+    const category = cleanText(row.category);
+    const drawType = cleanText(row.draw_type);
 
-    if (!playerId || !eventType || !startDate || points === null) {
-      rejectedRows.push({
-        ...row,
-        rejection_reason: "invalid_required_fields",
-      });
+    if (!playerId) {
+      rejectedRows.push(buildRejectedRow(row, "missing_player_id"));
+      continue;
+    }
+
+    if (!eventType || !["singles", "doubles"].includes(normalizeKeyPart(eventType))) {
+      rejectedRows.push(buildRejectedRow(row, "invalid_event_type"));
+      continue;
+    }
+
+    if (!tournamentName || !category || !drawType || !cleanText(row.player_name)) {
+      rejectedRows.push(
+        buildRejectedRow(row, "invalid_or_empty_required_field")
+      );
       continue;
     }
 
     if (!isIsoDate(startDate)) {
-      rejectedRows.push({
-        ...row,
-        rejection_reason: "invalid_start_date",
-      });
+      rejectedRows.push(buildRejectedRow(row, "invalid_start_date"));
       continue;
     }
 
-    if (points <= 0) {
-      rejectedRows.push({
-        ...row,
-        rejection_reason: "non_positive_points",
-      });
+    if (points === null || points <= 0) {
+      rejectedRows.push(buildRejectedRow(row, "invalid_points"));
       continue;
     }
 
     const player = playersMap.get(playerId);
 
     if (!player) {
-      rejectedRows.push({
-        ...row,
-        rejection_reason: "missing_player_in_players_csv",
-      });
+      rejectedRows.push(buildRejectedRow(row, EXPECTED_REJECTION_REASON));
       continue;
     }
 
@@ -299,6 +324,11 @@ export function transformLiveRows({
       collected_at: cleanText(row.collected_at || now),
       raw_json: cleanText(row.raw_json),
     };
+
+    if (!isIsoDate(transformed.drop_date_calculated)) {
+      rejectedRows.push(buildRejectedRow(row, "invalid_drop_date"));
+      continue;
+    }
 
     acceptedByKey.set(buildResultKey(transformed), transformed);
   }
@@ -444,13 +474,36 @@ export function buildCloseWeekPlan({
     now,
   });
 
-  const fatalRejectedRows = transformed.rejectedRows.filter(
-    (row) => row.rejection_reason !== "non_positive_points"
+  const positiveLiveRows = liveRows.filter((row) => {
+    const points = toNumber(row.points);
+    return points !== null && points > 0;
+  });
+  const expectedRejectedRows = transformed.rejectedRows.filter(
+    (row) => row.rejection_severity === EXPECTED_REJECTION_SEVERITY
   );
+  const fatalRejectedRows = transformed.rejectedRows.filter(
+    (row) => row.rejection_severity === FATAL_REJECTION_SEVERITY
+  );
+  const untrackedPlayerIds = new Set(
+    expectedRejectedRows.map((row) => cleanText(row.player_id)).filter(Boolean)
+  );
+  const warnings = [];
 
   if (fatalRejectedRows.length > 0) {
     safetyErrors.push(
-      `Existem ${fatalRejectedRows.length} linhas live invalidas ou sem jogador cadastrado.`
+      `Existem ${fatalRejectedRows.length} linhas live com rejeicoes fatais.`
+    );
+  }
+
+  if (expectedRejectedRows.length > 0) {
+    warnings.push(
+      `${expectedRejectedRows.length} linhas de ${untrackedPlayerIds.size} jogadores nao acompanhados foram ignoradas.`
+    );
+  }
+
+  if (transformed.rows.length === 0) {
+    safetyErrors.push(
+      "Nao existem linhas elegiveis de jogadores acompanhados para promover ao ledger."
     );
   }
 
@@ -495,11 +548,14 @@ export function buildCloseWeekPlan({
     week_start: weekStart,
     week_end: weekEnd,
     generated_at: now,
-    mode_safe_for_apply:
-      safetyErrors.length === 0 && validation.errors.length === 0 && idempotent,
     base_rows_before: baseRows.length,
     live_rows_received: liveRows.length,
-    live_rows_positive_points: transformed.rows.length,
+    live_rows_positive_points: positiveLiveRows.length,
+    tracked_rows_eligible: transformed.rows.length,
+    untracked_rows_rejected: expectedRejectedRows.length,
+    untracked_players_rejected: untrackedPlayerIds.size,
+    fatal_rows_rejected: fatalRejectedRows.length,
+    expected_rows_rejected: expectedRejectedRows.length,
     rows_added: merged.addedRows.length,
     rows_replaced: merged.replacedRows.length,
     rows_preserved: merged.preservedRows.length,
@@ -511,6 +567,13 @@ export function buildCloseWeekPlan({
       safetyErrors.length === 0 &&
       validation.errors.length === 0 &&
       idempotent,
+    mode_safe_for_apply:
+      safetyErrors.length === 0 &&
+      validation.errors.length === 0 &&
+      idempotent &&
+      fatalRejectedRows.length === 0 &&
+      transformed.rows.length > 0,
+    warnings,
     safety_errors: safetyErrors,
     validation_errors: validation.errors,
   };

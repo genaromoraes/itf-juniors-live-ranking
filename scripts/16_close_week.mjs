@@ -211,7 +211,11 @@ async function writeStaging({ stagingDir, plan }) {
   await writeCsv(
     path.join(stagingDir, "rows_rejected.csv"),
     plan.rejectedRows,
-    uniqueColumns(plan.rejectedRows, [...LEDGER_COLUMNS, "rejection_reason"])
+    uniqueColumns(plan.rejectedRows, [
+      ...LEDGER_COLUMNS,
+      "rejection_reason",
+      "rejection_severity",
+    ])
   );
   await writeCsv(path.join(stagingDir, "players_affected.csv"), plan.affectedPlayers, [
     "player_id",
@@ -310,6 +314,13 @@ export async function main() {
   console.log(`Linhas base antes: ${plan.report.base_rows_before}`);
   console.log(`Linhas live recebidas: ${plan.report.live_rows_received}`);
   console.log(`Linhas com pontos > 0: ${plan.report.live_rows_positive_points}`);
+  console.log(`Linhas elegiveis de acompanhados: ${plan.report.tracked_rows_eligible}`);
+  console.log(`Linhas externas rejeitadas: ${plan.report.untracked_rows_rejected}`);
+  console.log(
+    `Jogadores externos rejeitados: ${plan.report.untracked_players_rejected}`
+  );
+  console.log(`Rejeicoes fatais: ${plan.report.fatal_rows_rejected}`);
+  console.log(`Rejeicoes esperadas: ${plan.report.expected_rows_rejected}`);
   console.log(`Linhas adicionadas: ${plan.report.rows_added}`);
   console.log(`Linhas substituidas: ${plan.report.rows_replaced}`);
   console.log(`Linhas preservadas: ${plan.report.rows_preserved}`);
@@ -320,6 +331,17 @@ export async function main() {
   );
   console.log(`Total final: ${plan.report.total_final}`);
   console.log(`Validacao: ${plan.report.validation_passed ? "OK" : "FALHOU"}`);
+  console.log(
+    `Modo seguro para apply: ${plan.report.mode_safe_for_apply ? "SIM" : "NAO"}`
+  );
+
+  if (plan.report.warnings.length > 0) {
+    console.log("");
+    console.log("Warnings:");
+    for (const warning of plan.report.warnings) {
+      console.log(`- ${warning}`);
+    }
+  }
 
   if (plan.report.safety_errors.length > 0) {
     console.log("");

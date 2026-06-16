@@ -3,26 +3,12 @@ import path from "path";
 import { chromium } from "playwright";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import { pathToFileURL } from "url";
 
-const WEEK_TOURNAMENTS_FILE = path.resolve("data/clean/week_tournaments.csv");
+const DEFAULT_INPUT_DIR = path.resolve("data/clean");
+const DEFAULT_OUT_DIR_RAW = path.resolve("data/raw/week_results");
+const DEFAULT_OUT_DIR_CLEAN = path.resolve("data/clean");
 const IS_CI = process.env.CI === "true";
-
-const OUT_DIR_RAW = path.resolve("data/raw/week_results");
-const OUT_DIR_CLEAN = path.resolve("data/clean");
-
-const WEEK_MATCHES_FILE = path.join(OUT_DIR_CLEAN, "week_matches.csv");
-const WEEK_PLAYER_RESULTS_FILE = path.join(
-  OUT_DIR_CLEAN,
-  "week_player_results.csv"
-);
-const WEEK_RESULTS_ERRORS_FILE = path.join(
-  OUT_DIR_CLEAN,
-  "week_results_errors.csv"
-);
-const WEEK_RESULTS_SUMMARY_FILE = path.join(
-  OUT_DIR_CLEAN,
-  "week_results_summary.csv"
-);
 
 const EVENT_FILTERS_URL =
   "https://www.itftennis.com/tennis/api/TournamentApi/GetEventFilters";
@@ -39,9 +25,57 @@ const MAX_RETRIES = 2;
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
 
-async function ensureDirs() {
-  await fs.mkdir(OUT_DIR_RAW, { recursive: true });
-  await fs.mkdir(OUT_DIR_CLEAN, { recursive: true });
+function getArg(name, argv = process.argv.slice(2)) {
+  const prefix = `--${name}=`;
+  const arg = argv.find((value) => value.startsWith(prefix));
+  return arg ? arg.slice(prefix.length) : "";
+}
+
+function cleanText(value) {
+  if (value === undefined || value === null) return "";
+  return String(value).replace(/\s+/g, " ").trim();
+}
+
+export function parseArgs(argv = process.argv.slice(2)) {
+  return {
+    inputDir: cleanText(getArg("input-dir", argv)),
+    outputDir: cleanText(getArg("output-dir", argv)),
+  };
+}
+
+export function resolvePaths(args = parseArgs()) {
+  const inputDir = args.inputDir ? path.resolve(args.inputDir) : DEFAULT_INPUT_DIR;
+
+  if (!args.outputDir) {
+    return {
+      inputDir,
+      rawDir: DEFAULT_OUT_DIR_RAW,
+      cleanDir: DEFAULT_OUT_DIR_CLEAN,
+      tournamentsFile: path.join(inputDir, "week_tournaments.csv"),
+      weekMatchesFile: path.join(DEFAULT_OUT_DIR_CLEAN, "week_matches.csv"),
+      weekPlayerResultsFile: path.join(DEFAULT_OUT_DIR_CLEAN, "week_player_results.csv"),
+      weekResultsErrorsFile: path.join(DEFAULT_OUT_DIR_CLEAN, "week_results_errors.csv"),
+      weekResultsSummaryFile: path.join(DEFAULT_OUT_DIR_CLEAN, "week_results_summary.csv"),
+    };
+  }
+
+  const outputDir = path.resolve(args.outputDir);
+
+  return {
+    inputDir,
+    rawDir: path.join(outputDir, "raw", "week_results"),
+    cleanDir: outputDir,
+    tournamentsFile: path.join(inputDir, "week_tournaments.csv"),
+    weekMatchesFile: path.join(outputDir, "week_matches.csv"),
+    weekPlayerResultsFile: path.join(outputDir, "week_player_results.csv"),
+    weekResultsErrorsFile: path.join(outputDir, "week_results_errors.csv"),
+    weekResultsSummaryFile: path.join(outputDir, "week_results_summary.csv"),
+  };
+}
+
+async function ensureDirs(paths) {
+  await fs.mkdir(paths.rawDir, { recursive: true });
+  await fs.mkdir(paths.cleanDir, { recursive: true });
 }
 
 async function readCsv(filePath) {
@@ -60,11 +94,6 @@ async function writeCsv(filePath, rows, columns) {
   });
 
   await fs.writeFile(filePath, csv, "utf8");
-}
-
-function cleanText(value) {
-  if (value === undefined || value === null) return "";
-  return String(value).replace(/\s+/g, " ").trim();
 }
 
 function normalizeUrl(value) {
@@ -107,7 +136,7 @@ function getTeamPlayerIds(team) {
 
   return team.players
     .filter(Boolean)
-    .map((p) => p.playerId)
+    .map((player) => player.playerId)
     .filter(Boolean)
     .join("|");
 }
@@ -117,7 +146,7 @@ function getTeamNationalities(team) {
 
   return team.players
     .filter(Boolean)
-    .map((p) => p.nationality)
+    .map((player) => player.nationality)
     .filter(Boolean)
     .join("|");
 }
@@ -217,7 +246,6 @@ function getMatchesFromRound(round) {
 
 function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
   const matches = [];
-
   const koGroups = Array.isArray(drawsheet?.koGroups) ? drawsheet.koGroups : [];
 
   for (let groupIndex = 0; groupIndex < koGroups.length; groupIndex++) {
@@ -234,7 +262,6 @@ function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
         const teams = match.teams || [];
         const team1 = teams[0] || {};
         const team2 = teams[1] || {};
-
         const winnerSide = findWinnerSide(match);
 
         matches.push({
@@ -243,7 +270,6 @@ function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
           category: tournament.category,
           start_date: tournament.start_date,
           end_date: tournament.end_date,
-
           tournament_id: eventInfo.tournamentId,
           event_id: drawsheet?.eventId || "",
           player_type_code: eventInfo.playerTypeCode,
@@ -254,41 +280,30 @@ function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
           event_classification_desc: eventInfo.eventClassificationDesc,
           drawsheet_structure_code: eventInfo.drawsheetStructureCode,
           drawsheet_structure_desc: eventInfo.drawsheetStructureDesc,
-
           group_name: cleanText(group?.groupName),
           round_name: roundName,
           round_order: roundOrder,
-
           match_id: match.matchId || "",
           play_status_code: cleanText(match.playStatusCode),
           play_status_desc: cleanText(match.playStatusDesc),
           result_status_code: cleanText(match.resultStatusCode),
           result_status_desc: cleanText(match.resultStatusDesc),
-
           team1_player_ids: getTeamPlayerIds(team1),
           team1_names: getTeamName(team1),
           team1_nationalities: getTeamNationalities(team1),
           team1_seed: cleanText(team1.seeding),
           team1_entry_status: cleanText(team1.entryStatus),
-
           team2_player_ids: getTeamPlayerIds(team2),
           team2_names: getTeamName(team2),
           team2_nationalities: getTeamNationalities(team2),
           team2_seed: cleanText(team2.seeding),
           team2_entry_status: cleanText(team2.entryStatus),
-
           winner_side: winnerSide,
           winner_names:
-            winnerSide === 1
-              ? getTeamName(team1)
-              : winnerSide === 2
-                ? getTeamName(team2)
-                : "",
-
+            winnerSide === 1 ? getTeamName(team1) : winnerSide === 2 ? getTeamName(team2) : "",
           score: formatScore(match),
           h2h_link: normalizeUrl(match.h2hLink),
           live_scores_link: normalizeUrl(match.liveScoresLink),
-
           raw_json: JSON.stringify(match),
           collected_at: new Date().toISOString(),
         });
@@ -305,7 +320,6 @@ function flattenEventsFromFilters(filtersJson) {
   const weekNumber = filtersJson.weekNumber ?? 0;
   const circuitCode = filtersJson.circuitCode || "JT";
   const events = [];
-
   const playerTypeFilters = filtersJson.filters || [];
 
   for (const playerType of playerTypeFilters) {
@@ -383,12 +397,12 @@ function looksBlockedOrHtml(result) {
 
 async function fetchJsonInsideBrowser(page, url, options = {}) {
   return await page.evaluate(
-    async ({ url, options, timeoutMs }) => {
+    async ({ url: requestUrl, options: requestOptions, timeoutMs }) => {
       const headers = {
         accept: "application/json, text/plain, */*",
       };
 
-      if (options.body) {
+      if (requestOptions.body) {
         headers["content-type"] = "application/json";
       }
 
@@ -396,11 +410,11 @@ async function fetchJsonInsideBrowser(page, url, options = {}) {
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
       try {
-        const response = await fetch(url, {
-          method: options.method || "GET",
+        const response = await fetch(requestUrl, {
+          method: requestOptions.method || "GET",
           credentials: "include",
           headers,
-          body: options.body ? JSON.stringify(options.body) : undefined,
+          body: requestOptions.body ? JSON.stringify(requestOptions.body) : undefined,
           signal: controller.signal,
         });
 
@@ -464,9 +478,7 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
         return result;
       }
 
-      const errorPrefix = result.timedOut
-        ? "Request timeout"
-        : `HTTP ${result.status}`;
+      const errorPrefix = result.timedOut ? "Request timeout" : `HTTP ${result.status}`;
       const error = new Error(
         `${errorPrefix}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
       );
@@ -483,13 +495,11 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
 
       if (err.isBlocked) {
         console.log(
-          `Possível bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
+          `Possivel bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
         );
         await sleep(BLOCK_DELAY_MS);
       } else {
-        console.log(
-          `Erro temporário. Esperando ${RETRY_DELAY_MS / 1000}s...`
-        );
+        console.log(`Erro temporario. Esperando ${RETRY_DELAY_MS / 1000}s...`);
         await sleep(RETRY_DELAY_MS);
       }
     }
@@ -536,7 +546,6 @@ async function fetchDrawsheet(page, eventInfo) {
   );
 
   const url = buildDrawsheetUrl(eventInfo);
-
   const result = await fetchJsonWithRetry(
     page,
     url,
@@ -555,15 +564,13 @@ async function fetchDrawsheet(page, eventInfo) {
     };
   }
 
-  throw new Error("GetDrawsheet retornou JSON, mas sem conteúdo de chave.");
+  throw new Error("GetDrawsheet retornou JSON, mas sem conteudo de chave.");
 }
 
 function splitTeamPlayers(matchRow, side) {
-  const ids =
-    side === 1 ? matchRow.team1_player_ids : matchRow.team2_player_ids;
+  const ids = side === 1 ? matchRow.team1_player_ids : matchRow.team2_player_ids;
   const names = side === 1 ? matchRow.team1_names : matchRow.team2_names;
-  const nats =
-    side === 1 ? matchRow.team1_nationalities : matchRow.team2_nationalities;
+  const nats = side === 1 ? matchRow.team1_nationalities : matchRow.team2_nationalities;
 
   const idList = String(ids || "").split("|").filter(Boolean);
   const nameList = String(names || "").split(" / ").filter(Boolean);
@@ -589,16 +596,9 @@ function buildPlayerResultsFromMatches(matches) {
   for (const match of matches) {
     const team1Players = splitTeamPlayers(match, 1);
     const team2Players = splitTeamPlayers(match, 2);
-
     const allSides = [
-      {
-        side: 1,
-        players: team1Players,
-      },
-      {
-        side: 2,
-        players: team2Players,
-      },
+      { side: 1, players: team1Players },
+      { side: 2, players: team2Players },
     ];
 
     for (const sideInfo of allSides) {
@@ -623,18 +623,15 @@ function buildPlayerResultsFromMatches(matches) {
             category: match.category,
             start_date: match.start_date,
             end_date: match.end_date,
-
             player_id: player.player_id,
             player_name: player.player_name,
             nationality: player.nationality,
-
             player_type_code: match.player_type_code,
             player_type_desc: match.player_type_desc,
             match_type_code: match.match_type_code,
             match_type_desc: match.match_type_desc,
             event_classification_code: match.event_classification_code,
             event_classification_desc: match.event_classification_desc,
-
             matches_played: 0,
             wins: 0,
             losses: 0,
@@ -681,27 +678,23 @@ function buildPlayerResultsFromMatches(matches) {
   }
 
   return [...map.values()].sort((a, b) => {
-    const tournamentCompare = String(a.tournament_name).localeCompare(
-      String(b.tournament_name)
-    );
+    const tournamentCompare = String(a.tournament_name).localeCompare(String(b.tournament_name));
     if (tournamentCompare !== 0) return tournamentCompare;
 
-    const eventCompare = String(a.match_type_code).localeCompare(
-      String(b.match_type_code)
-    );
+    const eventCompare = String(a.match_type_code).localeCompare(String(b.match_type_code));
     if (eventCompare !== 0) return eventCompare;
 
     return String(a.player_name).localeCompare(String(b.player_name));
   });
 }
 
-function getRawFilePath(tournament) {
+function getRawFilePath(tournament, paths) {
   const safeKey = tournament.tournament_key.replace(/[^a-zA-Z0-9_-]/g, "_");
-  return path.join(OUT_DIR_RAW, `${safeKey}_draws.json`);
+  return path.join(paths.rawDir, `${safeKey}_draws.json`);
 }
 
-async function readCachedTournament(tournament) {
-  const rawFile = getRawFilePath(tournament);
+async function readCachedTournament(tournament, paths) {
+  const rawFile = getRawFilePath(tournament, paths);
 
   try {
     const text = await fs.readFile(rawFile, "utf8");
@@ -714,9 +707,7 @@ async function readCachedTournament(tournament) {
         const eventInfo = rawDraw.eventInfo;
         const drawsheetJson = rawDraw.json;
 
-        matches.push(
-          ...extractMatchesFromDrawsheet(drawsheetJson, eventInfo, tournament)
-        );
+        matches.push(...extractMatchesFromDrawsheet(drawsheetJson, eventInfo, tournament));
       }
 
       return {
@@ -742,7 +733,7 @@ async function readCachedTournament(tournament) {
   return null;
 }
 
-async function processTournament(page, tournament) {
+async function processTournament(page, tournament, paths) {
   console.log("");
   console.log("========================================");
   console.log(
@@ -751,7 +742,7 @@ async function processTournament(page, tournament) {
   console.log("========================================");
 
   if (USE_WEEK_RESULTS_CACHE) {
-    const cached = await readCachedTournament(tournament);
+    const cached = await readCachedTournament(tournament, paths);
 
     if (cached) {
       console.log(`Usando cache: ${cached.matches.length} partidas`);
@@ -780,14 +771,9 @@ async function processTournament(page, tournament) {
     for (const eventInfo of filters.events) {
       try {
         const drawsheet = await fetchDrawsheet(page, eventInfo);
+        const matches = extractMatchesFromDrawsheet(drawsheet.json, eventInfo, tournament);
 
-        const matches = extractMatchesFromDrawsheet(
-          drawsheet.json,
-          eventInfo,
-          tournament
-        );
-
-        console.log(`Partidas extraídas: ${matches.length}`);
+        console.log(`Partidas extraidas: ${matches.length}`);
 
         allMatches.push(...matches);
 
@@ -822,7 +808,7 @@ async function processTournament(page, tournament) {
     }
 
     await fs.writeFile(
-      getRawFilePath(tournament),
+      getRawFilePath(tournament, paths),
       JSON.stringify(
         {
           tournament,
@@ -846,7 +832,7 @@ async function processTournament(page, tournament) {
         events_found: filters.events.length,
         matches_found: allMatches.length,
         errors_found: errors.length,
-        raw_file: getRawFilePath(tournament),
+        raw_file: getRawFilePath(tournament, paths),
         from_cache: "false",
         collected_at: new Date().toISOString(),
       },
@@ -887,10 +873,12 @@ async function processTournament(page, tournament) {
   }
 }
 
-async function main() {
-  await ensureDirs();
+export async function main(cliArgs = parseArgs()) {
+  const paths = resolvePaths(cliArgs);
 
-  const tournaments = await readCsv(WEEK_TOURNAMENTS_FILE);
+  await ensureDirs(paths);
+
+  const tournaments = await readCsv(paths.tournamentsFile);
 
   console.log("");
   console.log(`Torneios da semana carregados: ${tournaments.length}`);
@@ -925,7 +913,7 @@ async function main() {
       console.log("");
       console.log(`[${i + 1}/${tournaments.length}]`);
 
-      const result = await processTournament(page, tournament);
+      const result = await processTournament(page, tournament, paths);
 
       allMatches.push(...result.matches);
       allErrors.push(...result.errors);
@@ -936,13 +924,12 @@ async function main() {
 
     const playerResults = buildPlayerResultsFromMatches(allMatches);
 
-    await writeCsv(WEEK_MATCHES_FILE, allMatches, [
+    await writeCsv(paths.weekMatchesFile, allMatches, [
       "tournament_key",
       "tournament_name",
       "category",
       "start_date",
       "end_date",
-
       "tournament_id",
       "event_id",
       "player_type_code",
@@ -953,57 +940,48 @@ async function main() {
       "event_classification_desc",
       "drawsheet_structure_code",
       "drawsheet_structure_desc",
-
       "group_name",
       "round_name",
       "round_order",
-
       "match_id",
       "play_status_code",
       "play_status_desc",
       "result_status_code",
       "result_status_desc",
-
       "team1_player_ids",
       "team1_names",
       "team1_nationalities",
       "team1_seed",
       "team1_entry_status",
-
       "team2_player_ids",
       "team2_names",
       "team2_nationalities",
       "team2_seed",
       "team2_entry_status",
-
       "winner_side",
       "winner_names",
       "score",
       "h2h_link",
       "live_scores_link",
-
       "raw_json",
       "collected_at",
     ]);
 
-    await writeCsv(WEEK_PLAYER_RESULTS_FILE, playerResults, [
+    await writeCsv(paths.weekPlayerResultsFile, playerResults, [
       "tournament_key",
       "tournament_name",
       "category",
       "start_date",
       "end_date",
-
       "player_id",
       "player_name",
       "nationality",
-
       "player_type_code",
       "player_type_desc",
       "match_type_code",
       "match_type_desc",
       "event_classification_code",
       "event_classification_desc",
-
       "matches_played",
       "wins",
       "losses",
@@ -1016,7 +994,7 @@ async function main() {
       "collected_at",
     ]);
 
-    await writeCsv(WEEK_RESULTS_ERRORS_FILE, allErrors, [
+    await writeCsv(paths.weekResultsErrorsFile, allErrors, [
       "tournament_key",
       "tournament_name",
       "category",
@@ -1031,7 +1009,7 @@ async function main() {
       "collected_at",
     ]);
 
-    await writeCsv(WEEK_RESULTS_SUMMARY_FILE, summaries, [
+    await writeCsv(paths.weekResultsSummaryFile, summaries, [
       "tournament_key",
       "tournament_name",
       "category",
@@ -1046,24 +1024,26 @@ async function main() {
     console.log("");
     console.log("Finalizado.");
     console.log(`Torneios processados: ${tournaments.length}`);
-    console.log(`Partidas extraídas: ${allMatches.length}`);
+    console.log(`Partidas extraidas: ${allMatches.length}`);
     console.log(`Resultados por jogador: ${playerResults.length}`);
     console.log(`Erros: ${allErrors.length}`);
     console.log("");
     console.log("Arquivos gerados:");
-    console.log("data/clean/week_matches.csv");
-    console.log("data/clean/week_player_results.csv");
-    console.log("data/clean/week_results_errors.csv");
-    console.log("data/clean/week_results_summary.csv");
-    console.log("data/raw/week_results/");
+    console.log(paths.weekMatchesFile);
+    console.log(paths.weekPlayerResultsFile);
+    console.log(paths.weekResultsErrorsFile);
+    console.log(paths.weekResultsSummaryFile);
+    console.log(paths.rawDir);
   } finally {
     await browser.close();
   }
 }
 
-main().catch((err) => {
-  console.error("");
-  console.error("Erro fatal:");
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error("");
+    console.error("Erro fatal:");
+    console.error(err);
+    process.exit(1);
+  });
+}

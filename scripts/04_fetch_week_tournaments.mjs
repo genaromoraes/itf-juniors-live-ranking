@@ -2,9 +2,10 @@ import fs from "fs/promises";
 import path from "path";
 import { chromium } from "playwright";
 import { stringify } from "csv-stringify/sync";
+import { pathToFileURL } from "url";
 
-const OUT_DIR_RAW = path.resolve("data/raw");
-const OUT_DIR_CLEAN = path.resolve("data/clean");
+const DEFAULT_OUT_DIR_RAW = path.resolve("data/raw");
+const DEFAULT_OUT_DIR_CLEAN = path.resolve("data/clean");
 const IS_CI = process.env.CI === "true";
 
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -12,30 +13,148 @@ const TODAY = new Date().toISOString().slice(0, 10);
 const CALENDAR_PAGE =
   "https://www.itftennis.com/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
 
-const RAW_OUTPUT_FILE = path.join(
-  OUT_DIR_RAW,
-  `week_tournaments_${TODAY}.json`
-);
-
-const CLEAN_OUTPUT_FILE = path.join(OUT_DIR_CLEAN, "week_tournaments.csv");
-
-const DEBUG_ALL_FILE = path.join(
-  OUT_DIR_CLEAN,
-  "week_tournaments_debug_all.csv"
-);
 const REQUEST_TIMEOUT_MS = 30000;
 const RETRY_DELAY_MS = 10000;
 const BLOCK_DELAY_MS = 15000;
 const MAX_RETRIES = 2;
 
-async function ensureDirs() {
-  await fs.mkdir(OUT_DIR_RAW, { recursive: true });
-  await fs.mkdir(OUT_DIR_CLEAN, { recursive: true });
+function getArg(name, argv = process.argv.slice(2)) {
+  const prefix = `--${name}=`;
+  const arg = argv.find((value) => value.startsWith(prefix));
+  return arg ? arg.slice(prefix.length) : "";
 }
 
 function cleanText(value) {
   if (value === undefined || value === null) return "";
   return String(value).replace(/\s+/g, " ").trim();
+}
+
+function isIsoDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(cleanText(value));
+}
+
+function parseIsoDateUtc(value, label) {
+  const text = cleanText(value);
+
+  if (!isIsoDate(text)) {
+    throw new Error(`${label} invalida. Use YYYY-MM-DD.`);
+  }
+
+  const parsed = new Date(`${text}T00:00:00.000Z`);
+
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== text) {
+    throw new Error(`${label} invalida. Use YYYY-MM-DD.`);
+  }
+
+  return parsed;
+}
+
+function addUtcDays(date, days) {
+  const result = new Date(date.getTime());
+  result.setUTCDate(result.getUTCDate() + days);
+  return result;
+}
+
+function toIsoDateUtc(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function getMondayUtc(date) {
+  const current = new Date(date.getTime());
+  current.setUTCHours(0, 0, 0, 0);
+
+  const day = current.getUTCDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  current.setUTCDate(current.getUTCDate() + diff);
+
+  return current;
+}
+
+export function parseArgs(argv = process.argv.slice(2)) {
+  return {
+    weekStart: cleanText(getArg("week-start", argv)),
+    weekEnd: cleanText(getArg("week-end", argv)),
+    outputDir: cleanText(getArg("output-dir", argv)),
+    searchStart: cleanText(getArg("search-start", argv)),
+    searchEnd: cleanText(getArg("search-end", argv)),
+  };
+}
+
+export function buildWeekWindow(args = parseArgs(), now = new Date()) {
+  const hasWeekStart = Boolean(args.weekStart);
+  const hasWeekEnd = Boolean(args.weekEnd);
+
+  if (hasWeekStart !== hasWeekEnd) {
+    throw new Error(
+      "Informe --week-start=YYYY-MM-DD e --week-end=YYYY-MM-DD juntos."
+    );
+  }
+
+  if (!hasWeekStart) {
+    const monday = getMondayUtc(now);
+    const sunday = addUtcDays(monday, 6);
+
+    return {
+      week_start: toIsoDateUtc(monday),
+      week_end: toIsoDateUtc(sunday),
+      search_start: toIsoDateUtc(addUtcDays(monday, -2)),
+      search_end: toIsoDateUtc(sunday),
+    };
+  }
+
+  const weekStartDate = parseIsoDateUtc(args.weekStart, "week-start");
+  const weekEndDate = parseIsoDateUtc(args.weekEnd, "week-end");
+
+  if (weekStartDate.getTime() > weekEndDate.getTime()) {
+    throw new Error("week-start nao pode ser posterior a week-end.");
+  }
+
+  const searchStartDate = args.searchStart
+    ? parseIsoDateUtc(args.searchStart, "search-start")
+    : addUtcDays(weekStartDate, -2);
+  const searchEndDate = args.searchEnd
+    ? parseIsoDateUtc(args.searchEnd, "search-end")
+    : weekEndDate;
+
+  if (searchStartDate.getTime() > searchEndDate.getTime()) {
+    throw new Error("search-start nao pode ser posterior a search-end.");
+  }
+
+  return {
+    week_start: toIsoDateUtc(weekStartDate),
+    week_end: toIsoDateUtc(weekEndDate),
+    search_start: toIsoDateUtc(searchStartDate),
+    search_end: toIsoDateUtc(searchEndDate),
+  };
+}
+
+export function resolveOutputPaths(args = parseArgs()) {
+  if (!args.outputDir) {
+    return {
+      rawDir: DEFAULT_OUT_DIR_RAW,
+      cleanDir: DEFAULT_OUT_DIR_CLEAN,
+      rawOutputFile: path.join(DEFAULT_OUT_DIR_RAW, `week_tournaments_${TODAY}.json`),
+      cleanOutputFile: path.join(DEFAULT_OUT_DIR_CLEAN, "week_tournaments.csv"),
+      debugAllFile: path.join(DEFAULT_OUT_DIR_CLEAN, "week_tournaments_debug_all.csv"),
+      outputLabel: "default",
+    };
+  }
+
+  const outputDir = path.resolve(args.outputDir);
+
+  return {
+    rawDir: path.join(outputDir, "raw"),
+    cleanDir: outputDir,
+    rawOutputFile: path.join(outputDir, "raw", "week_tournaments.json"),
+    cleanOutputFile: path.join(outputDir, "week_tournaments.csv"),
+    debugAllFile: path.join(outputDir, "week_tournaments_debug_all.csv"),
+    outputLabel: outputDir,
+  };
+}
+
+async function ensureDirs(paths) {
+  await fs.mkdir(paths.rawDir, { recursive: true });
+  await fs.mkdir(paths.cleanDir, { recursive: true });
 }
 
 function normalizeUrl(value) {
@@ -63,50 +182,6 @@ function getFirst(obj, keys) {
   return null;
 }
 
-function getMonday(date) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-
-  d.setDate(d.getDate() + diff);
-  d.setHours(0, 0, 0, 0);
-
-  return d;
-}
-
-function addDays(date, days) {
-  const d = new Date(date);
-  d.setDate(d.getDate() + days);
-  return d;
-}
-
-function toIsoDate(date) {
-  return date.toISOString().slice(0, 10);
-}
-
-function getWeekWindow() {
-  const now = new Date();
-
-  const monday = getMonday(now);
-  const sunday = addDays(monday, 6);
-
-  // A semana oficial que queremos considerar.
-  const weekStart = toIsoDate(monday);
-  const weekEnd = toIsoDate(sunday);
-
-  // Busca com pequena folga para pegar torneios como Roland Garros,
-  // que começam no domingo anterior, mas terminam dentro da semana.
-  const searchStart = toIsoDate(addDays(monday, -2));
-  const searchEnd = weekEnd;
-
-  return {
-    week_start: weekStart,
-    week_end: weekEnd,
-    search_start: searchStart,
-    search_end: searchEnd,
-  };
-}
-
 function parseDateFlexible(value) {
   if (!value) return "";
 
@@ -132,8 +207,6 @@ function parseDatesRange(value) {
   }
 
   const text = String(value).trim();
-
-  // Exemplo: "31 May to 06 Jun 2026"
   const rangeMatch = text.match(
     /(\d{1,2})\s+([A-Za-z]{3,})\s+to\s+(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})/
   );
@@ -145,12 +218,8 @@ function parseDatesRange(value) {
     const end = new Date(`${d2} ${m2} ${year}`);
 
     return {
-      start_date: Number.isNaN(start.getTime())
-        ? ""
-        : start.toISOString().slice(0, 10),
-      end_date: Number.isNaN(end.getTime())
-        ? ""
-        : end.toISOString().slice(0, 10),
+      start_date: Number.isNaN(start.getTime()) ? "" : start.toISOString().slice(0, 10),
+      end_date: Number.isNaN(end.getTime()) ? "" : end.toISOString().slice(0, 10),
     };
   }
 
@@ -170,7 +239,6 @@ function extractTournamentRows(json) {
 
 function normalizeTournament(row, sourceUrl, weekWindow) {
   const tournamentKey = getFirst(row, ["tournamentKey", "TournamentKey"]);
-
   const tournamentIdRaw = getFirst(row, [
     "tournamentId",
     "TournamentId",
@@ -183,18 +251,8 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
   const tournamentId =
     tournamentIdRaw && String(tournamentIdRaw) !== "0" ? tournamentIdRaw : "";
 
-  const name = getFirst(row, [
-    "tournamentName",
-    "TournamentName",
-    "name",
-    "Name",
-  ]);
-
-  const promotionalName = getFirst(row, [
-    "promotionalName",
-    "PromotionalName",
-  ]);
-
+  const name = getFirst(row, ["tournamentName", "TournamentName", "name", "Name"]);
+  const promotionalName = getFirst(row, ["promotionalName", "PromotionalName"]);
   const category = getFirst(row, [
     "category",
     "Category",
@@ -205,7 +263,6 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     "tournamentType",
     "TournamentType",
   ]);
-
   const hostNationCode = getFirst(row, [
     "hostNationCode",
     "HostNationCode",
@@ -214,7 +271,6 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     "countryCode",
     "CountryCode",
   ]);
-
   const hostNation = getFirst(row, [
     "hostNation",
     "HostNation",
@@ -225,18 +281,8 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     "countryName",
     "CountryName",
   ]);
-
-  const location = getFirst(row, [
-    "location",
-    "Location",
-    "city",
-    "City",
-    "venue",
-    "Venue",
-  ]);
-
+  const location = getFirst(row, ["location", "Location", "city", "City", "venue", "Venue"]);
   const venue = getFirst(row, ["venue", "Venue"]);
-
   const startDateRaw = getFirst(row, [
     "startDate",
     "StartDate",
@@ -245,7 +291,6 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     "tournamentStartDate",
     "TournamentStartDate",
   ]);
-
   const endDateRaw = getFirst(row, [
     "endDate",
     "EndDate",
@@ -254,7 +299,6 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     "tournamentEndDate",
     "TournamentEndDate",
   ]);
-
   const datesRaw = getFirst(row, ["dates", "Dates", "date", "Date"]);
 
   let startDate = parseDateFlexible(startDateRaw);
@@ -267,20 +311,9 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     if (!endDate) endDate = parsedRange.end_date;
   }
 
-  const surface = getFirst(row, [
-    "surfaceDesc",
-    "SurfaceDesc",
-    "surface",
-    "Surface",
-  ]);
-
+  const surface = getFirst(row, ["surfaceDesc", "SurfaceDesc", "surface", "Surface"]);
   const surfaceCode = getFirst(row, ["surfaceCode", "SurfaceCode"]);
-
-  const indoorOutdoor = getFirst(row, [
-    "indoorOrOutDoor",
-    "IndoorOrOutDoor",
-  ]);
-
+  const indoorOutdoor = getFirst(row, ["indoorOrOutDoor", "IndoorOrOutDoor"]);
   const tournamentLink = getFirst(row, [
     "tournamentLink",
     "TournamentLink",
@@ -289,7 +322,6 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     "url",
     "Url",
   ]);
-
   const liveLink = getFirst(row, ["liveLink", "LiveLink"]);
 
   return {
@@ -297,29 +329,23 @@ function normalizeTournament(row, sourceUrl, weekWindow) {
     week_end: weekWindow.week_end,
     search_start: weekWindow.search_start,
     search_end: weekWindow.search_end,
-
     tournament_id: cleanText(tournamentId),
     tournament_key: cleanText(tournamentKey),
     tournament_name: cleanText(name),
     promotional_name: cleanText(promotionalName),
     category: cleanText(category),
-
     host_nation: cleanText(hostNation),
     host_nation_code: cleanText(hostNationCode),
     location: cleanText(location),
     venue: cleanText(venue),
-
     start_date: cleanText(startDate),
     end_date: cleanText(endDate),
     dates_raw: cleanText(datesRaw),
-
     surface: cleanText(surface),
     surface_code: cleanText(surfaceCode),
     indoor_outdoor: cleanText(indoorOutdoor),
-
     tournament_link: normalizeUrl(tournamentLink),
     live_link: normalizeUrl(liveLink),
-
     source_url: sourceUrl,
     collected_at: new Date().toISOString(),
     raw_json: JSON.stringify(row),
@@ -341,11 +367,8 @@ function tournamentOverlapsOfficialWeek(tournament, weekWindow) {
     return false;
   }
 
-  const effectiveEnd =
-    end && end.match(/^\d{4}-\d{2}-\d{2}$/) ? end : start;
+  const effectiveEnd = end && end.match(/^\d{4}-\d{2}-\d{2}$/) ? end : start;
 
-  // Regra correta:
-  // o torneio entra se encostar em qualquer dia da semana oficial.
   return effectiveEnd >= weekWindow.week_start && start <= weekWindow.week_end;
 }
 
@@ -372,12 +395,12 @@ function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
 
 async function fetchJsonInsideBrowser(page, url) {
   return await page.evaluate(
-    async ({ url, timeoutMs }) => {
+    async ({ url: requestUrl, timeoutMs }) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
       try {
-        const response = await fetch(url, {
+        const response = await fetch(requestUrl, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -459,9 +482,7 @@ async function fetchJsonWithRetry(page, url, label = "calendar request") {
         return result;
       }
 
-      const errorPrefix = result.timedOut
-        ? "Request timeout"
-        : `HTTP ${result.status}`;
+      const errorPrefix = result.timedOut ? "Request timeout" : `HTTP ${result.status}`;
       const error = new Error(
         `${errorPrefix}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
       );
@@ -478,13 +499,11 @@ async function fetchJsonWithRetry(page, url, label = "calendar request") {
 
       if (err.isBlocked) {
         console.log(
-          `Possível bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
+          `Possivel bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
         );
         await sleep(BLOCK_DELAY_MS);
       } else {
-        console.log(
-          `Erro temporário. Esperando ${RETRY_DELAY_MS / 1000}s...`
-        );
+        console.log(`Erro temporario. Esperando ${RETRY_DELAY_MS / 1000}s...`);
         await sleep(RETRY_DELAY_MS);
       }
     }
@@ -507,18 +526,14 @@ async function fetchCalendarAllPages(page, weekWindow) {
     });
 
     console.log("");
-    console.log(`Buscando calendário skip=${skip}, take=${take}`);
+    console.log(`Buscando calendario skip=${skip}, take=${take}`);
     console.log(url);
 
-    const result = await fetchJsonWithRetry(
-      page,
-      url,
-      `GetCalendar skip=${skip}, take=${take}`
-    );
+    const result = await fetchJsonWithRetry(page, url, `GetCalendar skip=${skip}, take=${take}`);
 
     if (!result.ok || !result.json) {
       throw new Error(
-        `Falha no calendário. HTTP ${result.status}. ${result.contentType}. ${result.textStart}`
+        `Falha no calendario. HTTP ${result.status}. ${result.contentType}. ${result.textStart}`
       );
     }
 
@@ -539,7 +554,7 @@ async function fetchCalendarAllPages(page, weekWindow) {
     skip += take;
 
     if (skip > 1000) {
-      console.log("Parando por segurança em skip > 1000.");
+      console.log("Parando por seguranca em skip > 1000.");
       break;
     }
 
@@ -575,10 +590,11 @@ async function writeCsv(filePath, rows, columns) {
   await fs.writeFile(filePath, csv, "utf8");
 }
 
-async function main() {
-  await ensureDirs();
+export async function main(cliArgs = parseArgs()) {
+  const weekWindow = buildWeekWindow(cliArgs);
+  const outputPaths = resolveOutputPaths(cliArgs);
 
-  const weekWindow = getWeekWindow();
+  await ensureDirs(outputPaths);
 
   console.log("");
   console.log("Semana oficial:");
@@ -612,7 +628,7 @@ async function main() {
 
   try {
     console.log("");
-    console.log("Criando sessão com a ITF...");
+    console.log("Criando sessao com a ITF...");
 
     await page.goto(CALENDAR_PAGE, {
       waitUntil: "domcontentloaded",
@@ -622,7 +638,6 @@ async function main() {
     await page.waitForTimeout(3000);
 
     const results = await fetchCalendarAllPages(page, weekWindow);
-
     const allTournaments = [];
 
     for (const result of results) {
@@ -632,41 +647,31 @@ async function main() {
     }
 
     const debugAll = dedupeTournaments(allTournaments).sort((a, b) => {
-      const dateCompare = String(a.start_date).localeCompare(
-        String(b.start_date)
-      );
+      const dateCompare = String(a.start_date).localeCompare(String(b.start_date));
       if (dateCompare !== 0) return dateCompare;
 
-      return String(a.tournament_name).localeCompare(
-        String(b.tournament_name)
-      );
+      return String(a.tournament_name).localeCompare(String(b.tournament_name));
     });
 
     const tournaments = debugAll
       .filter((tournament) => !isCancelledTournament(tournament))
-      .filter((tournament) =>
-        tournamentOverlapsOfficialWeek(tournament, weekWindow)
-      )
+      .filter((tournament) => tournamentOverlapsOfficialWeek(tournament, weekWindow))
       .sort((a, b) => {
-        const dateCompare = String(a.start_date).localeCompare(
-          String(b.start_date)
-        );
+        const dateCompare = String(a.start_date).localeCompare(String(b.start_date));
         if (dateCompare !== 0) return dateCompare;
 
-        return String(a.tournament_name).localeCompare(
-          String(b.tournament_name)
-        );
+        return String(a.tournament_name).localeCompare(String(b.tournament_name));
       });
 
     await fs.writeFile(
-      RAW_OUTPUT_FILE,
+      outputPaths.rawOutputFile,
       JSON.stringify(
         {
           week_window: weekWindow,
-          sources: results.map((r) => ({
-            url: r.url,
-            rows_count: r.rows_count,
-            total_items: r.total_items,
+          sources: results.map((result) => ({
+            url: result.url,
+            rows_count: result.rows_count,
+            total_items: result.total_items,
           })),
           all_tournaments_count: debugAll.length,
           week_tournaments_count: tournaments.length,
@@ -684,36 +689,30 @@ async function main() {
       "week_end",
       "search_start",
       "search_end",
-
       "tournament_id",
       "tournament_key",
       "tournament_name",
       "promotional_name",
       "category",
-
       "host_nation",
       "host_nation_code",
       "location",
       "venue",
-
       "start_date",
       "end_date",
       "dates_raw",
-
       "surface",
       "surface_code",
       "indoor_outdoor",
-
       "tournament_link",
       "live_link",
-
       "source_url",
       "collected_at",
       "raw_json",
     ];
 
-    await writeCsv(CLEAN_OUTPUT_FILE, tournaments, columns);
-    await writeCsv(DEBUG_ALL_FILE, debugAll, columns);
+    await writeCsv(outputPaths.cleanOutputFile, tournaments, columns);
+    await writeCsv(outputPaths.debugAllFile, debugAll, columns);
 
     console.log("");
     console.log("Finalizado.");
@@ -721,16 +720,16 @@ async function main() {
     console.log(`Torneios da semana oficial: ${tournaments.length}`);
     console.log("");
     console.log("Arquivos gerados:");
-    console.log("data/clean/week_tournaments.csv");
-    console.log("data/clean/week_tournaments_debug_all.csv");
-    console.log(`data/raw/week_tournaments_${TODAY}.json`);
+    console.log(outputPaths.cleanOutputFile);
+    console.log(outputPaths.debugAllFile);
+    console.log(outputPaths.rawOutputFile);
 
     if (tournaments.length > 0) {
       console.log("");
       console.log("Torneios da semana oficial:");
-      for (const t of tournaments) {
+      for (const tournament of tournaments) {
         console.log(
-          `${t.start_date} até ${t.end_date} | ${t.category} | ${t.tournament_name} | ${t.host_nation_code} | ${t.tournament_key}`
+          `${tournament.start_date} ate ${tournament.end_date} | ${tournament.category} | ${tournament.tournament_name} | ${tournament.host_nation_code} | ${tournament.tournament_key}`
         );
       }
     }
@@ -739,9 +738,11 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error("");
-  console.error("Erro fatal:");
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error("");
+    console.error("Erro fatal:");
+    console.error(err);
+    process.exit(1);
+  });
+}
