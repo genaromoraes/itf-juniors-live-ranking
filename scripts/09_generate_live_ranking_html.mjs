@@ -2409,8 +2409,8 @@ td:nth-child(7) {
               </th>
               <th>Pontos ao vivo</th>
               <th>Jogando esta<br />semana</th>
-              <th>Próx. rodada</th>
-              <th>Título</th>
+              <th>Projeção<br />próx. rodada</th>
+              <th>Projeção<br />título</th>
             </tr>
           </thead>
           <tbody id="rankingBody"></tbody>
