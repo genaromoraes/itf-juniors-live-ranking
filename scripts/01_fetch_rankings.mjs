@@ -2,8 +2,9 @@ import fs from "fs/promises";
 import path from "path";
 import { chromium } from "playwright";
 import { stringify } from "csv-stringify/sync";
+import { TRACKED_BASE_LIMIT_PER_GENDER } from "./lib/ranking_limits.mjs";
 
-const TOP_LIMIT = 500;
+const TOP_LIMIT = TRACKED_BASE_LIMIT_PER_GENDER;
 const PAGE_SIZE = 100;
 const IS_CI = process.env.CI === "true";
 

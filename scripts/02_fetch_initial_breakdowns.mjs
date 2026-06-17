@@ -3,8 +3,9 @@ import path from "path";
 import { chromium } from "playwright";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import { TRACKED_BASE_LIMIT_PER_GENDER } from "./lib/ranking_limits.mjs";
 
-const LIMIT_PER_GENDER = 500;
+const LIMIT_PER_GENDER = TRACKED_BASE_LIMIT_PER_GENDER;
 const IS_CI = process.env.CI === "true";
 
 // Controle de velocidade

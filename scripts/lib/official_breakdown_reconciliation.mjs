@@ -20,6 +20,10 @@ import {
   detectBlockedHtml,
   sleep,
 } from "./official_ledger_validation.mjs";
+import {
+  TRACKED_BASE_LIMIT_PER_GENDER,
+  TRACKED_BASE_TOTAL,
+} from "./ranking_limits.mjs";
 
 export const REQUEST_TIMEOUT_MS = 90000;
 export const MAX_RETRIES = 3;
@@ -769,20 +773,20 @@ export function validateInputs({
   if (validationSummary.new_ranking_date_received !== rankingDate) {
     errors.push(`new_ranking_date_received precisa ser ${rankingDate}.`);
   }
-  if (Number(validationSummary.official_total) !== 1000) {
-    errors.push("official_total precisa ser 1000.");
+  if (Number(validationSummary.official_total) !== TRACKED_BASE_TOTAL) {
+    errors.push(`official_total precisa ser ${TRACKED_BASE_TOTAL}.`);
   }
-  if (Number(validationSummary.official_male) !== 500) {
-    errors.push("official_male precisa ser 500.");
+  if (Number(validationSummary.official_male) !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    errors.push(`official_male precisa ser ${TRACKED_BASE_LIMIT_PER_GENDER}.`);
   }
-  if (Number(validationSummary.official_female) !== 500) {
-    errors.push("official_female precisa ser 500.");
+  if (Number(validationSummary.official_female) !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    errors.push(`official_female precisa ser ${TRACKED_BASE_LIMIT_PER_GENDER}.`);
   }
-  if (officialPlayers.length !== 1000) {
-    errors.push(`official_players.csv precisa ter 1000 linhas, recebeu ${officialPlayers.length}.`);
+  if (officialPlayers.length !== TRACKED_BASE_TOTAL) {
+    errors.push(`official_players.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${officialPlayers.length}.`);
   }
-  if (officialSnapshot.length !== 1000) {
-    errors.push(`official_rankings_snapshot.csv precisa ter 1000 linhas, recebeu ${officialSnapshot.length}.`);
+  if (officialSnapshot.length !== TRACKED_BASE_TOTAL) {
+    errors.push(`official_rankings_snapshot.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${officialSnapshot.length}.`);
   }
   if (playersToRefresh.length !== Number(validationSummary.players_to_refresh)) {
     errors.push("players_to_refresh.csv diverge do summary.");
@@ -908,7 +912,7 @@ export function validateLedgerForOfficialPlayers({ ledgerRows, playersNextRows }
     const playerId = cleanText(row.player_id);
     const key = buildResultKey(row);
     if (!officialIds.has(playerId)) {
-      errors.push(`Jogador fora do Top 1000 oficial no ledger: ${playerId}`);
+      errors.push(`Jogador fora do Top ${TRACKED_BASE_LIMIT_PER_GENDER} oficial no ledger: ${playerId}`);
     }
     if (cleanText(row.is_live).toLowerCase() === "true") {
       errors.push(`Linha is_live=true: ${key}`);
@@ -989,7 +993,7 @@ export function isSafeForPromotion({
   fetchResult,
   ledgerValidation,
   finalValidation,
-  expectedOfficialTotal = 1000,
+  expectedOfficialTotal = TRACKED_BASE_TOTAL,
 }) {
   return (
     inputValidation.valid &&

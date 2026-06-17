@@ -20,8 +20,9 @@ import {
   writeReconciliationArtifacts,
 } from "./lib/official_breakdown_reconciliation.mjs";
 import { cleanText, isIsoDate } from "./lib/weekly_ledger.mjs";
+import { TRACKED_BASE_TOTAL } from "./lib/ranking_limits.mjs";
 
-const EXPECTED_OFFICIAL_TOTAL = 1000;
+const EXPECTED_OFFICIAL_TOTAL = TRACKED_BASE_TOTAL;
 
 function parseArgs(argv = process.argv.slice(2)) {
   const readArg = (name, fallback = "") => {
