@@ -7,8 +7,18 @@ import {
   splitExternalCandidateLiveRows,
 } from "../scripts/08_calculate_live_ranking_with_drops.mjs";
 import {
+  getRawBreakdownPath,
+  readCachedBreakdown,
+  saveRawBreakdown,
+} from "../scripts/lib/player_breakdown.mjs";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import {
+  STATUS_BLOCKED,
   STATUS_FETCH_REQUIRED,
   STATUS_FETCHED,
+  STATUS_FETCH_ERROR,
   STATUS_INELIGIBLE,
   STATUS_INCLUDED,
   STATUS_WATCH,
@@ -98,9 +108,9 @@ describe("external candidate detection", () => {
         { player_id: "fetch", gender: "M", tournaments: "J100 Example" },
       ],
       universeRows: [
-        { player_id: "low", gender: "M", rank: "1800", official_points: "1" },
-        { player_id: "watch", gender: "M", rank: "1400", official_points: "60" },
-        { player_id: "fetch", gender: "M", rank: "1100", official_points: "90" },
+        { player_id: "low", gender: "M", rank: "1800", official_points: "1", ranking_date: "2026-06-15" },
+        { player_id: "watch", gender: "M", rank: "1400", official_points: "60", ranking_date: "2026-06-15" },
+        { player_id: "fetch", gender: "M", rank: "1100", official_points: "90", ranking_date: "2026-06-15" },
       ],
       weekLiveLedgerRows: [
         liveRow("low", { round: "R16", points: "20", status: "eliminated" }),
@@ -117,6 +127,104 @@ describe("external candidate detection", () => {
     assert.equal(byId.get("watch").candidate_status, STATUS_WATCH);
     assert.equal(byId.get("fetch").candidate_status, STATUS_FETCH_REQUIRED);
     assert.equal(byId.get("fetch").breakdown_required, "true");
+    assert.equal(byId.get("fetch").ranking_date, "2026-06-15");
+  });
+
+  test("FETCH_ERROR can return to the queue when the candidate is still eligible", () => {
+    const [candidate] = classifyExternalCandidates({
+      participants: [{ player_id: "fetch", gender: "M", tournaments: "J100 Example" }],
+      universeRows: [
+        {
+          player_id: "fetch",
+          gender: "M",
+          rank: "1100",
+          official_points: "90",
+          ranking_date: "2026-06-15",
+        },
+      ],
+      weekLiveLedgerRows: [liveRow("fetch", { round: "QF", points: "30" })],
+      pointsTableRows,
+      baseRankingRows: rankingRows(),
+      existingCandidates: [
+        {
+          player_id: "fetch",
+          candidate_status: STATUS_FETCH_ERROR,
+          reason: "old_network_error",
+        },
+      ],
+      now: "2026-06-17T00:00:00.000Z",
+    });
+
+    assert.equal(candidate.candidate_status, STATUS_FETCH_REQUIRED);
+    assert.equal(candidate.breakdown_required, "true");
+  });
+
+  test("BLOCKED can return to the queue after the retry window but remains blocked before it", () => {
+    const common = {
+      participants: [{ player_id: "blocked", gender: "M", tournaments: "J100 Example" }],
+      universeRows: [
+        {
+          player_id: "blocked",
+          gender: "M",
+          rank: "1100",
+          official_points: "90",
+          ranking_date: "2026-06-15",
+        },
+      ],
+      weekLiveLedgerRows: [liveRow("blocked", { round: "QF", points: "30" })],
+      pointsTableRows,
+      baseRankingRows: rankingRows(),
+      existingCandidates: [
+        {
+          player_id: "blocked",
+          candidate_status: STATUS_BLOCKED,
+          reason: "blocked_by_itf",
+          updated_at: "2026-06-17T00:00:00.000Z",
+        },
+      ],
+      blockedRetryMs: 60 * 60 * 1000,
+    };
+    const [stillBlocked] = classifyExternalCandidates({
+      ...common,
+      now: "2026-06-17T00:30:00.000Z",
+    });
+    const [retryable] = classifyExternalCandidates({
+      ...common,
+      now: "2026-06-17T02:00:00.000Z",
+    });
+
+    assert.equal(stillBlocked.candidate_status, STATUS_BLOCKED);
+    assert.equal(retryable.candidate_status, STATUS_FETCH_REQUIRED);
+  });
+
+  test("candidate cache is keyed by ranking_date instead of updated_at", async () => {
+    const rawDir = await fs.mkdtemp(path.join(os.tmpdir(), "candidate-cache-"));
+    const player = {
+      player_id: "external1",
+      player_name: "External One",
+      gender: "M",
+      country: "BRA",
+    };
+    const first = await saveRawBreakdown({
+      rawDir,
+      rankingDate: "2026-06-15",
+      player,
+      sourceUrl: "https://example.test",
+      json: { items: [{ id: 1 }] },
+    });
+    const secondPath = getRawBreakdownPath({
+      rawDir,
+      rankingDate: "2026-06-15",
+      player,
+    });
+    const cached = await readCachedBreakdown({
+      rawDir,
+      rankingDate: "2026-06-15",
+      player,
+    });
+
+    assert.equal(first, secondPath);
+    assert.equal(cached.rawFile, first);
   });
 
   test("keeps doubles as raw points and uses 25 percent only in upper-bound math", () => {
@@ -192,6 +300,7 @@ describe("external candidates in live ranking", () => {
     const next = markIncludedCandidates(candidates, included);
 
     assert.equal(included[0].entered_top500, "true");
+    assert.equal(included[0].participated_in_final_calculation, "true");
     assert.equal(included[0].candidate_status, STATUS_INCLUDED);
     assert.equal(next[0].candidate_status, STATUS_INCLUDED);
     assert.equal(next[0].breakdown_fetched, "true");
