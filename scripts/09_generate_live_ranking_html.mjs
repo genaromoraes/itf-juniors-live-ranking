@@ -2004,51 +2004,28 @@ function buildHtml(
     .tournament-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      align-items: center;
+      gap: 4px;
+      font-size: 9px;
+      line-height: 1.18;
+      font-weight: 500;
     }
 
-    .tournament-badge {
+    .week-tournament-name {
       display: inline-flex;
       align-items: center;
-      min-height: 28px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      font-size: 12px;
-      line-height: 1.2;
-      font-weight: 700;
-      color: var(--text);
-      background: #eef2f7;
+      border-radius: 999px;
+      padding: 1px 5px;
+      background: rgba(247, 250, 249, 0.82);
+      border: 1px solid var(--border-soft);
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.1;
     }
 
-    .surface-clay {
-      background: #f4dfd2;
-      border-color: #d7b49d;
-      color: #8a4b2a;
-    }
-
-    .surface-grass {
-      background: #dff2df;
-      border-color: #9fc89d;
-      color: #2f6b34;
-    }
-
-    .surface-hard {
-      background: #dbe9f6;
-      border-color: #a8bed7;
-      color: #1f4f7a;
-    }
-
-    .surface-carpet {
-      background: #ece4ff;
-      border-color: #c9b8ee;
-      color: #5f4c9b;
-    }
-
-    .surface-unknown {
-      background: #eef2f7;
-      border-color: #d8e0ea;
-      color: #516172;
+    :root[data-theme="dark"] .week-tournament-name {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border);
     }
 
     .profile-empty {
@@ -2903,29 +2880,6 @@ td:nth-child(7) {
     }
 
     function renderTournaments() {
-      function getSurfaceClass(item) {
-        const surface = String(item.surface || "").toLowerCase();
-        const code = String(item.surfaceCode || "").toUpperCase();
-
-        if (code === "C" || surface.includes("clay") || surface.includes("saibro")) {
-          return "surface-clay";
-        }
-
-        if (code === "G" || surface.includes("grass") || surface.includes("grama")) {
-          return "surface-grass";
-        }
-
-        if (code === "H" || surface.includes("hard") || surface.includes("duro")) {
-          return "surface-hard";
-        }
-
-        if (code === "CP" || surface.includes("carpet")) {
-          return "surface-carpet";
-        }
-
-        return "surface-unknown";
-      }
-
       weekTournaments.innerHTML = tournamentGroups.map((group) => {
         const categoryClass = getCategoryClass(group.category);
 
@@ -2933,18 +2887,7 @@ td:nth-child(7) {
           <div class="tournament-group \${categoryClass}">
             <div>\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
-              \${group.items
-                .map(
-                  (item) =>
-                    '<span class="tournament-badge ' +
-                    getSurfaceClass(item) +
-                    '" title="' +
-                    escapeHtmlClient(item.name) +
-                    '">' +
-                    escapeHtmlClient(item.displayName || item.name) +
-                    "</span>"
-                )
-                .join("")}
+              \${group.items.map((item) => '<span class="week-tournament-name" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>').join("")}
             </div>
           </div>
         \`;
