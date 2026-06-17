@@ -8,8 +8,8 @@ import {
 } from "./lib/weekly_ledger.mjs";
 import {
   DISPLAY_LIMIT_PER_GENDER,
-  TRACKED_BASE_LIMIT_PER_GENDER,
-  TRACKED_BASE_TOTAL,
+  getActiveBaseLimitPerGender,
+  getActiveBaseTotal,
 } from "./lib/ranking_limits.mjs";
 import {
   EXTERNAL_CANDIDATE_COLUMNS,
@@ -231,6 +231,8 @@ function buildPlayersMap(playersRows) {
 
 export function validatePlayersBase(playersRows) {
   const errors = [];
+  const expectedTotal = getActiveBaseTotal();
+  const expectedPerGender = getActiveBaseLimitPerGender();
   const ids = playersRows.map((row) => cleanText(row.player_id));
   const filledIds = ids.filter(Boolean);
   const trackedPlayerIds = new Set(filledIds);
@@ -240,9 +242,9 @@ export function validatePlayersBase(playersRows) {
     return acc;
   }, {});
 
-  if (playersRows.length !== TRACKED_BASE_TOTAL) {
+  if (playersRows.length !== expectedTotal) {
     errors.push(
-      `players.csv deve conter ${TRACKED_BASE_TOTAL} linhas, mas possui ${playersRows.length}.`
+      `players.csv deve conter ${expectedTotal} linhas, mas possui ${playersRows.length}.`
     );
   }
 
@@ -259,11 +261,11 @@ export function validatePlayersBase(playersRows) {
   }
 
   if (
-    (genderCounts.M || 0) !== TRACKED_BASE_LIMIT_PER_GENDER ||
-    (genderCounts.F || 0) !== TRACKED_BASE_LIMIT_PER_GENDER
+    (genderCounts.M || 0) !== expectedPerGender ||
+    (genderCounts.F || 0) !== expectedPerGender
   ) {
     errors.push(
-      `players.csv deve conter ${TRACKED_BASE_LIMIT_PER_GENDER} M e ${TRACKED_BASE_LIMIT_PER_GENDER} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+      `players.csv deve conter ${expectedPerGender} M e ${expectedPerGender} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
     );
   }
 
@@ -395,7 +397,7 @@ function buildExternalPlayerRows(candidateRows) {
 
 function buildExternalSnapshotRows(candidateRows, fallbackRankingDate) {
   return candidateRows.map((row) => ({
-    ranking_date: fallbackRankingDate,
+    ranking_date: cleanText(row.ranking_date) || fallbackRankingDate,
     gender: normalizeGender(row.gender),
     rank: cleanText(row.official_rank),
     player_id: cleanText(row.player_id),
@@ -446,6 +448,7 @@ export function buildIncludedExternalRows(rankedRows, candidateRows) {
         live_rank: row.live_rank,
         live_points: row.live_points,
         rank_change: row.rank_change_vs_official,
+        participated_in_final_calculation: "true",
         entered_top500:
           toNumber(row.live_rank) <= DISPLAY_LIMIT_PER_GENDER ? "true" : "false",
         candidate_status: STATUS_INCLUDED,
@@ -1342,8 +1345,14 @@ async function main() {
   ]);
 
   printSummary(ranked, activeRows, droppedRows, dropCutoffDate);
+  const externalTop500Count = includedExternalPlayers.filter(
+    (row) => row.entered_top500 === "true"
+  ).length;
   console.log(
-    `Candidatos externos no ranking exibido: ${includedExternalPlayers.length}`
+    `Externos participantes do calculo final: ${includedExternalPlayers.length}`
+  );
+  console.log(
+    `Externos que entraram no Top 500: ${externalTop500Count}`
   );
   console.log(
     `Jogadores externos ignorados: ${ignoredExternalPlayers.length} | linhas live externas ignoradas: ${ignoredUntrackedLiveRows.length}`

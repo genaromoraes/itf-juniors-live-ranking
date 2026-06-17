@@ -51,6 +51,12 @@ async function main() {
     existingCandidates,
   });
 
+  if (universeRows.length === 0) {
+    console.warn(
+      "Aviso: rankings_universe.csv vazio; candidatos externos ficarao sem ranking_date oficial."
+    );
+  }
+
   await writeCsv(EXTERNAL_CANDIDATES_FILE, candidates, EXTERNAL_CANDIDATE_COLUMNS);
 
   console.log(`Participantes externos encontrados: ${participants.length}`);
@@ -67,4 +73,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
