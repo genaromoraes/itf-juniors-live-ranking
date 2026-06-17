@@ -146,6 +146,7 @@ logs/
 
 # Generated project data
 data/raw/
+data/staging/
 data/exports/
 data/audit/
 logs/

@@ -1,10 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
+import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
 const DEFAULT_UNIVERSE_MAX_PER_GENDER = 5000;
-const PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 100;
 const REQUEST_TIMEOUT_MS = 30000;
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 10000;
@@ -13,16 +15,22 @@ const IS_CI = process.env.CI === "true";
 
 const OUT_DIR_RAW = path.resolve("data/raw/rankings_universe");
 const OUT_DIR_CLEAN = path.resolve("data/clean");
-const CHECKPOINT_FILE = path.join(OUT_DIR_RAW, "checkpoint.json");
 const RANKING_PAGE =
   "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
 
+const STATUS_NOT_STARTED = "NOT_STARTED";
+const STATUS_COLLECTING = "COLLECTING";
+const STATUS_PARTIAL = "PARTIAL";
+const STATUS_BLOCKED = "BLOCKED";
+const STATUS_COMPLETE = "COMPLETE";
+const STATUS_INVALID = "INVALID";
+
 const GENDERS = [
-  { label: "boys", gender: "M", itfCode: "B" },
-  { label: "girls", gender: "F", itfCode: "G" },
+  { label: "boys", gender: "M", itfCode: "B", manifestKey: "boys" },
+  { label: "girls", gender: "F", itfCode: "G", manifestKey: "girls" },
 ];
 
-const COLUMNS = [
+export const COLUMNS = [
   "ranking_date",
   "gender",
   "rank",
@@ -55,6 +63,10 @@ function getArg(name, fallback = "") {
   return arg ? arg.slice(prefix.length) : fallback;
 }
 
+function hasFlag(name) {
+  return process.argv.includes(`--${name}`);
+}
+
 function getLimitPerGender() {
   const cliValue = toNumber(getArg("limit-per-gender"));
   const envValue = toNumber(process.env.UNIVERSE_MAX_PER_GENDER);
@@ -63,7 +75,36 @@ function getLimitPerGender() {
 
 function getOutputFile() {
   const outputFile = getArg("output-file");
-  return outputFile ? path.resolve(outputFile) : path.join(OUT_DIR_CLEAN, "rankings_universe.csv");
+  return outputFile
+    ? path.resolve(outputFile)
+    : path.join(OUT_DIR_CLEAN, "rankings_universe.csv");
+}
+
+function getPageSize() {
+  return toNumber(getArg("page-size")) || DEFAULT_PAGE_SIZE;
+}
+
+function getSelectedGenders() {
+  const gender = cleanText(getArg("gender")).toUpperCase();
+  if (!gender) return GENDERS;
+  return GENDERS.filter((item) => item.gender === gender);
+}
+
+function getCollectionWindow(maxPerGender) {
+  const startRank = toNumber(getArg("start-rank", "1")) || 1;
+  const endRank = toNumber(getArg("end-rank", String(maxPerGender))) || maxPerGender;
+  if (startRank < 1 || endRank < startRank) {
+    throw new Error(`Faixa invalida: start-rank=${startRank} end-rank=${endRank}`);
+  }
+  return { startRank, endRank };
+}
+
+function getDelayMs() {
+  return toNumber(getArg("delay-ms")) || toNumber(process.env.UNIVERSE_DELAY_MS) || 3000;
+}
+
+function getMaxPagesPerRun() {
+  return toNumber(getArg("max-pages-per-run"));
 }
 
 function getFirst(obj, keys) {
@@ -126,7 +167,20 @@ function normalizeProfileUrl(value) {
   return raw;
 }
 
-function normalizePlayer(row, genderInfo, sourceUrl) {
+function resolveRankingDate(json, fallback) {
+  const direct = getFirst(json, [
+    "rankingDate",
+    "rankDate",
+    "publishedDate",
+    "date",
+    "RankingDate",
+  ]);
+  const text = cleanText(direct);
+  if (text.match(/^\d{4}-\d{2}-\d{2}/)) return text.slice(0, 10);
+  return fallback || new Date().toISOString().slice(0, 10);
+}
+
+function normalizePlayer(row, genderInfo, sourceUrl, rankingDate) {
   const firstName = getFirst(row, [
     "firstName",
     "FirstName",
@@ -159,7 +213,7 @@ function normalizePlayer(row, genderInfo, sourceUrl) {
   const birthYearFromDate = cleanText(birthDate).match(/\b(19|20)\d{2}\b/)?.[0];
 
   return {
-    ranking_date: new Date().toISOString().slice(0, 10),
+    ranking_date: rankingDate,
     gender: genderInfo.gender,
     rank: toNumber(getFirst(row, ["rank", "Rank", "ranking", "Ranking", "position"])),
     player_id: cleanText(
@@ -290,6 +344,7 @@ async function fetchRankingPage(page, genderInfo, take, skip) {
     if (lastResult.ok && lastResult.json) {
       return {
         url,
+        json: lastResult.json,
         rows: extractRankingRows(lastResult.json),
       };
     }
@@ -305,71 +360,375 @@ async function fetchRankingPage(page, genderInfo, take, skip) {
     `Falha buscando universo ${genderInfo.label} skip=${skip}. HTTP ${lastResult?.status}. Content-Type: ${lastResult?.contentType}. ${lastResult?.textStart}`
   );
   error.isBlocked = looksBlockedOrHtml(lastResult);
+  error.result = lastResult;
   throw error;
 }
 
-async function writeCheckpoint(value) {
-  await fs.mkdir(OUT_DIR_RAW, { recursive: true });
-  await fs.writeFile(CHECKPOINT_FILE, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-}
-
-async function collectGender(page, genderInfo, maxPerGender) {
-  const rows = [];
-  const seenIds = new Set();
-
-  for (let skip = 0; skip < maxPerGender; skip += PAGE_SIZE) {
-    const take = Math.min(PAGE_SIZE, maxPerGender - skip);
-    const pageResult = await fetchRankingPage(page, genderInfo, take, skip);
-    const normalized = pageResult.rows
-      .map((row) => normalizePlayer(row, genderInfo, pageResult.url))
-      .filter((row) => row.player_id || row.player_name);
-    const newRows = normalized.filter((row) => {
-      if (!row.player_id) return true;
-      if (seenIds.has(row.player_id)) return false;
-      seenIds.add(row.player_id);
-      return true;
-    });
-
-    rows.push(...newRows);
-    await writeCheckpoint({
-      gender: genderInfo.gender,
-      skip,
-      rows_collected: rows.length,
-      updated_at: new Date().toISOString(),
-    });
-
-    if (normalized.length === 0 || normalized.length < take || newRows.length === 0) {
-      break;
-    }
-
-    await page.waitForTimeout(300);
+async function exists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
   }
-
-  return rows
-    .sort((a, b) => toNumber(a.rank) - toNumber(b.rank))
-    .slice(0, maxPerGender);
 }
 
-function validateUniverse(rows) {
-  const errors = [];
+async function readJson(filePath, fallback = null) {
+  try {
+    return JSON.parse(await fs.readFile(filePath, "utf8"));
+  } catch (err) {
+    if (err.code === "ENOENT") return fallback;
+    throw err;
+  }
+}
+
+async function writeJsonAtomic(filePath, value) {
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  const tmpFile = `${filePath}.tmp`;
+  await fs.writeFile(tmpFile, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  await fs.rename(tmpFile, filePath);
+}
+
+async function writeCsvAtomic(filePath, rows) {
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  const tmpFile = `${filePath}.tmp`;
+  await fs.writeFile(
+    tmpFile,
+    stringify(rows, { header: true, columns: COLUMNS }),
+    "utf8"
+  );
+  await fs.rename(tmpFile, filePath);
+}
+
+async function readCsv(filePath) {
+  if (!(await exists(filePath))) return [];
+  return parse(await fs.readFile(filePath, "utf8"), {
+    columns: true,
+    skip_empty_lines: true,
+    bom: true,
+  });
+}
+
+function pageFile(rawDir, gender, skip) {
+  return path.join(rawDir, "pages", `${gender}_skip_${String(skip).padStart(4, "0")}.json`);
+}
+
+function partialFile(rawDir, gender) {
+  return path.join(rawDir, `partial_${gender}.csv`);
+}
+
+function manifestFile(rawDir) {
+  return path.join(rawDir, "collection_manifest.json");
+}
+
+function oldCheckpointFile(rawDir) {
+  return path.join(rawDir, "checkpoint.json");
+}
+
+function archiveDir(rawDir, timestamp) {
+  return path.join(rawDir, "archive", timestamp);
+}
+
+function timestampForPath(date = new Date()) {
+  return date.toISOString().replace(/[:.]/g, "-");
+}
+
+async function archivePreviousCollection(rawDir, reason) {
+  const names = [
+    "collection_manifest.json",
+    "checkpoint.json",
+    "partial_M.csv",
+    "partial_F.csv",
+    "pages",
+  ];
+  const present = [];
+  for (const name of names) {
+    if (await exists(path.join(rawDir, name))) present.push(name);
+  }
+  if (present.length === 0) return null;
+  const target = archiveDir(rawDir, `${timestampForPath()}_${reason}`);
+  await fs.mkdir(target, { recursive: true });
+  for (const name of present) {
+    await fs.rename(path.join(rawDir, name), path.join(target, name));
+  }
+  return target;
+}
+
+function buildInitialManifest({
+  targetPerGender,
+  pageSize,
+  startRank,
+  endRank,
+  rankingDate,
+}) {
+  const now = new Date().toISOString();
+  return {
+    schema_version: 1,
+    collection_id: `ranking_universe_${now}`,
+    ranking_date: rankingDate,
+    expected_ranking_date: rankingDate,
+    target_per_gender: targetPerGender,
+    start_rank: startRank,
+    end_rank: endRank,
+    page_size: pageSize,
+    status: STATUS_NOT_STARTED,
+    started_at: now,
+    updated_at: now,
+    blocked_at: "",
+    blocked_gender: "",
+    blocked_skip: "",
+    last_error: "",
+    boys: { rows_collected: 0, completed_pages: [], next_skip: startRank - 1, complete: false },
+    girls: { rows_collected: 0, completed_pages: [], next_skip: startRank - 1, complete: false },
+  };
+}
+
+function manifestCompatible(manifest, options) {
+  if (!manifest) return false;
+  return (
+    Number(manifest.schema_version) === 1 &&
+    Number(manifest.target_per_gender) === Number(options.targetPerGender) &&
+    Number(manifest.page_size) === Number(options.pageSize) &&
+    Number(manifest.start_rank) === Number(options.startRank) &&
+    Number(manifest.end_rank) === Number(options.endRank) &&
+    cleanText(manifest.expected_ranking_date || manifest.ranking_date) ===
+      cleanText(options.rankingDate)
+  );
+}
+
+function genderManifestKey(genderInfo) {
+  return genderInfo.manifestKey;
+}
+
+function getSkips({ startRank, endRank, pageSize }) {
+  const firstSkip = startRank - 1;
+  const skips = [];
+  for (let skip = firstSkip; skip <= endRank - 1; skip += pageSize) {
+    skips.push(skip);
+  }
+  return skips;
+}
+
+function pageTake(skip, endRank, pageSize) {
+  return Math.min(pageSize, endRank - skip);
+}
+
+async function rebuildPartialFromPages({ rawDir, genderInfo, rankingDate, endRank }) {
+  const pagesDir = path.join(rawDir, "pages");
+  if (!(await exists(pagesDir))) return [];
+  const files = (await fs.readdir(pagesDir))
+    .filter((name) => name.startsWith(`${genderInfo.gender}_skip_`) && name.endsWith(".json"))
+    .sort();
+  const rows = [];
+  const seen = new Set();
+  for (const file of files) {
+    const payload = await readJson(path.join(pagesDir, file));
+    const pageRows = (payload?.normalized_rows || []).filter(
+      (row) => toNumber(row.rank) <= endRank
+    );
+    for (const row of pageRows) {
+      const key = cleanText(row.player_id) || `${row.gender}-${row.rank}-${row.player_name}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      rows.push({ ...row, ranking_date: cleanText(row.ranking_date) || rankingDate });
+    }
+  }
+  rows.sort((a, b) => toNumber(a.rank) - toNumber(b.rank));
+  await writeCsvAtomic(partialFile(rawDir, genderInfo.gender), rows);
+  return rows;
+}
+
+async function writeOutputIfComplete({ rawDir, outputFile, manifest }) {
+  if (!manifest.boys.complete || !manifest.girls.complete) return false;
+  const rows = [
+    ...(await readCsv(partialFile(rawDir, "M"))),
+    ...(await readCsv(partialFile(rawDir, "F"))),
+  ];
   const ids = rows.map((row) => cleanText(row.player_id)).filter(Boolean);
   const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+  if (rows.length === 0 || duplicates.length > 0) {
+    manifest.status = STATUS_INVALID;
+    manifest.last_error = duplicates.length
+      ? `IDs duplicados: ${[...new Set(duplicates)].slice(0, 10).join(", ")}`
+      : "Universo vazio.";
+    return false;
+  }
+  await writeCsvAtomic(outputFile, rows);
+  manifest.status = STATUS_COMPLETE;
+  return true;
+}
 
-  if (rows.length === 0) errors.push("rankings_universe.csv ficaria vazio.");
-  if (duplicates.length > 0) {
-    errors.push(`IDs duplicados no universo: ${[...new Set(duplicates)].slice(0, 10).join(", ")}.`);
+async function initializeCollection(options) {
+  await fs.mkdir(options.rawDir, { recursive: true });
+  if (options.restart) {
+    await archivePreviousCollection(options.rawDir, "restart");
+  } else {
+    const manifest = await readJson(manifestFile(options.rawDir), null);
+    if (manifest && !manifestCompatible(manifest, options)) {
+      manifest.status = STATUS_INVALID;
+      manifest.last_error = "Manifesto incompativel com os parametros/ranking_date atuais. Use --restart.";
+      await writeJsonAtomic(manifestFile(options.rawDir), manifest);
+      return manifest;
+    }
+    const checkpoint = oldCheckpointFile(options.rawDir);
+    const pagesDir = path.join(options.rawDir, "pages");
+    if (!manifest && (await exists(checkpoint)) && !(await exists(pagesDir))) {
+      await archivePreviousCollection(options.rawDir, "legacy_checkpoint_without_pages");
+    }
+    if (manifest) return manifest;
   }
 
-  return errors;
+  const manifest = buildInitialManifest(options);
+  await writeJsonAtomic(manifestFile(options.rawDir), manifest);
+  return manifest;
+}
+
+async function persistPage({ rawDir, genderInfo, skip, url, json, normalizedRows }) {
+  const filePath = pageFile(rawDir, genderInfo.gender, skip);
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  const tmpFile = `${filePath}.tmp`;
+  await fs.writeFile(
+    tmpFile,
+    `${JSON.stringify(
+      {
+        gender: genderInfo.gender,
+        skip,
+        url,
+        saved_at: new Date().toISOString(),
+        raw_json: json,
+        normalized_rows: normalizedRows,
+      },
+      null,
+      2
+    )}\n`,
+    "utf8"
+  );
+  await fs.rename(tmpFile, filePath);
+}
+
+function completePagesFor(manifest, genderInfo) {
+  return new Set(manifest[genderManifestKey(genderInfo)].completed_pages.map(Number));
+}
+
+function firstMissingSkip(manifest, genderInfo, options) {
+  const completed = completePagesFor(manifest, genderInfo);
+  return getSkips(options).find((skip) => !completed.has(skip));
+}
+
+async function updateGenderProgress({ rawDir, manifest, genderInfo, options }) {
+  const rows = await rebuildPartialFromPages({
+    rawDir,
+    genderInfo,
+    rankingDate: options.rankingDate,
+    endRank: options.endRank,
+  });
+  const key = genderManifestKey(genderInfo);
+  const next = firstMissingSkip(manifest, genderInfo, options);
+  manifest[key].rows_collected = rows.length;
+  manifest[key].next_skip = next ?? options.endRank;
+  manifest[key].complete = next === undefined;
+  manifest.updated_at = new Date().toISOString();
+}
+
+export async function collectRankingUniverseIncremental({
+  rawDir = OUT_DIR_RAW,
+  outputFile = path.join(OUT_DIR_CLEAN, "rankings_universe.csv"),
+  targetPerGender = DEFAULT_UNIVERSE_MAX_PER_GENDER,
+  pageSize = DEFAULT_PAGE_SIZE,
+  startRank = 1,
+  endRank = targetPerGender,
+  genders = GENDERS,
+  rankingDate = new Date().toISOString().slice(0, 10),
+  restart = false,
+  maxPagesPerRun = 0,
+  delayMs = 3000,
+  fetchPage,
+  wait = async (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+} = {}) {
+  const options = { rawDir, outputFile, targetPerGender, pageSize, startRank, endRank, rankingDate, restart };
+  const manifest = await initializeCollection(options);
+  if (manifest.status === STATUS_INVALID) {
+    return { status: STATUS_INVALID, manifest, pagesFetched: 0 };
+  }
+
+  let pagesFetched = 0;
+  manifest.status = STATUS_COLLECTING;
+  manifest.last_error = "";
+  await writeJsonAtomic(manifestFile(rawDir), manifest);
+
+  for (const genderInfo of genders) {
+    await updateGenderProgress({ rawDir, manifest, genderInfo, options });
+    while (!manifest[genderManifestKey(genderInfo)].complete) {
+      if (maxPagesPerRun > 0 && pagesFetched >= maxPagesPerRun) {
+        manifest.status = STATUS_PARTIAL;
+        await writeJsonAtomic(manifestFile(rawDir), manifest);
+        return { status: STATUS_PARTIAL, manifest, pagesFetched };
+      }
+
+      const skip = firstMissingSkip(manifest, genderInfo, options);
+      const take = pageTake(skip, endRank, pageSize);
+      let pageResult;
+      try {
+        pageResult = await fetchPage(genderInfo, take, skip);
+      } catch (err) {
+        manifest.status = err.isBlocked ? STATUS_BLOCKED : STATUS_INVALID;
+        manifest.blocked_at = err.isBlocked ? new Date().toISOString() : "";
+        manifest.blocked_gender = err.isBlocked ? genderInfo.gender : "";
+        manifest.blocked_skip = err.isBlocked ? String(skip) : "";
+        manifest.last_error = err.message;
+        manifest.updated_at = new Date().toISOString();
+        await writeJsonAtomic(manifestFile(rawDir), manifest);
+        return { status: manifest.status, manifest, pagesFetched, error: err };
+      }
+      const pageRankingDate = resolveRankingDate(pageResult.json, rankingDate);
+      if (cleanText(pageRankingDate) !== cleanText(rankingDate)) {
+        manifest.status = STATUS_INVALID;
+        manifest.last_error = `ranking_date incompativel: esperado ${rankingDate}, recebido ${pageRankingDate}`;
+        await writeJsonAtomic(manifestFile(rawDir), manifest);
+        return { status: STATUS_INVALID, manifest, pagesFetched };
+      }
+      const normalizedRows = pageResult.rows
+        .map((row) => normalizePlayer(row, genderInfo, pageResult.url, rankingDate))
+        .filter((row) => row.player_id || row.player_name)
+        .filter((row) => toNumber(row.rank) >= startRank && toNumber(row.rank) <= endRank);
+
+      await persistPage({
+        rawDir,
+        genderInfo,
+        skip,
+        url: pageResult.url,
+        json: pageResult.json,
+        normalizedRows,
+      });
+      const key = genderManifestKey(genderInfo);
+      manifest[key].completed_pages = [...completePagesFor(manifest, genderInfo), skip].sort((a, b) => a - b);
+      await updateGenderProgress({ rawDir, manifest, genderInfo, options });
+      pagesFetched += 1;
+      await writeJsonAtomic(manifestFile(rawDir), manifest);
+      if (delayMs > 0) await wait(delayMs);
+    }
+  }
+
+  await writeOutputIfComplete({ rawDir, outputFile, manifest });
+  if (manifest.status !== STATUS_COMPLETE) manifest.status = STATUS_PARTIAL;
+  await writeJsonAtomic(manifestFile(rawDir), manifest);
+  return { status: manifest.status, manifest, pagesFetched };
 }
 
 async function main() {
   const maxPerGender = getLimitPerGender();
   const outputFile = getOutputFile();
-  await fs.mkdir(OUT_DIR_RAW, { recursive: true });
-  await fs.mkdir(path.dirname(outputFile), { recursive: true });
+  const pageSize = getPageSize();
+  const { startRank, endRank } = getCollectionWindow(maxPerGender);
+  const targetPerGender = endRank - startRank + 1;
+  const genders = getSelectedGenders();
+  const delayMs = getDelayMs();
+  const maxPagesPerRun = getMaxPagesPerRun();
+  const rankingDate = cleanText(getArg("ranking-date")) || new Date().toISOString().slice(0, 10);
 
-  console.log(`Coletando universo leve: max ${maxPerGender} por genero.`);
+  console.log(
+    `Coletando universo incremental: ranks ${startRank}-${endRank}, page-size ${pageSize}.`
+  );
 
   const browser = await chromium.launch({ headless: IS_CI ? true : false });
   const context = await browser.newContext({
@@ -385,34 +744,45 @@ async function main() {
     });
     await page.waitForTimeout(3000);
 
-    const rows = [];
-    for (const genderInfo of GENDERS) {
-      rows.push(...(await collectGender(page, genderInfo, maxPerGender)));
+    const result = await collectRankingUniverseIncremental({
+      rawDir: OUT_DIR_RAW,
+      outputFile,
+      targetPerGender,
+      pageSize,
+      startRank,
+      endRank,
+      genders,
+      rankingDate,
+      restart: hasFlag("restart"),
+      maxPagesPerRun,
+      delayMs,
+      wait: (ms) => page.waitForTimeout(ms),
+      fetchPage: (genderInfo, take, skip) => fetchRankingPage(page, genderInfo, take, skip),
+    });
+
+    console.log(`Status da coleta: ${result.status}`);
+    console.log(`Paginas novas nesta execucao: ${result.pagesFetched}`);
+    console.log(`Masculino: ${result.manifest.boys.rows_collected}/${targetPerGender}`);
+    console.log(`Feminino: ${result.manifest.girls.rows_collected}/${targetPerGender}`);
+    console.log(`Proxima pagina M: ${result.manifest.boys.next_skip}`);
+    console.log(`Proxima pagina F: ${result.manifest.girls.next_skip}`);
+    if (result.status === STATUS_BLOCKED) {
+      console.log("Bloqueio detectado. Retome depois com:");
+      console.log("npm.cmd run base:top1000:prepare -- --resume --max-pages-per-run=1");
     }
-
-    const errors = validateUniverse(rows);
-    if (errors.length > 0) {
-      throw new Error(errors.join("\n"));
+    if (result.error && !result.error.isBlocked) {
+      process.exitCode = 1;
     }
-
-    const tmpFile = `${outputFile}.tmp`;
-    await fs.writeFile(
-      tmpFile,
-      stringify(rows, { header: true, columns: COLUMNS }),
-      "utf8"
-    );
-    await fs.rename(tmpFile, outputFile);
-
-    console.log(`Universo gerado: ${rows.length} jogadores.`);
-    console.log(`Arquivo: ${path.relative(process.cwd(), outputFile)}`);
   } finally {
     await browser.close();
   }
 }
 
-main().catch((err) => {
-  console.error("");
-  console.error("Erro fatal:");
-  console.error(err?.message || err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error("");
+    console.error("Erro fatal:");
+    console.error(err?.message || err);
+    process.exit(1);
+  });
+}
