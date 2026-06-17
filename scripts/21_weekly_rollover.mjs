@@ -11,7 +11,6 @@ import {
   cleanText,
   compareCalculatedAgainstSnapshot,
   normalizeGender,
-  validateOfficialSnapshotRows,
 } from "./lib/official_ledger_validation.mjs";
 import { LEDGER_COLUMNS } from "./lib/weekly_ledger.mjs";
 import { summarizeWeekCompletion } from "./lib/week_completion.mjs";
@@ -21,8 +20,8 @@ import {
 } from "./08_calculate_live_ranking_with_drops.mjs";
 import {
   DISPLAY_LIMIT_PER_GENDER,
-  TRACKED_BASE_LIMIT_PER_GENDER,
-  TRACKED_BASE_TOTAL,
+  getActiveBaseLimitPerGender,
+  getActiveBaseTotal,
 } from "./lib/ranking_limits.mjs";
 
 const ACTION_STATUS = "status";
@@ -361,6 +360,8 @@ function nonEmptyTournamentRows(rows) {
 }
 
 function validatePlayersBase(playersRows) {
+  const expectedTotal = getActiveBaseTotal();
+  const expectedPerGender = getActiveBaseLimitPerGender();
   const ids = playersRows.map((row) => cleanText(row.player_id));
   const uniqueIds = new Set(ids.filter(Boolean));
   const genderCounts = playersRows.reduce((acc, row) => {
@@ -370,18 +371,18 @@ function validatePlayersBase(playersRows) {
   }, {});
   const errors = [];
 
-  if (playersRows.length !== TRACKED_BASE_TOTAL) {
+  if (playersRows.length !== expectedTotal) {
     errors.push(`players.csv possui ${playersRows.length} linhas.`);
   }
   if (uniqueIds.size !== playersRows.length) {
     errors.push("players.csv possui IDs vazios ou duplicados.");
   }
   if (
-    (genderCounts.M || 0) !== TRACKED_BASE_LIMIT_PER_GENDER ||
-    (genderCounts.F || 0) !== TRACKED_BASE_LIMIT_PER_GENDER
+    (genderCounts.M || 0) !== expectedPerGender ||
+    (genderCounts.F || 0) !== expectedPerGender
   ) {
     errors.push(
-      `players.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} M e ${TRACKED_BASE_LIMIT_PER_GENDER} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+      `players.csv precisa ter ${expectedPerGender} M e ${expectedPerGender} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
     );
   }
 
@@ -393,7 +394,68 @@ function validatePlayersBase(playersRows) {
   };
 }
 
+function validateSnapshotBase(playersRows, snapshotRows, expectedRankingDate) {
+  const expectedTotal = getActiveBaseTotal();
+  const expectedPerGender = getActiveBaseLimitPerGender();
+  const playerIds = new Set(
+    playersRows.map((row) => cleanText(row.player_id)).filter(Boolean)
+  );
+  const snapshotIds = snapshotRows.map((row) => cleanText(row.player_id));
+  const uniqueSnapshotIds = new Set(snapshotIds.filter(Boolean));
+  const genderCounts = snapshotRows.reduce((acc, row) => {
+    const gender = normalizeGender(row.gender);
+    acc[gender] = (acc[gender] || 0) + 1;
+    return acc;
+  }, {});
+  const errors = [];
+
+  if (snapshotRows.length !== expectedTotal) {
+    errors.push(`rankings_snapshot.csv possui ${snapshotRows.length} linhas.`);
+  }
+  if (uniqueSnapshotIds.size !== snapshotRows.length) {
+    errors.push("rankings_snapshot.csv possui IDs vazios ou duplicados.");
+  }
+  if ([...uniqueSnapshotIds].some((playerId) => !playerIds.has(playerId))) {
+    errors.push("rankings_snapshot.csv contem jogadores fora de players.csv.");
+  }
+  if (
+    (genderCounts.M || 0) !== expectedPerGender ||
+    (genderCounts.F || 0) !== expectedPerGender
+  ) {
+    errors.push(
+      `rankings_snapshot.csv precisa ter ${expectedPerGender} M e ${expectedPerGender} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+    );
+  }
+  for (const gender of ["M", "F"]) {
+    const ranks = snapshotRows
+      .filter((row) => normalizeGender(row.gender) === gender)
+      .map((row) => Number(cleanText(row.rank)))
+      .sort((a, b) => a - b);
+    if (ranks.length !== expectedPerGender) continue;
+    for (let index = 0; index < ranks.length; index += 1) {
+      if (ranks[index] !== index + 1) {
+        errors.push(`rankings_snapshot.csv possui ranks invalidos para ${gender}.`);
+        break;
+      }
+    }
+  }
+  if (
+    snapshotRows.some(
+      (row) => cleanText(row.ranking_date) !== cleanText(expectedRankingDate)
+    )
+  ) {
+    errors.push(`rankings_snapshot.csv possui ranking_date diferente de ${expectedRankingDate}.`);
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    countsByGender: genderCounts,
+  };
+}
+
 function validateLedgerBase(ledgerRows, trackedPlayerIds) {
+  const expectedTotal = getActiveBaseTotal();
   const playerIds = new Set(
     ledgerRows.map((row) => cleanText(row.player_id)).filter(Boolean)
   );
@@ -402,7 +464,7 @@ function validateLedgerBase(ledgerRows, trackedPlayerIds) {
   if (ledgerRows.length === 0) {
     errors.push("points_ledger.csv esta vazio.");
   }
-  if (playerIds.size !== TRACKED_BASE_TOTAL) {
+  if (playerIds.size !== expectedTotal) {
     errors.push(`points_ledger.csv possui ${playerIds.size} jogadores unicos.`);
   }
   if ([...playerIds].some((playerId) => !trackedPlayerIds.has(playerId))) {
@@ -419,6 +481,8 @@ function validateLedgerBase(ledgerRows, trackedPlayerIds) {
 }
 
 function validateLiveRanking(rankingRows, trackedPlayerIds) {
+  const expectedTotal = getActiveBaseTotal();
+  const expectedPerGender = getActiveBaseLimitPerGender();
   const ids = rankingRows.map((row) => cleanText(row.player_id));
   const uniqueIds = new Set(ids.filter(Boolean));
   const genderCounts = rankingRows.reduce((acc, row) => {
@@ -431,18 +495,18 @@ function validateLiveRanking(rankingRows, trackedPlayerIds) {
   );
   const errors = [];
 
-  if (rankingRows.length < TRACKED_BASE_TOTAL) {
+  if (rankingRows.length < expectedTotal) {
     errors.push(`live_ranking_with_drops.csv possui ${rankingRows.length} linhas.`);
   }
   if (uniqueIds.size !== rankingRows.length) {
     errors.push("Ranking live possui IDs vazios ou duplicados.");
   }
   if (
-    (genderCounts.M || 0) < TRACKED_BASE_LIMIT_PER_GENDER ||
-    (genderCounts.F || 0) < TRACKED_BASE_LIMIT_PER_GENDER
+    (genderCounts.M || 0) < expectedPerGender ||
+    (genderCounts.F || 0) < expectedPerGender
   ) {
     errors.push(
-      `Ranking live precisa ter ao menos ${TRACKED_BASE_LIMIT_PER_GENDER} M e ${TRACKED_BASE_LIMIT_PER_GENDER} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+      `Ranking live precisa ter ao menos ${expectedPerGender} M e ${expectedPerGender} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
     );
   }
 
@@ -637,7 +701,7 @@ export async function gatherFacts({ cwd = process.cwd(), today = todayIso() } = 
 
   const playersValidation = validatePlayersBase(playersRows);
   const trackedPlayerIds = playersValidation.trackedPlayerIds;
-  const snapshotValidation = validateOfficialSnapshotRows(
+  const snapshotValidation = validateSnapshotBase(
     playersRows,
     snapshotRows,
     cleanText(snapshotRows[0]?.ranking_date)
@@ -1117,8 +1181,9 @@ export async function runStartAction({ args, facts, runNodeScript }) {
   );
 
   if (!reconciliation.valid) {
+    const expectedTotal = getActiveBaseTotal();
     errors.push(
-      `A base oficial nao reconciliou ${TRACKED_BASE_TOTAL}/${TRACKED_BASE_TOTAL} (${reconciliation.exact}/${reconciliation.total}).`
+      `A base oficial nao reconciliou ${expectedTotal}/${expectedTotal} (${reconciliation.exact}/${reconciliation.total}).`
     );
   }
   if (

@@ -1,0 +1,5 @@
+{
+  "state": "LEGACY_BASE_500",
+  "updated_at": "",
+  "notes": "Production base remains 500 players per gender until the staged Top 1000 migration is validated and promoted."
+}

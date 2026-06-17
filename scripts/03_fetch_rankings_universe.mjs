@@ -13,7 +13,6 @@ const IS_CI = process.env.CI === "true";
 
 const OUT_DIR_RAW = path.resolve("data/raw/rankings_universe");
 const OUT_DIR_CLEAN = path.resolve("data/clean");
-const OUTPUT_FILE = path.join(OUT_DIR_CLEAN, "rankings_universe.csv");
 const CHECKPOINT_FILE = path.join(OUT_DIR_RAW, "checkpoint.json");
 const RANKING_PAGE =
   "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
@@ -60,6 +59,11 @@ function getLimitPerGender() {
   const cliValue = toNumber(getArg("limit-per-gender"));
   const envValue = toNumber(process.env.UNIVERSE_MAX_PER_GENDER);
   return cliValue || envValue || DEFAULT_UNIVERSE_MAX_PER_GENDER;
+}
+
+function getOutputFile() {
+  const outputFile = getArg("output-file");
+  return outputFile ? path.resolve(outputFile) : path.join(OUT_DIR_CLEAN, "rankings_universe.csv");
 }
 
 function getFirst(obj, keys) {
@@ -361,8 +365,9 @@ function validateUniverse(rows) {
 
 async function main() {
   const maxPerGender = getLimitPerGender();
+  const outputFile = getOutputFile();
   await fs.mkdir(OUT_DIR_RAW, { recursive: true });
-  await fs.mkdir(OUT_DIR_CLEAN, { recursive: true });
+  await fs.mkdir(path.dirname(outputFile), { recursive: true });
 
   console.log(`Coletando universo leve: max ${maxPerGender} por genero.`);
 
@@ -390,16 +395,16 @@ async function main() {
       throw new Error(errors.join("\n"));
     }
 
-    const tmpFile = `${OUTPUT_FILE}.tmp`;
+    const tmpFile = `${outputFile}.tmp`;
     await fs.writeFile(
       tmpFile,
       stringify(rows, { header: true, columns: COLUMNS }),
       "utf8"
     );
-    await fs.rename(tmpFile, OUTPUT_FILE);
+    await fs.rename(tmpFile, outputFile);
 
     console.log(`Universo gerado: ${rows.length} jogadores.`);
-    console.log(`Arquivo: ${path.relative(process.cwd(), OUTPUT_FILE)}`);
+    console.log(`Arquivo: ${path.relative(process.cwd(), outputFile)}`);
   } finally {
     await browser.close();
   }
@@ -411,4 +416,3 @@ main().catch((err) => {
   console.error(err?.message || err);
   process.exit(1);
 });
-
