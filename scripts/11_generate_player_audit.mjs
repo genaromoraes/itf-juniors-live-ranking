@@ -1,7 +1,10 @@
 import fs from "fs/promises";
 import path from "path";
-import { parse } from "csv-parse/sync";
-import { stringify } from "csv-stringify/sync";
+import csvUtils from "./lib/csv.js";
+import textUtils from "./lib/text.js";
+
+const { readCsv, writeCsv } = csvUtils;
+const { cleanText, toNumber, formatNumber, escapeHtml } = textUtils;
 
 const LIVE_RANKING_FILE = path.resolve("data/clean/live_ranking_with_drops.csv");
 const WEEK_LIVE_LEDGER_FILE = path.resolve("data/clean/week_live_ledger_rows.csv");
@@ -17,65 +20,6 @@ const AUDIT_HTML_FILE = path.join(OUT_DIR, "player_audit.html");
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR, { recursive: true });
-}
-
-async function readCsv(filePath) {
-  try {
-    const csv = await fs.readFile(filePath, "utf8");
-
-    return parse(csv, {
-      columns: true,
-      skip_empty_lines: true,
-    });
-  } catch (err) {
-    if (err.code === "ENOENT") {
-      console.warn(`Aviso: arquivo não encontrado: ${filePath}`);
-      return [];
-    }
-
-    throw err;
-  }
-}
-
-async function writeCsv(filePath, rows, columns) {
-  const csv = stringify(rows, {
-    header: true,
-    columns,
-  });
-
-  await fs.writeFile(filePath, csv, "utf8");
-}
-
-function cleanText(value) {
-  if (value === undefined || value === null) return "";
-  return String(value).replace(/\s+/g, " ").trim();
-}
-
-function toNumber(value) {
-  if (value === undefined || value === null || value === "") return 0;
-
-  const cleaned = String(value).replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-
-  return Number.isFinite(n) ? n : 0;
-}
-
-function formatNumber(value) {
-  const n = toNumber(value);
-
-  return n.toLocaleString("pt-BR", {
-    minimumFractionDigits: n % 1 === 0 ? 0 : 2,
-    maximumFractionDigits: 2,
-  });
-}
-
-function escapeHtml(value) {
-  return cleanText(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
 
 function getPlayerId(row) {

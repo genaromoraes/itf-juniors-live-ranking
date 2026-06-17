@@ -83,7 +83,6 @@ function getJuniorPoints({ category, eventType, round, wonMatch = true }) {
 
   return OFFICIAL_POINTS_2026[eventType]?.[category]?.[round] ?? 0;
 }
-
 function dropResult(points, droppedPoint) {
   const drop = toValidPoint(droppedPoint);
   let removed = false;

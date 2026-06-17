@@ -144,7 +144,6 @@ jobs:
         if: github.event_name != 'push' && steps.scrape.outcome == 'failure'
         run: |
           echo "WARNING: ITF scraping failed. GitHub Pages will be deployed using the last valid cached data."
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
