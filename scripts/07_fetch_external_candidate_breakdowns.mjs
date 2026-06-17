@@ -62,7 +62,7 @@ function getLimit() {
 
 function getRankingDate(candidates) {
   return (
-    cleanText(candidates.find((row) => cleanText(row.updated_at))?.updated_at).slice(0, 10) ||
+    cleanText(candidates.find((row) => cleanText(row.ranking_date))?.ranking_date) ||
     new Date().toISOString().slice(0, 10)
   );
 }
@@ -173,18 +173,31 @@ async function getBreakdown(page, candidate, rankingDate, force) {
   };
 }
 
+function getQueueStatuses() {
+  const statuses = new Set([STATUS_FETCH_REQUIRED]);
+  if (hasFlag("retry-errors") || hasFlag("retry-all")) statuses.add(STATUS_FETCH_ERROR);
+  if (hasFlag("retry-blocked") || hasFlag("retry-all")) statuses.add(STATUS_BLOCKED);
+  return statuses;
+}
+
 async function main() {
   const limit = getLimit();
   const force = hasFlag("force");
   const candidates = await readCsv(CANDIDATES_FILE);
   let ledgerRows = await readCsvIfExists(LEDGER_FILE);
   let errorRows = await readCsvIfExists(ERRORS_FILE);
-  const rankingDate = getRankingDate(candidates);
+  const fallbackRankingDate = getRankingDate(candidates);
+  if (!candidates.some((row) => cleanText(row.ranking_date))) {
+    console.warn(
+      `Aviso: nenhum ranking_date em external_candidates.csv; usando fallback ${fallbackRankingDate}.`
+    );
+  }
+  const queueStatuses = getQueueStatuses();
   const queue = candidates
-    .filter((row) => cleanText(row.candidate_status) === STATUS_FETCH_REQUIRED)
+    .filter((row) => queueStatuses.has(cleanText(row.candidate_status)))
     .slice(0, limit);
 
-  console.log(`Candidatos FETCH_REQUIRED na fila: ${queue.length}`);
+  console.log(`Candidatos na fila (${[...queueStatuses].join(", ")}): ${queue.length}`);
   console.log(`Limite desta execucao: ${limit}`);
   console.log(`Delay entre jogadores: ${DELAY_MS / 1000}s`);
 
@@ -212,10 +225,10 @@ async function main() {
       console.log(`Buscando candidato externo: ${candidate.player_name} (${candidate.player_id})`);
 
       try {
+        const rankingDate = cleanText(candidate.ranking_date) || fallbackRankingDate;
         const result = await getBreakdown(page, candidate, rankingDate, force);
         ledgerRows = removeRowsForPlayer(ledgerRows, candidate.player_id);
         ledgerRows.push(...result.rows);
-        errorRows = removeRowsForPlayer(errorRows, candidate.player_id);
         updateCandidate(candidates, candidate.player_id, {
           candidate_status: STATUS_FETCHED,
           breakdown_required: "false",
@@ -232,7 +245,6 @@ async function main() {
           breakdown_fetched: "false",
           reason: err.isBlocked ? "blocked_by_itf" : "breakdown_fetch_error",
         });
-        errorRows = removeRowsForPlayer(errorRows, candidate.player_id);
         errorRows.push({
           player_id: candidate.player_id,
           player_name: candidate.player_name,
@@ -262,4 +274,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

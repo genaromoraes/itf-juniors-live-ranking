@@ -23,6 +23,7 @@ export const EXTERNAL_CANDIDATE_COLUMNS = [
   "country",
   "official_rank",
   "official_points",
+  "ranking_date",
   "guaranteed_singles_points",
   "guaranteed_doubles_raw_points",
   "guaranteed_doubles_weighted_points",
@@ -51,6 +52,7 @@ export const LIVE_EXTERNAL_INCLUDED_COLUMNS = [
   "live_rank",
   "live_points",
   "rank_change",
+  "participated_in_final_calculation",
   "entered_top500",
   "candidate_status",
   "tournaments",
@@ -216,6 +218,16 @@ export function buildUniverseMap(universeRows) {
   return map;
 }
 
+export function getCommonUniverseRankingDate(universeRows) {
+  const counts = new Map();
+  for (const row of universeRows) {
+    const rankingDate = cleanText(row.ranking_date);
+    if (!rankingDate) continue;
+    counts.set(rankingDate, (counts.get(rankingDate) || 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+}
+
 export function calculateRankingCutoffs(rankingRows) {
   const byGender = new Map();
 
@@ -355,8 +367,10 @@ export function classifyExternalCandidates({
   baseRankingRows = [],
   existingCandidates = [],
   now = new Date().toISOString(),
+  blockedRetryMs = 6 * 60 * 60 * 1000,
 }) {
   const universe = buildUniverseMap(universeRows);
+  const commonRankingDate = getCommonUniverseRankingDate(universeRows);
   const cutoffs = calculateRankingCutoffs(baseRankingRows);
   const existingById = new Map(
     existingCandidates.map((row) => [cleanText(row.player_id), row])
@@ -368,6 +382,7 @@ export function classifyExternalCandidates({
       const official = universe.get(playerId) || {};
       const gender = normalizeGender(participant.gender || official.gender);
       const officialPoints = toNumber(official.official_points);
+      const rankingDate = cleanText(official.ranking_date) || commonRankingDate;
       const cutoff = cutoffs.get(gender) || {
         top500_cutoff_points: 0,
         investigation_cutoff_points: 0,
@@ -405,14 +420,19 @@ export function classifyExternalCandidates({
         reason = "waiting_for_breakdown";
       }
 
-      if (
-        [STATUS_FETCHED, STATUS_INCLUDED, STATUS_FETCH_ERROR, STATUS_BLOCKED].includes(
-          cleanText(previous.candidate_status)
-        ) &&
-        cleanText(previous.candidate_status) !== STATUS_FETCH_REQUIRED
-      ) {
-        candidateStatus = cleanText(previous.candidate_status);
+      const previousStatus = cleanText(previous.candidate_status);
+      const previousUpdatedAt = Date.parse(cleanText(previous.updated_at));
+      const blockedCanRetry =
+        previousStatus === STATUS_BLOCKED &&
+        (!Number.isFinite(previousUpdatedAt) ||
+          Date.parse(now) - previousUpdatedAt >= blockedRetryMs);
+
+      if ([STATUS_FETCHED, STATUS_INCLUDED].includes(previousStatus)) {
+        candidateStatus = previousStatus;
         reason = cleanText(previous.reason) || reason;
+      } else if (previousStatus === STATUS_BLOCKED && !blockedCanRetry) {
+        candidateStatus = STATUS_BLOCKED;
+        reason = cleanText(previous.reason) || "blocked_by_itf";
       }
 
       return {
@@ -422,6 +442,7 @@ export function classifyExternalCandidates({
         country: cleanText(participant.country || official.country),
         official_rank: cleanText(official.rank),
         official_points: officialPoints,
+        ranking_date: rankingDate,
         ...potential,
         guaranteed_upper_bound: guaranteedUpperBound,
         maximum_upper_bound: maximumUpperBound,
@@ -444,4 +465,3 @@ export function classifyExternalCandidates({
       return b.maximum_upper_bound - a.maximum_upper_bound;
     });
 }
-
