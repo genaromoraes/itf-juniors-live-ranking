@@ -6,6 +6,17 @@ import { stringify } from "csv-stringify/sync";
 import {
   buildResultKey as buildWeeklyLedgerResultKey,
 } from "./lib/weekly_ledger.mjs";
+import {
+  DISPLAY_LIMIT_PER_GENDER,
+  TRACKED_BASE_LIMIT_PER_GENDER,
+  TRACKED_BASE_TOTAL,
+} from "./lib/ranking_limits.mjs";
+import {
+  EXTERNAL_CANDIDATE_COLUMNS,
+  LIVE_EXTERNAL_INCLUDED_COLUMNS,
+  STATUS_FETCHED,
+  STATUS_INCLUDED,
+} from "./lib/external_candidates.mjs";
 
 const PLAYERS_FILE = path.resolve("data/clean/players.csv");
 const POINTS_LEDGER_FILE = path.resolve("data/clean/points_ledger.csv");
@@ -52,6 +63,16 @@ const LIVE_EXTERNAL_LEDGER_ROWS_IGNORED_FILE = path.join(
   "live_external_ledger_rows_ignored.csv"
 );
 
+const EXTERNAL_CANDIDATES_FILE = path.join(OUT_DIR_CLEAN, "external_candidates.csv");
+const EXTERNAL_CANDIDATE_LEDGER_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "external_candidate_ledger.csv"
+);
+const LIVE_EXTERNAL_PLAYERS_INCLUDED_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_external_players_included.csv"
+);
+
 // Regra inicial:
 // remove resultados com drop_date_calculated até o fim da semana oficial.
 // Para a semana 01/06/2026 a 07/06/2026, remove tudo com drop_date_calculated <= 2026-06-07.
@@ -74,6 +95,15 @@ async function readCsv(filePath) {
     columns: true,
     skip_empty_lines: true,
   });
+}
+
+async function readCsvIfExists(filePath) {
+  try {
+    return await readCsv(filePath);
+  } catch (err) {
+    if (err.code === "ENOENT") return [];
+    throw err;
+  }
 }
 
 async function writeCsv(filePath, rows, columns) {
@@ -210,8 +240,10 @@ export function validatePlayersBase(playersRows) {
     return acc;
   }, {});
 
-  if (playersRows.length !== 1000) {
-    errors.push(`players.csv deve conter 1000 linhas, mas possui ${playersRows.length}.`);
+  if (playersRows.length !== TRACKED_BASE_TOTAL) {
+    errors.push(
+      `players.csv deve conter ${TRACKED_BASE_TOTAL} linhas, mas possui ${playersRows.length}.`
+    );
   }
 
   if (filledIds.length !== playersRows.length) {
@@ -226,9 +258,12 @@ export function validatePlayersBase(playersRows) {
     );
   }
 
-  if ((genderCounts.M || 0) !== 500 || (genderCounts.F || 0) !== 500) {
+  if (
+    (genderCounts.M || 0) !== TRACKED_BASE_LIMIT_PER_GENDER ||
+    (genderCounts.F || 0) !== TRACKED_BASE_LIMIT_PER_GENDER
+  ) {
     errors.push(
-      `players.csv deve conter 500 M e 500 F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+      `players.csv deve conter ${TRACKED_BASE_LIMIT_PER_GENDER} M e ${TRACKED_BASE_LIMIT_PER_GENDER} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
     );
   }
 
@@ -325,6 +360,118 @@ export function buildIgnoredExternalPlayersRows(untrackedLiveRows) {
       ignore_reason: row.ignore_reason,
     }))
     .sort((a, b) => a.player_id.localeCompare(b.player_id));
+}
+
+export function getEligibleExternalCandidates(candidateRows, trackedPlayerIds) {
+  return candidateRows.filter((row) => {
+    const playerId = cleanText(row.player_id);
+    if (!playerId || trackedPlayerIds.has(playerId)) return false;
+    return [STATUS_FETCHED, STATUS_INCLUDED].includes(cleanText(row.candidate_status));
+  });
+}
+
+function buildExternalPlayerRows(candidateRows) {
+  return candidateRows.map((row) => ({
+    player_id: cleanText(row.player_id),
+    player_name: cleanText(row.player_name),
+    first_name: "",
+    last_name: "",
+    gender: normalizeGender(row.gender),
+    itf_gender_code: normalizeGender(row.gender) === "M" ? "B" : "G",
+    country: cleanText(row.country),
+    country_name: "",
+    birth_date: "",
+    birth_year: "",
+    junior_last_year: "",
+    active_junior: "",
+    profile_url: "",
+    current_rank: cleanText(row.official_rank),
+    current_points: cleanText(row.official_points),
+    first_seen_date: "",
+    last_seen_date: "",
+    raw_json: "",
+  }));
+}
+
+function buildExternalSnapshotRows(candidateRows, fallbackRankingDate) {
+  return candidateRows.map((row) => ({
+    ranking_date: fallbackRankingDate,
+    gender: normalizeGender(row.gender),
+    rank: cleanText(row.official_rank),
+    player_id: cleanText(row.player_id),
+    player_name: cleanText(row.player_name),
+    country: cleanText(row.country),
+    country_name: "",
+    birth_year: "",
+    official_points: toNumber(row.official_points),
+    source_url: "external_candidates.csv",
+    collected_at: cleanText(row.updated_at),
+  }));
+}
+
+export function splitExternalCandidateLiveRows(untrackedLiveRows, candidateRows) {
+  const candidateIds = new Set(candidateRows.map((row) => cleanText(row.player_id)));
+  const candidateLiveRows = [];
+  const ignoredRows = [];
+
+  for (const row of untrackedLiveRows) {
+    if (candidateIds.has(cleanText(row.player_id))) {
+      candidateLiveRows.push(row);
+    } else {
+      ignoredRows.push(row);
+    }
+  }
+
+  return {
+    externalCandidateLiveRows: candidateLiveRows,
+    ignoredUntrackedLiveRows: ignoredRows,
+  };
+}
+
+export function buildIncludedExternalRows(rankedRows, candidateRows) {
+  const candidateMap = new Map(
+    candidateRows.map((row) => [cleanText(row.player_id), row])
+  );
+
+  return rankedRows
+    .filter((row) => candidateMap.has(cleanText(row.player_id)))
+    .map((row) => {
+      const candidate = candidateMap.get(cleanText(row.player_id)) || {};
+      return {
+        player_id: row.player_id,
+        player_name: row.player_name,
+        gender: row.gender,
+        official_rank: row.official_rank,
+        official_points: row.official_points_for_comparison,
+        live_rank: row.live_rank,
+        live_points: row.live_points,
+        rank_change: row.rank_change_vs_official,
+        entered_top500:
+          toNumber(row.live_rank) <= DISPLAY_LIMIT_PER_GENDER ? "true" : "false",
+        candidate_status: STATUS_INCLUDED,
+        tournaments: cleanText(candidate.tournaments),
+      };
+    })
+    .sort((a, b) => {
+      if (a.gender !== b.gender) return a.gender.localeCompare(b.gender);
+      return toNumber(a.live_rank) - toNumber(b.live_rank);
+    });
+}
+
+export function markIncludedCandidates(candidateRows, includedRows) {
+  const includedIds = new Set(includedRows.map((row) => cleanText(row.player_id)));
+
+  return candidateRows.map((row) => {
+    if (!includedIds.has(cleanText(row.player_id))) return row;
+    return {
+      ...row,
+      candidate_status: STATUS_INCLUDED,
+      breakdown_required: "false",
+      breakdown_fetched: "true",
+      reason: "included_in_final_ranking",
+      updated_at: new Date().toISOString(),
+    };
+  });
 }
 
 function normalizeLedgerRow(row, sourceType) {
@@ -896,7 +1043,6 @@ async function main() {
 
   console.log("Lendo rankings_snapshot.csv...");
   const snapshotRows = await readCsv(RANKINGS_SNAPSHOT_FILE);
-  const snapshotMap = buildSnapshotMap(snapshotRows);
 
   console.log("Lendo week_tournaments.csv...");
   const weekTournamentRows = await readCsv(WEEK_TOURNAMENTS_FILE);
@@ -909,6 +1055,35 @@ async function main() {
     );
   }
 
+  console.log("Lendo candidatos externos...");
+  const candidateRows = await readCsvIfExists(EXTERNAL_CANDIDATES_FILE);
+  const externalCandidateLedgerRows = await readCsvIfExists(
+    EXTERNAL_CANDIDATE_LEDGER_FILE
+  );
+  const eligibleExternalCandidates = getEligibleExternalCandidates(
+    candidateRows,
+    trackedPlayerIds
+  );
+  const { externalCandidateLiveRows, ignoredUntrackedLiveRows } =
+    splitExternalCandidateLiveRows(untrackedLiveRows, eligibleExternalCandidates);
+
+  const externalPlayersRows = buildExternalPlayerRows(eligibleExternalCandidates);
+  const externalSnapshotRows = buildExternalSnapshotRows(
+    eligibleExternalCandidates,
+    snapshotRows[0]?.ranking_date || ""
+  );
+  const combinedPlayersRows = [...playersRows, ...externalPlayersRows];
+  const combinedSnapshotRows = [...snapshotRows, ...externalSnapshotRows];
+  const combinedBaseRows = [
+    ...trackedBaseRows,
+    ...externalCandidateLedgerRows,
+  ];
+  const combinedLiveRows = [
+    ...trackedLiveRows,
+    ...externalCandidateLiveRows,
+  ];
+  const snapshotMap = buildSnapshotMap(combinedSnapshotRows);
+
   if (untrackedBaseRows.length > 0) {
     console.warn(
       `Aviso: ${untrackedBaseRows.length} linhas historicas de jogadores fora de players.csv foram ignoradas.`
@@ -916,20 +1091,31 @@ async function main() {
   }
 
   const { activeRows, droppedRows } = mergeLedgersWithDrops(
-    trackedBaseRows,
-    trackedLiveRows,
+    combinedBaseRows,
+    combinedLiveRows,
     dropCutoffDate
   );
 
   const ranked = buildTrackedRankingRows({
-    playersRows,
+    playersRows: combinedPlayersRows,
     snapshotMap,
     activeRows,
     droppedRows,
   });
   const changes = buildChangesRows(ranked);
-  const top500 = ranked.filter((row) => toNumber(row.live_rank) <= 500);
-  const ignoredExternalPlayers = buildIgnoredExternalPlayersRows(untrackedLiveRows);
+  const top500 = ranked.filter(
+    (row) => toNumber(row.live_rank) <= DISPLAY_LIMIT_PER_GENDER
+  );
+  const ignoredExternalPlayers =
+    buildIgnoredExternalPlayersRows(ignoredUntrackedLiveRows);
+  const includedExternalPlayers = buildIncludedExternalRows(
+    ranked,
+    candidateRows
+  );
+  const nextCandidateRows = markIncludedCandidates(
+    candidateRows,
+    includedExternalPlayers
+  );
 
   await writeCsv(LIVE_COMBINED_WITH_DROPS_FILE, activeRows, [
     "player_id",
@@ -1073,9 +1259,21 @@ async function main() {
     "ignore_reason",
   ]);
   await writeCsv(
+    LIVE_EXTERNAL_PLAYERS_INCLUDED_FILE,
+    includedExternalPlayers,
+    LIVE_EXTERNAL_INCLUDED_COLUMNS
+  );
+  if (candidateRows.length > 0) {
+    await writeCsv(
+      EXTERNAL_CANDIDATES_FILE,
+      nextCandidateRows,
+      EXTERNAL_CANDIDATE_COLUMNS
+    );
+  }
+  await writeCsv(
     LIVE_EXTERNAL_LEDGER_ROWS_IGNORED_FILE,
-    untrackedLiveRows,
-    collectColumns(untrackedLiveRows, [
+    ignoredUntrackedLiveRows,
+    collectColumns(ignoredUntrackedLiveRows, [
       "player_id",
       "player_name",
       "gender",
@@ -1145,7 +1343,10 @@ async function main() {
 
   printSummary(ranked, activeRows, droppedRows, dropCutoffDate);
   console.log(
-    `Jogadores externos ignorados: ${ignoredExternalPlayers.length} | linhas live externas ignoradas: ${untrackedLiveRows.length}`
+    `Candidatos externos no ranking exibido: ${includedExternalPlayers.length}`
+  );
+  console.log(
+    `Jogadores externos ignorados: ${ignoredExternalPlayers.length} | linhas live externas ignoradas: ${ignoredUntrackedLiveRows.length}`
   );
 
   console.log("");
@@ -1155,6 +1356,7 @@ async function main() {
   console.log("data/clean/live_ranking_with_drops.csv");
   console.log("data/clean/live_ranking_with_drops_top500.csv");
   console.log("data/clean/live_ranking_with_drops_changes.csv");
+  console.log("data/clean/live_external_players_included.csv");
   console.log("data/clean/live_external_players_ignored.csv");
   console.log("data/clean/live_external_ledger_rows_ignored.csv");
 }

@@ -15,8 +15,8 @@ import {
 } from "../scripts/21_weekly_rollover.mjs";
 
 function playerRow(index) {
-  const gender = index <= 500 ? "M" : "F";
-  const rank = gender === "M" ? index : index - 500;
+  const gender = index <= 1000 ? "M" : "F";
+  const rank = gender === "M" ? index : index - 1000;
   return {
     player_id: `p${index}`,
     player_name: `Player ${index}`,
@@ -219,7 +219,7 @@ async function makeProject({
     },
   ],
   weekErrorRows = [],
-  liveRankingRows = Array.from({ length: 1000 }, (_, index) =>
+  liveRankingRows = Array.from({ length: 2000 }, (_, index) =>
     liveRankingRow(index + 1, officialDate)
   ),
   snapshotOverrides = new Map(),
@@ -227,11 +227,11 @@ async function makeProject({
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "weekly-rollover-"));
   const cleanDir = path.join(root, "data", "clean");
 
-  const players = Array.from({ length: 1000 }, (_, index) => playerRow(index + 1));
-  const snapshot = Array.from({ length: 1000 }, (_, index) =>
+  const players = Array.from({ length: 2000 }, (_, index) => playerRow(index + 1));
+  const snapshot = Array.from({ length: 2000 }, (_, index) =>
     snapshotRow(index + 1, officialDate, snapshotOverrides.get(index + 1) || {})
   );
-  const ledger = Array.from({ length: 1000 }, (_, index) => ledgerRow(index + 1));
+  const ledger = Array.from({ length: 2000 }, (_, index) => ledgerRow(index + 1));
 
   await writeCsv(path.join(cleanDir, "players.csv"), players, [
     "player_id",
@@ -490,7 +490,7 @@ describe("weekly rollover controller", () => {
     assert.equal(result.report.status, STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START);
   });
 
-  test("start without 1000 over 1000 base is blocked", async () => {
+  test("start without 2000 over 2000 base is blocked", async () => {
     const root = await makeProject({
       officialDate: "2026-06-22",
       weekStart: "2026-06-15",
@@ -508,7 +508,7 @@ describe("weekly rollover controller", () => {
         },
         { cwd: root, today: "2026-06-22" }
       ),
-      /nao reconciliou 1000\/1000/
+      /nao reconciliou 2000\/2000/
     );
   });
 });

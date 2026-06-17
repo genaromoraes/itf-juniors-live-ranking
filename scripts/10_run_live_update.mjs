@@ -39,7 +39,13 @@ const STEPS = [
     ],
   },
   {
-    name: "Calcular live ranking com drops",
+    name: "Buscar universo oficial de rankings",
+    command: "node",
+    args: ["scripts/03_fetch_rankings_universe.mjs"],
+    requiredOutputs: ["data/clean/rankings_universe.csv"],
+  },
+  {
+    name: "Calcular live ranking preliminar com drops",
     command: "node",
     args: ["scripts/08_calculate_live_ranking_with_drops.mjs"],
     requiredOutputs: [
@@ -48,6 +54,35 @@ const STEPS = [
       "data/clean/live_ranking_with_drops.csv",
       "data/clean/live_ranking_with_drops_top500.csv",
       "data/clean/live_ranking_with_drops_changes.csv",
+    ],
+  },
+  {
+    name: "Detectar candidatos externos",
+    command: "node",
+    args: ["scripts/07_detect_external_candidates.mjs"],
+    requiredOutputs: ["data/clean/external_candidates.csv"],
+  },
+  {
+    name: "Buscar breakdowns de candidatos externos",
+    command: "node",
+    args: ["scripts/07_fetch_external_candidate_breakdowns.mjs"],
+    requiredOutputs: [
+      "data/clean/external_candidates.csv",
+      "data/clean/external_candidate_ledger.csv",
+      "data/clean/external_candidate_errors.csv",
+    ],
+  },
+  {
+    name: "Calcular live ranking final com candidatos externos",
+    command: "node",
+    args: ["scripts/08_calculate_live_ranking_with_drops.mjs"],
+    requiredOutputs: [
+      "data/clean/live_combined_ledger_with_drops.csv",
+      "data/clean/live_dropped_points.csv",
+      "data/clean/live_ranking_with_drops.csv",
+      "data/clean/live_ranking_with_drops_top500.csv",
+      "data/clean/live_ranking_with_drops_changes.csv",
+      "data/clean/live_external_players_included.csv",
     ],
   },
   {

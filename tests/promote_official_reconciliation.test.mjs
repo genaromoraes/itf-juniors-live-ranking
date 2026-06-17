@@ -32,7 +32,7 @@ async function readCsv(filePath) {
 }
 
 function player(index, overrides = {}) {
-  const gender = index <= 500 ? "M" : "F";
+  const gender = index <= 1000 ? "M" : "F";
   return {
     player_id: `p${index}`,
     player_name: `Player ${index}`,
@@ -47,7 +47,7 @@ function player(index, overrides = {}) {
     junior_last_year: "2027",
     active_junior: "",
     profile_url: "",
-    current_rank: gender === "M" ? index : index - 500,
+    current_rank: gender === "M" ? index : index - 1000,
     current_points: "100",
     first_seen_date: "2026-06-08",
     last_seen_date: RANKING_DATE,
@@ -57,11 +57,11 @@ function player(index, overrides = {}) {
 }
 
 function snapshot(index, overrides = {}) {
-  const gender = index <= 500 ? "M" : "F";
+  const gender = index <= 1000 ? "M" : "F";
   return {
     ranking_date: RANKING_DATE,
     gender,
-    rank: gender === "M" ? index : index - 500,
+    rank: gender === "M" ? index : index - 1000,
     player_id: `p${index}`,
     player_name: `Player ${index}`,
     country: "BRA",
@@ -75,7 +75,7 @@ function snapshot(index, overrides = {}) {
 }
 
 function ledgerRow(index, overrides = {}) {
-  const gender = index <= 500 ? "M" : "F";
+  const gender = index <= 1000 ? "M" : "F";
   return {
     player_id: `p${index}`,
     player_name: `Player ${index}`,
@@ -110,11 +110,11 @@ function ledgerRow(index, overrides = {}) {
 function validSummary(overrides = {}) {
   return {
     ranking_date: RANKING_DATE,
-    final_total: 1000,
-    final_exact: 1000,
+    final_total: 2000,
+    final_exact: 2000,
     final_divergent: 0,
     final_missing_ledger: 0,
-    unique_ledger_players: 1000,
+    unique_ledger_players: 2000,
     ledger_players_outside_official: 0,
     breakdowns_failed: 0,
     mode_safe_for_promotion: true,
@@ -123,10 +123,10 @@ function validSummary(overrides = {}) {
 }
 
 async function writeSource(sourceDir, overrides = {}) {
-  const players = overrides.players || Array.from({ length: 1000 }, (_, i) => player(i + 1));
+  const players = overrides.players || Array.from({ length: 2000 }, (_, i) => player(i + 1));
   const snapshots =
-    overrides.snapshots || Array.from({ length: 1000 }, (_, i) => snapshot(i + 1));
-  const ledger = overrides.ledger || Array.from({ length: 1000 }, (_, i) => ledgerRow(i + 1));
+    overrides.snapshots || Array.from({ length: 2000 }, (_, i) => snapshot(i + 1));
+  const ledger = overrides.ledger || Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1));
 
   await writeCsv(path.join(sourceDir, "players.next.csv"), players, OFFICIAL_PLAYER_COLUMNS);
   await writeCsv(
@@ -165,20 +165,20 @@ async function makeProject(overrides = {}) {
   await fs.mkdir(cleanDir, { recursive: true });
 
   const oldPlayers = [
-    ...Array.from({ length: 990 }, (_, i) => player(i + 1)),
+    ...Array.from({ length: 1990 }, (_, i) => player(i + 1)),
     ...Array.from({ length: 10 }, (_, i) =>
-      player(i + 991, { player_id: `old${i + 1}`, player_name: `Old ${i + 1}` })
+      player(i + 1991, { player_id: `old${i + 1}`, player_name: `Old ${i + 1}` })
     ),
   ];
   const oldSnapshot = oldPlayers.map((row, index) => ({
-    ...snapshot(Math.min(index + 1, 1000)),
+    ...snapshot(Math.min(index + 1, 2000)),
     ranking_date: "2026-06-08",
     player_id: row.player_id,
     player_name: row.player_name,
-    rank: row.gender === "M" ? (index % 500) + 1 : (index % 500) + 1,
+    rank: (index % 1000) + 1,
   }));
   const oldLedger = oldPlayers.map((row, index) =>
-    ledgerRow(Math.min(index + 1, 1000), {
+    ledgerRow(Math.min(index + 1, 2000), {
       player_id: row.player_id,
       player_name: row.player_name,
       tournament_name: `Old Tournament ${index + 1}`,
@@ -240,12 +240,12 @@ describe("official reconciliation promotion", () => {
 
     await assert.rejects(
       runPromotion({ sourceDir, rankingDate: RANKING_DATE, mode: "dry-run" }, { cwd: root }),
-      /1000 linhas/
+      /2000 linhas/
     );
   });
 
   test("duplicate identity blocks promotion", async () => {
-    const ledger = Array.from({ length: 1000 }, (_, i) => ledgerRow(i + 1));
+    const ledger = Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1));
     ledger[1] = { ...ledger[0] };
     const { root, sourceDir } = await makeProject({ ledger });
 
@@ -256,7 +256,7 @@ describe("official reconciliation promotion", () => {
   });
 
   test("external player blocks promotion", async () => {
-    const ledger = Array.from({ length: 1000 }, (_, i) => ledgerRow(i + 1));
+    const ledger = Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1));
     ledger[0] = ledgerRow(1, { player_id: "external" });
     const { root, sourceDir } = await makeProject({ ledger });
 
@@ -267,7 +267,7 @@ describe("official reconciliation promotion", () => {
   });
 
   test("is_live true blocks promotion", async () => {
-    const ledger = Array.from({ length: 1000 }, (_, i) => ledgerRow(i + 1));
+    const ledger = Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1));
     ledger[0] = ledgerRow(1, { is_live: "true" });
     const { root, sourceDir } = await makeProject({ ledger });
 
@@ -299,7 +299,7 @@ describe("official reconciliation promotion", () => {
 
     assert.equal(result.report.promotion_completed, true);
     assert.ok(await fs.stat(path.join(result.report.backup_dir, "backup_manifest.json")));
-    assert.equal((await readCsv(path.join(root, "data/clean/players.csv"))).length, 1000);
+    assert.equal((await readCsv(path.join(root, "data/clean/players.csv"))).length, 2000);
     assert.equal(
       (await readCsv(path.join(root, "data/clean/rankings_snapshot.csv")))[0].ranking_date,
       RANKING_DATE
@@ -349,11 +349,11 @@ describe("official reconciliation promotion", () => {
   test("final ranking_date is validated", () => {
     const validation = validateSourceRows({
       summary: validSummary(),
-      playersRows: Array.from({ length: 1000 }, (_, i) => player(i + 1)),
-      snapshotRows: Array.from({ length: 1000 }, (_, i) =>
+      playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
+      snapshotRows: Array.from({ length: 2000 }, (_, i) =>
         snapshot(i + 1, i === 0 ? { ranking_date: "2026-06-08" } : {})
       ),
-      ledgerRows: Array.from({ length: 1000 }, (_, i) => ledgerRow(i + 1)),
+      ledgerRows: Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1)),
       rankingDate: RANKING_DATE,
     });
 

@@ -19,6 +19,11 @@ import {
   buildTrackedRankingRows,
   mergeLedgersWithDrops,
 } from "./08_calculate_live_ranking_with_drops.mjs";
+import {
+  DISPLAY_LIMIT_PER_GENDER,
+  TRACKED_BASE_LIMIT_PER_GENDER,
+  TRACKED_BASE_TOTAL,
+} from "./lib/ranking_limits.mjs";
 
 const ACTION_STATUS = "status";
 const ACTION_CLOSE = "close";
@@ -290,6 +295,13 @@ export function resolvePaths(cwd = process.cwd()) {
       cleanDir,
       "live_external_ledger_rows_ignored.csv"
     ),
+    externalCandidates: path.join(cleanDir, "external_candidates.csv"),
+    externalCandidateLedger: path.join(cleanDir, "external_candidate_ledger.csv"),
+    externalCandidateErrors: path.join(cleanDir, "external_candidate_errors.csv"),
+    liveExternalPlayersIncluded: path.join(
+      cleanDir,
+      "live_external_players_included.csv"
+    ),
     html: path.join(exportsDir, "live_ranking.html"),
     auditSummary: path.join(auditDir, "player_audit_summary.csv"),
     lastOperation: path.join(stagingDir, "last_operation.json"),
@@ -358,15 +370,18 @@ function validatePlayersBase(playersRows) {
   }, {});
   const errors = [];
 
-  if (playersRows.length !== 1000) {
+  if (playersRows.length !== TRACKED_BASE_TOTAL) {
     errors.push(`players.csv possui ${playersRows.length} linhas.`);
   }
   if (uniqueIds.size !== playersRows.length) {
     errors.push("players.csv possui IDs vazios ou duplicados.");
   }
-  if ((genderCounts.M || 0) !== 500 || (genderCounts.F || 0) !== 500) {
+  if (
+    (genderCounts.M || 0) !== TRACKED_BASE_LIMIT_PER_GENDER ||
+    (genderCounts.F || 0) !== TRACKED_BASE_LIMIT_PER_GENDER
+  ) {
     errors.push(
-      `players.csv precisa ter 500 M e 500 F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+      `players.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} M e ${TRACKED_BASE_LIMIT_PER_GENDER} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
     );
   }
 
@@ -387,7 +402,7 @@ function validateLedgerBase(ledgerRows, trackedPlayerIds) {
   if (ledgerRows.length === 0) {
     errors.push("points_ledger.csv esta vazio.");
   }
-  if (playerIds.size !== 1000) {
+  if (playerIds.size !== TRACKED_BASE_TOTAL) {
     errors.push(`points_ledger.csv possui ${playerIds.size} jogadores unicos.`);
   }
   if ([...playerIds].some((playerId) => !trackedPlayerIds.has(playerId))) {
@@ -416,19 +431,19 @@ function validateLiveRanking(rankingRows, trackedPlayerIds) {
   );
   const errors = [];
 
-  if (rankingRows.length !== 1000) {
+  if (rankingRows.length < TRACKED_BASE_TOTAL) {
     errors.push(`live_ranking_with_drops.csv possui ${rankingRows.length} linhas.`);
   }
   if (uniqueIds.size !== rankingRows.length) {
     errors.push("Ranking live possui IDs vazios ou duplicados.");
   }
-  if ((genderCounts.M || 0) !== 500 || (genderCounts.F || 0) !== 500) {
+  if (
+    (genderCounts.M || 0) < TRACKED_BASE_LIMIT_PER_GENDER ||
+    (genderCounts.F || 0) < TRACKED_BASE_LIMIT_PER_GENDER
+  ) {
     errors.push(
-      `Ranking live precisa ter 500 M e 500 F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+      `Ranking live precisa ter ao menos ${TRACKED_BASE_LIMIT_PER_GENDER} M e ${TRACKED_BASE_LIMIT_PER_GENDER} F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
     );
-  }
-  if (externalRows.length > 0) {
-    errors.push(`Ranking live possui ${externalRows.length} jogadores externos.`);
   }
 
   return {
@@ -869,7 +884,9 @@ async function runInitialLiveCalculation(paths, weekEnd) {
     activeRows,
     droppedRows,
   });
-  const top500Rows = rankingRows.filter((row) => toNumber(row.live_rank) <= 500);
+  const top500Rows = rankingRows.filter(
+    (row) => toNumber(row.live_rank) <= DISPLAY_LIMIT_PER_GENDER
+  );
   const changesRows = rankingRows.filter(
     (row) =>
       cleanText(row.has_live_result) === "true" ||
@@ -902,6 +919,44 @@ async function runInitialLiveCalculation(paths, weekEnd) {
     "ignore_reason",
   ]);
   await writeCsv(paths.liveExternalLedgerIgnored, [], WEEK_LIVE_LEDGER_COLUMNS);
+  await writeCsv(paths.externalCandidates, [], [
+    "player_id",
+    "player_name",
+    "gender",
+    "country",
+    "official_rank",
+    "official_points",
+    "guaranteed_upper_bound",
+    "maximum_upper_bound",
+    "top500_cutoff_points",
+    "investigation_cutoff_points",
+    "candidate_status",
+    "breakdown_required",
+    "breakdown_fetched",
+    "reason",
+    "updated_at",
+  ]);
+  await writeCsv(paths.externalCandidateLedger, [], LEDGER_COLUMNS);
+  await writeCsv(paths.externalCandidateErrors, [], [
+    "player_id",
+    "player_name",
+    "candidate_status",
+    "error_message",
+    "updated_at",
+  ]);
+  await writeCsv(paths.liveExternalPlayersIncluded, [], [
+    "player_id",
+    "player_name",
+    "gender",
+    "official_rank",
+    "official_points",
+    "live_rank",
+    "live_points",
+    "rank_change",
+    "entered_top500",
+    "candidate_status",
+    "tournaments",
+  ]);
 }
 
 export async function runStatusAction({ facts }) {
@@ -1063,7 +1118,7 @@ export async function runStartAction({ args, facts, runNodeScript }) {
 
   if (!reconciliation.valid) {
     errors.push(
-      `A base oficial nao reconciliou 1000/1000 (${reconciliation.exact}/${reconciliation.total}).`
+      `A base oficial nao reconciliou ${TRACKED_BASE_TOTAL}/${TRACKED_BASE_TOTAL} (${reconciliation.exact}/${reconciliation.total}).`
     );
   }
   if (
