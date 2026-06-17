@@ -2346,11 +2346,6 @@ td:nth-child(7) {
       </div>
 
       <div class="filter">
-        <label>Última atualização (UTC-3)</label>
-        <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
-      </div>
-
-      <div class="filter">
         <label>Categoria</label>
         <select id="genderFilter">
           <option value="M" selected>Masculino</option>
@@ -2373,6 +2368,11 @@ td:nth-child(7) {
           <span class="toggle-track"></span>
           <span>Jogando</span>
         </label>
+      </div>
+
+      <div class="filter">
+        <label>Última atualização (UTC-3)</label>
+        <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
     </section>
 
