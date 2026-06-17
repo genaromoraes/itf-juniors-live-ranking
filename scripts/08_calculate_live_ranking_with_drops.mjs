@@ -1,8 +1,13 @@
 import fs from "fs/promises";
 import path from "path";
+import { pathToFileURL } from "url";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import {
+  buildResultKey as buildWeeklyLedgerResultKey,
+} from "./lib/weekly_ledger.mjs";
 
+const PLAYERS_FILE = path.resolve("data/clean/players.csv");
 const POINTS_LEDGER_FILE = path.resolve("data/clean/points_ledger.csv");
 const WEEK_LIVE_LEDGER_FILE = path.resolve(
   "data/clean/week_live_ledger_rows.csv"
@@ -35,6 +40,16 @@ const LIVE_RANKING_WITH_DROPS_TOP500_FILE = path.join(
 const LIVE_RANKING_WITH_DROPS_CHANGES_FILE = path.join(
   OUT_DIR_CLEAN,
   "live_ranking_with_drops_changes.csv"
+);
+
+const LIVE_EXTERNAL_PLAYERS_IGNORED_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_external_players_ignored.csv"
+);
+
+const LIVE_EXTERNAL_LEDGER_ROWS_IGNORED_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_external_ledger_rows_ignored.csv"
 );
 
 // Regra inicial:
@@ -163,6 +178,155 @@ function buildSnapshotMap(snapshotRows) {
   return map;
 }
 
+function buildPlayersMap(playersRows) {
+  const map = new Map();
+
+  for (const row of playersRows) {
+    const playerId = cleanText(row.player_id);
+
+    if (!playerId) continue;
+
+    map.set(playerId, {
+      player_id: playerId,
+      player_name: cleanText(row.player_name),
+      gender: normalizeGender(row.gender),
+      country: cleanText(row.country),
+      country_name: cleanText(row.country_name),
+      birth_year: cleanText(row.birth_year),
+    });
+  }
+
+  return map;
+}
+
+export function validatePlayersBase(playersRows) {
+  const errors = [];
+  const ids = playersRows.map((row) => cleanText(row.player_id));
+  const filledIds = ids.filter(Boolean);
+  const trackedPlayerIds = new Set(filledIds);
+  const genderCounts = playersRows.reduce((acc, row) => {
+    const gender = normalizeGender(row.gender);
+    acc[gender] = (acc[gender] || 0) + 1;
+    return acc;
+  }, {});
+
+  if (playersRows.length !== 1000) {
+    errors.push(`players.csv deve conter 1000 linhas, mas possui ${playersRows.length}.`);
+  }
+
+  if (filledIds.length !== playersRows.length) {
+    errors.push(
+      `players.csv possui ${playersRows.length - filledIds.length} player_id vazios.`
+    );
+  }
+
+  if (trackedPlayerIds.size !== playersRows.length) {
+    errors.push(
+      `players.csv possui ${playersRows.length - trackedPlayerIds.size} player_id duplicados.`
+    );
+  }
+
+  if ((genderCounts.M || 0) !== 500 || (genderCounts.F || 0) !== 500) {
+    errors.push(
+      `players.csv deve conter 500 M e 500 F, mas possui M=${genderCounts.M || 0} e F=${genderCounts.F || 0}.`
+    );
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    trackedPlayerIds,
+    genderCounts,
+  };
+}
+
+export function splitRowsByTrackedPlayerIds(rows, trackedPlayerIds) {
+  const trackedRows = [];
+  const untrackedRows = [];
+
+  for (const row of rows) {
+    const playerId = cleanText(row.player_id);
+
+    if (playerId && trackedPlayerIds.has(playerId)) {
+      trackedRows.push(row);
+    } else {
+      untrackedRows.push(row);
+    }
+  }
+
+  return {
+    trackedRows,
+    untrackedRows,
+  };
+}
+
+function collectColumns(rows, preferredColumns = []) {
+  const extraColumns = new Set();
+
+  for (const row of rows) {
+    for (const key of Object.keys(row)) {
+      if (!preferredColumns.includes(key)) {
+        extraColumns.add(key);
+      }
+    }
+  }
+
+  return [...preferredColumns, ...extraColumns];
+}
+
+export function buildIgnoredExternalPlayersRows(untrackedLiveRows) {
+  const byPlayer = new Map();
+
+  for (const row of untrackedLiveRows) {
+    const playerId = cleanText(row.player_id);
+
+    if (!playerId) continue;
+
+    if (!byPlayer.has(playerId)) {
+      byPlayer.set(playerId, {
+        player_id: playerId,
+        player_name: cleanText(row.player_name),
+        gender: normalizeGender(row.gender),
+        country: cleanText(row.country),
+        week_rows: 0,
+        singles_rows: 0,
+        doubles_rows: 0,
+        raw_live_points: 0,
+        tournaments: new Set(),
+        ignore_reason: "player_not_in_official_base",
+      });
+    }
+
+    const item = byPlayer.get(playerId);
+    const eventType = normalizeEventType(row.event_type);
+
+    item.week_rows += 1;
+    item.raw_live_points += toNumber(row.points);
+
+    if (eventType === "singles") item.singles_rows += 1;
+    if (eventType === "doubles") item.doubles_rows += 1;
+
+    if (cleanText(row.tournament_name)) {
+      item.tournaments.add(cleanText(row.tournament_name));
+    }
+  }
+
+  return [...byPlayer.values()]
+    .map((row) => ({
+      player_id: row.player_id,
+      player_name: row.player_name,
+      gender: row.gender,
+      country: row.country,
+      week_rows: row.week_rows,
+      singles_rows: row.singles_rows,
+      doubles_rows: row.doubles_rows,
+      raw_live_points: Number(row.raw_live_points.toFixed(2)),
+      tournaments: [...row.tournaments].sort((a, b) => a.localeCompare(b)).join(" | "),
+      ignore_reason: row.ignore_reason,
+    }))
+    .sort((a, b) => a.player_id.localeCompare(b.player_id));
+}
+
 function normalizeLedgerRow(row, sourceType) {
   return {
     player_id: cleanText(row.player_id),
@@ -212,22 +376,18 @@ function isDropped(row, dropCutoffDate) {
   return dropDate <= dropCutoffDate;
 }
 
-function buildResultKey(row) {
-  return [
-    row.player_id,
-    row.gender,
-    row.event_type,
-    row.tournament_name,
-    row.category,
-    row.draw_type,
-    row.start_date,
-    row.round,
-    row.points,
-    row.source_type,
-  ].join("|");
+export function buildResultKey(row) {
+  return buildWeeklyLedgerResultKey({
+    player_id: cleanText(row.player_id),
+    event_type: normalizeEventType(row.event_type),
+    tournament_name: cleanText(row.tournament_name),
+    category: cleanText(row.category),
+    draw_type: cleanText(row.draw_type),
+    start_date: cleanText(row.start_date),
+  });
 }
 
-function mergeLedgersWithDrops(baseRows, liveRows, dropCutoffDate) {
+export function mergeLedgersWithDrops(baseRows, liveRows, dropCutoffDate) {
   const activeRows = [];
   const droppedRows = [];
 
@@ -257,20 +417,25 @@ function mergeLedgersWithDrops(baseRows, liveRows, dropCutoffDate) {
     activeRows.push(normalized);
   }
 
-  const deduped = [];
-  const seen = new Set();
+  const dedupedByKey = new Map();
 
   for (const row of activeRows) {
     const key = buildResultKey(row);
 
-    if (seen.has(key)) continue;
+    if (!dedupedByKey.has(key)) {
+      dedupedByKey.set(key, row);
+      continue;
+    }
 
-    seen.add(key);
-    deduped.push(row);
+    const previous = dedupedByKey.get(key);
+
+    if (previous.source_type !== "live" && row.source_type === "live") {
+      dedupedByKey.set(key, row);
+    }
   }
 
   return {
-    activeRows: deduped,
+    activeRows: [...dedupedByKey.values()],
     droppedRows,
   };
 }
@@ -293,17 +458,20 @@ function groupRowsByPlayer(rows) {
   return map;
 }
 
-function getPlayerBaseInfo(rows, snapshotMap) {
+function getPlayerBaseInfo(playerId, rows, playersMap, snapshotMap) {
   const first = rows[0] || {};
-  const snapshot = snapshotMap.get(first.player_id) || {};
+  const player = playersMap.get(playerId) || {};
+  const snapshot = snapshotMap.get(playerId) || {};
 
   return {
-    player_id: cleanText(first.player_id),
-    player_name: cleanText(snapshot.player_name || first.player_name),
-    gender: normalizeGender(snapshot.gender || first.gender),
-    country: cleanText(snapshot.country || first.country),
-    country_name: cleanText(snapshot.country_name || first.country_name),
-    birth_year: cleanText(snapshot.birth_year || first.birth_year),
+    player_id: playerId,
+    player_name: cleanText(snapshot.player_name || player.player_name || first.player_name),
+    gender: normalizeGender(snapshot.gender || player.gender || first.gender),
+    country: cleanText(snapshot.country || player.country || first.country),
+    country_name: cleanText(
+      snapshot.country_name || player.country_name || first.country_name
+    ),
+    birth_year: cleanText(snapshot.birth_year || player.birth_year || first.birth_year),
 
     official_rank: snapshot.official_rank || "",
     official_points: snapshot.official_points || "",
@@ -425,8 +593,14 @@ function calculateDroppedStatsForPlayer(playerId, droppedRows) {
   };
 }
 
-function calculatePlayerLiveRanking(rows, snapshotMap, droppedRows) {
-  const base = getPlayerBaseInfo(rows, snapshotMap);
+export function calculatePlayerLiveRanking(
+  playerId,
+  rows,
+  playersMap,
+  snapshotMap,
+  droppedRows
+) {
+  const base = getPlayerBaseInfo(playerId, rows, playersMap, snapshotMap);
 
   const singles = rows.filter((row) => row.event_type === "singles");
   const doubles = rows.filter((row) => row.event_type === "doubles");
@@ -513,6 +687,35 @@ function calculatePlayerLiveRanking(rows, snapshotMap, droppedRows) {
 
     calculated_at: new Date().toISOString(),
   };
+}
+
+export function buildTrackedRankingRows({
+  playersRows,
+  snapshotMap,
+  activeRows,
+  droppedRows,
+}) {
+  const playersMap = buildPlayersMap(playersRows);
+  const grouped = groupRowsByPlayer(activeRows);
+  const calculated = [];
+
+  for (const playerRow of playersRows) {
+    const playerId = cleanText(playerRow.player_id);
+
+    if (!playerId) continue;
+
+    calculated.push(
+      calculatePlayerLiveRanking(
+        playerId,
+        grouped.get(playerId) || [],
+        playersMap,
+        snapshotMap,
+        droppedRows
+      )
+    );
+  }
+
+  return assignLiveRanks(calculated);
 }
 
 function assignLiveRanks(rows) {
@@ -666,11 +869,30 @@ async function main() {
   await ensureDirs();
 
   console.log("");
+  console.log("Lendo players.csv...");
+  const playersRows = await readCsv(PLAYERS_FILE);
+  const playersValidation = validatePlayersBase(playersRows);
+
+  if (!playersValidation.isValid) {
+    throw new Error(playersValidation.errors.join(" "));
+  }
+
+  const trackedPlayerIds = playersValidation.trackedPlayerIds;
+
+  console.log("");
   console.log("Lendo points_ledger.csv...");
   const baseLedgerRows = await readCsv(POINTS_LEDGER_FILE);
+  const {
+    trackedRows: trackedBaseRows,
+    untrackedRows: untrackedBaseRows,
+  } = splitRowsByTrackedPlayerIds(baseLedgerRows, trackedPlayerIds);
 
   console.log("Lendo week_live_ledger_rows.csv...");
   const liveLedgerRows = await readCsv(WEEK_LIVE_LEDGER_FILE);
+  const {
+    trackedRows: trackedLiveRows,
+    untrackedRows: untrackedLiveRows,
+  } = splitRowsByTrackedPlayerIds(liveLedgerRows, trackedPlayerIds);
 
   console.log("Lendo rankings_snapshot.csv...");
   const snapshotRows = await readCsv(RANKINGS_SNAPSHOT_FILE);
@@ -687,23 +909,27 @@ async function main() {
     );
   }
 
+  if (untrackedBaseRows.length > 0) {
+    console.warn(
+      `Aviso: ${untrackedBaseRows.length} linhas historicas de jogadores fora de players.csv foram ignoradas.`
+    );
+  }
+
   const { activeRows, droppedRows } = mergeLedgersWithDrops(
-    baseLedgerRows,
-    liveLedgerRows,
+    trackedBaseRows,
+    trackedLiveRows,
     dropCutoffDate
   );
 
-  const grouped = groupRowsByPlayer(activeRows);
-
-  const calculated = [];
-
-  for (const rows of grouped.values()) {
-    calculated.push(calculatePlayerLiveRanking(rows, snapshotMap, droppedRows));
-  }
-
-  const ranked = assignLiveRanks(calculated);
+  const ranked = buildTrackedRankingRows({
+    playersRows,
+    snapshotMap,
+    activeRows,
+    droppedRows,
+  });
   const changes = buildChangesRows(ranked);
   const top500 = ranked.filter((row) => toNumber(row.live_rank) <= 500);
+  const ignoredExternalPlayers = buildIgnoredExternalPlayersRows(untrackedLiveRows);
 
   await writeCsv(LIVE_COMBINED_WITH_DROPS_FILE, activeRows, [
     "player_id",
@@ -834,6 +1060,50 @@ async function main() {
 
   await writeCsv(LIVE_RANKING_WITH_DROPS_FILE, ranked, liveRankingColumns);
   await writeCsv(LIVE_RANKING_WITH_DROPS_TOP500_FILE, top500, liveRankingColumns);
+  await writeCsv(LIVE_EXTERNAL_PLAYERS_IGNORED_FILE, ignoredExternalPlayers, [
+    "player_id",
+    "player_name",
+    "gender",
+    "country",
+    "week_rows",
+    "singles_rows",
+    "doubles_rows",
+    "raw_live_points",
+    "tournaments",
+    "ignore_reason",
+  ]);
+  await writeCsv(
+    LIVE_EXTERNAL_LEDGER_ROWS_IGNORED_FILE,
+    untrackedLiveRows,
+    collectColumns(untrackedLiveRows, [
+      "player_id",
+      "player_name",
+      "gender",
+      "country",
+      "country_name",
+      "birth_year",
+      "event_type",
+      "countable_status",
+      "tournament_name",
+      "category",
+      "draw_type",
+      "host_nation",
+      "host_nation_code",
+      "surface",
+      "surface_code",
+      "start_date",
+      "drop_date_calculated",
+      "round",
+      "points",
+      "tournament_link",
+      "is_countable_at_collection",
+      "is_live",
+      "status",
+      "source_url",
+      "collected_at",
+      "raw_json",
+    ])
+  );
 
   await writeCsv(LIVE_RANKING_WITH_DROPS_CHANGES_FILE, changes, [
     "player_id",
@@ -874,6 +1144,9 @@ async function main() {
   ]);
 
   printSummary(ranked, activeRows, droppedRows, dropCutoffDate);
+  console.log(
+    `Jogadores externos ignorados: ${ignoredExternalPlayers.length} | linhas live externas ignoradas: ${untrackedLiveRows.length}`
+  );
 
   console.log("");
   console.log("Arquivos gerados:");
@@ -882,11 +1155,15 @@ async function main() {
   console.log("data/clean/live_ranking_with_drops.csv");
   console.log("data/clean/live_ranking_with_drops_top500.csv");
   console.log("data/clean/live_ranking_with_drops_changes.csv");
+  console.log("data/clean/live_external_players_ignored.csv");
+  console.log("data/clean/live_external_ledger_rows_ignored.csv");
 }
 
-main().catch((err) => {
-  console.error("");
-  console.error("Erro fatal:");
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error("");
+    console.error("Erro fatal:");
+    console.error(err);
+    process.exit(1);
+  });
+}
