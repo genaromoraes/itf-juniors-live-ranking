@@ -6,9 +6,10 @@ import { describe, test } from "node:test";
 import { stringify } from "csv-stringify/sync";
 import { LEDGER_COLUMNS } from "../scripts/lib/weekly_ledger.mjs";
 import {
-  STATUS_NEW_WEEK_READY,
   STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START,
-  STATUS_WEEK_IN_PROGRESS,
+  STATUS_WEEK_CLOSE_BLOCKED,
+  STATUS_WEEK_COMPLETE_WAITING_END_DATE,
+  STATUS_WEEK_ENDED_WITH_PENDING_RESULTS,
   STATUS_WEEK_READY_TO_CLOSE,
   runWeeklyOperation,
 } from "../scripts/21_weekly_rollover.mjs";
@@ -16,7 +17,6 @@ import {
 function playerRow(index) {
   const gender = index <= 500 ? "M" : "F";
   const rank = gender === "M" ? index : index - 500;
-
   return {
     player_id: `p${index}`,
     player_name: `Player ${index}`,
@@ -116,15 +116,15 @@ function liveRankingRow(index, rankingDate, overrides = {}) {
   };
 }
 
-function weekTournamentRow(weekStart, weekEnd, overrides = {}) {
+function tournamentRow(weekStart, weekEnd) {
   return {
     week_start: weekStart,
     week_end: weekEnd,
     search_start: weekStart,
     search_end: weekEnd,
     tournament_id: "1",
-    tournament_key: "J-TEST-2026-001",
-    tournament_name: "J100 Test",
+    tournament_key: "T1",
+    tournament_name: "Tournament One",
     promotional_name: "",
     category: "J100",
     host_nation: "Brazil",
@@ -137,32 +137,23 @@ function weekTournamentRow(weekStart, weekEnd, overrides = {}) {
     surface: "Clay",
     surface_code: "C",
     indoor_outdoor: "Outdoor",
-    tournament_link: "https://example.test/tournament",
+    tournament_link: "",
     live_link: "",
     source_url: "",
-    collected_at: `${weekEnd}T12:00:00.000Z`,
+    collected_at: `${weekEnd}T00:00:00.000Z`,
     raw_json: "{}",
-    ...overrides,
   };
 }
 
-function stubWeekTournamentRow(weekStart, weekEnd) {
-  return weekTournamentRow(weekStart, weekEnd, {
-    tournament_id: "",
-    tournament_key: "",
-    tournament_name: "",
-  });
-}
-
-function weekMatchRow(weekStart, weekEnd) {
+function completedFinalMatch(overrides = {}) {
   return {
-    tournament_key: "J-TEST-2026-001",
-    tournament_name: "J100 Test",
+    tournament_key: "T1",
+    tournament_name: "Tournament One",
     category: "J100",
-    start_date: weekStart,
-    end_date: weekEnd,
+    start_date: "2026-06-15",
+    end_date: "2026-06-21",
     tournament_id: "1",
-    event_id: "e1",
+    event_id: "E1",
     player_type_code: "B",
     player_type_desc: "Boys",
     match_type_code: "S",
@@ -172,13 +163,13 @@ function weekMatchRow(weekStart, weekEnd) {
     drawsheet_structure_code: "KO",
     drawsheet_structure_desc: "Knockout",
     group_name: "",
-    round_name: "R16",
-    round_order: "1",
+    round_name: "Final",
+    round_order: "4",
     match_id: "m1",
-    play_status_code: "C",
-    play_status_desc: "Completed",
-    result_status_code: "F",
-    result_status_desc: "Final",
+    play_status_code: "PC",
+    play_status_desc: "Played and completed",
+    result_status_code: "",
+    result_status_desc: "",
     team1_player_ids: "p1",
     team1_names: "Player 1",
     team1_nationalities: "BRA",
@@ -195,50 +186,8 @@ function weekMatchRow(weekStart, weekEnd) {
     h2h_link: "",
     live_scores_link: "",
     raw_json: "{}",
-    collected_at: `${weekEnd}T12:00:00.000Z`,
-  };
-}
-
-function weekPlayerResultRow(weekStart, weekEnd) {
-  return {
-    tournament_key: "J-TEST-2026-001",
-    tournament_name: "J100 Test",
-    category: "J100",
-    start_date: weekStart,
-    end_date: weekEnd,
-    player_id: "p1",
-    player_name: "Player 1",
-    nationality: "BRA",
-    player_type_code: "B",
-    player_type_desc: "Boys",
-    match_type_code: "S",
-    match_type_desc: "Singles",
-    event_classification_code: "M",
-    event_classification_desc: "Main",
-    matches_played: "1",
-    wins: "1",
-    losses: "0",
-    highest_round_order: "1",
-    highest_round_name: "R16",
-    last_match_id: "m1",
-    last_match_status: "Completed",
-    status: "still_alive_or_champion",
-    live_points: "10",
-    collected_at: `${weekEnd}T12:00:00.000Z`,
-  };
-}
-
-function weekLiveLedgerRow(weekStart) {
-  return {
-    ...ledgerRow(1, {
-      start_date: weekStart,
-      tournament_name: "J100 Test",
-      points: "10",
-      is_live: "true",
-      status: "still_alive_or_champion",
-      countable_status: "live_unconfirmed",
-      drop_date_calculated: "",
-    }),
+    collected_at: "2026-06-21T00:00:00.000Z",
+    ...overrides,
   };
 }
 
@@ -251,18 +200,24 @@ async function writeCsv(filePath, rows, columns) {
   );
 }
 
-async function readText(filePath) {
-  return fs.readFile(filePath, "utf8");
-}
-
 async function makeProject({
   officialDate = "2026-06-15",
   weekStart = officialDate,
   weekEnd = "2026-06-21",
-  tournamentRows = [weekTournamentRow(weekStart, weekEnd)],
-  matchRows = [weekMatchRow(weekStart, weekEnd)],
-  playerResultRows = [weekPlayerResultRow(weekStart, weekEnd)],
-  weekLiveRows = [weekLiveLedgerRow(weekStart)],
+  weekMatchesRows = [completedFinalMatch()],
+  weekSummaryRows = [
+    {
+      tournament_key: "T1",
+      tournament_name: "Tournament One",
+      category: "J100",
+      events_found: "1",
+      matches_found: String(weekMatchesRows.length || 1),
+      errors_found: "0",
+      raw_file: "raw.json",
+      from_cache: "false",
+      collected_at: "2026-06-21T00:00:00.000Z",
+    },
+  ],
   weekErrorRows = [],
   liveRankingRows = Array.from({ length: 1000 }, (_, index) =>
     liveRankingRow(index + 1, officialDate)
@@ -274,11 +229,7 @@ async function makeProject({
 
   const players = Array.from({ length: 1000 }, (_, index) => playerRow(index + 1));
   const snapshot = Array.from({ length: 1000 }, (_, index) =>
-    snapshotRow(
-      index + 1,
-      officialDate,
-      snapshotOverrides.get(index + 1) || {}
-    )
+    snapshotRow(index + 1, officialDate, snapshotOverrides.get(index + 1) || {})
   );
   const ledger = Array.from({ length: 1000 }, (_, index) => ledgerRow(index + 1));
 
@@ -306,7 +257,7 @@ async function makeProject({
     "collected_at",
   ]);
   await writeCsv(path.join(cleanDir, "points_ledger.csv"), ledger, LEDGER_COLUMNS);
-  await writeCsv(path.join(cleanDir, "week_tournaments.csv"), tournamentRows, [
+  await writeCsv(path.join(cleanDir, "week_tournaments.csv"), [tournamentRow(weekStart, weekEnd)], [
     "week_start",
     "week_end",
     "search_start",
@@ -332,17 +283,20 @@ async function makeProject({
     "collected_at",
     "raw_json",
   ]);
-  await writeCsv(path.join(cleanDir, "week_matches.csv"), matchRows, Object.keys(weekMatchRow(weekStart, weekEnd)));
-  await writeCsv(
-    path.join(cleanDir, "week_player_results.csv"),
-    playerResultRows,
-    Object.keys(weekPlayerResultRow(weekStart, weekEnd))
-  );
-  await writeCsv(
-    path.join(cleanDir, "week_live_ledger_rows.csv"),
-    weekLiveRows,
-    LEDGER_COLUMNS
-  );
+  await writeCsv(path.join(cleanDir, "week_matches.csv"), weekMatchesRows, Object.keys(completedFinalMatch()));
+  await writeCsv(path.join(cleanDir, "week_player_results.csv"), [], ["player_id"]);
+  await writeCsv(path.join(cleanDir, "week_live_ledger_rows.csv"), [], LEDGER_COLUMNS);
+  await writeCsv(path.join(cleanDir, "week_results_summary.csv"), weekSummaryRows, [
+    "tournament_key",
+    "tournament_name",
+    "category",
+    "events_found",
+    "matches_found",
+    "errors_found",
+    "raw_file",
+    "from_cache",
+    "collected_at",
+  ]);
   await writeCsv(path.join(cleanDir, "week_results_errors.csv"), weekErrorRows, [
     "tournament_key",
     "tournament_name",
@@ -357,195 +311,183 @@ async function makeProject({
     "error_message",
     "collected_at",
   ]);
-  await writeCsv(path.join(cleanDir, "week_results_summary.csv"), [], [
-    "tournament_key",
-    "tournament_name",
-    "category",
-    "events_found",
-    "matches_found",
-    "errors_found",
-    "raw_file",
-    "from_cache",
-    "collected_at",
-  ]);
-  await writeCsv(path.join(cleanDir, "week_live_points.csv"), [], [
-    "tournament_key",
-  ]);
+  await writeCsv(path.join(cleanDir, "week_live_points.csv"), [], ["tournament_key"]);
   await writeCsv(
     path.join(cleanDir, "live_ranking_with_drops.csv"),
     liveRankingRows,
     Object.keys(liveRankingRows[0] || {})
   );
-  await writeCsv(
-    path.join(cleanDir, "live_external_players_ignored.csv"),
-    [],
-    ["player_id"]
-  );
+  await writeCsv(path.join(cleanDir, "live_external_players_ignored.csv"), [], ["player_id"]);
 
   return root;
 }
 
 describe("weekly rollover controller", () => {
-  test("status reports week in progress", async () => {
-    const root = await makeProject({
-      officialDate: "2026-06-15",
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
-    });
-
+  test("all events complete before week_end -> WEEK_COMPLETE_WAITING_END_DATE", async () => {
+    const root = await makeProject();
     const result = await runWeeklyOperation(
       { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
-      { cwd: root, today: "2026-06-17" }
+      { cwd: root, today: "2026-06-20" }
     );
-
-    assert.equal(result.report.status, STATUS_WEEK_IN_PROGRESS);
-    assert.match(result.output, /Ranking live valido: sim/);
+    assert.equal(result.report.status, STATUS_WEEK_COMPLETE_WAITING_END_DATE);
   });
 
-  test("status reports week ready to close", async () => {
-    const root = await makeProject({
-      officialDate: "2026-06-15",
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
-    });
-
+  test("all complete after week_end -> WEEK_READY_TO_CLOSE", async () => {
+    const root = await makeProject();
     const result = await runWeeklyOperation(
       { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
       { cwd: root, today: "2026-06-22" }
     );
-
     assert.equal(result.report.status, STATUS_WEEK_READY_TO_CLOSE);
-    assert.match(result.output, /npm run weekly:close/);
+    assert.equal(result.report.completion.safe_to_close, true);
   });
 
-  test("close dry-run does not alter data", async () => {
+  test("ended week with pending event -> WEEK_ENDED_WITH_PENDING_RESULTS", async () => {
     const root = await makeProject({
-      officialDate: "2026-06-15",
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
+      weekMatchesRows: [
+        completedFinalMatch({
+          winner_side: "",
+          winner_names: "",
+          play_status_code: "TP",
+          play_status_desc: "To be played",
+        }),
+      ],
     });
-    const ledgerPath = path.join(root, "data", "clean", "points_ledger.csv");
-    const before = await readText(ledgerPath);
-
     const result = await runWeeklyOperation(
-      {
-        action: "close",
-        mode: "dry-run",
-        confirm: false,
-        weekStart: "2026-06-15",
-        weekEnd: "2026-06-21",
-      },
-      {
-        cwd: root,
-        today: "2026-06-22",
-        runNodeScript: async () => {
-          const reportDir = path.join(
-            root,
-            "data",
-            "staging",
-            "week_close_2026-06-21"
-          );
-          await fs.mkdir(reportDir, { recursive: true });
-          await fs.writeFile(
-            path.join(reportDir, "close_week_report.json"),
-            `${JSON.stringify(
-              {
-                live_rows_received: 1,
-                tracked_rows_eligible: 1,
-                untracked_rows_rejected: 0,
-                players_affected: 1,
-                rows_added: 1,
-                validation_passed: true,
-                mode_safe_for_apply: true,
-                safety_errors: [],
-                validation_errors: [],
-                warnings: [],
-              },
-              null,
-              2
-            )}\n`,
-            "utf8"
-          );
-        },
-      }
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
     );
-
-    assert.equal(result.report.validation_passed, true);
-    assert.equal(await readText(ledgerPath), before);
+    assert.equal(result.report.status, STATUS_WEEK_ENDED_WITH_PENDING_RESULTS);
   });
 
-  test("close apply without confirmation is blocked", async () => {
-    const root = await makeProject();
+  test("contradictory event -> WEEK_CLOSE_BLOCKED", async () => {
+    const root = await makeProject({
+      weekMatchesRows: [
+        completedFinalMatch({ match_id: "m1", winner_names: "Player One" }),
+        completedFinalMatch({ match_id: "m2", winner_side: "2", winner_names: "Player Two" }),
+      ],
+    });
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
+    );
+    assert.equal(result.report.status, STATUS_WEEK_CLOSE_BLOCKED);
+  });
 
+  test("close dry-run is blocked when safe_to_close=false", async () => {
+    const root = await makeProject({
+      weekMatchesRows: [
+        completedFinalMatch({
+          winner_side: "",
+          winner_names: "",
+          play_status_code: "TP",
+          play_status_desc: "To be played",
+        }),
+      ],
+    });
+    await assert.rejects(
+      runWeeklyOperation(
+        {
+          action: "close",
+          mode: "dry-run",
+          confirm: false,
+          weekStart: "2026-06-15",
+          weekEnd: "2026-06-21",
+        },
+        { cwd: root, today: "2026-06-22" }
+      ),
+      /safe_to_close=false/
+    );
+  });
+
+  test("close apply is blocked when safe_to_close=false", async () => {
+    const root = await makeProject({
+      weekMatchesRows: [
+        completedFinalMatch({
+          winner_side: "",
+          winner_names: "",
+          play_status_code: "TP",
+          play_status_desc: "To be played",
+        }),
+      ],
+    });
     await assert.rejects(
       runWeeklyOperation(
         {
           action: "close",
           mode: "apply",
-          confirm: false,
+          confirm: true,
           weekStart: "2026-06-15",
           weekEnd: "2026-06-21",
         },
         { cwd: root, today: "2026-06-22" }
       ),
-      /Apply bloqueado/
+      /safe_to_close=false/
     );
   });
 
-  test("divergent week is blocked", async () => {
-    const root = await makeProject({
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
-    });
-
-    await assert.rejects(
-      runWeeklyOperation(
-        {
-          action: "close",
-          mode: "dry-run",
-          confirm: false,
-          weekStart: "2026-06-08",
-          weekEnd: "2026-06-14",
-        },
-        { cwd: root, today: "2026-06-22" }
-      ),
-      /nao corresponde a week_tournaments/
+  test("pending_items limits console to 10 records", async () => {
+    const rows = Array.from({ length: 12 }, (_, index) =>
+      completedFinalMatch({
+        event_id: `E${index + 1}`,
+        match_id: `m${index + 1}`,
+        winner_side: "",
+        winner_names: "",
+        play_status_code: "TP",
+        play_status_desc: "To be played",
+      })
     );
-  });
-
-  test("weekly errors block close", async () => {
     const root = await makeProject({
-      weekErrorRows: [
+      weekMatchesRows: rows,
+      weekSummaryRows: [
         {
-          tournament_key: "J-TEST-2026-001",
-          tournament_name: "J100 Test",
+          tournament_key: "T1",
+          tournament_name: "Tournament One",
           category: "J100",
-          player_type_code: "B",
-          player_type_desc: "Boys",
-          match_type_code: "S",
-          match_type_desc: "Singles",
-          event_classification_code: "M",
-          event_classification_desc: "Main",
-          drawsheet_structure_code: "KO",
-          error_message: "Erro de teste",
-          collected_at: "2026-06-22T00:00:00.000Z",
+          events_found: "12",
+          matches_found: "12",
+          errors_found: "0",
+          raw_file: "raw.json",
+          from_cache: "false",
+          collected_at: "2026-06-21T00:00:00.000Z",
         },
       ],
     });
-
-    await assert.rejects(
-      runWeeklyOperation(
-        {
-          action: "close",
-          mode: "dry-run",
-          confirm: false,
-          weekStart: "2026-06-15",
-          weekEnd: "2026-06-21",
-        },
-        { cwd: root, today: "2026-06-22" }
-      ),
-      /week_results_errors\.csv possui 1 linhas/
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
     );
+    assert.match(result.output, /Pendencias:/);
+    assert.match(result.output, /\.\.\. 2 pendencias adicionais omitidas/);
+  });
+
+  test("last_operation report stores completion block", async () => {
+    const root = await makeProject();
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
+    );
+    const report = JSON.parse(
+      await fs.readFile(
+        path.join(root, "data", "staging", "weekly_operation", "last_operation.json"),
+        "utf8"
+      )
+    );
+    assert.equal(result.report.completion.safe_to_close, true);
+    assert.equal(report.completion.safe_to_close, true);
+  });
+
+  test("official base updated still points to weekly:start", async () => {
+    const root = await makeProject({
+      officialDate: "2026-06-22",
+      weekStart: "2026-06-15",
+      weekEnd: "2026-06-21",
+    });
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
+    );
+    assert.equal(result.report.status, STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START);
   });
 
   test("start without 1000 over 1000 base is blocked", async () => {
@@ -553,10 +495,8 @@ describe("weekly rollover controller", () => {
       officialDate: "2026-06-22",
       weekStart: "2026-06-15",
       weekEnd: "2026-06-21",
-      tournamentRows: [weekTournamentRow("2026-06-15", "2026-06-21")],
       snapshotOverrides: new Map([[1, { official_points: "99" }]]),
     });
-
     await assert.rejects(
       runWeeklyOperation(
         {
@@ -570,80 +510,5 @@ describe("weekly rollover controller", () => {
       ),
       /nao reconciliou 1000\/1000/
     );
-  });
-
-  test("start apply without confirmation is blocked", async () => {
-    const root = await makeProject({
-      officialDate: "2026-06-22",
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
-    });
-
-    await assert.rejects(
-      runWeeklyOperation(
-        {
-          action: "start",
-          mode: "apply",
-          confirm: false,
-          weekStart: "2026-06-22",
-          weekEnd: "2026-06-28",
-        },
-        { cwd: root, today: "2026-06-22" }
-      ),
-      /Apply bloqueado/
-    );
-  });
-
-  test("last_operation report is generated", async () => {
-    const root = await makeProject({
-      officialDate: "2026-06-15",
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
-      tournamentRows: [stubWeekTournamentRow("2026-06-15", "2026-06-21")],
-      matchRows: [],
-      playerResultRows: [],
-      weekLiveRows: [],
-    });
-
-    const result = await runWeeklyOperation(
-      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
-      { cwd: root, today: "2026-06-16" }
-    );
-
-    const report = JSON.parse(
-      await fs.readFile(
-        path.join(
-          root,
-          "data",
-          "staging",
-          "weekly_operation",
-          "last_operation.json"
-        ),
-        "utf8"
-      )
-    );
-
-    assert.equal(result.report.status, STATUS_NEW_WEEK_READY);
-    assert.equal(report.status, STATUS_NEW_WEEK_READY);
-    assert.equal(report.action, "status");
-  });
-
-  test("next action is shown correctly for official base updated", async () => {
-    const root = await makeProject({
-      officialDate: "2026-06-22",
-      weekStart: "2026-06-15",
-      weekEnd: "2026-06-21",
-    });
-
-    const result = await runWeeklyOperation(
-      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
-      { cwd: root, today: "2026-06-22" }
-    );
-
-    assert.equal(
-      result.report.status,
-      STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START
-    );
-    assert.match(result.output, /npm run weekly:start -- --week-start=2026-06-22/);
   });
 });

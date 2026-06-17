@@ -14,6 +14,7 @@ import {
   validateOfficialSnapshotRows,
 } from "./lib/official_ledger_validation.mjs";
 import { LEDGER_COLUMNS } from "./lib/weekly_ledger.mjs";
+import { summarizeWeekCompletion } from "./lib/week_completion.mjs";
 import {
   buildTrackedRankingRows,
   mergeLedgersWithDrops,
@@ -27,6 +28,11 @@ const MODE_DRY_RUN = "dry-run";
 const MODE_APPLY = "apply";
 
 export const STATUS_WEEK_IN_PROGRESS = "WEEK_IN_PROGRESS";
+export const STATUS_WEEK_COMPLETE_WAITING_END_DATE =
+  "WEEK_COMPLETE_WAITING_END_DATE";
+export const STATUS_WEEK_ENDED_WITH_PENDING_RESULTS =
+  "WEEK_ENDED_WITH_PENDING_RESULTS";
+export const STATUS_WEEK_CLOSE_BLOCKED = "WEEK_CLOSE_BLOCKED";
 export const STATUS_WEEK_READY_TO_CLOSE = "WEEK_READY_TO_CLOSE";
 export const STATUS_WEEK_CLOSED_WAITING_OFFICIAL_RANKING =
   "WEEK_CLOSED_WAITING_OFFICIAL_RANKING";
@@ -342,10 +348,6 @@ function nonEmptyTournamentRows(rows) {
   );
 }
 
-function buildTrackedPlayerIds(playersRows) {
-  return new Set(playersRows.map((row) => cleanText(row.player_id)).filter(Boolean));
-}
-
 function validatePlayersBase(playersRows) {
   const ids = playersRows.map((row) => cleanText(row.player_id));
   const uniqueIds = new Set(ids.filter(Boolean));
@@ -448,9 +450,21 @@ function detectWeekWindow(weekTournamentRows) {
   return {
     weekStart: weekStarts.length === 1 ? weekStarts[0] : "",
     weekEnd: weekEnds.length === 1 ? weekEnds[0] : "",
-    uniqueWeekStarts: weekStarts,
-    uniqueWeekEnds: weekEnds,
   };
+}
+
+function buildCompletionInfo(facts, today) {
+  return summarizeWeekCompletion({
+    weekTournamentRows: facts.week.rows.tournaments,
+    weekMatchesRows: facts.week.rows.matches,
+    weekResultsSummaryRows: facts.week.rows.summary,
+    weekResultsErrorsRows: facts.week.rows.errors,
+    currentDate: today,
+    weekEnd: facts.week.weekEnd,
+    liveRankingValid: facts.liveRanking.valid,
+    officialBaseValid:
+      facts.players.valid && facts.snapshot.valid && facts.ledger.valid,
+  });
 }
 
 export function buildStatusSummary(facts, today = todayIso()) {
@@ -483,15 +497,6 @@ export function buildStatusSummary(facts, today = todayIso()) {
   }
 
   if (hasLoadedWeek && weekStart === officialDate) {
-    if (today > weekEnd) {
-      return {
-        status: STATUS_WEEK_READY_TO_CLOSE,
-        nextAction: `npm run weekly:close -- --week-start=${weekStart} --week-end=${weekEnd} --mode=dry-run`,
-        errors: [],
-        warnings: [],
-      };
-    }
-
     if (facts.week.matches === 0 && facts.week.results === 0 && facts.week.liveResults === 0) {
       return {
         status: STATUS_NEW_WEEK_READY,
@@ -501,9 +506,63 @@ export function buildStatusSummary(facts, today = todayIso()) {
       };
     }
 
+    if (today <= weekEnd) {
+      if (facts.completion.all_events_complete) {
+        return {
+          status: STATUS_WEEK_COMPLETE_WAITING_END_DATE,
+          nextAction:
+            "Aguarde o fim oficial da semana. Continue usando npm run update para capturar eventuais correcoes.",
+          errors: [],
+          warnings: [],
+        };
+      }
+
+      return {
+        status: STATUS_WEEK_IN_PROGRESS,
+        nextAction: "Durante a semana, use npm run update.",
+        errors: [],
+        warnings: [],
+      };
+    }
+
+    if (
+      facts.completion.results_errors > 0 ||
+      facts.completion.events_review_required > 0 ||
+      facts.completion.missing_events > 0
+    ) {
+      return {
+        status: STATUS_WEEK_CLOSE_BLOCKED,
+        nextAction: "Revise os eventos indicados antes do fechamento.",
+        errors: [],
+        warnings: [],
+      };
+    }
+
+    if (facts.completion.safe_to_close) {
+      return {
+        status: STATUS_WEEK_READY_TO_CLOSE,
+        nextAction: `npm run weekly:close -- --week-start=${weekStart} --week-end=${weekEnd} --mode=dry-run`,
+        errors: [],
+        warnings: [],
+      };
+    }
+
+    if (
+      facts.completion.events_pending > 0 ||
+      facts.completion.pending_matches > 0
+    ) {
+      return {
+        status: STATUS_WEEK_ENDED_WITH_PENDING_RESULTS,
+        nextAction:
+          "Execute npm run update e consulte novamente o status. Nao feche a semana ainda.",
+        errors: [],
+        warnings: [],
+      };
+    }
+
     return {
-      status: STATUS_WEEK_IN_PROGRESS,
-      nextAction: "Durante a semana, use npm run update.",
+      status: STATUS_WEEK_CLOSE_BLOCKED,
+      nextAction: "Revise os eventos indicados antes do fechamento.",
       errors: [],
       warnings: [],
     };
@@ -555,6 +614,7 @@ export async function gatherFacts({ cwd = process.cwd(), today = todayIso() } = 
   const weekPlayerResultsRows = await readCsvIfExists(paths.weekPlayerResults);
   const weekLiveLedgerRows = await readCsvIfExists(paths.weekLiveLedger);
   const weekResultsErrorsRows = await readCsvIfExists(paths.weekResultsErrors);
+  const weekResultsSummaryRows = await readCsvIfExists(paths.weekResultsSummary);
   const ignoredExternalPlayersRows = await readCsvIfExists(
     paths.liveExternalPlayersIgnored
   );
@@ -583,7 +643,6 @@ export async function gatherFacts({ cwd = process.cwd(), today = todayIso() } = 
     officialRankingDate,
     playersRows,
     snapshotRows,
-    trackedPlayerIds,
     players: playersValidation,
     snapshot: {
       valid: snapshotValidation.valid,
@@ -605,6 +664,7 @@ export async function gatherFacts({ cwd = process.cwd(), today = todayIso() } = 
         results: weekPlayerResultsRows,
         live: weekLiveLedgerRows,
         errors: weekResultsErrorsRows,
+        summary: weekResultsSummaryRows,
       },
     },
     liveRanking: {
@@ -616,6 +676,8 @@ export async function gatherFacts({ cwd = process.cwd(), today = todayIso() } = 
     },
     ignoredExternalPlayers: ignoredExternalPlayersRows.length,
   };
+
+  facts.completion = buildCompletionInfo(facts, today);
 
   const summary = buildStatusSummary(facts, today);
   facts.status = summary.status;
@@ -650,6 +712,23 @@ function buildConsoleSummary({
     nextAction,
     "------------------------------------------------------------------------------------",
   ].join("\n");
+}
+
+function buildPendingItemsText(items, limit = 10) {
+  if (!items.length) return "";
+
+  const lines = ["", "Pendencias:"];
+  for (const item of items.slice(0, limit)) {
+    lines.push(
+      `- ${item.tournament_name || "(sem torneio)"} | ${item.event_id || "(sem event_id)"} | ${item.player_type_desc || "-"} | ${item.match_type_desc || "-"} | ${item.reason}`
+    );
+  }
+
+  if (items.length > limit) {
+    lines.push(`- ... ${items.length - limit} pendencias adicionais omitidas`);
+  }
+
+  return lines.join("\n");
 }
 
 async function defaultRunNodeScript({ cwd, scriptPath, args }) {
@@ -841,12 +920,21 @@ export async function runStatusAction({ facts }) {
     `Resultados live: ${facts.week.liveResults}`,
     `Ranking live valido: ${facts.liveRanking.valid ? "sim" : "nao"}`,
     `Jogadores externos ignorados: ${facts.ignoredExternalPlayers}`,
+    `Torneios concluidos: ${facts.completion.tournaments_completed}/${facts.completion.tournaments_total}`,
+    `Eventos concluidos: ${facts.completion.events_completed}/${facts.completion.events_total}`,
+    `Campeoes identificados: ${facts.completion.champions_found}`,
+    `Eventos pendentes: ${facts.completion.events_pending}`,
+    `Eventos para revisao: ${facts.completion.events_review_required}`,
+    `Eventos ausentes: ${facts.completion.missing_events}`,
+    `Partidas pendentes: ${facts.completion.pending_matches}`,
+    `Erros de coleta: ${facts.completion.results_errors}`,
+    `Pronto para fechamento: ${facts.completion.safe_to_close ? "sim" : "nao"}`,
     `Proxima acao recomendada: ${facts.nextAction}`,
   ].join("\n");
 
   return {
     status: facts.status,
-    output,
+    output: `${output}${buildPendingItemsText(facts.completion.pending_items)}`,
     validationPassed: facts.statusErrors.length === 0,
     errors: facts.statusErrors,
     warnings: facts.statusWarnings,
@@ -854,6 +942,7 @@ export async function runStatusAction({ facts }) {
     weekStart: facts.week.weekStart,
     weekEnd: facts.week.weekEnd,
     nextAction: facts.nextAction,
+    completion: facts.completion,
   };
 }
 
@@ -864,6 +953,11 @@ export async function runCloseAction({ args, facts, runNodeScript }) {
   if (facts.week.weekStart !== args.weekStart || facts.week.weekEnd !== args.weekEnd) {
     errors.push(
       `A semana informada (${args.weekStart} a ${args.weekEnd}) nao corresponde a week_tournaments.csv (${facts.week.weekStart} a ${facts.week.weekEnd}).`
+    );
+  }
+  if (!facts.completion.safe_to_close) {
+    errors.push(
+      `Fechamento bloqueado: safe_to_close=false. Pendencias: eventos_pendentes=${facts.completion.events_pending}, eventos_revisao=${facts.completion.events_review_required}, eventos_ausentes=${facts.completion.missing_events}, partidas_pendentes=${facts.completion.pending_matches}, erros_coleta=${facts.completion.results_errors}.`
     );
   }
   if (!(await fileExists(facts.paths.weekPlayerResults))) {
@@ -936,6 +1030,7 @@ export async function runCloseAction({ args, facts, runNodeScript }) {
     weekStart: args.weekStart,
     weekEnd: args.weekEnd,
     nextAction,
+    completion: facts.completion,
   };
 }
 
@@ -971,7 +1066,11 @@ export async function runStartAction({ args, facts, runNodeScript }) {
       `A base oficial nao reconciliou 1000/1000 (${reconciliation.exact}/${reconciliation.total}).`
     );
   }
-  if (facts.status === STATUS_WEEK_READY_TO_CLOSE) {
+  if (
+    facts.status === STATUS_WEEK_READY_TO_CLOSE ||
+    facts.status === STATUS_WEEK_CLOSE_BLOCKED ||
+    facts.status === STATUS_WEEK_ENDED_WITH_PENDING_RESULTS
+  ) {
     errors.push(
       "Existe um fechamento pendente da semana anterior antes de iniciar a nova semana."
     );
@@ -1022,6 +1121,7 @@ export async function runStartAction({ args, facts, runNodeScript }) {
       args.mode === MODE_APPLY
         ? "Durante a semana, use npm run update."
         : `npm run weekly:start -- --week-start=${args.weekStart} --week-end=${args.weekEnd} --mode=apply --confirm=true`,
+    completion: facts.completion,
   };
 }
 
@@ -1038,6 +1138,7 @@ function buildErrorReport(args, facts, startedAt, finishedAt, errorMessage) {
     next_action: "Corrija os erros antes de continuar.",
     errors: [errorMessage],
     warnings: [],
+    completion: facts?.completion || null,
     started_at: startedAt,
     finished_at: finishedAt,
   };
@@ -1073,6 +1174,7 @@ export async function runWeeklyOperation(args, deps = {}) {
       next_action: result.nextAction,
       errors: result.errors || [],
       warnings: result.warnings || [],
+      completion: result.completion || facts.completion,
       started_at: startedAt,
       finished_at: deps.finishedAt || nowIso(),
     };

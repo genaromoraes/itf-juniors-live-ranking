@@ -12,11 +12,15 @@ Para consultar o estado:
 npm run weekly:status
 ```
 
+O status agora verifica automaticamente, usando apenas os arquivos locais ja coletados, se os eventos da semana parecem concluidos, pendentes ou se exigem revisao antes do fechamento.
+
 No fim da semana:
 
 ```bash
 npm run weekly:close -- --week-start=AAAA-MM-DD --week-end=AAAA-MM-DD --mode=dry-run
 ```
+
+Esse fechamento so sera liberado quando o status indicar que a semana esta pronta, sem eventos pendentes, sem eventos ausentes e sem erros de coleta.
 
 Depois da conferencia:
 
