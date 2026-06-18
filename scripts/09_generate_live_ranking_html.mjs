@@ -2684,8 +2684,8 @@ td:nth-child(7) {
         p.category
       );
       const resultChips = [
-        getWeekResultHtml("🎾 Simples", p.singlesSummary),
-        getWeekResultHtml("👥 Duplas", p.doublesSummary),
+        getWeekResultHtml("🎾", p.singlesSummary),
+        getWeekResultHtml("👥", p.doublesSummary),
       ].filter(Boolean).join('<span class="week-result-separator">·</span>');
 
       return \`
