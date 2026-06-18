@@ -1309,7 +1309,7 @@ function buildHtml(
 
     .filters {
       display: grid;
-      grid-template-columns: minmax(220px, 1.2fr) minmax(150px, 0.7fr) 160px 130px 150px 130px;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(150px, 0.7fr) 206px 130px 150px 130px;
       gap: 7px;
       align-items: end;
       margin-bottom: 8px;
@@ -1328,6 +1328,55 @@ function buildHtml(
 
     .toggle-filter {
       align-self: stretch;
+    }
+
+    .segmented-control {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 28px;
+      padding: 3px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(238, 244, 246, 0.82);
+      gap: 3px;
+    }
+
+    .segmented-control button {
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .segmented-control button.active {
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: 0 4px 12px rgba(26, 45, 57, 0.08);
+    }
+
+    :root[data-theme="dark"] .segmented-control {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+    }
+
+    :root[data-theme="dark"] .segmented-control button.active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .toggle-button {
@@ -2347,7 +2396,11 @@ td:nth-child(7) {
 
       <div class="filter">
         <label>Categoria</label>
-        <select id="genderFilter">
+        <div class="segmented-control" role="group" aria-label="Filtrar categoria">
+          <button type="button" class="active" data-gender-option="M">Masculino</button>
+          <button type="button" data-gender-option="F">Feminino</button>
+        </div>
+        <select id="genderFilter" class="visually-hidden" aria-label="Categoria">
           <option value="M" selected>Masculino</option>
           <option value="F">Feminino</option>
         </select>
@@ -2442,6 +2495,7 @@ td:nth-child(7) {
     const countrySearchInput = document.getElementById("countrySearchInput");
     const themeToggle = document.getElementById("themeToggle");
     const genderFilter = document.getElementById("genderFilter");
+    const genderButtons = Array.from(document.querySelectorAll("[data-gender-option]"));
     const sortFilter = document.getElementById("sortFilter");
     const playingOnlyFilter = document.getElementById("playingOnlyFilter");
     const rankingBody = document.getElementById("rankingBody");
@@ -2864,6 +2918,14 @@ td:nth-child(7) {
       }
     }
 
+    function updateGenderControl() {
+      genderButtons.forEach((button) => {
+        const active = button.getAttribute("data-gender-option") === genderFilter.value;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
     function setTableSort(column) {
       if (sortColumn === column) {
         sortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -2994,6 +3056,7 @@ td:nth-child(7) {
     function renderTable() {
       const rows = sortRows(rankingData.filter(passesFilters));
       updateSortHeaders();
+      updateGenderControl();
 
       visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos';
 
@@ -3065,6 +3128,12 @@ td:nth-child(7) {
       selectedPlayerId = "";
       renderProfile(null);
       renderTable();
+    });
+    genderButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        genderFilter.value = button.getAttribute("data-gender-option");
+        genderFilter.dispatchEvent(new Event("change"));
+      });
     });
     sortFilter.addEventListener("change", () => {
       sortColumn = sortFilter.value;
