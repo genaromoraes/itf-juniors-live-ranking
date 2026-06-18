@@ -16,6 +16,10 @@ import {
   OFFICIAL_SNAPSHOT_COLUMNS,
   normalizeGender,
 } from "./lib/official_ledger_validation.mjs";
+import {
+  TRACKED_BASE_LIMIT_PER_GENDER,
+  TRACKED_BASE_TOTAL,
+} from "./lib/ranking_limits.mjs";
 
 export const REQUIRED_SOURCE_FILES = [
   "players.next.csv",
@@ -33,11 +37,11 @@ export const DESTINATION_FILES = {
 };
 
 const EXPECTED_SUMMARY_VALUES = {
-  final_total: 1000,
-  final_exact: 1000,
+  final_total: TRACKED_BASE_TOTAL,
+  final_exact: TRACKED_BASE_TOTAL,
   final_divergent: 0,
   final_missing_ledger: 0,
-  unique_ledger_players: 1000,
+  unique_ledger_players: TRACKED_BASE_TOTAL,
   ledger_players_outside_official: 0,
   breakdowns_failed: 0,
   mode_safe_for_promotion: true,
@@ -169,8 +173,8 @@ export function validateSourceRows({
     }
   }
 
-  if (playersRows.length !== 1000) {
-    errors.push(`players.next.csv precisa ter 1000 linhas, recebeu ${playersRows.length}.`);
+  if (playersRows.length !== TRACKED_BASE_TOTAL) {
+    errors.push(`players.next.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${playersRows.length}.`);
   }
   const playerIds = validateUniqueIds(playersRows, "players.next.csv", errors);
   const playerGenderCounts = { M: 0, F: 0 };
@@ -178,15 +182,15 @@ export function validateSourceRows({
     const gender = normalizeGender(row.gender);
     if (gender === "M" || gender === "F") playerGenderCounts[gender] += 1;
   }
-  if (playerGenderCounts.M !== 500) {
-    errors.push(`players.next.csv precisa ter 500 M, recebeu ${playerGenderCounts.M}.`);
+  if (playerGenderCounts.M !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    errors.push(`players.next.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} M, recebeu ${playerGenderCounts.M}.`);
   }
-  if (playerGenderCounts.F !== 500) {
-    errors.push(`players.next.csv precisa ter 500 F, recebeu ${playerGenderCounts.F}.`);
+  if (playerGenderCounts.F !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    errors.push(`players.next.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} F, recebeu ${playerGenderCounts.F}.`);
   }
 
-  if (snapshotRows.length !== 1000) {
-    errors.push(`rankings_snapshot.next.csv precisa ter 1000 linhas, recebeu ${snapshotRows.length}.`);
+  if (snapshotRows.length !== TRACKED_BASE_TOTAL) {
+    errors.push(`rankings_snapshot.next.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${snapshotRows.length}.`);
   }
   validateUniqueIds(snapshotRows, "rankings_snapshot.next.csv", errors);
   const ranksByGender = { M: [], F: [] };
@@ -201,8 +205,8 @@ export function validateSourceRows({
   }
   for (const gender of ["M", "F"]) {
     const ranks = ranksByGender[gender].sort((a, b) => (a ?? 0) - (b ?? 0));
-    if (ranks.length !== 500) {
-      errors.push(`Snapshot precisa ter 500 ranks ${gender}, recebeu ${ranks.length}.`);
+    if (ranks.length !== TRACKED_BASE_LIMIT_PER_GENDER) {
+      errors.push(`Snapshot precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} ranks ${gender}, recebeu ${ranks.length}.`);
       continue;
     }
     for (let index = 0; index < ranks.length; index++) {
@@ -236,8 +240,8 @@ export function validateSourceRows({
     }
     ledgerKeys.add(key);
   }
-  if (ledgerPlayerIds.size !== 1000) {
-    errors.push(`Ledger precisa ter 1000 jogadores unicos, recebeu ${ledgerPlayerIds.size}.`);
+  if (ledgerPlayerIds.size !== TRACKED_BASE_TOTAL) {
+    errors.push(`Ledger precisa ter ${TRACKED_BASE_TOTAL} jogadores unicos, recebeu ${ledgerPlayerIds.size}.`);
   }
 
   return {

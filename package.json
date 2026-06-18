@@ -20,6 +20,16 @@
     "find:untracked-week": "node scripts/14_find_untracked_week_players.mjs",
     "rankings": "node scripts/01_fetch_rankings.mjs",
     "breakdowns": "node scripts/02_fetch_initial_breakdowns.mjs",
+    "rankings:universe": "node scripts/03_fetch_rankings_universe.mjs",
+    "breakdowns:missing": "node scripts/03_fetch_missing_tracked_breakdowns.mjs",
+    "candidates:detect": "node scripts/07_detect_external_candidates.mjs",
+    "candidates:fetch": "node scripts/07_fetch_external_candidate_breakdowns.mjs",
+    "base:top1000:prepare": "node scripts/22_prepare_top1000_base.mjs",
+    "base:top1000:fetch": "node scripts/22_fetch_top1000_breakdowns.mjs",
+    "base:top1000:status": "node scripts/22_status_top1000_base.mjs",
+    "base:top1000:validate": "node scripts/22_validate_top1000_base.mjs",
+    "base:top1000:repair-stale": "node scripts/23_repair_top1000_stale_ledgers.mjs",
+    "base:top1000:promote": "node scripts/22_promote_top1000_base.mjs",
     "calculate": "node scripts/08_calculate_live_ranking_with_drops.mjs"
   },
   "repository": {

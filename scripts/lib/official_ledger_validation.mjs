@@ -3,11 +3,15 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import {
+  TRACKED_BASE_LIMIT_PER_GENDER,
+  TRACKED_BASE_TOTAL,
+} from "./ranking_limits.mjs";
 
 export const REQUEST_TIMEOUT_MS = 30000;
 export const RETRY_DELAY_MS = 10000;
 export const MAX_RETRIES = 2;
-export const TOP_LIMIT = 500;
+export const TOP_LIMIT = TRACKED_BASE_LIMIT_PER_GENDER;
 export const PAGE_SIZE = 100;
 export const OFFICIAL_RANKING_URL =
   "https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings";
@@ -535,20 +539,20 @@ export function validateOfficialSnapshotRows(playersRows, snapshotRows, expected
   const ids = snapshotRows.map((row) => cleanText(row.player_id)).filter(Boolean);
   const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
 
-  if (snapshotRows.length !== 1000) {
-    errors.push(`Snapshot oficial invalido: esperado 1000 jogadores, recebido ${snapshotRows.length}.`);
+  if (snapshotRows.length !== TRACKED_BASE_TOTAL) {
+    errors.push(`Snapshot oficial invalido: esperado ${TRACKED_BASE_TOTAL} jogadores, recebido ${snapshotRows.length}.`);
   }
 
-  if (countsByGender.M !== 500) {
-    errors.push(`Snapshot oficial invalido: esperado 500 M, recebido ${countsByGender.M}.`);
+  if (countsByGender.M !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    errors.push(`Snapshot oficial invalido: esperado ${TRACKED_BASE_LIMIT_PER_GENDER} M, recebido ${countsByGender.M}.`);
   }
 
-  if (countsByGender.F !== 500) {
-    errors.push(`Snapshot oficial invalido: esperado 500 F, recebido ${countsByGender.F}.`);
+  if (countsByGender.F !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    errors.push(`Snapshot oficial invalido: esperado ${TRACKED_BASE_LIMIT_PER_GENDER} F, recebido ${countsByGender.F}.`);
   }
 
-  if (playersRows.length !== 1000) {
-    errors.push(`Players oficial invalido: esperado 1000 jogadores, recebido ${playersRows.length}.`);
+  if (playersRows.length !== TRACKED_BASE_TOTAL) {
+    errors.push(`Players oficial invalido: esperado ${TRACKED_BASE_TOTAL} jogadores, recebido ${playersRows.length}.`);
   }
 
   if (ids.length !== snapshotRows.length) {
@@ -565,7 +569,7 @@ export function validateOfficialSnapshotRows(playersRows, snapshotRows, expected
       .map((row) => toNumber(row.rank))
       .sort((a, b) => (a ?? 0) - (b ?? 0));
 
-    if (sortedRanks.length !== 500) continue;
+    if (sortedRanks.length !== TRACKED_BASE_LIMIT_PER_GENDER) continue;
 
     for (let index = 0; index < sortedRanks.length; index++) {
       if (sortedRanks[index] !== index + 1) {

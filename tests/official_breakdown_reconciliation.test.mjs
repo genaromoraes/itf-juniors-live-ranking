@@ -17,7 +17,7 @@ import {
 import { buildSummary } from "../scripts/19_refresh_selected_breakdowns.mjs";
 
 function officialPlayer(index, overrides = {}) {
-  const gender = index <= 500 ? "M" : "F";
+  const gender = index <= 1000 ? "M" : "F";
   return {
     player_id: `p${index}`,
     player_name: `Player ${index}`,
@@ -27,7 +27,7 @@ function officialPlayer(index, overrides = {}) {
     country: "BRA",
     country_name: "Brazil",
     birth_year: "2009",
-    current_rank: gender === "M" ? index : index - 500,
+    current_rank: gender === "M" ? index : index - 1000,
     current_points: "100",
     first_seen_date: "2026-06-15",
     last_seen_date: "2026-06-15",
@@ -36,11 +36,11 @@ function officialPlayer(index, overrides = {}) {
 }
 
 function officialSnapshot(index, overrides = {}) {
-  const gender = index <= 500 ? "M" : "F";
+  const gender = index <= 1000 ? "M" : "F";
   return {
     ranking_date: "2026-06-15",
     gender,
-    rank: gender === "M" ? index : index - 500,
+    rank: gender === "M" ? index : index - 1000,
     player_id: `p${index}`,
     player_name: `Player ${index}`,
     official_points: "100",
@@ -81,11 +81,11 @@ function ledgerRow(overrides = {}) {
 }
 
 function fullOfficialPlayers() {
-  return Array.from({ length: 1000 }, (_, index) => officialPlayer(index + 1));
+  return Array.from({ length: 2000 }, (_, index) => officialPlayer(index + 1));
 }
 
 function fullOfficialSnapshot() {
-  return Array.from({ length: 1000 }, (_, index) => officialSnapshot(index + 1));
+  return Array.from({ length: 2000 }, (_, index) => officialSnapshot(index + 1));
 }
 
 function validationSummary(overrides = {}) {
@@ -94,9 +94,9 @@ function validationSummary(overrides = {}) {
     baseline_valid: true,
     official_snapshot_valid: true,
     new_ranking_date_received: "2026-06-15",
-    official_total: 1000,
-    official_male: 500,
-    official_female: 500,
+    official_total: 2000,
+    official_male: 1000,
+    official_female: 1000,
     players_to_refresh: 57,
     point_differences: 47,
     new_top500_entrants: 10,
@@ -169,7 +169,7 @@ describe("official breakdown reconciliation", () => {
     assert.match(result.errors.join("\n"), /duplicado/);
   });
 
-  test("builds players.next from official top 1000 while preserving old empty-field context", () => {
+  test("builds players.next from official top 2000 while preserving old empty-field context", () => {
     const playersNext = buildPlayersNext({
       officialPlayers: [
         officialPlayer(1, { country_name: "", first_seen_date: "" }),
@@ -401,7 +401,7 @@ describe("official breakdown reconciliation", () => {
     assert.equal(final.finalExact, 1);
   });
 
-  test("promotion requires exact 1000 over 1000 and no network misuse", () => {
+  test("promotion requires exact 2000 over 2000 and no network misuse", () => {
     const ledgerRows = fullOfficialSnapshot().map((snapshot) =>
       ledgerRow({
         player_id: snapshot.player_id,
@@ -430,7 +430,7 @@ describe("official breakdown reconciliation", () => {
       finalValidation: final,
     });
 
-    assert.equal(final.finalExact, 1000);
+    assert.equal(final.finalExact, 2000);
     assert.equal(safe, true);
   });
 
@@ -443,11 +443,11 @@ describe("official breakdown reconciliation", () => {
       },
       ledgerValidation: { valid: true },
       finalValidation: {
-        finalTotal: 1000,
-        finalExact: 1000,
+        finalTotal: 2000,
+        finalExact: 2000,
         finalDivergent: 0,
         finalMissingLedger: 0,
-        uniqueLedgerPlayers: 1000,
+        uniqueLedgerPlayers: 2000,
         ledgerPlayersOutsideOfficial: 0,
       },
     });
@@ -455,7 +455,7 @@ describe("official breakdown reconciliation", () => {
     assert.equal(safe, false);
   });
 
-  test("promotion is blocked unless exact 1000 over 1000", () => {
+  test("promotion is blocked unless exact 2000 over 2000", () => {
     const safe = isSafeForPromotion({
       inputValidation: { valid: true },
       fetchResult: {
@@ -464,11 +464,11 @@ describe("official breakdown reconciliation", () => {
       },
       ledgerValidation: { valid: true },
       finalValidation: {
-        finalTotal: 1000,
+        finalTotal: 2000,
         finalExact: 999,
         finalDivergent: 1,
         finalMissingLedger: 0,
-        uniqueLedgerPlayers: 1000,
+        uniqueLedgerPlayers: 2000,
         ledgerPlayersOutsideOfficial: 0,
       },
     });
@@ -528,12 +528,12 @@ describe("official breakdown reconciliation", () => {
         finalValidationPolicy: "drop_cutoff",
         finalDropCutoff: "2026-06-14",
         finalExpiredRowsIgnored: 63,
-        finalTotal: 1000,
-        finalExact: 1000,
+        finalTotal: 2000,
+        finalExact: 2000,
         finalPercentage: 100,
         finalDivergent: 0,
         finalMissingLedger: 0,
-        uniqueLedgerPlayers: 1000,
+        uniqueLedgerPlayers: 2000,
         ledgerPlayersOutsideOfficial: 0,
       },
       safeForPromotion: true,

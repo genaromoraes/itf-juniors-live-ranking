@@ -131,7 +131,7 @@ describe("official ledger validation", () => {
     assert.equal(totals.calculated_total, 150);
   });
 
-  test("baseline 1000 over 1000 style match allows proceeding", () => {
+  test("baseline 2000 over 2000 style match allows proceeding", () => {
     const baseline = compareCalculatedAgainstSnapshot(
       [
         calculatePlayerTotals([ledgerRow({ points: "100" })], {
@@ -272,12 +272,12 @@ describe("official ledger validation", () => {
     assert.equal(baseline.rows[0].calculated_points, 194.5);
   });
 
-  test("validates exact 500 male and 500 female counts", () => {
+  test("validates exact 1000 male and 1000 female counts", () => {
     const players = [];
     const snapshots = [];
 
     for (const gender of ["M", "F"]) {
-      for (let index = 1; index <= 500; index++) {
+      for (let index = 1; index <= 1000; index++) {
         const id = `${gender}${index}`;
         players.push({
           player_id: id,
@@ -298,8 +298,8 @@ describe("official ledger validation", () => {
     const validation = validateOfficialSnapshotRows(players, snapshots, "2026-06-15");
 
     assert.equal(validation.valid, true);
-    assert.equal(validation.countsByGender.M, 500);
-    assert.equal(validation.countsByGender.F, 500);
+    assert.equal(validation.countsByGender.M, 1000);
+    assert.equal(validation.countsByGender.F, 1000);
   });
 
   test("rejects duplicate player_id", () => {
@@ -336,9 +336,9 @@ describe("official ledger validation", () => {
       stagedPolicy: STAGED_POLICY,
       baselineDropCutoff: "",
       stagedDropCutoff: "2026-06-14",
-      baseline: { total: 1000, exact: 1000, valid: true },
-      officialCounts: { total: 1000, male: 500, female: 500, valid: true },
-      oldTrackedTotal: 1000,
+      baseline: { total: 2000, exact: 2000, valid: true },
+      officialCounts: { total: 2000, male: 1000, female: 1000, valid: true },
+      oldTrackedTotal: 2000,
       comparison: {
         continuingPlayers: 999,
         exactMatches: [],
@@ -375,9 +375,9 @@ describe("official ledger validation", () => {
       stagedPolicy: STAGED_POLICY,
       baselineDropCutoff: "",
       stagedDropCutoff: "2026-06-14",
-      baseline: { total: 1000, exact: 1000, valid: true },
-      officialCounts: { total: 1000, male: 500, female: 500, valid: true },
-      oldTrackedTotal: 1000,
+      baseline: { total: 2000, exact: 2000, valid: true },
+      officialCounts: { total: 2000, male: 1000, female: 1000, valid: true },
+      oldTrackedTotal: 2000,
       comparison: {
         continuingPlayers: 998,
         exactMatches: [],
@@ -409,9 +409,9 @@ describe("official ledger validation", () => {
       stagedPolicy: STAGED_POLICY,
       baselineDropCutoff: "",
       stagedDropCutoff: "2026-06-14",
-      baseline: { total: 1000, exact: 997, valid: false },
+      baseline: { total: 2000, exact: 997, valid: false },
       officialCounts: { total: 0, male: 0, female: 0, valid: false },
-      oldTrackedTotal: 1000,
+      oldTrackedTotal: 2000,
       comparison: {
         continuingPlayers: 0,
         exactMatches: [],
