@@ -87,10 +87,10 @@ function makeLedgerRow({
 }
 
 describe("live ranking with tracked official players only", () => {
-  test("validates the legacy 1000-player official base shape while migration is pending", () => {
+  test("validates the active Top 1000 per gender official base shape", () => {
     const playersRows = [];
 
-    for (let i = 1; i <= 500; i++) {
+    for (let i = 1; i <= 1000; i++) {
       playersRows.push(makePlayer(`M${i}`, "M"));
       playersRows.push(makePlayer(`F${i}`, "F"));
     }
@@ -98,9 +98,9 @@ describe("live ranking with tracked official players only", () => {
     const result = validatePlayersBase(playersRows);
 
     assert.equal(result.isValid, true);
-    assert.equal(result.trackedPlayerIds.size, 1000);
-    assert.equal(result.genderCounts.M, 500);
-    assert.equal(result.genderCounts.F, 500);
+    assert.equal(result.trackedPlayerIds.size, 2000);
+    assert.equal(result.genderCounts.M, 1000);
+    assert.equal(result.genderCounts.F, 1000);
   });
 
   test("rejects invalid official base counts", () => {
@@ -108,7 +108,7 @@ describe("live ranking with tracked official players only", () => {
     const result = validatePlayersBase(playersRows);
 
     assert.equal(result.isValid, false);
-    assert.ok(result.errors.some((item) => item.includes("1000 linhas")));
+    assert.ok(result.errors.some((item) => item.includes("2000 linhas")));
     assert.ok(result.errors.some((item) => item.includes("duplicados")));
   });
 

@@ -28,6 +28,7 @@
     "base:top1000:fetch": "node scripts/22_fetch_top1000_breakdowns.mjs",
     "base:top1000:status": "node scripts/22_status_top1000_base.mjs",
     "base:top1000:validate": "node scripts/22_validate_top1000_base.mjs",
+    "base:top1000:repair-stale": "node scripts/23_repair_top1000_stale_ledgers.mjs",
     "base:top1000:promote": "node scripts/22_promote_top1000_base.mjs",
     "calculate": "node scripts/08_calculate_live_ranking_with_drops.mjs"
   },
