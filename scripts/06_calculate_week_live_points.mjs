@@ -182,7 +182,7 @@ async function ensurePointsTableExists(pointsTableFile) {
   }
 }
 
-function buildPointsMap(pointsRows) {
+export function buildPointsMap(pointsRows) {
   const map = new Map();
 
   for (const row of pointsRows) {

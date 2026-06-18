@@ -191,6 +191,64 @@ function findWinnerSide(match) {
   return "";
 }
 
+function getMatchTeamPlayerIdSets(match) {
+  const teams = match?.teams || [];
+
+  return [teams[0] || {}, teams[1] || {}].map((team) =>
+    new Set(
+      String(getTeamPlayerIds(team) || "")
+        .split("|")
+        .filter(Boolean)
+    )
+  );
+}
+
+function hasAnyPlayerInSet(playerIds, laterPlayerIds) {
+  for (const playerId of playerIds) {
+    if (laterPlayerIds.has(playerId)) return true;
+  }
+
+  return false;
+}
+
+function buildLaterRoundPlayerIdsByRound(rounds) {
+  const laterByRound = new Map();
+  let laterPlayerIds = new Set();
+
+  for (let roundIndex = rounds.length - 1; roundIndex >= 0; roundIndex--) {
+    laterByRound.set(roundIndex, laterPlayerIds);
+
+    const currentRoundPlayerIds = new Set();
+    const matches = getMatchesFromRound(rounds[roundIndex]);
+
+    for (const match of matches) {
+      for (const ids of getMatchTeamPlayerIdSets(match)) {
+        for (const playerId of ids) {
+          currentRoundPlayerIds.add(playerId);
+        }
+      }
+    }
+
+    laterPlayerIds = new Set([...laterPlayerIds, ...currentRoundPlayerIds]);
+  }
+
+  return laterByRound;
+}
+
+function inferWinnerSideFromLaterRounds(match, laterRoundPlayerIds) {
+  const [team1PlayerIds, team2PlayerIds] = getMatchTeamPlayerIdSets(match);
+
+  if (team1PlayerIds.size === 0 || team2PlayerIds.size === 0) return "";
+
+  const team1Advanced = hasAnyPlayerInSet(team1PlayerIds, laterRoundPlayerIds);
+  const team2Advanced = hasAnyPlayerInSet(team2PlayerIds, laterRoundPlayerIds);
+
+  if (team1Advanced && !team2Advanced) return 1;
+  if (team2Advanced && !team1Advanced) return 2;
+
+  return "";
+}
+
 function getRoundName(round, fallbackIndex) {
   const candidates = [
     round?.roundName,
@@ -244,13 +302,14 @@ function getMatchesFromRound(round) {
   return [];
 }
 
-function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
+export function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
   const matches = [];
   const koGroups = Array.isArray(drawsheet?.koGroups) ? drawsheet.koGroups : [];
 
   for (let groupIndex = 0; groupIndex < koGroups.length; groupIndex++) {
     const group = koGroups[groupIndex];
     const rounds = Array.isArray(group?.rounds) ? group.rounds : [];
+    const laterRoundPlayerIdsByRound = buildLaterRoundPlayerIdsByRound(rounds);
 
     for (let roundIndex = 0; roundIndex < rounds.length; roundIndex++) {
       const round = rounds[roundIndex];
@@ -262,7 +321,12 @@ function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
         const teams = match.teams || [];
         const team1 = teams[0] || {};
         const team2 = teams[1] || {};
-        const winnerSide = findWinnerSide(match);
+        const winnerSide =
+          findWinnerSide(match) ||
+          inferWinnerSideFromLaterRounds(
+            match,
+            laterRoundPlayerIdsByRound.get(roundIndex) || new Set()
+          );
 
         matches.push({
           tournament_key: tournament.tournament_key,
@@ -590,7 +654,7 @@ function isCompletedMatch(match) {
   );
 }
 
-function buildPlayerResultsFromMatches(matches) {
+export function buildPlayerResultsFromMatches(matches) {
   const map = new Map();
 
   for (const match of matches) {
