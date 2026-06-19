@@ -2226,55 +2226,59 @@ function buildHtml(
       white-space: nowrap;
     }
 
+    .result-list {
+      display: grid;
+      gap: 2px;
+    }
+
     .result-card {
-      border: 1px solid rgba(223, 233, 230, 0.72);
-      border-radius: var(--radius-sm);
-      padding: 4px;
-      margin-bottom: 3px;
-      background: rgba(248, 251, 250, 0.86);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 6px;
+      min-height: 26px;
+      border-left: 2px solid transparent;
+      border-bottom: 1px solid var(--border-soft);
+      padding: 3px 2px 3px 5px;
       font-size: 9px;
       line-height: 1.08;
     }
 
     .result-card.counting {
-      background: #ffffff;
-      border-color: rgba(18, 128, 95, 0.38);
-      box-shadow: 0 5px 14px rgba(26, 45, 57, 0.05);
+      border-left-color: var(--green-dark);
+      background: linear-gradient(90deg, rgba(8, 117, 109, 0.06), transparent 34%);
     }
 
     .result-card.not-counting {
       opacity: 0.58;
-      background: rgba(248, 251, 250, 0.54);
-      border-color: rgba(237, 243, 241, 0.86);
-      box-shadow: none;
     }
 
     :root[data-theme="dark"] .result-card {
-      background: rgba(17, 27, 35, 0.82);
-      border-color: var(--border);
+      border-bottom-color: var(--border-soft);
     }
 
     :root[data-theme="dark"] .result-card.counting {
-      background: rgba(22, 36, 45, 0.94);
-      border-color: rgba(97, 198, 184, 0.34);
-      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+      border-left-color: var(--green-dark);
+      background: linear-gradient(90deg, rgba(97, 198, 184, 0.1), transparent 34%);
     }
 
     :root[data-theme="dark"] .result-card.not-counting {
-      background: rgba(17, 27, 35, 0.54);
-      border-color: var(--border-soft);
+      background: transparent;
     }
 
     .result-main {
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
-      gap: 4px;
+      gap: 5px;
+      min-width: 0;
     }
 
     .result-title {
       font-weight: 600;
       line-height: 1.08;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .result-heading {
@@ -2292,10 +2296,34 @@ function buildHtml(
     }
 
     .result-points {
-      margin-top: 2px;
       font-weight: 700;
       color: var(--green-dark);
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .result-meta {
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 8px;
+      line-height: 1.05;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .result-status-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      margin-top: 4px;
+      background: var(--border);
+      flex: 0 0 auto;
+    }
+
+    .result-card.counting .result-status-dot {
+      background: var(--green-dark);
     }
 
     .result-status {
@@ -3267,7 +3295,6 @@ body.official-ranking-view .layout {
 
       return results.map((item) => {
         const cardClass = item.counting ? "counting" : "not-counting";
-        const badge = item.counting ? "Contando" : "Não contando";
         const source = item.source ? ' · ' + escapeHtmlClient(item.source) : '';
         const categoryClass = getCategoryClass(item.category);
         const details = [
@@ -3278,16 +3305,16 @@ body.official-ranking-view .layout {
         return \`
           <div class="result-card \${cardClass}">
             <div class="result-main">
+              <span class="result-status-dot" title="\${item.counting ? 'Contando' : 'Não contando'}"></span>
               <div class="result-category-scope \${categoryClass}">
                 <div class="result-heading">
                   \${getCategoryChipHtml(item.category)}
                   <div>
                     <div class="result-title tournament-name">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
-                    <div class="small">\${details}\${source}</div>
+                    <div class="result-meta">\${details}\${source}</div>
                   </div>
                 </div>
               </div>
-              <span class="result-badge">\${badge}</span>
             </div>
             <div class="result-points">\${formatNumberClient(item.points)} pts</div>
           </div>
@@ -3305,7 +3332,7 @@ body.official-ranking-view .layout {
             <span>\${title}</span>
             <span class="profile-section-meta">\${counting.length}/\${total}</span>
           </div>
-          \${renderResultCards(results)}
+          <div class="result-list">\${renderResultCards(results)}</div>
         </div>
       \`;
     }
