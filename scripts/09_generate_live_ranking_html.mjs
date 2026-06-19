@@ -651,11 +651,15 @@ function buildPointCartelMap(combinedLedgerRows) {
       );
 
       cartel[eventType] = sorted.map((row) => ({
+        eventType,
         tournament: cleanText(row.tournament_name),
         category: cleanText(row.category),
         round: cleanText(row.round),
         date: cleanText(row.start_date),
         points: toNumber(row.points),
+        surface: cleanText(row.surface),
+        surfaceCode: cleanText(row.surface_code).toUpperCase(),
+        surfaceKey: getSurfaceKey(row.surface, row.surface_code),
         source: cleanText(row.source_type) === "live" ? "LIVE" : "",
         counting: countingKeys.has(buildResultKey(row)),
       }));
@@ -2039,61 +2043,61 @@ function buildHtml(
     }
 
     .surface-clay {
-      --cat-color: #a64b08;
-      --cat-bg: #fff0df;
-      --cat-soft: rgba(255, 240, 223, 0.86);
-      --cat-border: rgba(211, 100, 17, 0.28);
+      --cat-color: #e87822;
+      --cat-bg: rgba(232, 120, 34, 0.13);
+      --cat-soft: rgba(232, 120, 34, 0.13);
+      --cat-border: rgba(232, 120, 34, 0.42);
     }
 
     .surface-grass {
-      --cat-color: #12633a;
-      --cat-bg: #e2f7e9;
-      --cat-soft: rgba(226, 247, 233, 0.86);
-      --cat-border: rgba(28, 135, 77, 0.28);
+      --cat-color: #2f9b57;
+      --cat-bg: rgba(47, 155, 87, 0.13);
+      --cat-soft: rgba(47, 155, 87, 0.13);
+      --cat-border: rgba(47, 155, 87, 0.42);
     }
 
     .surface-hard {
-      --cat-color: #164a7a;
-      --cat-bg: #e4f0ff;
-      --cat-soft: rgba(228, 240, 255, 0.86);
-      --cat-border: rgba(29, 91, 153, 0.28);
+      --cat-color: #2569a8;
+      --cat-bg: rgba(37, 105, 168, 0.13);
+      --cat-soft: rgba(37, 105, 168, 0.13);
+      --cat-border: rgba(37, 105, 168, 0.42);
     }
 
     .surface-carpet,
     .surface-other {
-      --cat-color: #63308f;
-      --cat-bg: #f1e7ff;
-      --cat-soft: rgba(241, 231, 255, 0.86);
-      --cat-border: rgba(111, 58, 159, 0.28);
+      --cat-color: #8a56c5;
+      --cat-bg: rgba(138, 86, 197, 0.13);
+      --cat-soft: rgba(138, 86, 197, 0.13);
+      --cat-border: rgba(138, 86, 197, 0.42);
     }
 
     :root[data-theme="dark"] .surface-clay {
-      --cat-color: #ffb36a;
-      --cat-bg: rgba(255, 137, 40, 0.14);
-      --cat-soft: rgba(255, 137, 40, 0.12);
-      --cat-border: rgba(255, 179, 106, 0.28);
+      --cat-color: #e87822;
+      --cat-bg: rgba(232, 120, 34, 0.18);
+      --cat-soft: rgba(232, 120, 34, 0.16);
+      --cat-border: rgba(232, 120, 34, 0.46);
     }
 
     :root[data-theme="dark"] .surface-grass {
-      --cat-color: #72d58e;
-      --cat-bg: rgba(93, 190, 115, 0.14);
-      --cat-soft: rgba(93, 190, 115, 0.12);
-      --cat-border: rgba(114, 213, 142, 0.28);
+      --cat-color: #2f9b57;
+      --cat-bg: rgba(47, 155, 87, 0.18);
+      --cat-soft: rgba(47, 155, 87, 0.16);
+      --cat-border: rgba(47, 155, 87, 0.46);
     }
 
     :root[data-theme="dark"] .surface-hard {
-      --cat-color: #8cc8f1;
-      --cat-bg: rgba(72, 133, 195, 0.16);
-      --cat-soft: rgba(72, 133, 195, 0.12);
-      --cat-border: rgba(140, 200, 241, 0.28);
+      --cat-color: #2569a8;
+      --cat-bg: rgba(37, 105, 168, 0.2);
+      --cat-soft: rgba(37, 105, 168, 0.18);
+      --cat-border: rgba(37, 105, 168, 0.5);
     }
 
     :root[data-theme="dark"] .surface-carpet,
     :root[data-theme="dark"] .surface-other {
-      --cat-color: #cda4ff;
-      --cat-bg: rgba(148, 90, 203, 0.16);
-      --cat-soft: rgba(148, 90, 203, 0.12);
-      --cat-border: rgba(205, 164, 255, 0.28);
+      --cat-color: #8a56c5;
+      --cat-bg: rgba(138, 86, 197, 0.2);
+      --cat-soft: rgba(138, 86, 197, 0.18);
+      --cat-border: rgba(138, 86, 197, 0.5);
     }
 
     .side {
@@ -2224,6 +2228,74 @@ function buildHtml(
       font-size: 8px;
       font-weight: 500;
       white-space: nowrap;
+    }
+
+    .surface-chart {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      padding: 6px 0 2px;
+    }
+
+    .surface-donut {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: conic-gradient(var(--border) 0 360deg);
+      position: relative;
+      box-shadow: 0 0 0 1px var(--border-soft) inset;
+    }
+
+    .surface-donut::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 50%;
+      background: var(--panel-solid);
+      box-shadow: 0 0 0 1px var(--border-soft);
+    }
+
+    :root[data-theme="dark"] .surface-donut::after {
+      background: var(--panel-solid);
+    }
+
+    .surface-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 7px;
+      min-width: 0;
+    }
+
+    .surface-legend-item {
+      display: grid;
+      grid-template-columns: 7px minmax(0, 1fr);
+      gap: 4px;
+      align-items: center;
+      min-width: 0;
+      font-size: 8px;
+      line-height: 1.05;
+      color: var(--muted);
+    }
+
+    .surface-legend-swatch {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--surface-color);
+      box-shadow: 0 0 0 1px rgba(20, 36, 50, 0.08);
+    }
+
+    .surface-legend-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .surface-legend-label strong {
+      color: var(--text);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
     }
 
     .result-list {
@@ -2721,6 +2793,22 @@ body.official-ranking-view .layout {
       return surfaceKey ? "surface-" + surfaceKey : "";
     }
 
+    function getSurfaceLabel(surfaceKey) {
+      if (surfaceKey === "clay") return "Saibro";
+      if (surfaceKey === "grass") return "Grama";
+      if (surfaceKey === "hard") return "Hard";
+      if (surfaceKey === "carpet") return "Carpet";
+      return "Outros";
+    }
+
+    function getSurfaceColor(surfaceKey) {
+      if (surfaceKey === "clay") return "#e87822";
+      if (surfaceKey === "grass") return "#2f9b57";
+      if (surfaceKey === "hard") return "#2569a8";
+      if (surfaceKey === "carpet") return "#8a56c5";
+      return "#8a56c5";
+    }
+
     function getTournamentSurfaceLookupKey(tournament, category) {
       return [
         normalizeSearchText(getTournamentDisplayNameClient(tournament, category)),
@@ -3009,9 +3097,13 @@ body.official-ranking-view .layout {
 
     function getProjectionRoundHtml(round) {
       const text = escapeHtmlClient(round);
+      const parts = text.split("/");
 
-      return text
-        .split("/")
+      if (parts.some((part) => part.toUpperCase() === "W")) {
+        return '<span class="trophy">🏆</span>';
+      }
+
+      return parts
         .map((part) => part.toUpperCase() === "W" ? '<span class="trophy">🏆</span>' : part)
         .join("/");
     }
@@ -3322,6 +3414,76 @@ body.official-ranking-view .layout {
       }).join("");
     }
 
+    function getRankingContribution(item) {
+      const points = Number(item.points || 0);
+
+      return item.eventType === "doubles"
+        ? Number((points * 0.25).toFixed(2))
+        : points;
+    }
+
+    function getSurfaceBreakdown(row) {
+      const totals = new Map();
+      const allResults = [
+        ...(row.point_cartel?.singles || []),
+        ...(row.point_cartel?.doubles || []),
+      ];
+
+      for (const item of allResults) {
+        if (!item.counting) continue;
+
+        const value = getRankingContribution(item);
+        if (value <= 0) continue;
+
+        const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode) || "other";
+        totals.set(surfaceKey, Number(((totals.get(surfaceKey) || 0) + value).toFixed(2)));
+      }
+
+      return [...totals.entries()]
+        .map(([surfaceKey, points]) => ({
+          surfaceKey,
+          points,
+          label: getSurfaceLabel(surfaceKey),
+          color: getSurfaceColor(surfaceKey),
+        }))
+        .sort((a, b) => b.points - a.points);
+    }
+
+    function renderSurfaceChart(row) {
+      const items = getSurfaceBreakdown(row);
+      const total = items.reduce((sum, item) => sum + item.points, 0);
+
+      if (!items.length || total <= 0) return "";
+
+      let cursor = 0;
+      const gradient = items.map((item) => {
+        const start = cursor;
+        const end = cursor + (item.points / total) * 360;
+        cursor = end;
+
+        return item.color + " " + start.toFixed(2) + "deg " + end.toFixed(2) + "deg";
+      }).join(", ");
+
+      return \`
+        <div class="profile-section">
+          <div class="profile-section-title">
+            <span>Pontos por piso</span>
+          </div>
+          <div class="surface-chart">
+            <div class="surface-donut" style="background: conic-gradient(\${gradient});"></div>
+            <div class="surface-legend">
+              \${items.map((item) => \`
+                <div class="surface-legend-item" style="--surface-color: \${item.color};">
+                  <span class="surface-legend-swatch"></span>
+                  <span class="surface-legend-label">\${escapeHtmlClient(item.label)} <strong>\${formatNumberClient(item.points)}</strong> · \${formatNumberClient((item.points / total) * 100)}%</span>
+                </div>
+              \`).join("")}
+            </div>
+          </div>
+        </div>
+      \`;
+    }
+
     function renderCartelSection(title, results) {
       const counting = results.filter((item) => item.counting);
       const total = results.length;
@@ -3364,6 +3526,7 @@ body.official-ranking-view .layout {
 
         \${tags ? '<div class="profile-line">' + tags + '</div>' : ''}
 
+        \${renderSurfaceChart(row)}
         \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
         \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
       \`;
