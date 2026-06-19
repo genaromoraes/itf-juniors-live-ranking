@@ -1472,7 +1472,7 @@ function buildHtml(
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 290px;
+      grid-template-columns: minmax(0, 1fr) 260px;
       gap: 8px;
       align-items: start;
     }
@@ -2118,6 +2118,74 @@ function buildHtml(
       padding: 7px;
     }
 
+    .profile-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(15, 23, 32, 0.48);
+      backdrop-filter: blur(6px);
+    }
+
+    .profile-modal.open {
+      display: flex;
+    }
+
+    .profile-dialog {
+      width: min(1040px, 100%);
+      max-height: min(88vh, 760px);
+      padding: 12px;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    .profile-dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .profile-dialog-header h3 {
+      margin: 0;
+    }
+
+    .modal-close-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .modal-close-button:hover {
+      border-color: rgba(8, 117, 109, 0.26);
+      color: var(--green-dark);
+      background: #ffffff;
+    }
+
+    :root[data-theme="dark"] .modal-close-button {
+      background: rgba(17, 27, 35, 0.82);
+    }
+
+    :root[data-theme="dark"] .modal-close-button:hover {
+      background: rgba(25, 42, 50, 0.96);
+      border-color: rgba(97, 198, 184, 0.34);
+    }
+
     .tournament-group {
       display: grid;
       grid-template-columns: 32px 1fr;
@@ -2168,9 +2236,9 @@ function buildHtml(
 
     .profile-head {
       display: flex;
-      gap: 5px;
-      align-items: flex-start;
-      margin-bottom: 5px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
     }
 
     .profile-flag {
@@ -2180,12 +2248,12 @@ function buildHtml(
     }
 
     .profile-flag .country-flag {
-      width: 16px;
-      height: 11px;
+      width: 22px;
+      height: 15px;
     }
 
     .profile-name {
-      font-size: 11px;
+      font-size: 16px;
       font-weight: 700;
       line-height: 1.25;
       letter-spacing: -0.02em;
@@ -2194,7 +2262,7 @@ function buildHtml(
     .profile-meta {
       margin-top: 2px;
       color: var(--muted);
-      font-size: 9px;
+      font-size: 11px;
       line-height: 1.08;
     }
 
@@ -2210,7 +2278,7 @@ function buildHtml(
     }
 
     .profile-section {
-      margin-top: 6px;
+      margin-top: 9px;
     }
 
     .profile-section-title {
@@ -2231,17 +2299,54 @@ function buildHtml(
       white-space: nowrap;
     }
 
+    .profile-overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 12px;
+      align-items: stretch;
+      margin: 8px 0 10px;
+    }
+
+    .profile-overview.single {
+      grid-template-columns: 1fr;
+    }
+
+    .profile-overview-card {
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      background: rgba(247, 250, 249, 0.58);
+      min-width: 0;
+    }
+
+    :root[data-theme="dark"] .profile-overview-card {
+      background: rgba(17, 27, 35, 0.52);
+    }
+
+    .cartel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      margin-top: 10px;
+    }
+
+    .cartel-grid .profile-section {
+      min-width: 0;
+      margin-top: 0;
+    }
+
     .surface-chart {
       display: grid;
-      grid-template-columns: 58px minmax(0, 1fr);
-      gap: 8px;
+      grid-template-columns: 136px minmax(0, 1fr);
+      gap: 16px;
       align-items: center;
-      padding: 6px 0 2px;
+      padding: 8px 0 2px;
     }
 
     .surface-donut {
-      width: 54px;
-      height: 54px;
+      width: 128px;
+      height: 128px;
       border-radius: 50%;
       background: conic-gradient(var(--border) 0 360deg);
       position: relative;
@@ -2251,7 +2356,7 @@ function buildHtml(
     .surface-donut::after {
       content: "";
       position: absolute;
-      inset: 14px;
+      inset: 33px;
       border-radius: 50%;
       background: var(--panel-solid);
       box-shadow: 0 0 0 1px var(--border-soft);
@@ -2263,34 +2368,32 @@ function buildHtml(
 
     .surface-legend {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px 7px;
+      grid-template-columns: 1fr;
+      gap: 7px;
       min-width: 0;
     }
 
     .surface-legend-item {
       display: grid;
-      grid-template-columns: 7px minmax(0, 1fr);
-      gap: 4px;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 6px;
       align-items: center;
       min-width: 0;
-      font-size: 8px;
-      line-height: 1.05;
+      font-size: 10px;
+      line-height: 1.16;
       color: var(--muted);
     }
 
     .surface-legend-swatch {
-      width: 7px;
-      height: 7px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--surface-color);
       box-shadow: 0 0 0 1px rgba(20, 36, 50, 0.08);
     }
 
     .surface-legend-label {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      white-space: normal;
     }
 
     .surface-legend-label strong {
@@ -2301,13 +2404,13 @@ function buildHtml(
 
     .simulator {
       display: grid;
-      gap: 5px;
+      gap: 8px;
     }
 
     .simulator-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px;
+      gap: 7px;
     }
 
     .simulator-field {
@@ -2317,7 +2420,7 @@ function buildHtml(
 
     .simulator-field label {
       color: var(--muted);
-      font-size: 8px;
+      font-size: 9px;
       font-weight: 700;
     }
 
@@ -2328,7 +2431,7 @@ function buildHtml(
       gap: 4px;
       min-height: 20px;
       color: var(--muted);
-      font-size: 9px;
+      font-size: 10px;
       line-height: 1.1;
     }
 
@@ -2543,9 +2646,13 @@ body.official-ranking-view .side {
   display: none;
 }
 
-body.official-ranking-view .layout {
-  grid-template-columns: minmax(0, 860px);
-}
+    body.official-ranking-view .layout {
+      grid-template-columns: minmax(0, 860px);
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
     @media (max-width: 1200px) {
       .page {
         width: min(100% - 24px, 100%);
@@ -2598,6 +2705,42 @@ body.official-ranking-view .layout {
       .ranking-card-header {
         padding: 10px 10px 8px;
       }
+
+      .profile-modal {
+        align-items: stretch;
+        padding: 10px;
+      }
+
+      .profile-dialog {
+        max-height: calc(100vh - 20px);
+      }
+
+      .profile-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .cartel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .simulator-grid,
+      .surface-chart {
+        grid-template-columns: 1fr;
+      }
+
+      .surface-chart {
+        justify-items: start;
+      }
+
+      .surface-donut {
+        width: 104px;
+        height: 104px;
+      }
+
+      .surface-donut::after {
+        inset: 27px;
+      }
+
     }
   </style>
 </head>
@@ -2736,15 +2879,20 @@ body.official-ranking-view .layout {
           <h3>Torneios da semana</h3>
           <div id="weekTournaments"></div>
         </section>
-
-        <section class="side-card" id="profileCard">
-          <h3>Pontuações do atleta</h3>
-          <div class="profile-empty">
-            Clique em um atleta da tabela para ver o resumo de pontuação.
-          </div>
-        </section>
       </aside>
     </main>
+
+    <div class="profile-modal" id="profileModal" aria-hidden="true" onclick="closeProfileModal()">
+      <section class="side-card profile-dialog" id="profileCard" role="dialog" aria-modal="true" aria-labelledby="profileDialogTitle" onclick="event.stopPropagation()">
+        <div class="profile-dialog-header">
+          <h3 id="profileDialogTitle">Pontuações do atleta</h3>
+          <button class="modal-close-button" type="button" aria-label="Fechar" onclick="closeProfileModal()">×</button>
+        </div>
+        <div class="profile-empty">
+          Clique em um atleta da tabela para ver o resumo de pontuação.
+        </div>
+      </section>
+    </div>
   </div>
 
   <script>
@@ -2766,6 +2914,7 @@ body.official-ranking-view .layout {
     const rankingBody = document.getElementById("rankingBody");
     const visibleSummary = document.getElementById("visibleSummary");
     const weekTournaments = document.getElementById("weekTournaments");
+    const profileModal = document.getElementById("profileModal");
     const profileCard = document.getElementById("profileCard");
 
     let selectedPlayerId = "";
@@ -3506,7 +3655,16 @@ body.official-ranking-view .layout {
       const items = getSurfaceBreakdown(row);
       const total = items.reduce((sum, item) => sum + item.points, 0);
 
-      if (!items.length || total <= 0) return "";
+      if (!items.length || total <= 0) {
+        return \`
+          <div class="profile-overview-card">
+            <div class="profile-section-title">
+              <span>Pontos por piso</span>
+            </div>
+            <div class="profile-empty">Sem piso identificado nos resultados que contam.</div>
+          </div>
+        \`;
+      }
 
       let cursor = 0;
       const gradient = items.map((item) => {
@@ -3518,7 +3676,7 @@ body.official-ranking-view .layout {
       }).join(", ");
 
       return \`
-        <div class="profile-section">
+        <div class="profile-overview-card">
           <div class="profile-section-title">
             <span>Pontos por piso</span>
           </div>
@@ -3625,7 +3783,7 @@ body.official-ranking-view .layout {
       if (!singlesOptions.length && !doublesOptions.length) return "";
 
       return \`
-        <div class="profile-section">
+        <div class="profile-overview-card">
           <div class="profile-section-title">
             <span>Simulador da semana</span>
             <span class="profile-section-meta">\${escapeHtmlClient(getTournamentDisplayNameClient(p.tournament, p.category))}</span>
@@ -3701,8 +3859,14 @@ body.official-ranking-view .layout {
 
     function renderProfile(row) {
       if (!row) {
+        profileModal.classList.remove("open");
+        profileModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
         profileCard.innerHTML = \`
-          <h3>Pontuações do atleta</h3>
+          <div class="profile-dialog-header">
+            <h3 id="profileDialogTitle">Pontuações do atleta</h3>
+            <button class="modal-close-button" type="button" aria-label="Fechar" onclick="closeProfileModal()">×</button>
+          </div>
           <div class="profile-empty">
             Clique em um atleta da tabela para ver o resumo de pontuação.
           </div>
@@ -3712,9 +3876,13 @@ body.official-ranking-view .layout {
 
       const flag = getFlagHtml(row);
       const tags = statusTags(row);
+      const simulatorHtml = renderPointSimulator(row);
 
       profileCard.innerHTML = \`
-        <h3>Pontuações do atleta</h3>
+        <div class="profile-dialog-header">
+          <h3 id="profileDialogTitle">Pontuações do atleta</h3>
+          <button class="modal-close-button" type="button" aria-label="Fechar" onclick="closeProfileModal()">×</button>
+        </div>
 
         <div class="profile-head">
           <div class="profile-flag">\${flag}</div>
@@ -3726,11 +3894,18 @@ body.official-ranking-view .layout {
 
         \${tags ? '<div class="profile-line">' + tags + '</div>' : ''}
 
-        \${renderPointSimulator(row)}
-        \${renderSurfaceChart(row)}
-        \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
-        \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
+        <div class="profile-overview \${simulatorHtml ? "" : "single"}">
+          \${renderSurfaceChart(row)}
+          \${simulatorHtml}
+        </div>
+        <div class="cartel-grid">
+          \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
+          \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
+        </div>
       \`;
+      profileModal.classList.add("open");
+      profileModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
     }
 
     function getRankingCellHtml(row) {
@@ -3831,6 +4006,12 @@ body.official-ranking-view .layout {
       renderTable();
     }
 
+    function closeProfileModal() {
+      selectedPlayerId = "";
+      renderProfile(null);
+      renderTable();
+    }
+
     function togglePointsInfo(event, playerId) {
       event.stopPropagation();
       expandedPointsPlayerId = expandedPointsPlayerId === playerId ? "" : playerId;
@@ -3839,6 +4020,7 @@ body.official-ranking-view .layout {
 
     window.selectPlayer = selectPlayer;
     window.togglePointsInfo = togglePointsInfo;
+    window.closeProfileModal = closeProfileModal;
     window.setTableSort = setTableSort;
     window.updatePointSimulator = updatePointSimulator;
 
@@ -3859,6 +4041,11 @@ body.official-ranking-view .layout {
       applyTheme(themeToggle.checked ? "dark" : "light");
     });
     playingOnlyFilter.addEventListener("change", renderTable);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && profileModal.classList.contains("open")) {
+        closeProfileModal();
+      }
+    });
     genderFilter.addEventListener("change", () => {
       selectedPlayerId = "";
       renderProfile(null);
