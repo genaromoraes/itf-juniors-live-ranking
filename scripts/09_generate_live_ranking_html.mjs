@@ -1105,6 +1105,7 @@ function buildHtml(
 
   const dataJson = JSON.stringify(data);
   const tournamentGroupsJson = JSON.stringify(tournamentGroups);
+  const pointsByCategoryJson = JSON.stringify(POINTS_BY_CATEGORY);
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -2298,6 +2299,57 @@ function buildHtml(
       font-variant-numeric: tabular-nums;
     }
 
+    .simulator {
+      display: grid;
+      gap: 5px;
+    }
+
+    .simulator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+
+    .simulator-field {
+      display: grid;
+      gap: 2px;
+    }
+
+    .simulator-field label {
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .simulator-result {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      min-height: 20px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.1;
+    }
+
+    .simulator-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 2px 6px;
+      background: rgba(8, 117, 109, 0.08);
+      color: var(--green-dark);
+      border: 1px solid rgba(8, 117, 109, 0.14);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    :root[data-theme="dark"] .simulator-pill {
+      background: rgba(97, 198, 184, 0.12);
+      border-color: rgba(97, 198, 184, 0.22);
+    }
+
     .result-list {
       display: grid;
       gap: 2px;
@@ -2698,6 +2750,7 @@ body.official-ranking-view .layout {
   <script>
     const rankingData = ${dataJson};
     const tournamentGroups = ${tournamentGroupsJson};
+    const pointsByCategory = ${pointsByCategoryJson};
     const officialRankingDate = ${JSON.stringify(rankingDate || "não informado")};
 
     const searchInput = document.getElementById("searchInput");
@@ -3484,6 +3537,153 @@ body.official-ranking-view .layout {
       \`;
     }
 
+    function getRoundLabel(round) {
+      if (round === "W") return "Campeão";
+      if (round === "F") return "Final";
+      if (round === "SF") return "Semi";
+      if (round === "QF") return "Quartas";
+      return round;
+    }
+
+    function getSimulationRoundOptions(eventType, category) {
+      const categoryPoints =
+        pointsByCategory[eventType]?.[category] ||
+        pointsByCategory[eventType]?.JGS ||
+        {};
+
+      return ["R128", "R64", "R32", "R16", "QF", "SF", "F", "W"]
+        .filter((round) => Number(categoryPoints[round] || 0) > 0)
+        .map((round) => ({
+          round,
+          points: Number(categoryPoints[round] || 0),
+        }));
+    }
+
+    function getSimulatedEventDelta(row, eventType, targetRound) {
+      if (!targetRound) return 0;
+
+      const category = row.playing_this_week?.category || "";
+      const targetRawPoints = Number(
+        pointsByCategory[eventType]?.[category]?.[targetRound] ||
+        pointsByCategory[eventType]?.JGS?.[targetRound] ||
+        0
+      );
+      const multiplier = eventType === "doubles" ? 0.25 : 1;
+      const tournament = normalizeSearchText(row.playing_this_week?.tournament || "");
+      const currentResults = (row.point_cartel?.[eventType] || []).filter((item) => {
+        const sameTournament = normalizeSearchText(item.tournament) === tournament;
+        const sameCategory = String(item.category || "") === category;
+
+        return !(sameTournament && sameCategory && item.source === "LIVE");
+      });
+      const currentRawTopSix = (row.point_cartel?.[eventType] || [])
+        .map((item) => Number(item.points || 0))
+        .sort((a, b) => b - a)
+        .slice(0, 6)
+        .reduce((sum, points) => sum + points, 0);
+      const projectedRawTopSix = [
+        ...currentResults.map((item) => Number(item.points || 0)),
+        targetRawPoints,
+      ]
+        .sort((a, b) => b - a)
+        .slice(0, 6)
+        .reduce((sum, points) => sum + points, 0);
+
+      return Number(((projectedRawTopSix - currentRawTopSix) * multiplier).toFixed(2));
+    }
+
+    function getProjectedRankForPoints(row, projectedPoints) {
+      const minimumBirthYear = getGenerationMinimumYear();
+
+      return 1 + rankingData.filter((item) => {
+        if (item.gender !== row.gender) return false;
+        if (item.player_id === row.player_id) return false;
+        if (isGenerationRankingActive() && Number(item.birth_year || 0) < minimumBirthYear) return false;
+
+        return Number(item.live_points || 0) > projectedPoints;
+      }).length;
+    }
+
+    function renderSimulatorOptions(options) {
+      return '<option value="">-</option>' +
+        options
+          .map((item) => '<option value="' + item.round + '">' + getRoundLabel(item.round) + ' · ' + formatNumberClient(item.points) + '</option>')
+          .join("");
+    }
+
+    function renderPointSimulator(row) {
+      if (!row.playing_this_week) return "";
+
+      const p = row.playing_this_week;
+      const singlesOptions = p.singlesSummary
+        ? getSimulationRoundOptions("singles", p.category)
+        : [];
+      const doublesOptions = p.doublesSummary
+        ? getSimulationRoundOptions("doubles", p.category)
+        : [];
+
+      if (!singlesOptions.length && !doublesOptions.length) return "";
+
+      return \`
+        <div class="profile-section">
+          <div class="profile-section-title">
+            <span>Simulador da semana</span>
+            <span class="profile-section-meta">\${escapeHtmlClient(getTournamentDisplayNameClient(p.tournament, p.category))}</span>
+          </div>
+          <div class="simulator">
+            <div class="simulator-grid">
+              <div class="simulator-field">
+                <label for="singlesSimulatorSelect">Simples</label>
+                <select id="singlesSimulatorSelect" \${singlesOptions.length ? "" : "disabled"} onchange="updatePointSimulator()">
+                  \${renderSimulatorOptions(singlesOptions)}
+                </select>
+              </div>
+              <div class="simulator-field">
+                <label for="doublesSimulatorSelect">Duplas</label>
+                <select id="doublesSimulatorSelect" \${doublesOptions.length ? "" : "disabled"} onchange="updatePointSimulator()">
+                  \${renderSimulatorOptions(doublesOptions)}
+                </select>
+              </div>
+            </div>
+            <div class="simulator-result" id="simulatorResult">
+              Selecione uma rodada para simular.
+            </div>
+          </div>
+        </div>
+      \`;
+    }
+
+    function updatePointSimulator() {
+      const row = rankingData.find((item) => item.player_id === selectedPlayerId);
+      const resultEl = document.getElementById("simulatorResult");
+      const singlesSelect = document.getElementById("singlesSimulatorSelect");
+      const doublesSelect = document.getElementById("doublesSimulatorSelect");
+
+      if (!row || !resultEl || !singlesSelect || !doublesSelect) return;
+
+      const singlesRound = singlesSelect.value;
+      const doublesRound = doublesSelect.value;
+
+      if (!singlesRound && !doublesRound) {
+        resultEl.textContent = "Selecione uma rodada para simular.";
+        return;
+      }
+
+      const delta =
+        getSimulatedEventDelta(row, "singles", singlesRound) +
+        getSimulatedEventDelta(row, "doubles", doublesRound);
+      const projectedPoints = Number((Number(row.live_points || 0) + delta).toFixed(2));
+      const projectedRank = getProjectedRankForPoints(row, projectedPoints);
+      const rankGain = Number(row.live_rank || 0) - projectedRank;
+
+      resultEl.innerHTML =
+        '<span class="simulator-pill">' + formatNumberClient(projectedPoints) + ' pts</span>' +
+        '<span class="simulator-pill">' + formatRankClient(projectedRank) + '</span>' +
+        '<span>' + (delta >= 0 ? '+' : '') + formatNumberClient(delta) + ' pts' +
+        (rankGain > 0 ? ' · +' + rankGain + ' pos.' : '') +
+        '</span>';
+    }
+
     function renderCartelSection(title, results) {
       const counting = results.filter((item) => item.counting);
       const total = results.length;
@@ -3526,6 +3726,7 @@ body.official-ranking-view .layout {
 
         \${tags ? '<div class="profile-line">' + tags + '</div>' : ''}
 
+        \${renderPointSimulator(row)}
         \${renderSurfaceChart(row)}
         \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
         \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
@@ -3639,6 +3840,7 @@ body.official-ranking-view .layout {
     window.selectPlayer = selectPlayer;
     window.togglePointsInfo = togglePointsInfo;
     window.setTableSort = setTableSort;
+    window.updatePointSimulator = updatePointSimulator;
 
     searchInput.addEventListener("input", renderTable);
     countrySearchInput.addEventListener("input", renderTable);
