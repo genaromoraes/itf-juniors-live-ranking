@@ -1483,6 +1483,10 @@ function buildHtml(
       background: rgba(255, 255, 255, 0.1);
     }
 
+    .language-toggle {
+      width: 102px;
+    }
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -2842,7 +2846,7 @@ body.official-ranking-view .side {
       <div>
         <h1>ITF Juniors Live Ranking</h1>
         <div class="creator">
-          Criado por
+          <span id="creatorLabel">Criado por</span>
           <a href="https://x.com/InfoTenisBrasil" target="_blank">X @InfoTenisBrasil</a>
           <span class="beta">BETA TEST</span>
         </div>
@@ -2850,31 +2854,32 @@ body.official-ranking-view .side {
 
       <div class="top-controls">
         <div class="mini-control">
-          <label>Tema</label>
+          <label id="themeLabel">Tema</label>
           <label class="toggle-button theme-toggle" for="themeToggle">
             <input id="themeToggle" type="checkbox" />
             <span class="toggle-track"></span>
-            <span>Escuro</span>
+            <span id="darkModeLabel">Escuro</span>
           </label>
         </div>
 
         <div class="mini-control">
-          <label>Idioma</label>
-          <select id="languageSelect">
-            <option>Português</option>
-          </select>
+          <label id="languageLabel">Idioma</label>
+          <div class="segmented-control language-toggle" role="group" aria-label="Idioma">
+            <button type="button" class="active" data-language-option="pt-BR">PT-BR</button>
+            <button type="button" data-language-option="en">EN</button>
+          </div>
         </div>
       </div>
     </header>
 
     <section class="filters">
       <div class="filter">
-        <label>Buscar atleta</label>
+        <label id="athleteSearchLabel">Buscar atleta</label>
         <input id="searchInput" type="text" placeholder="Nome do atleta" />
       </div>
 
       <div class="filter country-filter" id="countryFilterBox">
-        <label>Buscar país</label>
+        <label id="countrySearchLabel">Buscar país</label>
         <div class="country-input-wrap">
           <input id="countrySearchInput" type="text" placeholder="Digite e selecione o país" autocomplete="off" />
           <button class="country-clear" id="countryClearButton" type="button" aria-label="Limpar país">×</button>
@@ -2883,7 +2888,7 @@ body.official-ranking-view .side {
       </div>
 
       <div class="filter">
-        <label>Ranking</label>
+        <label id="rankingModeLabel">Ranking</label>
         <div class="segmented-control" role="group" aria-label="Tipo de ranking">
           <button type="button" class="active" data-ranking-mode-option="ALL">Completo</button>
           <button type="button" data-ranking-mode-option="TURNOVER" id="turnoverRankingButton">Virada</button>
@@ -2895,7 +2900,7 @@ body.official-ranking-view .side {
       </div>
 
       <div class="filter">
-        <label>Categoria</label>
+        <label id="categoryLabel">Categoria</label>
         <div class="segmented-control" role="group" aria-label="Filtrar categoria">
           <button type="button" class="active" data-gender-option="M">Masculino</button>
           <button type="button" data-gender-option="F">Feminino</button>
@@ -2907,7 +2912,7 @@ body.official-ranking-view .side {
       </div>
 
       <div class="filter">
-        <label>Ordenar por</label>
+        <label id="sortLabel">Ordenar por</label>
         <select id="sortFilter">
           <option value="RANK" selected>Ranking ao vivo</option>
           <option value="OFFICIAL_RANK">Ranking oficial</option>
@@ -2915,16 +2920,16 @@ body.official-ranking-view .side {
       </div>
 
       <div class="filter toggle-filter weekly-only">
-        <label>Filtro semanal</label>
+        <label id="weeklyFilterLabel">Filtro semanal</label>
         <label class="toggle-button" for="playingOnlyFilter">
           <input id="playingOnlyFilter" type="checkbox" />
           <span class="toggle-track"></span>
-          <span>Jogando</span>
+          <span id="playingLabel">Jogando</span>
         </label>
       </div>
 
       <div class="filter">
-        <label>Última atualização (UTC-3)</label>
+        <label id="updatedAtLabel">Última atualização (UTC-3)</label>
         <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
     </section>
@@ -2932,7 +2937,7 @@ body.official-ranking-view .side {
     <main class="layout">
       <section class="ranking-card">
         <div class="ranking-card-header">
-          <span class="formula weekly-only">Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas</span>
+          <span class="formula weekly-only" id="formulaLabel">Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas</span>
           <span class="summary-row">
             <span id="visibleSummary">Carregando...</span>
             <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
@@ -2956,14 +2961,14 @@ body.official-ranking-view .side {
               </th>
               <th>
                 <button class="sort-header" type="button" data-sort-header="YEAR" onclick="setTableSort('YEAR')">
-                  <span>Ano</span>
+                  <span id="yearHeaderLabel">Ano</span>
                   <span class="sort-indicator" data-sort-indicator="YEAR">↕</span>
                 </button>
               </th>
               <th id="pointsHeaderLabel">Pontos ao vivo</th>
-              <th class="live-only">Jogando esta<br />semana</th>
-              <th class="live-only">Projeção<br />próx. rodada</th>
-              <th class="live-only">Projeção<br />título</th>
+              <th class="live-only" id="playingThisWeekHeader">Jogando esta<br />semana</th>
+              <th class="live-only" id="nextRoundHeader">Projeção<br />próx. rodada</th>
+              <th class="live-only" id="titleProjectionHeader">Projeção<br />título</th>
             </tr>
           </thead>
           <tbody id="rankingBody"></tbody>
@@ -2972,7 +2977,7 @@ body.official-ranking-view .side {
 
       <aside class="side">
         <section class="side-card">
-          <h3>Torneios da semana</h3>
+          <h3 id="weekTournamentsTitle">Torneios da semana</h3>
           <div id="weekTournaments"></div>
         </section>
       </aside>
@@ -2984,7 +2989,7 @@ body.official-ranking-view .side {
           <h3 id="profileDialogTitle">Pontuações do atleta</h3>
           <button class="modal-close-button" type="button" aria-label="Fechar" onclick="closeProfileModal()">×</button>
         </div>
-        <div class="profile-empty">
+        <div class="profile-empty" id="profileEmptyText">
           Clique em um atleta da tabela para ver o resumo de pontuação.
         </div>
       </section>
@@ -3005,6 +3010,7 @@ body.official-ranking-view .side {
     const generationRankingFilter = document.getElementById("generationRankingFilter");
     const rankingModeButtons = Array.from(document.querySelectorAll("[data-ranking-mode-option]"));
     const turnoverRankingButton = document.getElementById("turnoverRankingButton");
+    const languageButtons = Array.from(document.querySelectorAll("[data-language-option]"));
     const themeToggle = document.getElementById("themeToggle");
     const genderFilter = document.getElementById("genderFilter");
     const genderButtons = Array.from(document.querySelectorAll("[data-gender-option]"));
@@ -3021,6 +3027,164 @@ body.official-ranking-view .side {
     let selectedCountry = null;
     let sortColumn = "RANK";
     let sortDirection = "asc";
+    let currentLanguage = localStorage.getItem("itf-live-language") || "pt-BR";
+
+    const translations = {
+      "pt-BR": {
+        createdBy: "Criado por",
+        theme: "Tema",
+        dark: "Escuro",
+        language: "Idioma",
+        athleteSearch: "Buscar atleta",
+        athletePlaceholder: "Nome do atleta",
+        countrySearch: "Buscar país",
+        countryPlaceholder: "Digite e selecione o país",
+        clearCountry: "Limpar país",
+        countrySuggestions: "Sugestões de país",
+        noCountryResults: "Nenhum país encontrado",
+        ranking: "Ranking",
+        rankingType: "Tipo de ranking",
+        fullRanking: "Completo",
+        turnoverBase: "Virada",
+        turnover: "Virada de ano",
+        turnoverTitle: "Ranking sem atletas nascidos em ",
+        category: "Categoria",
+        filterCategory: "Filtrar categoria",
+        boys: "Masculino",
+        girls: "Feminino",
+        sortBy: "Ordenar por",
+        liveRanking: "Ranking ao vivo",
+        officialRanking: "Ranking oficial",
+        weeklyFilter: "Filtro semanal",
+        playing: "Jogando",
+        updatedAt: "Última atualização (UTC-3)",
+        formula: "Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas",
+        loading: "Carregando...",
+        officialBase: "Base oficial",
+        officialItfRanking: "Ranking oficial ITF",
+        liveRankHeader: "Ranking<br />ao vivo",
+        officialRankHeader: "Ranking<br />oficial",
+        athlete: "Atleta",
+        year: "Ano",
+        livePoints: "Pontos ao vivo",
+        officialPoints: "Pontuação oficial",
+        playingThisWeek: "Jogando esta<br />semana",
+        nextRoundProjection: "Projeção<br />próx. rodada",
+        titleProjection: "Projeção<br />título",
+        weekTournaments: "Torneios da semana",
+        athletePoints: "Pontuações do atleta",
+        close: "Fechar",
+        profileEmpty: "Clique em um atleta da tabela para ver o resumo de pontuação.",
+        noResult: "Sem resultado registrado.",
+        counting: "Contando",
+        notCounting: "Não contando",
+        tournament: "Torneio",
+        surfacePoints: "Pontos por piso",
+        noSurface: "Sem piso identificado nos resultados que contam.",
+        clay: "Saibro",
+        grass: "Grama",
+        hard: "Hard",
+        carpet: "Carpet",
+        other: "Outros",
+        champion: "Campeão",
+        final: "Final",
+        semi: "Semi",
+        quarter: "Quartas",
+        weekSimulator: "Simulador da semana",
+        singles: "Simples",
+        doubles: "Duplas",
+        selectRound: "Selecione uma rodada para simular.",
+        live: "ao vivo",
+        official: "oficial",
+        playersShown: "jogadores exibidos",
+        positionsShort: "pos.",
+        pointsShort: "pts",
+        showPointDetails: "Ver detalhes dos pontos",
+        hidePointDetails: "Ocultar detalhes dos pontos",
+        entering: "Entrando",
+        dropping: "Caindo",
+        weekTournament: "Torneio da semana",
+      },
+      en: {
+        createdBy: "Created by",
+        theme: "Theme",
+        dark: "Dark",
+        language: "Language",
+        athleteSearch: "Search player",
+        athletePlaceholder: "Player name",
+        countrySearch: "Search country",
+        countryPlaceholder: "Type and select a country",
+        clearCountry: "Clear country",
+        countrySuggestions: "Country suggestions",
+        noCountryResults: "No country found",
+        ranking: "Ranking",
+        rankingType: "Ranking type",
+        fullRanking: "Full",
+        turnoverBase: "Turnover",
+        turnover: "Year-end turnover",
+        turnoverTitle: "Ranking without players born in ",
+        category: "Category",
+        filterCategory: "Filter category",
+        boys: "Boys",
+        girls: "Girls",
+        sortBy: "Sort by",
+        liveRanking: "Live ranking",
+        officialRanking: "Official ranking",
+        weeklyFilter: "Weekly filter",
+        playing: "Playing",
+        updatedAt: "Last update (UTC-3)",
+        formula: "Points = ∑ best 6 singles results + ∑ 25% of best 6 doubles results",
+        loading: "Loading...",
+        officialBase: "Official base",
+        officialItfRanking: "Official ITF ranking",
+        liveRankHeader: "Live<br />ranking",
+        officialRankHeader: "Official<br />ranking",
+        athlete: "Player",
+        year: "Year",
+        livePoints: "Live points",
+        officialPoints: "Official points",
+        playingThisWeek: "Playing this<br />week",
+        nextRoundProjection: "Next round<br />projection",
+        titleProjection: "Title<br />projection",
+        weekTournaments: "This week's tournaments",
+        athletePoints: "Player points",
+        close: "Close",
+        profileEmpty: "Click a player in the table to see the points summary.",
+        noResult: "No result recorded.",
+        counting: "Counting",
+        notCounting: "Not counting",
+        tournament: "Tournament",
+        surfacePoints: "Points by surface",
+        noSurface: "No surface identified in counting results.",
+        clay: "Clay",
+        grass: "Grass",
+        hard: "Hard",
+        carpet: "Carpet",
+        other: "Other",
+        champion: "Champion",
+        final: "Final",
+        semi: "Semi",
+        quarter: "Quarterfinals",
+        weekSimulator: "Week simulator",
+        singles: "Singles",
+        doubles: "Doubles",
+        selectRound: "Select a round to simulate.",
+        live: "live",
+        official: "official",
+        playersShown: "players shown",
+        positionsShort: "pos.",
+        pointsShort: "pts",
+        showPointDetails: "Show point details",
+        hidePointDetails: "Hide point details",
+        entering: "Adding",
+        dropping: "Dropping",
+        weekTournament: "This week's tournament",
+      },
+    };
+
+    function t(key) {
+      return translations[currentLanguage]?.[key] || translations["pt-BR"][key] || key;
+    }
 
     const countryOptions = [...rankingData.reduce((map, row) => {
       const code = String(row.country || "").trim().toUpperCase();
@@ -3091,6 +3255,82 @@ body.official-ranking-view .side {
       return normalizeSearchText(value).includes(search);
     }
 
+    function setText(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    }
+
+    function setHtml(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.innerHTML = value;
+    }
+
+    function applyLanguage(language) {
+      currentLanguage = language === "en" ? "en" : "pt-BR";
+      localStorage.setItem("itf-live-language", currentLanguage);
+      document.documentElement.lang = currentLanguage === "en" ? "en" : "pt-BR";
+
+      languageButtons.forEach((button) => {
+        const active = button.getAttribute("data-language-option") === currentLanguage;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+      setText("creatorLabel", t("createdBy"));
+      setText("themeLabel", t("theme"));
+      setText("darkModeLabel", t("dark"));
+      setText("languageLabel", t("language"));
+      setText("athleteSearchLabel", t("athleteSearch"));
+      setText("countrySearchLabel", t("countrySearch"));
+      setText("rankingModeLabel", t("ranking"));
+      setText("categoryLabel", t("category"));
+      setText("sortLabel", t("sortBy"));
+      setText("weeklyFilterLabel", t("weeklyFilter"));
+      setText("playingLabel", t("playing"));
+      setText("updatedAtLabel", t("updatedAt"));
+      setText("formulaLabel", t("formula"));
+      setHtml("playingThisWeekHeader", t("playingThisWeek"));
+      setHtml("nextRoundHeader", t("nextRoundProjection"));
+      setHtml("titleProjectionHeader", t("titleProjection"));
+      setText("weekTournamentsTitle", t("weekTournaments"));
+      setText("profileDialogTitle", t("athletePoints"));
+      setText("profileEmptyText", t("profileEmpty"));
+
+      searchInput.placeholder = t("athletePlaceholder");
+      countrySearchInput.placeholder = t("countryPlaceholder");
+      countryClearButton.setAttribute("aria-label", t("clearCountry"));
+      countrySuggestions.setAttribute("aria-label", t("countrySuggestions"));
+      document.querySelector("[aria-label='Tipo de ranking']")?.setAttribute("aria-label", t("rankingType"));
+      document.querySelector("[aria-label='Filtrar categoria']")?.setAttribute("aria-label", t("filterCategory"));
+
+      genderButtons.forEach((button) => {
+        button.textContent = button.getAttribute("data-gender-option") === "M" ? t("boys") : t("girls");
+      });
+      Array.from(genderFilter.options).forEach((option) => {
+        option.textContent = option.value === "M" ? t("boys") : t("girls");
+      });
+      Array.from(sortFilter.options).forEach((option) => {
+        option.textContent = option.value === "OFFICIAL_RANK" ? t("officialRanking") : t("liveRanking");
+      });
+
+      populateGenerationRankingFilter();
+      updateSortHeaders();
+      renderCountrySuggestionsIfOpen();
+      if (selectedPlayerId) {
+        const row = rankingData.find((item) => item.player_id === selectedPlayerId);
+        renderProfile(row || null);
+      } else {
+        renderProfile(null);
+      }
+      renderTable();
+    }
+
+    function renderCountrySuggestionsIfOpen() {
+      if (countryFilterBox.classList.contains("suggestions-open")) {
+        renderCountrySuggestions();
+      }
+    }
+
     function getCountryDisplayName(country) {
       if (!country) return "";
       return country.name && country.name !== country.code
@@ -3118,7 +3358,7 @@ body.official-ranking-view .side {
       const suggestions = getCountrySuggestions(countrySearchInput.value);
 
       if (!suggestions.length) {
-        countrySuggestions.innerHTML = '<div class="country-no-results">Nenhum país encontrado</div>';
+        countrySuggestions.innerHTML = '<div class="country-no-results">' + t("noCountryResults") + '</div>';
         setCountrySuggestionsOpen(true);
         return;
       }
@@ -3194,11 +3434,11 @@ body.official-ranking-view .side {
     }
 
     function getSurfaceLabel(surfaceKey) {
-      if (surfaceKey === "clay") return "Saibro";
-      if (surfaceKey === "grass") return "Grama";
-      if (surfaceKey === "hard") return "Hard";
-      if (surfaceKey === "carpet") return "Carpet";
-      return "Outros";
+      if (surfaceKey === "clay") return t("clay");
+      if (surfaceKey === "grass") return t("grass");
+      if (surfaceKey === "hard") return t("hard");
+      if (surfaceKey === "carpet") return t("carpet");
+      return t("other");
     }
 
     function getSurfaceColor(surfaceKey) {
@@ -3244,7 +3484,7 @@ body.official-ranking-view .side {
     function formatNumberClient(value) {
       const n = Number(value || 0);
 
-      return n.toLocaleString("pt-BR", {
+      return n.toLocaleString(currentLanguage === "en" ? "en-US" : "pt-BR", {
         minimumFractionDigits: n % 1 === 0 ? 0 : 2,
         maximumFractionDigits: 2,
       });
@@ -3279,17 +3519,24 @@ body.official-ranking-view .side {
     }
 
     function populateGenerationRankingFilter() {
+      const selectedValue = generationRankingFilter.value || "ALL";
       const outgoingYear = getOutgoingBirthYear();
-      const turnoverLabel = "Virada de ano (" + (outgoingYear + 1) + "+)";
+      const turnoverLabel = t("turnover") + " (" + (outgoingYear + 1) + "+)";
 
       generationRankingFilter.innerHTML =
-        '<option value="ALL">Completo</option>' +
+        '<option value="ALL">' + t("fullRanking") + '</option>' +
         '<option value="TURNOVER">' + turnoverLabel + '</option>';
+      generationRankingFilter.value = selectedValue;
 
       if (turnoverRankingButton) {
         turnoverRankingButton.textContent = turnoverLabel;
-        turnoverRankingButton.title = "Ranking sem atletas nascidos em " + outgoingYear;
+        turnoverRankingButton.title = t("turnoverTitle") + outgoingYear;
       }
+
+      const fullRankingButton = rankingModeButtons.find((button) =>
+        button.getAttribute("data-ranking-mode-option") === "ALL"
+      );
+      if (fullRankingButton) fullRankingButton.textContent = t("fullRanking");
     }
 
     function getGenerationMinimumYear() {
@@ -3306,7 +3553,7 @@ body.official-ranking-view .side {
 
     function getGenerationLabel() {
       const selectedOption = generationRankingFilter.options[generationRankingFilter.selectedIndex];
-      return selectedOption ? selectedOption.textContent : "Completo";
+      return selectedOption ? selectedOption.textContent : t("fullRanking");
     }
 
     function getFlagHtml(row) {
@@ -3369,7 +3616,7 @@ body.official-ranking-view .side {
         liveDetails.length ||
         dropDetails.length;
       const buttonLabel = "i";
-      const buttonTitle = isExpanded ? "Ocultar detalhes dos pontos" : "Ver detalhes dos pontos";
+      const buttonTitle = isExpanded ? t("hidePointDetails") : t("showPointDetails");
       const buttonClass = isExpanded ? "points-info-button active" : "points-info-button";
 
       return '<div class="points-cell">' +
@@ -3395,7 +3642,7 @@ body.official-ranking-view .side {
       return '<div class="points-detail-line ' + categoryClass + '">' +
              '<span class="points-detail-impact ' + className + '">' + sign + formatNumberClient(impact) + '</span>' +
              (item.category ? ' ' + getCategoryChipHtml(item.category) : '') +
-             ' · <span class="tournament-name">' + escapeHtmlClient(item.tournament || "Torneio") + '</span>' +
+             ' · <span class="tournament-name">' + escapeHtmlClient(item.tournament || t("tournament")) + '</span>' +
              yearText +
              eventText +
              '</div>';
@@ -3415,8 +3662,8 @@ body.official-ranking-view .side {
       const dropDetails = row.point_details?.drops || [];
 
       return '<div class="points-detail">' +
-             getPointsDetailSectionHtml("Entrando", liveDetails, "+", "up") +
-             getPointsDetailSectionHtml("Caindo", dropDetails, "-", "down") +
+             getPointsDetailSectionHtml(t("entering"), liveDetails, "+", "up") +
+             getPointsDetailSectionHtml(t("dropping"), dropDetails, "-", "down") +
              '</div>';
     }
 
@@ -3463,7 +3710,7 @@ body.official-ranking-view .side {
       const p = row.playing_this_week;
       const categoryClass = getCategoryClass(p.category);
       const tournamentName = getTournamentDisplayNameClient(
-        p.tournament || "Torneio da semana",
+        p.tournament || t("weekTournament"),
         p.category
       );
       const resultChips = [
@@ -3700,27 +3947,29 @@ body.official-ranking-view .side {
       const rankHeaderLabel = document.getElementById("rankHeaderLabel");
       if (rankHeaderLabel) {
         rankHeaderLabel.innerHTML = sortColumn === "OFFICIAL_RANK"
-          ? "Ranking<br />oficial"
-          : "Ranking<br />ao vivo";
+          ? t("officialRankHeader")
+          : t("liveRankHeader");
       }
 
       const playerHeaderLabel = document.getElementById("playerHeaderLabel");
       if (playerHeaderLabel) {
-        playerHeaderLabel.textContent = "Atleta";
+        playerHeaderLabel.textContent = t("athlete");
       }
 
       const pointsHeaderLabel = document.getElementById("pointsHeaderLabel");
       if (pointsHeaderLabel) {
         pointsHeaderLabel.textContent = sortColumn === "OFFICIAL_RANK"
-          ? "Pontuação oficial"
-          : "Pontos ao vivo";
+          ? t("officialPoints")
+          : t("livePoints");
       }
+
+      setText("yearHeaderLabel", t("year"));
 
       const rankingContext = document.getElementById("rankingContext");
       if (rankingContext) {
         rankingContext.textContent = sortColumn === "OFFICIAL_RANK"
-          ? "Ranking oficial ITF: " + officialRankingDate
-          : "Base oficial: " + officialRankingDate;
+          ? t("officialItfRanking") + ": " + officialRankingDate
+          : t("officialBase") + ": " + officialRankingDate;
       }
     }
 
@@ -3777,7 +4026,7 @@ body.official-ranking-view .side {
 
     function renderResultCards(results) {
       if (!results.length) {
-        return '<div class="profile-empty">Sem resultado registrado.</div>';
+        return '<div class="profile-empty">' + t("noResult") + '</div>';
       }
 
       return results.map((item) => {
@@ -3792,18 +4041,18 @@ body.official-ranking-view .side {
         return \`
           <div class="result-card \${cardClass}">
             <div class="result-main">
-              <span class="result-status-dot" title="\${item.counting ? 'Contando' : 'Não contando'}"></span>
+              <span class="result-status-dot" title="\${item.counting ? t("counting") : t("notCounting")}"></span>
               <div class="result-category-scope \${categoryClass}">
                 <div class="result-heading">
                   \${getCategoryChipHtml(item.category)}
                   <div>
-                    <div class="result-title tournament-name">\${escapeHtmlClient(item.tournament || "Torneio")}</div>
+                    <div class="result-title tournament-name">\${escapeHtmlClient(item.tournament || t("tournament"))}</div>
                     <div class="result-meta">\${details}\${source}</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="result-points">\${formatNumberClient(item.points)} pts</div>
+            <div class="result-points">\${formatNumberClient(item.points)} \${t("pointsShort")}</div>
           </div>
         \`;
       }).join("");
@@ -3852,9 +4101,9 @@ body.official-ranking-view .side {
         return \`
           <div class="profile-overview-card">
             <div class="profile-section-title">
-              <span>Pontos por piso</span>
+              <span>\${t("surfacePoints")}</span>
             </div>
-            <div class="profile-empty">Sem piso identificado nos resultados que contam.</div>
+            <div class="profile-empty">\${t("noSurface")}</div>
           </div>
         \`;
       }
@@ -3871,7 +4120,7 @@ body.official-ranking-view .side {
       return \`
         <div class="profile-overview-card">
           <div class="profile-section-title">
-            <span>Pontos por piso</span>
+            <span>\${t("surfacePoints")}</span>
           </div>
           <div class="surface-chart">
             <div class="surface-donut" style="background: conic-gradient(\${gradient});"></div>
@@ -3889,10 +4138,10 @@ body.official-ranking-view .side {
     }
 
     function getRoundLabel(round) {
-      if (round === "W") return "Campeão";
-      if (round === "F") return "Final";
-      if (round === "SF") return "Semi";
-      if (round === "QF") return "Quartas";
+      if (round === "W") return t("champion");
+      if (round === "F") return t("final");
+      if (round === "SF") return t("semi");
+      if (round === "QF") return t("quarter");
       return round;
     }
 
@@ -3978,26 +4227,26 @@ body.official-ranking-view .side {
       return \`
         <div class="profile-overview-card">
           <div class="profile-section-title">
-            <span>Simulador da semana</span>
+            <span>\${t("weekSimulator")}</span>
             <span class="profile-section-meta">\${escapeHtmlClient(getTournamentDisplayNameClient(p.tournament, p.category))}</span>
           </div>
           <div class="simulator">
             <div class="simulator-grid">
               <div class="simulator-field">
-                <label for="singlesSimulatorSelect">Simples</label>
+                <label for="singlesSimulatorSelect">\${t("singles")}</label>
                 <select id="singlesSimulatorSelect" \${singlesOptions.length ? "" : "disabled"} onchange="updatePointSimulator()">
                   \${renderSimulatorOptions(singlesOptions)}
                 </select>
               </div>
               <div class="simulator-field">
-                <label for="doublesSimulatorSelect">Duplas</label>
+                <label for="doublesSimulatorSelect">\${t("doubles")}</label>
                 <select id="doublesSimulatorSelect" \${doublesOptions.length ? "" : "disabled"} onchange="updatePointSimulator()">
                   \${renderSimulatorOptions(doublesOptions)}
                 </select>
               </div>
             </div>
             <div class="simulator-result" id="simulatorResult">
-              Selecione uma rodada para simular.
+              \${t("selectRound")}
             </div>
           </div>
         </div>
@@ -4016,7 +4265,7 @@ body.official-ranking-view .side {
       const doublesRound = doublesSelect.value;
 
       if (!singlesRound && !doublesRound) {
-        resultEl.textContent = "Selecione uma rodada para simular.";
+        resultEl.textContent = t("selectRound");
         return;
       }
 
@@ -4028,10 +4277,10 @@ body.official-ranking-view .side {
       const rankGain = Number(row.live_rank || 0) - projectedRank;
 
       resultEl.innerHTML =
-        '<span class="simulator-pill">' + formatNumberClient(projectedPoints) + ' pts</span>' +
+        '<span class="simulator-pill">' + formatNumberClient(projectedPoints) + ' ' + t("pointsShort") + '</span>' +
         '<span class="simulator-pill">' + formatRankClient(projectedRank) + '</span>' +
-        '<span>' + (delta >= 0 ? '+' : '') + formatNumberClient(delta) + ' pts' +
-        (rankGain > 0 ? ' · +' + rankGain + ' pos.' : '') +
+        '<span>' + (delta >= 0 ? '+' : '') + formatNumberClient(delta) + ' ' + t("pointsShort") +
+        (rankGain > 0 ? ' · +' + rankGain + ' ' + t("positionsShort") : '') +
         '</span>';
     }
 
@@ -4057,11 +4306,11 @@ body.official-ranking-view .side {
         document.body.classList.remove("modal-open");
         profileCard.innerHTML = \`
           <div class="profile-dialog-header">
-            <h3 id="profileDialogTitle">Pontuações do atleta</h3>
-            <button class="modal-close-button" type="button" aria-label="Fechar" onclick="closeProfileModal()">×</button>
+            <h3 id="profileDialogTitle">\${t("athletePoints")}</h3>
+            <button class="modal-close-button" type="button" aria-label="\${t("close")}" onclick="closeProfileModal()">×</button>
           </div>
           <div class="profile-empty">
-            Clique em um atleta da tabela para ver o resumo de pontuação.
+            \${t("profileEmpty")}
           </div>
         \`;
         return;
@@ -4073,15 +4322,15 @@ body.official-ranking-view .side {
 
       profileCard.innerHTML = \`
         <div class="profile-dialog-header">
-          <h3 id="profileDialogTitle">Pontuações do atleta</h3>
-          <button class="modal-close-button" type="button" aria-label="Fechar" onclick="closeProfileModal()">×</button>
+          <h3 id="profileDialogTitle">\${t("athletePoints")}</h3>
+          <button class="modal-close-button" type="button" aria-label="\${t("close")}" onclick="closeProfileModal()">×</button>
         </div>
 
         <div class="profile-head">
           <div class="profile-flag">\${flag}</div>
           <div>
             <div class="profile-name">\${escapeHtmlClient(row.player_name)}</div>
-            <div class="profile-meta">\${formatNumberClient(row.live_points)} pts ao vivo</div>
+            <div class="profile-meta">\${formatNumberClient(row.live_points)} \${t("pointsShort")} \${t("live")}</div>
           </div>
         </div>
 
@@ -4092,8 +4341,8 @@ body.official-ranking-view .side {
           \${simulatorHtml}
         </div>
         <div class="cartel-grid">
-          \${renderCartelSection("Simples", row.point_cartel?.singles || [])}
-          \${renderCartelSection("Duplas", row.point_cartel?.doubles || [])}
+          \${renderCartelSection(t("singles"), row.point_cartel?.singles || [])}
+          \${renderCartelSection(t("doubles"), row.point_cartel?.doubles || [])}
         </div>
       \`;
       profileModal.classList.add("open");
@@ -4109,7 +4358,7 @@ body.official-ranking-view .side {
 
         if (isGenerationRankingActive()) {
           return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>' +
-                 '<div class="rank-meta">oficial ' + formatRankClient(row.official_rank) + '</div>';
+                 '<div class="rank-meta">' + t("official") + ' ' + formatRankClient(row.official_rank) + '</div>';
         }
 
         return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>';
@@ -4117,7 +4366,7 @@ body.official-ranking-view .side {
 
       if (isGenerationRankingActive()) {
         return '<span class="rank">' + row.generation_live_rank + '</span>' +
-               '<div class="rank-meta">live ' + formatRankClient(row.live_rank) + '</div>';
+               '<div class="rank-meta">' + t("live") + ' ' + formatRankClient(row.live_rank) + '</div>';
       }
 
       const moveClass = movementClass(row.rank_change_vs_official);
@@ -4140,7 +4389,7 @@ body.official-ranking-view .side {
       updateRankingModeControl();
       document.body.classList.toggle("official-ranking-view", sortColumn === "OFFICIAL_RANK");
 
-      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos' +
+      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString(currentLanguage === "en" ? "en-US" : "pt-BR") + '</strong> ' + t("playersShown") +
         (selectedCountry ? ' · ' + escapeHtmlClient(selectedCountry.code) : '') +
         (isGenerationRankingActive() ? ' · ' + escapeHtmlClient(getGenerationLabel()) : '');
 
@@ -4260,6 +4509,11 @@ body.official-ranking-view .side {
     themeToggle.addEventListener("change", () => {
       applyTheme(themeToggle.checked ? "dark" : "light");
     });
+    languageButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        applyLanguage(button.getAttribute("data-language-option"));
+      });
+    });
     playingOnlyFilter.addEventListener("change", renderTable);
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && profileModal.classList.contains("open")) {
@@ -4284,9 +4538,8 @@ body.official-ranking-view .side {
     });
 
     renderTournaments();
-    populateGenerationRankingFilter();
     applyTheme(localStorage.getItem("itf-live-theme") || "light");
-    renderTable();
+    applyLanguage(currentLanguage);
   </script>
 </body>
 </html>`;
