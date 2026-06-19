@@ -2297,6 +2297,26 @@ td:nth-child(7) {
   white-space: nowrap;
   min-width: 126px;
 }
+
+body.official-ranking-view .live-only {
+  display: none;
+}
+
+body.official-ranking-view .weekly-only {
+  display: none;
+}
+
+body.official-ranking-view .ranking-card {
+  max-width: 860px;
+}
+
+body.official-ranking-view .side {
+  display: none;
+}
+
+body.official-ranking-view .layout {
+  grid-template-columns: minmax(0, 860px);
+}
     @media (max-width: 1200px) {
       .page {
         width: min(100% - 24px, 100%);
@@ -2414,7 +2434,7 @@ td:nth-child(7) {
         </select>
       </div>
 
-      <div class="filter toggle-filter">
+      <div class="filter toggle-filter weekly-only">
         <label>Filtro semanal</label>
         <label class="toggle-button" for="playingOnlyFilter">
           <input id="playingOnlyFilter" type="checkbox" />
@@ -2432,7 +2452,7 @@ td:nth-child(7) {
     <main class="layout">
       <section class="ranking-card">
         <div class="ranking-card-header">
-          <span class="formula">Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas</span>
+          <span class="formula weekly-only">Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas</span>
           <span class="summary-row">
             <span id="visibleSummary">Carregando...</span>
             <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
@@ -2450,7 +2470,7 @@ td:nth-child(7) {
               </th>
               <th>
                 <button class="sort-header" type="button" data-sort-header="PLAYER" onclick="setTableSort('PLAYER')">
-                  <span>Atleta</span>
+                  <span id="playerHeaderLabel">Atleta</span>
                   <span class="sort-indicator" data-sort-indicator="PLAYER">↕</span>
                 </button>
               </th>
@@ -2460,10 +2480,10 @@ td:nth-child(7) {
                   <span class="sort-indicator" data-sort-indicator="YEAR">↕</span>
                 </button>
               </th>
-              <th>Pontos ao vivo</th>
-              <th>Jogando esta<br />semana</th>
-              <th>Projeção<br />próx. rodada</th>
-              <th>Projeção<br />título</th>
+              <th id="pointsHeaderLabel">Pontos ao vivo</th>
+              <th class="live-only">Jogando esta<br />semana</th>
+              <th class="live-only">Projeção<br />próx. rodada</th>
+              <th class="live-only">Projeção<br />título</th>
             </tr>
           </thead>
           <tbody id="rankingBody"></tbody>
@@ -2910,6 +2930,18 @@ td:nth-child(7) {
           : "Ranking<br />ao vivo";
       }
 
+      const playerHeaderLabel = document.getElementById("playerHeaderLabel");
+      if (playerHeaderLabel) {
+        playerHeaderLabel.textContent = "Atleta";
+      }
+
+      const pointsHeaderLabel = document.getElementById("pointsHeaderLabel");
+      if (pointsHeaderLabel) {
+        pointsHeaderLabel.textContent = sortColumn === "OFFICIAL_RANK"
+          ? "Pontuação oficial"
+          : "Pontos ao vivo";
+      }
+
       const rankingContext = document.getElementById("rankingContext");
       if (rankingContext) {
         rankingContext.textContent = sortColumn === "OFFICIAL_RANK"
@@ -3041,10 +3073,8 @@ td:nth-child(7) {
     function getRankingCellHtml(row) {
       if (sortColumn === "OFFICIAL_RANK") {
         const officialRank = Number(row.official_rank || 0);
-        const officialPoints = Number(row.official_points || 0);
 
-        return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>' +
-               '<div class="rank-meta">' + formatNumberClient(officialPoints) + ' pts</div>';
+        return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>';
       }
 
       const moveClass = movementClass(row.rank_change_vs_official);
@@ -3053,10 +3083,15 @@ td:nth-child(7) {
              '<span class="rank-change ' + moveClass + '">' + formatChange(row.rank_change_vs_official) + '</span>';
     }
 
+    function getOfficialPointsHtml(row) {
+      return '<span class="points">' + formatNumberClient(row.official_points) + '</span>';
+    }
+
     function renderTable() {
       const rows = sortRows(rankingData.filter(passesFilters));
       updateSortHeaders();
       updateGenderControl();
+      document.body.classList.toggle("official-ranking-view", sortColumn === "OFFICIAL_RANK");
 
       visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos';
 
@@ -3068,6 +3103,24 @@ td:nth-child(7) {
       rankingBody.innerHTML = rows.map((row) => {
         const selected = selectedPlayerId === row.player_id ? "selected" : "";
         const flag = getFlagHtml(row);
+        const pointsCell = sortColumn === "OFFICIAL_RANK"
+          ? getOfficialPointsHtml(row)
+          : getPointsHtml(row);
+        const liveOnlyCells = sortColumn === "OFFICIAL_RANK"
+          ? ""
+          : \`
+            <td class="week-cell live-only">
+              \${getPlayingHtml(row)}
+            </td>
+
+            <td class="live-only">
+              \${getNextRoundHtml(row)}
+            </td>
+
+            <td class="live-only">
+              \${getTitleHtml(row)}
+            </td>
+          \`;
 
         return \`
           <tr class="\${selected}" onclick="selectPlayer('\${escapeHtmlClient(row.player_id)}')">
@@ -3082,20 +3135,10 @@ td:nth-child(7) {
             <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
 
             <td>
-              \${getPointsHtml(row)}
+              \${pointsCell}
             </td>
 
-            <td class="week-cell">
-              \${getPlayingHtml(row)}
-            </td>
-
-            <td>
-              \${getNextRoundHtml(row)}
-            </td>
-
-            <td>
-              \${getTitleHtml(row)}
-            </td>
+            \${liveOnlyCells}
           </tr>
         \`;
       }).join("");
