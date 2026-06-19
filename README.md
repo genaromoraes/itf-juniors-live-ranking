@@ -1,6 +1,28 @@
 # itf-juniors-live-ranking
 
-Projeto de live ranking do circuito ITF Junior, com ranking ao vivo, drops, resultados da semana, HTML estático e auditoria por jogador.
+Projeto de live ranking do circuito ITF Junior, com ranking ao vivo, pontos que caem, resultados da semana, projeções por rodada, HTML estático e auditoria por jogador.
+
+## Interface HTML
+
+O HTML final é gerado em `data/exports/` e pode ser aberto como arquivo estático ou publicado pelo GitHub Pages. A tela principal inclui:
+
+- ranking ao vivo e ranking oficial;
+- filtros por nome, país, categoria, ranking completo/virada e jogadores da semana;
+- colunas de resultado da semana, projeção da próxima rodada e projeção de título;
+- detalhes de pontos ao clicar no atleta.
+
+Ao clicar em um jogador, a tela abre um pop-up com:
+
+- resumo do atleta e pontos ao vivo;
+- gráfico ampliado de pontos por piso;
+- simulador da semana, apenas para atletas que estão jogando torneio na semana;
+- cartel de pontos de simples e duplas lado a lado no desktop, empilhado no mobile.
+
+Para mudanças visuais, edite `scripts/09_generate_live_ranking_html.mjs` e rode:
+
+```bash
+npm.cmd run generate
+```
 
 ## Comandos
 
