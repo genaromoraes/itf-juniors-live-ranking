@@ -1330,6 +1330,8 @@ function buildHtml(
     }
 
     .filters {
+      position: relative;
+      z-index: 40;
       display: grid;
       grid-template-columns: minmax(210px, 1.05fr) minmax(140px, 0.62fr) minmax(230px, 0.9fr) 206px 130px 150px 130px;
       gap: 7px;
@@ -1346,6 +1348,96 @@ function buildHtml(
     .filter {
       display: grid;
       gap: 3px;
+    }
+
+    .country-filter {
+      position: relative;
+    }
+
+    .country-input-wrap {
+      position: relative;
+    }
+
+    .country-input-wrap input {
+      padding-right: 46px;
+    }
+
+    .country-clear {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      border: 0;
+      padding: 2px 4px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+    }
+
+    .country-filter.has-country .country-clear {
+      display: inline-flex;
+    }
+
+    .country-suggestions {
+      position: absolute;
+      z-index: 30;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      display: none;
+      max-height: 212px;
+      overflow-y: auto;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel-solid);
+      box-shadow: var(--shadow);
+    }
+
+    .country-filter.suggestions-open .country-suggestions {
+      display: grid;
+      gap: 3px;
+    }
+
+    .country-suggestion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      padding: 7px 8px;
+      background: transparent;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .country-suggestion:hover,
+    .country-suggestion:focus {
+      background: var(--panel-soft);
+      outline: none;
+    }
+
+    .country-suggestion-code {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .country-no-results {
+      padding: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
     }
 
     .toggle-filter {
@@ -2781,9 +2873,13 @@ body.official-ranking-view .side {
         <input id="searchInput" type="text" placeholder="Nome do atleta" />
       </div>
 
-      <div class="filter">
+      <div class="filter country-filter" id="countryFilterBox">
         <label>Buscar país</label>
-        <input id="countrySearchInput" type="text" placeholder="País ou sigla" />
+        <div class="country-input-wrap">
+          <input id="countrySearchInput" type="text" placeholder="Digite e selecione o país" autocomplete="off" />
+          <button class="country-clear" id="countryClearButton" type="button" aria-label="Limpar país">×</button>
+        </div>
+        <div class="country-suggestions" id="countrySuggestions" role="listbox" aria-label="Sugestões de país"></div>
       </div>
 
       <div class="filter">
@@ -2902,7 +2998,10 @@ body.official-ranking-view .side {
     const officialRankingDate = ${JSON.stringify(rankingDate || "não informado")};
 
     const searchInput = document.getElementById("searchInput");
+    const countryFilterBox = document.getElementById("countryFilterBox");
     const countrySearchInput = document.getElementById("countrySearchInput");
+    const countrySuggestions = document.getElementById("countrySuggestions");
+    const countryClearButton = document.getElementById("countryClearButton");
     const generationRankingFilter = document.getElementById("generationRankingFilter");
     const rankingModeButtons = Array.from(document.querySelectorAll("[data-ranking-mode-option]"));
     const turnoverRankingButton = document.getElementById("turnoverRankingButton");
@@ -2919,8 +3018,29 @@ body.official-ranking-view .side {
 
     let selectedPlayerId = "";
     let expandedPointsPlayerId = "";
+    let selectedCountry = null;
     let sortColumn = "RANK";
     let sortDirection = "asc";
+
+    const countryOptions = [...rankingData.reduce((map, row) => {
+      const code = String(row.country || "").trim().toUpperCase();
+      if (!code) return map;
+
+      const current = map.get(code) || {
+        code,
+        name: row.country_name || code,
+        iso2: row.country_iso2 || "",
+        count: 0,
+      };
+
+      current.name = current.name || row.country_name || code;
+      current.iso2 = current.iso2 || row.country_iso2 || "";
+      current.count += 1;
+      map.set(code, current);
+      return map;
+    }, new Map()).values()].sort((a, b) =>
+      normalizeSearchText(a.name).localeCompare(normalizeSearchText(b.name), "pt-BR")
+    );
 
     const tournamentSurfaceMap = new Map();
     for (const group of tournamentGroups) {
@@ -2969,6 +3089,84 @@ body.official-ranking-view .side {
     function includesSearch(value, search) {
       if (!search) return true;
       return normalizeSearchText(value).includes(search);
+    }
+
+    function getCountryDisplayName(country) {
+      if (!country) return "";
+      return country.name && country.name !== country.code
+        ? country.code + " - " + country.name
+        : country.code;
+    }
+
+    function getCountrySuggestions(query) {
+      const search = normalizeSearchText(query);
+      if (!search) return countryOptions.slice(0, 12);
+
+      return countryOptions
+        .filter((country) =>
+          includesSearch(country.code, search) ||
+          includesSearch(country.name, search)
+        )
+        .slice(0, 12);
+    }
+
+    function setCountrySuggestionsOpen(open) {
+      countryFilterBox.classList.toggle("suggestions-open", open);
+    }
+
+    function renderCountrySuggestions() {
+      const suggestions = getCountrySuggestions(countrySearchInput.value);
+
+      if (!suggestions.length) {
+        countrySuggestions.innerHTML = '<div class="country-no-results">Nenhum país encontrado</div>';
+        setCountrySuggestionsOpen(true);
+        return;
+      }
+
+      countrySuggestions.innerHTML = suggestions.map((country) => {
+        const label = escapeHtmlClient(country.name || country.code);
+        const code = escapeHtmlClient(country.code);
+
+        return \`
+          <button class="country-suggestion" type="button" role="option" data-country-code="\${code}">
+            <span>\${label}</span>
+            <span class="country-suggestion-code">\${code}</span>
+          </button>
+        \`;
+      }).join("");
+      setCountrySuggestionsOpen(true);
+    }
+
+    function selectCountry(country) {
+      selectedCountry = country || null;
+      countrySearchInput.value = getCountryDisplayName(selectedCountry);
+      countryFilterBox.classList.toggle("has-country", Boolean(selectedCountry));
+      setCountrySuggestionsOpen(false);
+      selectedPlayerId = "";
+      renderProfile(null);
+      renderTable();
+    }
+
+    function clearCountrySelection() {
+      selectedCountry = null;
+      countrySearchInput.value = "";
+      countryFilterBox.classList.remove("has-country");
+      setCountrySuggestionsOpen(false);
+      selectedPlayerId = "";
+      renderProfile(null);
+      renderTable();
+    }
+
+    function handleCountryInput() {
+      if (selectedCountry) {
+        selectedCountry = null;
+        countryFilterBox.classList.remove("has-country");
+        selectedPlayerId = "";
+        renderProfile(null);
+        renderTable();
+      }
+
+      renderCountrySuggestions();
     }
 
     function getCategoryClass(category) {
@@ -3364,7 +3562,6 @@ body.official-ranking-view .side {
     function passesFilters(row) {
       const gender = genderFilter.value;
       const athleteSearch = normalizeSearchText(searchInput.value);
-      const countrySearch = normalizeSearchText(countrySearchInput.value);
       const minimumBirthYear = getGenerationMinimumYear();
       const playingOnly = playingOnlyFilter.checked;
 
@@ -3388,11 +3585,7 @@ body.official-ranking-view .side {
         return false;
       }
 
-      if (
-        countrySearch &&
-        !includesSearch(row.country, countrySearch) &&
-        !includesSearch(row.country_name, countrySearch)
-      ) {
+      if (selectedCountry && String(row.country || "").toUpperCase() !== selectedCountry.code) {
         return false;
       }
 
@@ -3948,6 +4141,7 @@ body.official-ranking-view .side {
       document.body.classList.toggle("official-ranking-view", sortColumn === "OFFICIAL_RANK");
 
       visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos' +
+        (selectedCountry ? ' · ' + escapeHtmlClient(selectedCountry.code) : '') +
         (isGenerationRankingActive() ? ' · ' + escapeHtmlClient(getGenerationLabel()) : '');
 
       if (selectedPlayerId && !rows.some((row) => row.player_id === selectedPlayerId)) {
@@ -4025,7 +4219,33 @@ body.official-ranking-view .side {
     window.updatePointSimulator = updatePointSimulator;
 
     searchInput.addEventListener("input", renderTable);
-    countrySearchInput.addEventListener("input", renderTable);
+    countrySearchInput.addEventListener("input", handleCountryInput);
+    countrySearchInput.addEventListener("focus", renderCountrySuggestions);
+    countrySearchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        const firstMatch = getCountrySuggestions(countrySearchInput.value)[0];
+        if (firstMatch) {
+          event.preventDefault();
+          selectCountry(firstMatch);
+        }
+      } else if (event.key === "Escape") {
+        setCountrySuggestionsOpen(false);
+      }
+    });
+    countrySuggestions.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+    });
+    countrySuggestions.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-country-code]");
+      if (!button) return;
+
+      const country = countryOptions.find((item) => item.code === button.dataset.countryCode);
+      if (country) selectCountry(country);
+    });
+    countrySearchInput.addEventListener("blur", () => {
+      setTimeout(() => setCountrySuggestionsOpen(false), 120);
+    });
+    countryClearButton.addEventListener("click", clearCountrySelection);
     generationRankingFilter.addEventListener("change", () => {
       selectedPlayerId = "";
       renderProfile(null);
