@@ -985,23 +985,28 @@ function groupWeekTournaments(tournaments) {
     const country = cleanText(row.host_nation_code || row.country || row.hostNationCode);
     const surface = cleanText(row.surface);
     const surfaceCode = cleanText(row.surface_code).toUpperCase();
+    const surfaceKey = getSurfaceKey(surface, surfaceCode);
 
     if (!name) continue;
 
     if (!map.has(category)) {
-      map.set(category, []);
+      map.set(category, {
+        category,
+        items: [],
+      });
     }
 
-    map.get(category).push({
+    map.get(category).items.push({
       name,
       displayName: getTournamentDisplayName(name, category),
       country,
       surface,
       surfaceCode,
+      surfaceKey,
     });
   }
 
-  return [...map.entries()]
+  return [...map.values()]
     .sort((a, b) => {
       const order = {
         JGS: 1,
@@ -1013,12 +1018,24 @@ function groupWeekTournaments(tournaments) {
         J30: 7,
       };
 
-      return (order[a[0]] || 99) - (order[b[0]] || 99);
+      return (order[a.category] || 99) - (order[b.category] || 99);
     })
-    .map(([category, items]) => ({
-      category,
-      items,
+    .map((group) => ({
+      ...group,
+      items: group.items.sort((a, b) => a.name.localeCompare(b.name, "pt-BR")),
     }));
+}
+
+function getSurfaceKey(surface, surfaceCode = "") {
+  const code = cleanText(surfaceCode).toUpperCase();
+  const text = cleanText(surface).toLowerCase();
+
+  if (code === "C" || text.includes("clay") || text.includes("saibro")) return "clay";
+  if (code === "G" || text.includes("grass") || text.includes("grama")) return "grass";
+  if (code === "H" || text.includes("hard") || text.includes("duro")) return "hard";
+  if (code === "A" || text.includes("carpet") || text.includes("carpete")) return "carpet";
+
+  return "other";
 }
 
 function getStats(rows) {
@@ -1309,7 +1326,7 @@ function buildHtml(
 
     .filters {
       display: grid;
-      grid-template-columns: minmax(220px, 1.2fr) minmax(150px, 0.7fr) 206px 130px 150px 130px;
+      grid-template-columns: minmax(210px, 1.05fr) minmax(140px, 0.62fr) minmax(230px, 0.9fr) 206px 130px 150px 130px;
       gap: 7px;
       align-items: end;
       margin-bottom: 8px;
@@ -1348,6 +1365,8 @@ function buildHtml(
       color: var(--muted);
       font-size: 11px;
       font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
       cursor: pointer;
       transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
     }
@@ -2019,6 +2038,64 @@ function buildHtml(
       --cat-border: rgba(255, 255, 255, 0.12);
     }
 
+    .surface-clay {
+      --cat-color: #a64b08;
+      --cat-bg: #fff0df;
+      --cat-soft: rgba(255, 240, 223, 0.86);
+      --cat-border: rgba(211, 100, 17, 0.28);
+    }
+
+    .surface-grass {
+      --cat-color: #12633a;
+      --cat-bg: #e2f7e9;
+      --cat-soft: rgba(226, 247, 233, 0.86);
+      --cat-border: rgba(28, 135, 77, 0.28);
+    }
+
+    .surface-hard {
+      --cat-color: #164a7a;
+      --cat-bg: #e4f0ff;
+      --cat-soft: rgba(228, 240, 255, 0.86);
+      --cat-border: rgba(29, 91, 153, 0.28);
+    }
+
+    .surface-carpet,
+    .surface-other {
+      --cat-color: #63308f;
+      --cat-bg: #f1e7ff;
+      --cat-soft: rgba(241, 231, 255, 0.86);
+      --cat-border: rgba(111, 58, 159, 0.28);
+    }
+
+    :root[data-theme="dark"] .surface-clay {
+      --cat-color: #ffb36a;
+      --cat-bg: rgba(255, 137, 40, 0.14);
+      --cat-soft: rgba(255, 137, 40, 0.12);
+      --cat-border: rgba(255, 179, 106, 0.28);
+    }
+
+    :root[data-theme="dark"] .surface-grass {
+      --cat-color: #72d58e;
+      --cat-bg: rgba(93, 190, 115, 0.14);
+      --cat-soft: rgba(93, 190, 115, 0.12);
+      --cat-border: rgba(114, 213, 142, 0.28);
+    }
+
+    :root[data-theme="dark"] .surface-hard {
+      --cat-color: #8cc8f1;
+      --cat-bg: rgba(72, 133, 195, 0.16);
+      --cat-soft: rgba(72, 133, 195, 0.12);
+      --cat-border: rgba(140, 200, 241, 0.28);
+    }
+
+    :root[data-theme="dark"] .surface-carpet,
+    :root[data-theme="dark"] .surface-other {
+      --cat-color: #cda4ff;
+      --cat-bg: rgba(148, 90, 203, 0.16);
+      --cat-soft: rgba(148, 90, 203, 0.12);
+      --cat-border: rgba(205, 164, 255, 0.28);
+    }
+
     .side {
       display: grid;
       gap: 7px;
@@ -2065,9 +2142,9 @@ function buildHtml(
       align-items: center;
       border-radius: 999px;
       padding: 1px 5px;
-      background: rgba(247, 250, 249, 0.82);
-      border: 1px solid var(--border-soft);
-      color: var(--muted);
+      background: var(--cat-soft, rgba(247, 250, 249, 0.82));
+      border: 1px solid var(--cat-border, var(--border-soft));
+      color: var(--cat-color, var(--muted));
       font-weight: 600;
       line-height: 1.1;
     }
@@ -2415,6 +2492,18 @@ body.official-ranking-view .layout {
       </div>
 
       <div class="filter">
+        <label>Ranking</label>
+        <div class="segmented-control" role="group" aria-label="Tipo de ranking">
+          <button type="button" class="active" data-ranking-mode-option="ALL">Completo</button>
+          <button type="button" data-ranking-mode-option="TURNOVER" id="turnoverRankingButton">Virada</button>
+        </div>
+        <select id="generationRankingFilter" class="visually-hidden" aria-label="Tipo de ranking">
+          <option value="ALL" selected>Completo</option>
+          <option value="TURNOVER">Virada</option>
+        </select>
+      </div>
+
+      <div class="filter">
         <label>Categoria</label>
         <div class="segmented-control" role="group" aria-label="Filtrar categoria">
           <button type="button" class="active" data-gender-option="M">Masculino</button>
@@ -2513,6 +2602,9 @@ body.official-ranking-view .layout {
 
     const searchInput = document.getElementById("searchInput");
     const countrySearchInput = document.getElementById("countrySearchInput");
+    const generationRankingFilter = document.getElementById("generationRankingFilter");
+    const rankingModeButtons = Array.from(document.querySelectorAll("[data-ranking-mode-option]"));
+    const turnoverRankingButton = document.getElementById("turnoverRankingButton");
     const themeToggle = document.getElementById("themeToggle");
     const genderFilter = document.getElementById("genderFilter");
     const genderButtons = Array.from(document.querySelectorAll("[data-gender-option]"));
@@ -2527,6 +2619,25 @@ body.official-ranking-view .layout {
     let expandedPointsPlayerId = "";
     let sortColumn = "RANK";
     let sortDirection = "asc";
+
+    const tournamentSurfaceMap = new Map();
+    for (const group of tournamentGroups) {
+      for (const item of group.items || []) {
+        const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode);
+        const names = [
+          item.name,
+          item.displayName,
+          getTournamentDisplayNameClient(item.name, group.category),
+        ].filter(Boolean);
+
+        for (const name of names) {
+          tournamentSurfaceMap.set(
+            getTournamentSurfaceLookupKey(name, group.category),
+            surfaceKey
+          );
+        }
+      }
+    }
 
     function applyTheme(theme) {
       const normalizedTheme = theme === "dark" ? "dark" : "light";
@@ -2566,10 +2677,38 @@ body.official-ranking-view .layout {
       return key ? "cat-" + key : "";
     }
 
+    function getSurfaceKeyClient(surface, surfaceCode) {
+      const code = String(surfaceCode || "").trim().toUpperCase();
+      const text = normalizeSearchText(surface);
+
+      if (code === "C" || text.includes("clay") || text.includes("saibro")) return "clay";
+      if (code === "G" || text.includes("grass") || text.includes("grama")) return "grass";
+      if (code === "H" || text.includes("hard") || text.includes("duro")) return "hard";
+      if (code === "A" || text.includes("carpet") || text.includes("carpete")) return "carpet";
+
+      return "";
+    }
+
+    function getSurfaceClass(surfaceKey) {
+      return surfaceKey ? "surface-" + surfaceKey : "";
+    }
+
+    function getTournamentSurfaceLookupKey(tournament, category) {
+      return [
+        normalizeSearchText(getTournamentDisplayNameClient(tournament, category)),
+        normalizeSearchText(category),
+      ].join("|");
+    }
+
     function getCategoryChipHtml(category) {
       if (!category) return "";
 
-      return '<span class="category-chip ' + getCategoryClass(category) + '">' +
+      const className = [
+        "category-chip",
+        getCategoryClass(category),
+      ].filter(Boolean).join(" ");
+
+      return '<span class="' + className + '">' +
              escapeHtmlClient(category) +
              '</span>';
     }
@@ -2598,6 +2737,60 @@ body.official-ranking-view .layout {
     function formatRankClient(value) {
       const n = Number(value || 0);
       return n ? "#" + n : "NR";
+    }
+
+    function getAvailableBirthYears() {
+      return [...new Set(
+        rankingData
+          .map((row) => Number(row.birth_year || 0))
+          .filter((year) => year > 0)
+      )].sort((a, b) => a - b);
+    }
+
+    function getOutgoingBirthYear() {
+      const calculatedAt = rankingData[0]?.calculated_at
+        ? new Date(rankingData[0].calculated_at)
+        : new Date();
+      const currentYear = Number.isNaN(calculatedAt.getTime())
+        ? new Date().getFullYear()
+        : calculatedAt.getFullYear();
+      const expectedOutgoingYear = currentYear - 18;
+      const years = getAvailableBirthYears();
+
+      return years.includes(expectedOutgoingYear)
+        ? expectedOutgoingYear
+        : years[0] || expectedOutgoingYear;
+    }
+
+    function populateGenerationRankingFilter() {
+      const outgoingYear = getOutgoingBirthYear();
+      const turnoverLabel = "Virada de ano (" + (outgoingYear + 1) + "+)";
+
+      generationRankingFilter.innerHTML =
+        '<option value="ALL">Completo</option>' +
+        '<option value="TURNOVER">' + turnoverLabel + '</option>';
+
+      if (turnoverRankingButton) {
+        turnoverRankingButton.textContent = turnoverLabel;
+        turnoverRankingButton.title = "Ranking sem atletas nascidos em " + outgoingYear;
+      }
+    }
+
+    function getGenerationMinimumYear() {
+      const value = generationRankingFilter.value;
+
+      if (value === "TURNOVER") return getOutgoingBirthYear() + 1;
+
+      return 0;
+    }
+
+    function isGenerationRankingActive() {
+      return generationRankingFilter.value !== "ALL";
+    }
+
+    function getGenerationLabel() {
+      const selectedOption = generationRankingFilter.options[generationRankingFilter.selectedIndex];
+      return selectedOption ? selectedOption.textContent : "Completo";
     }
 
     function getFlagHtml(row) {
@@ -2850,13 +3043,18 @@ body.official-ranking-view .layout {
       const gender = genderFilter.value;
       const athleteSearch = normalizeSearchText(searchInput.value);
       const countrySearch = normalizeSearchText(countrySearchInput.value);
+      const minimumBirthYear = getGenerationMinimumYear();
       const playingOnly = playingOnlyFilter.checked;
 
       if (row.gender !== gender) {
         return false;
       }
 
-      if (Number(row.live_rank || 0) > 500) {
+      if (!isGenerationRankingActive() && Number(row.live_rank || 0) > 500) {
+        return false;
+      }
+
+      if (minimumBirthYear && Number(row.birth_year || 0) < minimumBirthYear) {
         return false;
       }
 
@@ -2879,6 +3077,61 @@ body.official-ranking-view .layout {
       return true;
     }
 
+    function getRankBasis(row) {
+      return sortColumn === "OFFICIAL_RANK"
+        ? Number(row.official_rank || 0)
+        : Number(row.live_rank || 0);
+    }
+
+    function withGenerationRanks(rows) {
+      if (!isGenerationRankingActive()) return rows;
+
+      const rankValue = (value) => {
+        const n = Number(value || 0);
+        return n > 0 ? n : Number.MAX_SAFE_INTEGER;
+      };
+      const gender = genderFilter.value;
+      const minimumBirthYear = getGenerationMinimumYear();
+      const eligibleRows = rankingData.filter((row) =>
+        row.gender === gender &&
+        (!minimumBirthYear || Number(row.birth_year || 0) >= minimumBirthYear)
+      );
+
+      const byLive = [...eligibleRows].sort((a, b) =>
+        rankValue(a.live_rank) - rankValue(b.live_rank)
+      );
+      const byOfficial = [...eligibleRows].sort((a, b) =>
+        rankValue(a.official_rank) - rankValue(b.official_rank)
+      );
+      const liveRanks = new Map();
+      const officialRanks = new Map();
+
+      byLive.forEach((row, index) => liveRanks.set(row.player_id, index + 1));
+      byOfficial.forEach((row, index) => officialRanks.set(row.player_id, index + 1));
+
+      return rows.map((row) => ({
+        ...row,
+        generation_live_rank: liveRanks.get(row.player_id),
+        generation_official_rank: officialRanks.get(row.player_id),
+      }));
+    }
+
+    function getDisplayRank(row) {
+      if (!isGenerationRankingActive()) return getRankBasis(row);
+
+      return sortColumn === "OFFICIAL_RANK"
+        ? Number(row.generation_official_rank || 0)
+        : Number(row.generation_live_rank || 0);
+    }
+
+    function passesDisplayLimit(row) {
+      if (!isGenerationRankingActive()) return true;
+
+      const rank = getDisplayRank(row);
+
+      return rank > 0 && rank <= 500;
+    }
+
     function sortRows(rows) {
       const rankValue = (value) => {
         const n = Number(value || 0);
@@ -2889,7 +3142,13 @@ body.official-ranking-view .layout {
         let result = 0;
 
         if (sortColumn === "OFFICIAL_RANK") {
-          result = rankValue(a.official_rank) - rankValue(b.official_rank);
+          if (isGenerationRankingActive()) {
+            result = rankValue(a.generation_official_rank) - rankValue(b.generation_official_rank);
+          } else {
+            result = rankValue(a.official_rank) - rankValue(b.official_rank);
+          }
+        } else if (sortColumn === "RANK" && isGenerationRankingActive()) {
+          result = rankValue(a.generation_live_rank) - rankValue(b.generation_live_rank);
         } else if (sortColumn === "PLAYER") {
           result = normalizeSearchText(a.player_name).localeCompare(
             normalizeSearchText(b.player_name),
@@ -2958,6 +3217,14 @@ body.official-ranking-view .layout {
       });
     }
 
+    function updateRankingModeControl() {
+      rankingModeButtons.forEach((button) => {
+        const active = button.getAttribute("data-ranking-mode-option") === generationRankingFilter.value;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
     function setTableSort(column) {
       if (sortColumn === column) {
         sortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -2981,7 +3248,12 @@ body.official-ranking-view .layout {
           <div class="tournament-group \${categoryClass}">
             <div>\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
-              \${group.items.map((item) => '<span class="week-tournament-name" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>').join("")}
+              \${group.items.map((item) => {
+                const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode);
+                const className = ["week-tournament-name", getSurfaceClass(surfaceKey)].filter(Boolean).join(" ");
+
+                return '<span class="' + className + '" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>';
+              }).join("")}
             </div>
           </div>
         \`;
@@ -3072,9 +3344,21 @@ body.official-ranking-view .layout {
 
     function getRankingCellHtml(row) {
       if (sortColumn === "OFFICIAL_RANK") {
-        const officialRank = Number(row.official_rank || 0);
+        const officialRank = isGenerationRankingActive()
+          ? Number(row.generation_official_rank || 0)
+          : Number(row.official_rank || 0);
+
+        if (isGenerationRankingActive()) {
+          return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>' +
+                 '<div class="rank-meta">oficial ' + formatRankClient(row.official_rank) + '</div>';
+        }
 
         return '<span class="rank">' + (officialRank ? officialRank : "NR") + '</span>';
+      }
+
+      if (isGenerationRankingActive()) {
+        return '<span class="rank">' + row.generation_live_rank + '</span>' +
+               '<div class="rank-meta">live ' + formatRankClient(row.live_rank) + '</div>';
       }
 
       const moveClass = movementClass(row.rank_change_vs_official);
@@ -3088,12 +3372,17 @@ body.official-ranking-view .layout {
     }
 
     function renderTable() {
-      const rows = sortRows(rankingData.filter(passesFilters));
+      const rows = sortRows(
+        withGenerationRanks(rankingData.filter(passesFilters))
+          .filter(passesDisplayLimit)
+      );
       updateSortHeaders();
       updateGenderControl();
+      updateRankingModeControl();
       document.body.classList.toggle("official-ranking-view", sortColumn === "OFFICIAL_RANK");
 
-      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos';
+      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString("pt-BR") + '</strong> jogadores exibidos' +
+        (isGenerationRankingActive() ? ' · ' + escapeHtmlClient(getGenerationLabel()) : '');
 
       if (selectedPlayerId && !rows.some((row) => row.player_id === selectedPlayerId)) {
         selectedPlayerId = "";
@@ -3163,6 +3452,17 @@ body.official-ranking-view .layout {
 
     searchInput.addEventListener("input", renderTable);
     countrySearchInput.addEventListener("input", renderTable);
+    generationRankingFilter.addEventListener("change", () => {
+      selectedPlayerId = "";
+      renderProfile(null);
+      renderTable();
+    });
+    rankingModeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        generationRankingFilter.value = button.getAttribute("data-ranking-mode-option");
+        generationRankingFilter.dispatchEvent(new Event("change"));
+      });
+    });
     themeToggle.addEventListener("change", () => {
       applyTheme(themeToggle.checked ? "dark" : "light");
     });
@@ -3185,6 +3485,7 @@ body.official-ranking-view .layout {
     });
 
     renderTournaments();
+    populateGenerationRankingFilter();
     applyTheme(localStorage.getItem("itf-live-theme") || "light");
     renderTable();
   </script>
