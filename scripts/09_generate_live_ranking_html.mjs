@@ -26,6 +26,8 @@ const INDEX_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "index.html");
 const CNAME_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "CNAME");
 const CUSTOM_DOMAIN = "www.juniorsliveranking.com.br";
 const SITE_URL = `https://${CUSTOM_DOMAIN}`;
+const ADSENSE_CLIENT_ID = "ca-pub-5423465092890611";
+const ADSENSE_SCRIPT = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}" crossorigin="anonymous"></script>`;
 
 const STATIC_PAGES = [
   {
@@ -203,6 +205,7 @@ function buildStaticPage(page) {
   <title>${escapeHtml(page.title)} | Juniors Live Ranking</title>
   <meta name="description" content="${escapeHtml(page.description)}" />
   <link rel="canonical" href="${SITE_URL}/${escapeHtml(page.fileName)}" />
+  ${ADSENSE_SCRIPT}
   <style>
     :root {
       color-scheme: light;
@@ -1393,6 +1396,7 @@ function buildHtml(
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ITF Juniors Live Ranking</title>
+  ${ADSENSE_SCRIPT}
   <script>
     document.documentElement.dataset.theme = localStorage.getItem("itf-live-theme") || "light";
   </script>
