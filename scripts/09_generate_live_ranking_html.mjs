@@ -1531,6 +1531,56 @@ function buildHtml(
       font-weight: 650;
     }
 
+    .info-section {
+      margin-top: 14px;
+      padding: 18px 2px 2px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .info-section h2 {
+      margin: 0 0 6px;
+      color: var(--green-dark);
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .info-intro {
+      max-width: 860px;
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .info-item {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    .info-item h3 {
+      margin: 0 0 6px;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .info-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
     .beta {
       display: inline-flex;
       align-items: center;
@@ -3074,6 +3124,10 @@ body.official-ranking-view .side {
         overflow-x: auto;
       }
 
+      .info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       table {
         min-width: 820px;
       }
@@ -3098,6 +3152,10 @@ body.official-ranking-view .side {
 
       .ranking-card-header {
         padding: 10px 10px 8px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
       }
 
       .profile-modal {
@@ -3280,6 +3338,31 @@ body.official-ranking-view .side {
         </section>
       </aside>
     </main>
+
+    <section class="info-section" aria-labelledby="siteInfoTitle">
+      <h2 id="siteInfoTitle">O que é o Juniors Live Ranking</h2>
+      <p class="info-intro">
+        O Juniors Live Ranking acompanha atletas juvenis em uma leitura prática: ranking oficial, projeções ao vivo, pontos da semana e cenários de próxima rodada. A tabela é atualizada automaticamente a partir dos dados disponíveis no momento de cada execução.
+      </p>
+      <div class="info-grid">
+        <article class="info-item">
+          <h3>Ranking oficial</h3>
+          <p>Mostra a posição e a pontuação publicadas como base oficial para a semana.</p>
+        </article>
+        <article class="info-item">
+          <h3>Ranking ao vivo</h3>
+          <p>Projeta mudanças com resultados semanais, pontos entrando e pontos que deixam de contar.</p>
+        </article>
+        <article class="info-item">
+          <h3>Atualização</h3>
+          <p>O robô recalcula o site em execuções programadas e pode refletir correções posteriores das fontes.</p>
+        </article>
+        <article class="info-item">
+          <h3>Site independente</h3>
+          <p>Este projeto não é afiliado ou administrado pela ITF. Consulte fontes oficiais para decisões finais.</p>
+        </article>
+      </div>
+    </section>
 
     <footer class="site-footer">
       <a href="sobre.html">Sobre</a>
