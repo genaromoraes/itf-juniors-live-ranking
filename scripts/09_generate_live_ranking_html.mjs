@@ -3061,14 +3061,32 @@ function buildHtml(
 
     .table-hint {
       flex-basis: 100%;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      width: fit-content;
+      max-width: 100%;
       color: var(--muted);
-      font-size: 9px;
-      line-height: 1.2;
+      font-size: 9.5px;
+      line-height: 1.25;
+      font-weight: 600;
+      padding: 2px 0;
     }
 
-    .table-hint strong {
-      color: var(--green-dark);
-      font-weight: 700;
+    .table-hint::before {
+      content: "";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      flex: 0 0 auto;
+    }
+
+    :root[data-theme="dark"] .table-hint {
+      color: var(--muted);
     }
 input,
 select,
