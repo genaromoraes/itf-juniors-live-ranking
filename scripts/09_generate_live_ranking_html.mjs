@@ -1493,6 +1493,23 @@ function buildHtml(
       margin-bottom: 18px;
     }
 
+    .brand-lockup {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid rgba(8, 117, 109, 0.14);
+      box-shadow: 0 8px 20px rgba(8, 117, 109, 0.12);
+    }
+
     h1 {
       margin: 0;
       max-width: 780px;
@@ -3151,6 +3168,15 @@ body.official-ranking-view .side {
         justify-self: start;
       }
 
+      .brand-lockup {
+        grid-template-columns: 48px minmax(0, 1fr);
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+      }
+
       .filters {
         grid-template-columns: 1fr 1fr;
       }
@@ -3187,6 +3213,17 @@ body.official-ranking-view .side {
         width: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr;
+      }
+
+      .brand-lockup {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 9px;
+      }
+
+      .brand-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
       }
 
       .ranking-card-header {
@@ -3259,12 +3296,15 @@ body.official-ranking-view .side {
 <body>
   <div class="page">
     <header class="header">
-      <div>
-        <h1>ITF Juniors Live Ranking</h1>
-        <div class="creator">
-          <span id="creatorLabel">Criado por</span>
-          <a href="https://x.com/InfoTenisBrasil" target="_blank">X @InfoTenisBrasil</a>
-          <span class="beta">BETA TEST</span>
+      <div class="brand-lockup">
+        <img class="brand-logo" src="favicon.png" alt="" width="52" height="52" />
+        <div>
+          <h1>ITF Juniors Live Ranking</h1>
+          <div class="creator">
+            <span id="creatorLabel">Criado por</span>
+            <a href="https://x.com/InfoTenisBrasil" target="_blank">X @InfoTenisBrasil</a>
+            <span class="beta">BETA TEST</span>
+          </div>
         </div>
       </div>
 
