@@ -32,8 +32,8 @@ const ADSENSE_SCRIPT = `<script async src="https://pagead2.googlesyndication.com
 const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#08756d"/>
   <text x="8" y="48" fill="#f6fbf8" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="900">JR</text>
-  <circle cx="49" cy="15" r="10" fill="#d8ef6f"/>
-  <path d="M43 8c6 2 10 7 12 14M49 5c5 2 9 5 12 10" fill="none" stroke="#08756d" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="51" cy="13" r="8.5" fill="#d8ef6f"/>
+  <path d="M46 7c5 2 8 6 10 12M51 4c5 1 9 4 12 8" fill="none" stroke="#08756d" stroke-width="2.3" stroke-linecap="round"/>
 </svg>`;
 
 const STATIC_PAGES = [
