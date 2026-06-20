@@ -59,6 +59,7 @@ const STATIC_PAGES = [
       {
         heading: "Contato",
         paragraphs: [
+          'E-mail: <a href="mailto:infotenisbr@gmail.com">infotenisbr@gmail.com</a>.',
           'Para avisos, correções e sugestões, entre em contato pelo perfil <a href="https://x.com/InfoTenisBrasil" target="_blank" rel="noopener">X @InfoTenisBrasil</a>.',
           "Ao enviar uma correção, inclua o nome do atleta, categoria, torneio e link público da fonte quando possível.",
         ],
@@ -88,6 +89,7 @@ const STATIC_PAGES = [
       {
         heading: "Contato",
         paragraphs: [
+          'Dúvidas sobre privacidade podem ser enviadas para <a href="mailto:infotenisbr@gmail.com">infotenisbr@gmail.com</a>.',
           'Dúvidas sobre privacidade podem ser enviadas pelo perfil <a href="https://x.com/InfoTenisBrasil" target="_blank" rel="noopener">X @InfoTenisBrasil</a>.',
         ],
       },
