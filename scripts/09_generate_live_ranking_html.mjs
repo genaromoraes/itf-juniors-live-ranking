@@ -23,6 +23,105 @@ const OUT_DIR_EXPORTS = path.resolve("data/exports");
 
 const HTML_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "live_ranking.html");
 const INDEX_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "index.html");
+const CNAME_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "CNAME");
+const CUSTOM_DOMAIN = "www.juniorsliveranking.com.br";
+const SITE_URL = `https://${CUSTOM_DOMAIN}`;
+
+const STATIC_PAGES = [
+  {
+    fileName: "sobre.html",
+    title: "Sobre",
+    description:
+      "O Juniors Live Ranking acompanha o ranking juvenil internacional com dados públicos e atualização automatizada.",
+    sections: [
+      {
+        heading: "Sobre o projeto",
+        paragraphs: [
+          "O Juniors Live Ranking é uma ferramenta independente para acompanhar projeções e ranking oficial do circuito juvenil internacional.",
+          "A página reúne dados públicos, resultados semanais e cálculos automatizados para facilitar a leitura do cenário competitivo.",
+        ],
+      },
+      {
+        heading: "Independência",
+        paragraphs: [
+          "Este site não é afiliado, endossado ou administrado pela ITF ou por qualquer entidade oficial de tênis.",
+          "As informações são organizadas para consulta pública e podem sofrer ajustes conforme fontes oficiais sejam atualizadas.",
+        ],
+      },
+    ],
+  },
+  {
+    fileName: "contato.html",
+    title: "Contato",
+    description:
+      "Entre em contato com o Juniors Live Ranking para avisos, correções e sugestões.",
+    sections: [
+      {
+        heading: "Contato",
+        paragraphs: [
+          'Para avisos, correções e sugestões, entre em contato pelo perfil <a href="https://x.com/InfoTenisBrasil" target="_blank" rel="noopener">X @InfoTenisBrasil</a>.',
+          "Ao enviar uma correção, inclua o nome do atleta, categoria, torneio e link público da fonte quando possível.",
+        ],
+      },
+    ],
+  },
+  {
+    fileName: "privacidade.html",
+    title: "Política de Privacidade",
+    description:
+      "Política de Privacidade do Juniors Live Ranking.",
+    sections: [
+      {
+        heading: "Dados coletados",
+        paragraphs: [
+          "O site exibe informações esportivas públicas sobre atletas, rankings, torneios e pontuações.",
+          "Não há cadastro de usuários, área logada ou coleta direta de dados pessoais sensíveis pelo site.",
+        ],
+      },
+      {
+        heading: "Cookies, métricas e anúncios",
+        paragraphs: [
+          "O site poderá usar ferramentas de métricas e publicidade, como Google AdSense, que podem utilizar cookies ou tecnologias semelhantes conforme suas próprias políticas.",
+          "Essas ferramentas ajudam a medir audiência, proteger contra abuso e exibir anúncios relevantes.",
+        ],
+      },
+      {
+        heading: "Contato",
+        paragraphs: [
+          'Dúvidas sobre privacidade podem ser enviadas pelo perfil <a href="https://x.com/InfoTenisBrasil" target="_blank" rel="noopener">X @InfoTenisBrasil</a>.',
+        ],
+      },
+    ],
+  },
+  {
+    fileName: "termos.html",
+    title: "Termos de Uso",
+    description:
+      "Termos de Uso e aviso de independência do Juniors Live Ranking.",
+    sections: [
+      {
+        heading: "Uso das informações",
+        paragraphs: [
+          "O conteúdo do site é fornecido para fins informativos e pode conter diferenças temporárias em relação a fontes oficiais.",
+          "Antes de tomar decisões esportivas, administrativas ou comerciais, consulte sempre as fontes oficiais aplicáveis.",
+        ],
+      },
+      {
+        heading: "Fontes e cálculos",
+        paragraphs: [
+          "As projeções são geradas automaticamente a partir dos dados disponíveis no momento da atualização.",
+          "Resultados, rankings e pontuações podem mudar após correções, atrasos de publicação ou revisões oficiais.",
+        ],
+      },
+      {
+        heading: "Independência",
+        paragraphs: [
+          "O Juniors Live Ranking é um site independente e não representa a ITF ou qualquer entidade oficial de tênis.",
+        ],
+      },
+    ],
+  },
+];
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_EXPORTS, { recursive: true });
@@ -83,6 +182,185 @@ function formatDateTime(value) {
     timeStyle: "short",
     timeZone: "America/Sao_Paulo",
   });
+}
+
+function buildStaticPage(page) {
+  const navLinks = [
+    { href: "./", label: "Ranking" },
+    ...STATIC_PAGES.map((item) => ({
+      href: item.fileName,
+      label: item.title,
+    })),
+  ];
+
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${escapeHtml(page.title)} | Juniors Live Ranking</title>
+  <meta name="description" content="${escapeHtml(page.description)}" />
+  <link rel="canonical" href="${SITE_URL}/${escapeHtml(page.fileName)}" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5fbf9;
+      --panel: #ffffff;
+      --text: #132322;
+      --muted: #5d706f;
+      --green: #08756d;
+      --border: #d8e7e4;
+      --shadow: 0 18px 50px rgba(16, 42, 39, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(220, 244, 236, 0.9), transparent 32rem),
+        linear-gradient(180deg, #f5fbf9 0%, #ffffff 48%, #eef8f5 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      color: var(--green);
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    nav a,
+    .back-link {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(216, 231, 228, 0.9);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 34px;
+      line-height: 1.05;
+    }
+
+    .description {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    section + section {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    a {
+      color: var(--green);
+    }
+
+    footer {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      .panel {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="./">Juniors Live Ranking</a>
+      <nav aria-label="Navegação principal">
+        ${navLinks.map((link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a>`).join("\n        ")}
+      </nav>
+    </header>
+
+    <main class="panel">
+      <h1>${escapeHtml(page.title)}</h1>
+      <p class="description">${escapeHtml(page.description)}</p>
+      ${page.sections.map((section) => `
+      <section>
+        <h2>${escapeHtml(section.heading)}</h2>
+        ${section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("\n        ")}
+      </section>`).join("\n")}
+    </main>
+
+    <footer>
+      Juniors Live Ranking é um projeto independente. Última atualização desta página: 20/06/2026.
+    </footer>
+  </div>
+</body>
+</html>`;
 }
 
 function countryCodeToIso2(countryCode) {
@@ -1231,6 +1509,24 @@ function buildHtml(
       color: var(--green-dark);
       text-decoration: none;
       font-weight: 600;
+    }
+
+    .site-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .site-footer a {
+      color: var(--green-dark);
+      text-decoration: none;
+      font-weight: 650;
     }
 
     .beta {
@@ -2983,6 +3279,14 @@ body.official-ranking-view .side {
       </aside>
     </main>
 
+    <footer class="site-footer">
+      <a href="sobre.html">Sobre</a>
+      <a href="contato.html">Contato</a>
+      <a href="privacidade.html">Política de Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+      <span>Site independente, sem afiliação oficial com a ITF.</span>
+    </footer>
+
     <div class="profile-modal" id="profileModal" aria-hidden="true" onclick="closeProfileModal()">
       <section class="side-card profile-dialog" id="profileCard" role="dialog" aria-modal="true" aria-labelledby="profileDialogTitle" onclick="event.stopPropagation()">
         <div class="profile-dialog-header">
@@ -4593,11 +4897,24 @@ async function main() {
 
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
   await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
+  await fs.writeFile(CNAME_OUTPUT_FILE, `${CUSTOM_DOMAIN}\n`, "utf8");
+
+  for (const page of STATIC_PAGES) {
+    await fs.writeFile(
+      path.join(OUT_DIR_EXPORTS, page.fileName),
+      buildStaticPage(page),
+      "utf8"
+    );
+  }
 
   console.log("");
   console.log("HTML gerado:");
   console.log("data/exports/live_ranking.html");
   console.log("data/exports/index.html");
+  console.log("data/exports/CNAME");
+  for (const page of STATIC_PAGES) {
+    console.log(`data/exports/${page.fileName}`);
+  }
   console.log("");
   console.log("Para abrir no navegador:");
   console.log(`file:///${HTML_OUTPUT_FILE.replaceAll("\\\\", "/")}`);
