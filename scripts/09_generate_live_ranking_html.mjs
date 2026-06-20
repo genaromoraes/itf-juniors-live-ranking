@@ -1845,7 +1845,8 @@ function buildHtml(
     }
 
     .language-toggle {
-      width: 102px;
+      grid-template-columns: 1fr 1fr 1fr;
+      width: 142px;
     }
 
     .visually-hidden {
@@ -3236,6 +3237,7 @@ body.official-ranking-view .side {
           <div class="segmented-control language-toggle" role="group" aria-label="Idioma">
             <button type="button" class="active" data-language-option="pt-BR">PT-BR</button>
             <button type="button" data-language-option="en">EN</button>
+            <button type="button" data-language-option="es">ES</button>
           </div>
         </div>
       </div>
@@ -3582,6 +3584,81 @@ body.official-ranking-view .side {
         dropping: "Dropping",
         weekTournament: "This week's tournament",
       },
+      es: {
+        createdBy: "Creado por",
+        theme: "Tema",
+        dark: "Oscuro",
+        language: "Idioma",
+        athleteSearch: "Buscar jugador",
+        athletePlaceholder: "Nombre del jugador",
+        countrySearch: "Buscar país",
+        countryPlaceholder: "Escribe y selecciona un país",
+        clearCountry: "Limpiar país",
+        countrySuggestions: "Sugerencias de país",
+        noCountryResults: "No se encontró ningún país",
+        ranking: "Ranking",
+        rankingType: "Tipo de ranking",
+        fullRanking: "Completo",
+        turnoverBase: "Cambio de año",
+        turnover: "Cambio de año",
+        turnoverTitle: "Ranking sin jugadores nacidos en ",
+        category: "Categoría",
+        filterCategory: "Filtrar categoría",
+        boys: "Masculino",
+        girls: "Femenino",
+        sortBy: "Ordenar por",
+        liveRanking: "Ranking en vivo",
+        officialRanking: "Ranking oficial",
+        weeklyFilter: "Filtro semanal",
+        playing: "Jugando",
+        updatedAt: "Última actualización (UTC-3)",
+        formula: "Puntos = ∑ mejores 6 resultados de singles + ∑ 25% de los mejores 6 resultados de dobles",
+        loading: "Cargando...",
+        officialBase: "Base oficial",
+        officialItfRanking: "Ranking oficial ITF",
+        liveRankHeader: "Ranking<br />en vivo",
+        officialRankHeader: "Ranking<br />oficial",
+        athlete: "Jugador",
+        year: "Año",
+        livePoints: "Puntos en vivo",
+        officialPoints: "Puntos oficiales",
+        playingThisWeek: "Jugando esta<br />semana",
+        nextRoundProjection: "Proyección<br />próx. ronda",
+        titleProjection: "Proyección<br />título",
+        weekTournaments: "Torneos de la semana",
+        athletePoints: "Puntos del jugador",
+        close: "Cerrar",
+        profileEmpty: "Haz clic en un jugador de la tabla para ver el resumen de puntos.",
+        noResult: "No hay resultado registrado.",
+        counting: "Contando",
+        notCounting: "No contando",
+        tournament: "Torneo",
+        surfacePoints: "Puntos por superficie",
+        noSurface: "No se identificó superficie en los resultados que cuentan.",
+        clay: "Arcilla",
+        grass: "Césped",
+        hard: "Dura",
+        carpet: "Carpeta",
+        other: "Otros",
+        champion: "Campeón",
+        final: "Final",
+        semi: "Semi",
+        quarter: "Cuartos",
+        weekSimulator: "Simulador semanal",
+        singles: "Singles",
+        doubles: "Dobles",
+        selectRound: "Selecciona una ronda para simular.",
+        live: "en vivo",
+        official: "oficial",
+        playersShown: "jugadores mostrados",
+        positionsShort: "pos.",
+        pointsShort: "pts",
+        showPointDetails: "Ver detalles de puntos",
+        hidePointDetails: "Ocultar detalles de puntos",
+        entering: "Sumando",
+        dropping: "Cayendo",
+        weekTournament: "Torneo de la semana",
+      },
     };
 
     function t(key) {
@@ -3668,9 +3745,9 @@ body.official-ranking-view .side {
     }
 
     function applyLanguage(language) {
-      currentLanguage = language === "en" ? "en" : "pt-BR";
+      currentLanguage = ["pt-BR", "en", "es"].includes(language) ? language : "pt-BR";
       localStorage.setItem("itf-live-language", currentLanguage);
-      document.documentElement.lang = currentLanguage === "en" ? "en" : "pt-BR";
+      document.documentElement.lang = currentLanguage;
 
       languageButtons.forEach((button) => {
         const active = button.getAttribute("data-language-option") === currentLanguage;
@@ -3886,7 +3963,13 @@ body.official-ranking-view .side {
     function formatNumberClient(value) {
       const n = Number(value || 0);
 
-      return n.toLocaleString(currentLanguage === "en" ? "en-US" : "pt-BR", {
+      const locale = currentLanguage === "en"
+        ? "en-US"
+        : currentLanguage === "es"
+          ? "es-ES"
+          : "pt-BR";
+
+      return n.toLocaleString(locale, {
         minimumFractionDigits: n % 1 === 0 ? 0 : 2,
         maximumFractionDigits: 2,
       });
@@ -4791,7 +4874,12 @@ body.official-ranking-view .side {
       updateRankingModeControl();
       document.body.classList.toggle("official-ranking-view", sortColumn === "OFFICIAL_RANK");
 
-      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString(currentLanguage === "en" ? "en-US" : "pt-BR") + '</strong> ' + t("playersShown") +
+      const summaryLocale = currentLanguage === "en"
+        ? "en-US"
+        : currentLanguage === "es"
+          ? "es-ES"
+          : "pt-BR";
+      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString(summaryLocale) + '</strong> ' + t("playersShown") +
         (selectedCountry ? ' · ' + escapeHtmlClient(selectedCountry.code) : '') +
         (isGenerationRankingActive() ? ' · ' + escapeHtmlClient(getGenerationLabel()) : '');
 
