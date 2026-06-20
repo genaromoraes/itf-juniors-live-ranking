@@ -2759,7 +2759,7 @@ function buildHtml(
 
     .profile-overview {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 12px;
       align-items: stretch;
       margin: 8px 0 10px;
@@ -3485,6 +3485,8 @@ body.official-ranking-view .side {
         tournament: "Torneio",
         surfacePoints: "Pontos por piso",
         noSurface: "Sem piso identificado nos resultados que contam.",
+        categoryPoints: "Pontos por nível",
+        noCategoryPoints: "Sem categoria identificada nos resultados que contam.",
         clay: "Saibro",
         grass: "Grama",
         hard: "Hard",
@@ -3560,6 +3562,8 @@ body.official-ranking-view .side {
         tournament: "Tournament",
         surfacePoints: "Points by surface",
         noSurface: "No surface identified in counting results.",
+        categoryPoints: "Points by level",
+        noCategoryPoints: "No level identified in counting results.",
         clay: "Clay",
         grass: "Grass",
         hard: "Hard",
@@ -3635,6 +3639,8 @@ body.official-ranking-view .side {
         tournament: "Torneo",
         surfacePoints: "Puntos por superficie",
         noSurface: "No se identificó superficie en los resultados que cuentan.",
+        categoryPoints: "Puntos por nivel",
+        noCategoryPoints: "No se identificó nivel en los resultados que cuentan.",
         clay: "Arcilla",
         grass: "Césped",
         hard: "Dura",
@@ -3925,6 +3931,18 @@ body.official-ranking-view .side {
       if (surfaceKey === "grass") return "#2f9b57";
       if (surfaceKey === "hard") return "#2569a8";
       if (surfaceKey === "carpet") return "#8a56c5";
+      return "#8a56c5";
+    }
+
+    function getCategoryColor(category) {
+      const key = String(category || "").toUpperCase();
+      if (key === "JGS") return "#8a56c5";
+      if (key === "J500") return "#2569a8";
+      if (key === "J300") return "#08756d";
+      if (key === "J200") return "#2f9b57";
+      if (key === "J100") return "#e87822";
+      if (key === "J60") return "#c2410c";
+      if (key === "J30") return "#64748b";
       return "#8a56c5";
     }
 
@@ -4622,6 +4640,80 @@ body.official-ranking-view .side {
       \`;
     }
 
+    function getCategoryBreakdown(row) {
+      const totals = new Map();
+      const allResults = [
+        ...(row.point_cartel?.singles || []),
+        ...(row.point_cartel?.doubles || []),
+      ];
+
+      for (const item of allResults) {
+        if (!item.counting) continue;
+
+        const value = getRankingContribution(item);
+        if (value <= 0) continue;
+
+        const category = String(item.category || "").trim().toUpperCase() || t("other");
+        totals.set(category, Number(((totals.get(category) || 0) + value).toFixed(2)));
+      }
+
+      const categoryOrder = ["JGS", "J500", "J300", "J200", "J100", "J60", "J30"];
+
+      return [...totals.entries()]
+        .map(([category, points]) => ({
+          category,
+          points,
+          label: category,
+          color: getCategoryColor(category),
+          order: categoryOrder.includes(category) ? categoryOrder.indexOf(category) : 99,
+        }))
+        .sort((a, b) => b.points - a.points || a.order - b.order);
+    }
+
+    function renderCategoryChart(row) {
+      const items = getCategoryBreakdown(row);
+      const total = items.reduce((sum, item) => sum + item.points, 0);
+
+      if (!items.length || total <= 0) {
+        return \`
+          <div class="profile-overview-card">
+            <div class="profile-section-title">
+              <span>\${t("categoryPoints")}</span>
+            </div>
+            <div class="profile-empty">\${t("noCategoryPoints")}</div>
+          </div>
+        \`;
+      }
+
+      let cursor = 0;
+      const gradient = items.map((item) => {
+        const start = cursor;
+        const end = cursor + (item.points / total) * 360;
+        cursor = end;
+
+        return item.color + " " + start.toFixed(2) + "deg " + end.toFixed(2) + "deg";
+      }).join(", ");
+
+      return \`
+        <div class="profile-overview-card">
+          <div class="profile-section-title">
+            <span>\${t("categoryPoints")}</span>
+          </div>
+          <div class="surface-chart">
+            <div class="surface-donut" style="background: conic-gradient(\${gradient});"></div>
+            <div class="surface-legend">
+              \${items.map((item) => \`
+                <div class="surface-legend-item" style="--surface-color: \${item.color};">
+                  <span class="surface-legend-swatch"></span>
+                  <span class="surface-legend-label">\${escapeHtmlClient(item.label)} <strong>\${formatNumberClient(item.points)}</strong> · \${formatNumberClient((item.points / total) * 100)}%</span>
+                </div>
+              \`).join("")}
+            </div>
+          </div>
+        </div>
+      \`;
+    }
+
     function getRoundLabel(round) {
       if (round === "W") return t("champion");
       if (round === "F") return t("final");
@@ -4821,8 +4913,9 @@ body.official-ranking-view .side {
 
         \${tags ? '<div class="profile-line">' + tags + '</div>' : ''}
 
-        <div class="profile-overview \${simulatorHtml ? "" : "single"}">
+        <div class="profile-overview">
           \${renderSurfaceChart(row)}
+          \${renderCategoryChart(row)}
           \${simulatorHtml}
         </div>
         <div class="cartel-grid">
