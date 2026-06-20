@@ -24,17 +24,12 @@ const OUT_DIR_EXPORTS = path.resolve("data/exports");
 const HTML_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "live_ranking.html");
 const INDEX_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "index.html");
 const CNAME_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "CNAME");
-const FAVICON_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "favicon.svg");
+const FAVICON_SOURCE_FILE = path.resolve("assets/favicon.png");
+const FAVICON_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "favicon.png");
 const CUSTOM_DOMAIN = "www.juniorsliveranking.com.br";
 const SITE_URL = `https://${CUSTOM_DOMAIN}`;
 const ADSENSE_CLIENT_ID = "ca-pub-5423465092890611";
 const ADSENSE_SCRIPT = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}" crossorigin="anonymous"></script>`;
-const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#08756d"/>
-  <text x="8" y="48" fill="#f6fbf8" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="900">JR</text>
-  <circle cx="51" cy="13" r="8.5" fill="#d8ef6f"/>
-  <path d="M46 7c5 2 8 6 10 12M51 4c5 1 9 4 12 8" fill="none" stroke="#08756d" stroke-width="2.3" stroke-linecap="round"/>
-</svg>`;
 
 const STATIC_PAGES = [
   {
@@ -212,7 +207,7 @@ function buildStaticPage(page) {
   <title>${escapeHtml(page.title)} | Juniors Live Ranking</title>
   <meta name="description" content="${escapeHtml(page.description)}" />
   <link rel="canonical" href="${SITE_URL}/${escapeHtml(page.fileName)}" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.png" type="image/png" />
   ${ADSENSE_SCRIPT}
   <style>
     :root {
@@ -1404,7 +1399,7 @@ function buildHtml(
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ITF Juniors Live Ranking</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.png" type="image/png" />
   ${ADSENSE_SCRIPT}
   <script>
     document.documentElement.dataset.theme = localStorage.getItem("itf-live-theme") || "light";
@@ -5233,7 +5228,7 @@ async function main() {
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
   await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
   await fs.writeFile(CNAME_OUTPUT_FILE, `${CUSTOM_DOMAIN}\n`, "utf8");
-  await fs.writeFile(FAVICON_OUTPUT_FILE, FAVICON_SVG, "utf8");
+  await fs.copyFile(FAVICON_SOURCE_FILE, FAVICON_OUTPUT_FILE);
 
   for (const page of STATIC_PAGES) {
     await fs.writeFile(
@@ -5248,7 +5243,7 @@ async function main() {
   console.log("data/exports/live_ranking.html");
   console.log("data/exports/index.html");
   console.log("data/exports/CNAME");
-  console.log("data/exports/favicon.svg");
+  console.log("data/exports/favicon.png");
   for (const page of STATIC_PAGES) {
     console.log(`data/exports/${page.fileName}`);
   }
