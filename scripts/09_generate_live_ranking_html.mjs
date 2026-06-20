@@ -3058,6 +3058,18 @@ function buildHtml(
     .summary-row strong {
       color: var(--text);
     }
+
+    .table-hint {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.2;
+    }
+
+    .table-hint strong {
+      color: var(--green-dark);
+      font-weight: 700;
+    }
 input,
 select,
 button {
@@ -3182,11 +3194,16 @@ body.official-ranking-view .side {
       }
 
       .profile-overview {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
       }
 
       .cartel-grid {
         grid-template-columns: 1fr;
+      }
+
+      .simulator-card {
+        grid-column: 1 / -1;
       }
 
       .simulator-grid,
@@ -3195,16 +3212,32 @@ body.official-ranking-view .side {
       }
 
       .surface-chart {
-        justify-items: start;
+        justify-items: center;
+        gap: 8px;
       }
 
       .surface-donut {
-        width: 104px;
-        height: 104px;
+        width: 82px;
+        height: 82px;
       }
 
       .surface-donut::after {
-        inset: 27px;
+        inset: 22px;
+      }
+
+      .surface-legend {
+        gap: 5px;
+      }
+
+      .surface-legend-item {
+        grid-template-columns: 8px minmax(0, 1fr);
+        gap: 5px;
+        font-size: 9px;
+      }
+
+      .surface-legend-swatch {
+        width: 8px;
+        height: 8px;
       }
 
     }
@@ -3313,6 +3346,7 @@ body.official-ranking-view .side {
             <span id="visibleSummary">Carregando...</span>
             <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
           </span>
+          <span class="table-hint" id="tableHint">Clique em um atleta para abrir o painel com os detalhes.</span>
         </div>
 
         <table>
@@ -3479,6 +3513,7 @@ body.official-ranking-view .side {
         athletePoints: "Pontuações do atleta",
         close: "Fechar",
         profileEmpty: "Clique em um atleta da tabela para ver o resumo de pontuação.",
+        tableHint: "Clique em um atleta para abrir o painel com os detalhes.",
         noResult: "Sem resultado registrado.",
         counting: "Contando",
         notCounting: "Não contando",
@@ -3556,6 +3591,7 @@ body.official-ranking-view .side {
         athletePoints: "Player points",
         close: "Close",
         profileEmpty: "Click a player in the table to see the points summary.",
+        tableHint: "Click a player to open the details panel.",
         noResult: "No result recorded.",
         counting: "Counting",
         notCounting: "Not counting",
@@ -3633,6 +3669,7 @@ body.official-ranking-view .side {
         athletePoints: "Puntos del jugador",
         close: "Cerrar",
         profileEmpty: "Haz clic en un jugador de la tabla para ver el resumen de puntos.",
+        tableHint: "Haz clic en un jugador para abrir el panel de detalles.",
         noResult: "No hay resultado registrado.",
         counting: "Contando",
         notCounting: "No contando",
@@ -3774,6 +3811,7 @@ body.official-ranking-view .side {
       setText("playingLabel", t("playing"));
       setText("updatedAtLabel", t("updatedAt"));
       setText("formulaLabel", t("formula"));
+      setText("tableHint", t("tableHint"));
       setHtml("playingThisWeekHeader", t("playingThisWeek"));
       setHtml("nextRoundHeader", t("nextRoundProjection"));
       setHtml("titleProjectionHeader", t("titleProjection"));
@@ -4602,7 +4640,7 @@ body.official-ranking-view .side {
 
       if (!items.length || total <= 0) {
         return \`
-          <div class="profile-overview-card">
+          <div class="profile-overview-card chart-card">
             <div class="profile-section-title">
               <span>\${t("surfacePoints")}</span>
             </div>
@@ -4621,7 +4659,7 @@ body.official-ranking-view .side {
       }).join(", ");
 
       return \`
-        <div class="profile-overview-card">
+        <div class="profile-overview-card chart-card">
           <div class="profile-section-title">
             <span>\${t("surfacePoints")}</span>
           </div>
@@ -4676,7 +4714,7 @@ body.official-ranking-view .side {
 
       if (!items.length || total <= 0) {
         return \`
-          <div class="profile-overview-card">
+          <div class="profile-overview-card chart-card">
             <div class="profile-section-title">
               <span>\${t("categoryPoints")}</span>
             </div>
@@ -4695,7 +4733,7 @@ body.official-ranking-view .side {
       }).join(", ");
 
       return \`
-        <div class="profile-overview-card">
+        <div class="profile-overview-card chart-card">
           <div class="profile-section-title">
             <span>\${t("categoryPoints")}</span>
           </div>
@@ -4802,7 +4840,7 @@ body.official-ranking-view .side {
       if (!singlesOptions.length && !doublesOptions.length) return "";
 
       return \`
-        <div class="profile-overview-card">
+        <div class="profile-overview-card simulator-card">
           <div class="profile-section-title">
             <span>\${t("weekSimulator")}</span>
             <span class="profile-section-meta">\${escapeHtmlClient(getTournamentDisplayNameClient(p.tournament, p.category))}</span>
