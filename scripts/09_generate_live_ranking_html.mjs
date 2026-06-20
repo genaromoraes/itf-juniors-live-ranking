@@ -31,9 +31,9 @@ const ADSENSE_CLIENT_ID = "ca-pub-5423465092890611";
 const ADSENSE_SCRIPT = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}" crossorigin="anonymous"></script>`;
 const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#08756d"/>
-  <circle cx="43" cy="21" r="13" fill="#d8ef6f"/>
-  <path d="M35 12c7 3 12 9 14 18M41 8c8 3 13 8 16 16" fill="none" stroke="#08756d" stroke-width="3" stroke-linecap="round"/>
-  <text x="10" y="48" fill="#f6fbf8" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="900">JR</text>
+  <text x="8" y="48" fill="#f6fbf8" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="900">JR</text>
+  <circle cx="49" cy="15" r="10" fill="#d8ef6f"/>
+  <path d="M43 8c6 2 10 7 12 14M49 5c5 2 9 5 12 10" fill="none" stroke="#08756d" stroke-width="2.5" stroke-linecap="round"/>
 </svg>`;
 
 const STATIC_PAGES = [
