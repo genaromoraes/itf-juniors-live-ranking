@@ -117,4 +117,43 @@ describe("week completion detector", () => {
     assert.equal(summary.results_errors, 1);
     assert.equal(summary.safe_to_close, false);
   });
+
+  test("summarizes pending matches by tournament", () => {
+    const summary = summarizeWeekCompletion({
+      weekTournamentRows: [{ tournament_key: "T1", tournament_name: "Tournament One" }],
+      weekMatchesRows: [
+        matchRow({
+          round_name: "Semifinal",
+          play_status_code: "NP",
+          play_status_desc: "Not played",
+          winner_side: "",
+          winner_names: "",
+        }),
+        matchRow({
+          round_name: "Final",
+          play_status_code: "NP",
+          play_status_desc: "Not played",
+          winner_side: "",
+          winner_names: "",
+        }),
+      ],
+      weekResultsSummaryRows: [
+        {
+          tournament_key: "T1",
+          tournament_name: "Tournament One",
+          category: "J100",
+          events_found: "1",
+          matches_found: "2",
+        },
+      ],
+      currentDate: "2026-06-20",
+      weekEnd: "2026-06-21",
+    });
+
+    assert.equal(summary.pending_matches, 2);
+    assert.equal(summary.tournaments.length, 1);
+    assert.equal(summary.tournaments[0].pending_matches, 2);
+    assert.equal(summary.tournaments[0].matches_found, 2);
+    assert.equal(summary.tournaments[0].status, "pending");
+  });
 });

@@ -368,12 +368,17 @@ export function summarizeWeekCompletion({
     const summaryRow = summaryByTournament.get(tournamentKey);
     const expectedEvents = toNumber(summaryRow?.events_found);
     const tournamentMissingEvents = Math.max(expectedEvents - events.length, 0);
+    const tournamentPendingMatches = events.reduce(
+      (sum, event) => sum + toNumber(event.pending_matches),
+      0
+    );
+    const tournamentResultsErrors = weekResultsErrorsRows.filter(
+      (row) => cleanText(row.tournament_key) === tournamentKey
+    ).length;
     const hasReview = events.some((event) => event.status === "review_required");
     const hasPending = events.some((event) => event.status === "pending");
     const hasErrors =
-      weekResultsErrorsRows.some(
-        (row) => cleanText(row.tournament_key) === tournamentKey
-      ) || tournamentMissingEvents > 0;
+      tournamentResultsErrors > 0 || tournamentMissingEvents > 0;
 
     let status = "completed";
     if (hasErrors || hasReview) status = "review_required";
@@ -381,7 +386,17 @@ export function summarizeWeekCompletion({
 
     tournaments.set(tournamentKey, {
       ...tournament,
+      category: cleanText(summaryRow?.category),
       status,
+      events_total: events.length,
+      events_completed: events.filter((event) => event.status === "completed").length,
+      events_pending: events.filter((event) => event.status === "pending").length,
+      events_review_required: events.filter((event) => event.status === "review_required").length,
+      expected_events: expectedEvents,
+      missing_events: tournamentMissingEvents,
+      pending_matches: tournamentPendingMatches,
+      matches_found: toNumber(summaryRow?.matches_found),
+      results_errors: tournamentResultsErrors,
     });
   }
 
@@ -440,5 +455,8 @@ export function summarizeWeekCompletion({
     all_events_complete: allEventsComplete,
     safe_to_close: safeToClose,
     pending_items: pendingItems,
+    tournaments: [...tournaments.values()].sort((a, b) =>
+      cleanText(a.tournament_name).localeCompare(cleanText(b.tournament_name), "pt-BR")
+    ),
   };
 }
