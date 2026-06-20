@@ -1706,7 +1706,7 @@ function buildHtml(
       position: relative;
       z-index: 40;
       display: grid;
-      grid-template-columns: minmax(210px, 1.05fr) minmax(140px, 0.62fr) minmax(230px, 0.9fr) 206px 130px 150px 130px;
+      grid-template-columns: minmax(210px, 1.05fr) minmax(140px, 0.62fr) minmax(310px, 1fr) 206px 130px 150px 130px;
       gap: 7px;
       align-items: end;
       margin-bottom: 8px;
@@ -1859,6 +1859,10 @@ function buildHtml(
     .language-toggle {
       grid-template-columns: 1fr 1fr 1fr;
       width: 142px;
+    }
+
+    .ranking-mode-control {
+      grid-template-columns: minmax(76px, 1.1fr) minmax(60px, 0.9fr) minmax(54px, 0.75fr) minmax(54px, 0.75fr);
     }
 
     .visually-hidden {
@@ -3346,13 +3350,17 @@ body.official-ranking-view .side {
 
       <div class="filter">
         <label id="rankingModeLabel">Ranking</label>
-        <div class="segmented-control" role="group" aria-label="Tipo de ranking">
+        <div class="segmented-control ranking-mode-control" role="group" aria-label="Tipo de ranking">
           <button type="button" class="active" data-ranking-mode-option="ALL">Completo</button>
           <button type="button" data-ranking-mode-option="TURNOVER" id="turnoverRankingButton">Virada</button>
+          <button type="button" data-ranking-mode-option="2010_PLUS">2010+</button>
+          <button type="button" data-ranking-mode-option="2011_PLUS">2011+</button>
         </div>
         <select id="generationRankingFilter" class="visually-hidden" aria-label="Tipo de ranking">
           <option value="ALL" selected>Completo</option>
           <option value="TURNOVER">Virada</option>
+          <option value="2010_PLUS">2010+</option>
+          <option value="2011_PLUS">2011+</option>
         </select>
       </div>
 
@@ -4119,11 +4127,13 @@ body.official-ranking-view .side {
 
       generationRankingFilter.innerHTML =
         '<option value="ALL">' + t("fullRanking") + '</option>' +
-        '<option value="TURNOVER">' + turnoverLabel + '</option>';
+        '<option value="TURNOVER">' + turnoverLabel + '</option>' +
+        '<option value="2010_PLUS">2010+</option>' +
+        '<option value="2011_PLUS">2011+</option>';
       generationRankingFilter.value = selectedValue;
 
       if (turnoverRankingButton) {
-        turnoverRankingButton.textContent = turnoverLabel;
+        turnoverRankingButton.textContent = (outgoingYear + 1) + "+";
         turnoverRankingButton.title = t("turnoverTitle") + outgoingYear;
       }
 
@@ -4131,12 +4141,24 @@ body.official-ranking-view .side {
         button.getAttribute("data-ranking-mode-option") === "ALL"
       );
       if (fullRankingButton) fullRankingButton.textContent = t("fullRanking");
+
+      const ranking2010Button = rankingModeButtons.find((button) =>
+        button.getAttribute("data-ranking-mode-option") === "2010_PLUS"
+      );
+      if (ranking2010Button) ranking2010Button.textContent = "2010+";
+
+      const ranking2011Button = rankingModeButtons.find((button) =>
+        button.getAttribute("data-ranking-mode-option") === "2011_PLUS"
+      );
+      if (ranking2011Button) ranking2011Button.textContent = "2011+";
     }
 
     function getGenerationMinimumYear() {
       const value = generationRankingFilter.value;
 
       if (value === "TURNOVER") return getOutgoingBirthYear() + 1;
+      if (value === "2010_PLUS") return 2010;
+      if (value === "2011_PLUS") return 2011;
 
       return 0;
     }
