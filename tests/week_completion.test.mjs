@@ -100,6 +100,40 @@ describe("week completion detector", () => {
     assert.equal(summary.safe_to_close, true);
   });
 
+  test("final_not_found with no pending matches is tolerated after manual audit", () => {
+    const summary = summarizeWeekCompletion({
+      weekTournamentRows: [{ tournament_key: "T1", tournament_name: "Tournament One" }],
+      weekMatchesRows: [
+        matchRow({
+          round_name: "Semifinal",
+          round_order: "3",
+          winner_side: "1",
+          winner_names: "Player One",
+        }),
+      ],
+      weekResultsSummaryRows: [
+        {
+          tournament_key: "T1",
+          tournament_name: "Tournament One",
+          events_found: "2",
+        },
+      ],
+      weekResultsErrorsRows: [],
+      currentDate: "2026-06-22",
+      weekEnd: "2026-06-21",
+    });
+
+    assert.equal(summary.events_pending, 1);
+    assert.equal(summary.blocking_pending_events, 0);
+    assert.equal(summary.tolerated_pending_events, 1);
+    assert.equal(summary.missing_events, 1);
+    assert.equal(summary.blocking_missing_events, 0);
+    assert.equal(summary.tolerated_missing_events, 1);
+    assert.equal(summary.pending_items.length, 0);
+    assert.equal(summary.tournaments[0].status, "completed");
+    assert.equal(summary.safe_to_close, true);
+  });
+
   test("missing events still block when materialized draws are pending", () => {
     const summary = summarizeWeekCompletion({
       weekTournamentRows: [{ tournament_key: "T1", tournament_name: "Tournament One" }],

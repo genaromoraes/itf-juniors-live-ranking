@@ -321,6 +321,14 @@ function buildPendingItem(base, reason) {
   };
 }
 
+function isToleratedPendingEvent(event) {
+  return (
+    event.status === "pending" &&
+    cleanText(event.reason) === "final_not_found" &&
+    toNumber(event.pending_matches) === 0
+  );
+}
+
 export function summarizeWeekCompletion({
   weekTournamentRows = [],
   weekMatchesRows = [],
@@ -369,13 +377,14 @@ export function summarizeWeekCompletion({
   }
 
   const pendingItems = [];
+  const missingEventItems = [];
   let missingEvents = 0;
   let pendingMatches = 0;
 
   for (const event of eventSummaries) {
     pendingMatches += event.pending_matches;
 
-    if (event.status !== "completed") {
+    if (event.status !== "completed" && !isToleratedPendingEvent(event)) {
       pendingItems.push(buildPendingItem(event, event.reason));
     }
   }
@@ -387,7 +396,7 @@ export function summarizeWeekCompletion({
     if (expectedEvents > foundEvents) {
       const diff = expectedEvents - foundEvents;
       missingEvents += diff;
-      pendingItems.push(
+      missingEventItems.push(
         buildPendingItem(
           {
             tournament_name: cleanText(summaryRow.tournament_name),
@@ -429,9 +438,22 @@ export function summarizeWeekCompletion({
       (row) => cleanText(row.tournament_key) === tournamentKey
     ).length;
     const hasReview = events.some((event) => event.status === "review_required");
-    const hasPending = events.some((event) => event.status === "pending");
+    const hasPending = events.some(
+      (event) => event.status === "pending" && !isToleratedPendingEvent(event)
+    );
+    const hasOnlyCompletedOrToleratedEvents =
+      events.length > 0 &&
+      events.every(
+        (event) => event.status === "completed" || isToleratedPendingEvent(event)
+      );
+    const tournamentMissingEventsTolerated =
+      tournamentMissingEvents > 0 &&
+      hasOnlyCompletedOrToleratedEvents &&
+      tournamentPendingMatches === 0 &&
+      tournamentResultsErrors === 0;
     const hasErrors =
-      tournamentResultsErrors > 0 || tournamentMissingEvents > 0;
+      tournamentResultsErrors > 0 ||
+      (tournamentMissingEvents > 0 && !tournamentMissingEventsTolerated);
 
     let status = "completed";
     if (hasErrors || hasReview) status = "review_required";
@@ -470,6 +492,8 @@ export function summarizeWeekCompletion({
   const eventsPending = eventSummaries.filter(
     (event) => event.status === "pending"
   ).length;
+  const toleratedPendingEvents = eventSummaries.filter(isToleratedPendingEvent).length;
+  const blockingPendingEvents = eventsPending - toleratedPendingEvents;
   const eventsReviewRequired = eventSummaries.filter(
     (event) => event.status === "review_required"
   ).length;
@@ -477,22 +501,26 @@ export function summarizeWeekCompletion({
   const resultsErrors = weekResultsErrorsRows.length;
   const materializedEventsComplete =
     eventSummaries.length > 0 &&
-    eventsCompleted === eventSummaries.length &&
+    eventsCompleted + toleratedPendingEvents === eventSummaries.length &&
     resultsErrors === 0;
   const missingEventsTolerated =
     missingEvents > 0 &&
     materializedEventsComplete &&
-    eventsPending === 0 &&
+    blockingPendingEvents === 0 &&
     eventsReviewRequired === 0 &&
     pendingMatches === 0 &&
     resultsErrors === 0;
   const blockingMissingEvents = missingEventsTolerated ? 0 : missingEvents;
   const allEventsComplete = materializedEventsComplete && blockingMissingEvents === 0;
 
+  if (!missingEventsTolerated) {
+    pendingItems.push(...missingEventItems);
+  }
+
   const safeToClose =
     Boolean(weekEnd && currentDate > weekEnd) &&
     allEventsComplete &&
-    eventsPending === 0 &&
+    blockingPendingEvents === 0 &&
     eventsReviewRequired === 0 &&
     blockingMissingEvents === 0 &&
     pendingMatches === 0 &&
@@ -508,6 +536,8 @@ export function summarizeWeekCompletion({
     events_total: eventSummaries.length,
     events_completed: eventsCompleted,
     events_pending: eventsPending,
+    blocking_pending_events: blockingPendingEvents,
+    tolerated_pending_events: toleratedPendingEvents,
     events_review_required: eventsReviewRequired,
     champions_found: championsFound,
     missing_events: missingEvents,

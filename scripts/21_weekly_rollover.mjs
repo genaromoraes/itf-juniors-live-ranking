@@ -627,7 +627,7 @@ export function buildStatusSummary(facts, today = todayIso()) {
     }
 
     if (
-      facts.completion.events_pending > 0 ||
+      (facts.completion.blocking_pending_events ?? facts.completion.events_pending) > 0 ||
       facts.completion.pending_matches > 0
     ) {
       return {
@@ -1043,6 +1043,7 @@ export async function runStatusAction({ facts }) {
     `Eventos concluidos: ${facts.completion.events_completed}/${facts.completion.events_total}`,
     `Campeoes identificados: ${facts.completion.champions_found}`,
     `Eventos pendentes: ${facts.completion.events_pending}`,
+    `Eventos pendentes tolerados: ${facts.completion.tolerated_pending_events || 0}`,
     `Eventos para revisao: ${facts.completion.events_review_required}`,
     `Eventos ausentes: ${facts.completion.missing_events}`,
     `Eventos ausentes tolerados: ${facts.completion.tolerated_missing_events || 0}`,
@@ -1077,7 +1078,7 @@ export async function runCloseAction({ args, facts, runNodeScript }) {
   }
   if (!facts.completion.safe_to_close) {
     errors.push(
-      `Fechamento bloqueado: safe_to_close=false. Pendencias: eventos_pendentes=${facts.completion.events_pending}, eventos_revisao=${facts.completion.events_review_required}, eventos_ausentes_bloqueantes=${facts.completion.blocking_missing_events ?? facts.completion.missing_events}, partidas_pendentes=${facts.completion.pending_matches}, erros_coleta=${facts.completion.results_errors}.`
+      `Fechamento bloqueado: safe_to_close=false. Pendencias: eventos_pendentes_bloqueantes=${facts.completion.blocking_pending_events ?? facts.completion.events_pending}, eventos_revisao=${facts.completion.events_review_required}, eventos_ausentes_bloqueantes=${facts.completion.blocking_missing_events ?? facts.completion.missing_events}, partidas_pendentes=${facts.completion.pending_matches}, erros_coleta=${facts.completion.results_errors}.`
     );
   }
   if (!(await fileExists(facts.paths.weekPlayerResults))) {

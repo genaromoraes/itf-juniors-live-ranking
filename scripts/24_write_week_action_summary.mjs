@@ -310,6 +310,8 @@ function buildSummaryMarkdown({
     ...(nonKnockoutTotal > 0
       ? [`- Jogos fora do mata-mata coletados: ${nonKnockoutCompleted}/${nonKnockoutTotal}`]
       : []),
+    `- Eventos pendentes: ${completion.events_pending}`,
+    `- Eventos pendentes tolerados: ${completion.tolerated_pending_events || 0}`,
     `- Eventos ausentes: ${completion.missing_events}`,
     `- Eventos ausentes tolerados: ${completion.tolerated_missing_events || 0}`,
     `- Erros de coleta: ${completion.results_errors}`,
