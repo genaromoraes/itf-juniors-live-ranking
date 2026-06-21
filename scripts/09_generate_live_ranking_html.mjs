@@ -3376,14 +3376,6 @@ body.official-ranking-view .side {
         </select>
       </div>
 
-      <div class="filter">
-        <label id="sortLabel">Ordenar por</label>
-        <select id="sortFilter">
-          <option value="RANK" selected>Ranking ao vivo</option>
-          <option value="OFFICIAL_RANK">Ranking oficial</option>
-        </select>
-      </div>
-
       <div class="filter toggle-filter weekly-only">
         <label id="weeklyFilterLabel">Filtro semanal</label>
         <label class="toggle-button" for="playingOnlyFilter">
@@ -3391,6 +3383,14 @@ body.official-ranking-view .side {
           <span class="toggle-track"></span>
           <span id="playingLabel">Jogando</span>
         </label>
+      </div>
+
+      <div class="filter">
+        <label id="sortLabel">Ordenar por</label>
+        <select id="sortFilter">
+          <option value="RANK" selected>Ranking ao vivo</option>
+          <option value="OFFICIAL_RANK">Ranking oficial</option>
+        </select>
       </div>
 
       <div class="filter">
