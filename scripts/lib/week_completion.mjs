@@ -475,18 +475,26 @@ export function summarizeWeekCompletion({
   ).length;
   const championsFound = eventSummaries.filter((event) => event.champion_found).length;
   const resultsErrors = weekResultsErrorsRows.length;
-  const allEventsComplete =
+  const materializedEventsComplete =
     eventSummaries.length > 0 &&
     eventsCompleted === eventSummaries.length &&
-    missingEvents === 0 &&
     resultsErrors === 0;
+  const missingEventsTolerated =
+    missingEvents > 0 &&
+    materializedEventsComplete &&
+    eventsPending === 0 &&
+    eventsReviewRequired === 0 &&
+    pendingMatches === 0 &&
+    resultsErrors === 0;
+  const blockingMissingEvents = missingEventsTolerated ? 0 : missingEvents;
+  const allEventsComplete = materializedEventsComplete && blockingMissingEvents === 0;
 
   const safeToClose =
     Boolean(weekEnd && currentDate > weekEnd) &&
     allEventsComplete &&
     eventsPending === 0 &&
     eventsReviewRequired === 0 &&
-    missingEvents === 0 &&
+    blockingMissingEvents === 0 &&
     pendingMatches === 0 &&
     resultsErrors === 0 &&
     liveRankingValid &&
@@ -503,6 +511,8 @@ export function summarizeWeekCompletion({
     events_review_required: eventsReviewRequired,
     champions_found: championsFound,
     missing_events: missingEvents,
+    blocking_missing_events: blockingMissingEvents,
+    tolerated_missing_events: missingEventsTolerated ? missingEvents : 0,
     pending_matches: pendingMatches,
     results_errors: resultsErrors,
     all_events_complete: allEventsComplete,

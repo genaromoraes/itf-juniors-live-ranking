@@ -311,6 +311,7 @@ function buildSummaryMarkdown({
       ? [`- Jogos fora do mata-mata coletados: ${nonKnockoutCompleted}/${nonKnockoutTotal}`]
       : []),
     `- Eventos ausentes: ${completion.missing_events}`,
+    `- Eventos ausentes tolerados: ${completion.tolerated_missing_events || 0}`,
     `- Erros de coleta: ${completion.results_errors}`,
     "",
     "### Jogos completos por torneio e chave (mata-mata)",

@@ -78,7 +78,7 @@ describe("week completion detector", () => {
     assert.equal(result.status, "completed");
   });
 
-  test("missing events are counted from summary", () => {
+  test("missing events are counted but tolerated after complete draws", () => {
     const summary = summarizeWeekCompletion({
       weekTournamentRows: [{ tournament_key: "T1", tournament_name: "Tournament One" }],
       weekMatchesRows: [matchRow()],
@@ -95,6 +95,37 @@ describe("week completion detector", () => {
     });
 
     assert.equal(summary.missing_events, 1);
+    assert.equal(summary.blocking_missing_events, 0);
+    assert.equal(summary.tolerated_missing_events, 1);
+    assert.equal(summary.safe_to_close, true);
+  });
+
+  test("missing events still block when materialized draws are pending", () => {
+    const summary = summarizeWeekCompletion({
+      weekTournamentRows: [{ tournament_key: "T1", tournament_name: "Tournament One" }],
+      weekMatchesRows: [
+        matchRow({
+          winner_side: "",
+          winner_names: "",
+          play_status_code: "TP",
+          play_status_desc: "To be played",
+        }),
+      ],
+      weekResultsSummaryRows: [
+        {
+          tournament_key: "T1",
+          tournament_name: "Tournament One",
+          events_found: "2",
+        },
+      ],
+      weekResultsErrorsRows: [],
+      currentDate: "2026-06-22",
+      weekEnd: "2026-06-21",
+    });
+
+    assert.equal(summary.missing_events, 1);
+    assert.equal(summary.blocking_missing_events, 1);
+    assert.equal(summary.tolerated_missing_events, 0);
     assert.equal(summary.safe_to_close, false);
   });
 

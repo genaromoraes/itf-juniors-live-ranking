@@ -342,6 +342,33 @@ describe("weekly rollover controller", () => {
     assert.equal(result.report.completion.safe_to_close, true);
   });
 
+  test("complete draws with tolerated missing summary events -> WEEK_READY_TO_CLOSE", async () => {
+    const root = await makeProject({
+      weekSummaryRows: [
+        {
+          tournament_key: "T1",
+          tournament_name: "Tournament One",
+          category: "J100",
+          events_found: "2",
+          matches_found: "1",
+          errors_found: "0",
+          raw_file: "raw.json",
+          from_cache: "false",
+          collected_at: "2026-06-21T00:00:00.000Z",
+        },
+      ],
+    });
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
+    );
+    assert.equal(result.report.status, STATUS_WEEK_READY_TO_CLOSE);
+    assert.equal(result.report.completion.missing_events, 1);
+    assert.equal(result.report.completion.blocking_missing_events, 0);
+    assert.equal(result.report.completion.tolerated_missing_events, 1);
+    assert.equal(result.report.completion.safe_to_close, true);
+  });
+
   test("ended week with pending event -> WEEK_ENDED_WITH_PENDING_RESULTS", async () => {
     const root = await makeProject({
       weekMatchesRows: [
