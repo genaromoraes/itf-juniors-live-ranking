@@ -128,6 +128,56 @@ function reasonForMatchPending(matchRow) {
   return "";
 }
 
+function splitTeamTokens(value) {
+  return cleanText(value)
+    .split("|")
+    .map((item) => normalizeText(item))
+    .filter(Boolean);
+}
+
+function getSideTokens(matchRow, side) {
+  const idTokens = splitTeamTokens(matchRow[`team${side}_player_ids`]);
+  if (idTokens.length > 0) return idTokens;
+
+  return cleanText(matchRow[`team${side}_names`])
+    .split("/")
+    .map((item) => normalizeText(item))
+    .filter(Boolean);
+}
+
+function hasAnyTokenInSet(tokens, tokenSet) {
+  return tokens.some((token) => tokenSet.has(token));
+}
+
+function collectLaterRoundTokens(rows, roundOrder) {
+  const laterTokens = new Set();
+  for (const row of rows) {
+    if (toNumber(row.round_order) <= roundOrder) continue;
+    for (const token of getSideTokens(row, 1)) laterTokens.add(token);
+    for (const token of getSideTokens(row, 2)) laterTokens.add(token);
+  }
+  return laterTokens;
+}
+
+function isPendingMatchResolvedByLaterDraw(matchRow, rows) {
+  if (!reasonForMatchPending(matchRow) || isFinalRound(matchRow.round_name)) return false;
+
+  const roundOrder = toNumber(matchRow.round_order);
+  if (!roundOrder) return false;
+
+  const team1Tokens = getSideTokens(matchRow, 1);
+  const team2Tokens = getSideTokens(matchRow, 2);
+  if (team1Tokens.length === 0 && team2Tokens.length === 0) return false;
+
+  const laterTokens = collectLaterRoundTokens(rows, roundOrder);
+  const team1Advanced = hasAnyTokenInSet(team1Tokens, laterTokens);
+  const team2Advanced = hasAnyTokenInSet(team2Tokens, laterTokens);
+
+  if (team1Advanced !== team2Advanced) return true;
+
+  return !team1Advanced && !team2Advanced;
+}
+
 function winnerToken(matchRow) {
   return normalizeText(matchRow.winner_names || matchRow.winner_side);
 }
@@ -158,7 +208,7 @@ export function classifyEventCompletion(matches) {
         .filter(Boolean)
     ),
   ];
-  const pendingMatchRows = rows.filter(
+  const rawPendingMatchRows = rows.filter(
     (row) => reasonForMatchPending(row) && !isFinalRound(row.round_name)
   );
 
@@ -167,7 +217,7 @@ export function classifyEventCompletion(matches) {
       ...identity,
       status: "review_required",
       champion_found: false,
-      pending_matches: pendingMatchRows.length,
+      pending_matches: rawPendingMatchRows.length,
       reason: "multiple_final_winners",
     };
   }
@@ -177,7 +227,7 @@ export function classifyEventCompletion(matches) {
       ...identity,
       status: "review_required",
       champion_found: false,
-      pending_matches: pendingMatchRows.length,
+      pending_matches: rawPendingMatchRows.length,
       reason: "final_cancelled_without_champion",
     };
   }
@@ -187,7 +237,7 @@ export function classifyEventCompletion(matches) {
       ...identity,
       status: "review_required",
       champion_found: false,
-      pending_matches: pendingMatchRows.length,
+      pending_matches: rawPendingMatchRows.length,
       reason: "cancelled_or_suspended_without_champion",
     };
   }
@@ -197,7 +247,7 @@ export function classifyEventCompletion(matches) {
       ...identity,
       status: "pending",
       champion_found: false,
-      pending_matches: pendingMatchRows.length,
+      pending_matches: rawPendingMatchRows.length,
       reason: "final_not_found",
     };
   }
@@ -208,6 +258,9 @@ export function classifyEventCompletion(matches) {
       (!isFutureMatch(row) || isTerminalSpecialResult(row)) &&
       !isCancelledLike(row)
   );
+  const pendingMatchRows = completedFinal
+    ? rawPendingMatchRows.filter((row) => !isPendingMatchResolvedByLaterDraw(row, rows))
+    : rawPendingMatchRows;
 
   if (completedFinal) {
     if (pendingMatchRows.length > 0) {

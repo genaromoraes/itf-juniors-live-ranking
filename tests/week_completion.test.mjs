@@ -156,4 +156,61 @@ describe("week completion detector", () => {
     assert.equal(summary.tournaments[0].matches_found, 2);
     assert.equal(summary.tournaments[0].status, "pending");
   });
+
+  test("does not block closing when an unplayed early match no longer affects a completed draw", () => {
+    const summary = summarizeWeekCompletion({
+      weekTournamentRows: [{ tournament_key: "T1", tournament_name: "Tournament One" }],
+      weekMatchesRows: [
+        matchRow({
+          round_name: "1st Round",
+          round_order: "1",
+          play_status_code: "NP",
+          play_status_desc: "Not played",
+          team1_player_ids: "A|B",
+          team1_names: "Player A / Player B",
+          team2_player_ids: "C|D",
+          team2_names: "Player C / Player D",
+          winner_side: "",
+          winner_names: "",
+          score: "",
+        }),
+        matchRow({
+          round_name: "Quarter-finals",
+          round_order: "2",
+          team1_player_ids: "E|F",
+          team1_names: "Player E / Player F",
+          team2_player_ids: "",
+          team2_names: "",
+          winner_side: "1",
+          winner_names: "Player E / Player F",
+          score: "",
+        }),
+        matchRow({
+          round_name: "Final",
+          round_order: "4",
+          team1_player_ids: "E|F",
+          team1_names: "Player E / Player F",
+          team2_player_ids: "G|H",
+          team2_names: "Player G / Player H",
+          winner_side: "1",
+          winner_names: "Player E / Player F",
+        }),
+      ],
+      weekResultsSummaryRows: [
+        {
+          tournament_key: "T1",
+          tournament_name: "Tournament One",
+          category: "J200",
+          events_found: "1",
+          matches_found: "3",
+        },
+      ],
+      currentDate: "2026-06-22",
+      weekEnd: "2026-06-21",
+    });
+
+    assert.equal(summary.pending_matches, 0);
+    assert.equal(summary.tournaments[0].status, "completed");
+    assert.equal(summary.safe_to_close, true);
+  });
 });

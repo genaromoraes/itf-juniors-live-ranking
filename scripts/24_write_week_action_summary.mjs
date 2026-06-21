@@ -84,6 +84,107 @@ function isMatchComplete(matchRow) {
   return hasWinner(matchRow) || isTerminalSpecialResult(matchRow);
 }
 
+function isFinalRound(value) {
+  const text = normalizeText(value);
+  if (!text) return false;
+  if (
+    text.includes("SEMIFINAL") ||
+    text.includes("SEMI FINAL") ||
+    text.includes("QUARTERFINAL") ||
+    text.includes("QUARTER FINAL") ||
+    text.includes("PLAYOFF")
+  ) {
+    return false;
+  }
+  return text === "F" || text === "FINAL" || text === "FINALS" || text === "FINAL ROUND";
+}
+
+function splitTeamTokens(value) {
+  return cleanText(value)
+    .split("|")
+    .map((item) => normalizeText(item))
+    .filter(Boolean);
+}
+
+function getSideTokens(matchRow, side) {
+  const idTokens = splitTeamTokens(matchRow[`team${side}_player_ids`]);
+  if (idTokens.length > 0) return idTokens;
+
+  return cleanText(matchRow[`team${side}_names`])
+    .split("/")
+    .map((item) => normalizeText(item))
+    .filter(Boolean);
+}
+
+function hasAnyTokenInSet(tokens, tokenSet) {
+  return tokens.some((token) => tokenSet.has(token));
+}
+
+function collectLaterRoundTokens(rows, roundOrder) {
+  const laterTokens = new Set();
+  for (const row of rows) {
+    if (toNumber(row.round_order) <= roundOrder) continue;
+    for (const token of getSideTokens(row, 1)) laterTokens.add(token);
+    for (const token of getSideTokens(row, 2)) laterTokens.add(token);
+  }
+  return laterTokens;
+}
+
+function hasCompletedFinal(rows) {
+  return rows.some((row) => isFinalRound(row.round_name) && isMatchComplete(row));
+}
+
+function isFuturePendingMatch(matchRow) {
+  const haystack = [
+    normalizeText(matchRow.play_status_code),
+    normalizeText(matchRow.play_status_desc),
+    normalizeText(matchRow.result_status_code),
+    normalizeText(matchRow.result_status_desc),
+  ].join(" ");
+
+  return (
+    haystack.includes("TO BE PLAYED") ||
+    haystack.includes("SCHEDULED") ||
+    haystack.includes("NOT PLAYED") ||
+    haystack.includes("NOT STARTED") ||
+    normalizeText(matchRow.play_status_code) === "TP" ||
+    normalizeText(matchRow.play_status_code) === "NP"
+  ) && !isTerminalSpecialResult(matchRow);
+}
+
+function isPendingMatchResolvedByLaterDraw(matchRow, rows) {
+  if (!hasCompletedFinal(rows) || !isFuturePendingMatch(matchRow) || isFinalRound(matchRow.round_name)) {
+    return false;
+  }
+
+  const roundOrder = toNumber(matchRow.round_order);
+  if (!roundOrder) return false;
+
+  const team1Tokens = getSideTokens(matchRow, 1);
+  const team2Tokens = getSideTokens(matchRow, 2);
+  if (team1Tokens.length === 0 && team2Tokens.length === 0) return false;
+
+  const laterTokens = collectLaterRoundTokens(rows, roundOrder);
+  const team1Advanced = hasAnyTokenInSet(team1Tokens, laterTokens);
+  const team2Advanced = hasAnyTokenInSet(team2Tokens, laterTokens);
+
+  if (team1Advanced !== team2Advanced) return true;
+
+  return !team1Advanced && !team2Advanced;
+}
+
+function getEventKey(row) {
+  return [
+    cleanText(row.tournament_key),
+    cleanText(row.event_id) ||
+      [
+        cleanText(row.player_type_code),
+        cleanText(row.match_type_code),
+        cleanText(row.event_classification_code),
+      ].join(":"),
+  ].join("|");
+}
+
 function isKnockoutDrawMatch(matchRow) {
   const structure = normalizeText(
     `${matchRow.drawsheet_structure_code || ""} ${matchRow.drawsheet_structure_desc || ""}`
@@ -133,6 +234,13 @@ function getDrawOrder(row) {
 
 function buildDrawProgressRows(weekMatchesRows) {
   const groups = new Map();
+  const rowsByEvent = new Map();
+
+  for (const row of weekMatchesRows) {
+    const eventKey = getEventKey(row);
+    if (!rowsByEvent.has(eventKey)) rowsByEvent.set(eventKey, []);
+    rowsByEvent.get(eventKey).push(row);
+  }
 
   for (const row of weekMatchesRows) {
     const tournamentKey = cleanText(row.tournament_key);
@@ -154,8 +262,11 @@ function buildDrawProgressRows(weekMatchesRows) {
     }
 
     const group = groups.get(key);
+    const eventRows = rowsByEvent.get(getEventKey(row)) || [];
     group.total_matches += 1;
-    if (isMatchComplete(row)) group.completed_matches += 1;
+    if (isMatchComplete(row) || isPendingMatchResolvedByLaterDraw(row, eventRows)) {
+      group.completed_matches += 1;
+    }
   }
 
   return [...groups.values()]
