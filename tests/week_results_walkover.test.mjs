@@ -118,4 +118,81 @@ describe("week results walkover advancement", () => {
     assert.equal(livePoints.calculated_round_label, "SF");
     assert.equal(livePoints.live_points_raw, 9);
   });
+
+  test("ignores stale future placements after an event final is completed", () => {
+    const drawsheet = {
+      eventId: "event-girls-singles",
+      koGroups: [
+        {
+          groupName: "Main Draw",
+          rounds: [
+            {
+              roundName: "Quarter-finals",
+              roundNumber: 1,
+              matches: [
+                {
+                  matchId: "qf-1",
+                  playStatusCode: "PC",
+                  playStatusDesc: "Played and completed",
+                  teams: [
+                    { ...team("800000001", "Ana", "Winner"), isWinner: true },
+                    team("800000002", "Bella", "Loser"),
+                  ],
+                },
+              ],
+            },
+            {
+              roundName: "Semi-finals",
+              roundNumber: 2,
+              matches: [
+                {
+                  matchId: "sf-1",
+                  playStatusCode: "TP",
+                  playStatusDesc: "To be played",
+                  teams: [
+                    team("800000001", "Ana", "Winner"),
+                    team("800000003", "Clara", "Other"),
+                  ],
+                },
+                {
+                  matchId: "sf-2",
+                  playStatusCode: "PC",
+                  playStatusDesc: "Played and completed",
+                  teams: [
+                    { ...team("800000004", "Duda", "Finalist"), isWinner: true },
+                    team("800000005", "Eva", "Semifinalist"),
+                  ],
+                },
+              ],
+            },
+            {
+              roundName: "Final",
+              roundNumber: 3,
+              matches: [
+                {
+                  matchId: "f-1",
+                  playStatusCode: "PC",
+                  playStatusDesc: "Played and completed",
+                  teams: [
+                    { ...team("800000004", "Duda", "Finalist"), isWinner: true },
+                    team("800000006", "Fernanda", "Runnerup"),
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const matches = extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament);
+    const playerResults = buildPlayerResultsFromMatches(matches);
+    const ana = playerResults.find((row) => row.player_id === "800000001");
+    const duda = playerResults.find((row) => row.player_id === "800000004");
+
+    assert.equal(ana.highest_round_name, "Quarter-finals");
+    assert.equal(ana.status, "eliminated");
+    assert.equal(duda.highest_round_name, "Final");
+    assert.equal(duda.status, "champion");
+  });
 });

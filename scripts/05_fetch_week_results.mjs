@@ -654,10 +654,45 @@ function isCompletedMatch(match) {
   );
 }
 
+function getMatchEventKey(match) {
+  return [
+    match.tournament_key,
+    match.player_type_code,
+    match.match_type_code,
+    match.event_classification_code,
+  ].join("|");
+}
+
 export function buildPlayerResultsFromMatches(matches) {
   const map = new Map();
+  const maxRoundOrderByEvent = new Map();
+  const completedFinalEvents = new Set();
 
   for (const match of matches) {
+    const eventKey = getMatchEventKey(match);
+    const roundOrder = Number(match.round_order || 0);
+
+    if (!eventKey || !roundOrder) continue;
+
+    maxRoundOrderByEvent.set(
+      eventKey,
+      Math.max(maxRoundOrderByEvent.get(eventKey) || 0, roundOrder)
+    );
+  }
+
+  for (const match of matches) {
+    const eventKey = getMatchEventKey(match);
+    const roundOrder = Number(match.round_order || 0);
+    const maxRoundOrder = maxRoundOrderByEvent.get(eventKey) || 0;
+
+    if (roundOrder && maxRoundOrder && roundOrder === maxRoundOrder && isCompletedMatch(match)) {
+      completedFinalEvents.add(eventKey);
+    }
+  }
+
+  for (const match of matches) {
+    const eventKey = getMatchEventKey(match);
+    const eventHasCompletedFinal = completedFinalEvents.has(eventKey);
     const team1Players = splitTeamPlayers(match, 1);
     const team2Players = splitTeamPlayers(match, 2);
     const allSides = [
@@ -721,7 +756,10 @@ export function buildPlayerResultsFromMatches(matches) {
           }
         }
 
-        if (Number(match.round_order) >= Number(row.highest_round_order || 0)) {
+        if (
+          (completed || !eventHasCompletedFinal) &&
+          Number(match.round_order) >= Number(row.highest_round_order || 0)
+        ) {
           row.highest_round_order = match.round_order;
           row.highest_round_name = match.round_name;
           row.last_match_id = match.match_id;
@@ -732,8 +770,24 @@ export function buildPlayerResultsFromMatches(matches) {
   }
 
   for (const row of map.values()) {
+    const eventKey = getMatchEventKey(row);
+    const eventHasCompletedFinal = completedFinalEvents.has(eventKey);
+    const maxRoundOrder = maxRoundOrderByEvent.get(eventKey) || 0;
+
     if (row.losses > 0) {
       row.status = "eliminated";
+    } else if (
+      eventHasCompletedFinal &&
+      maxRoundOrder &&
+      Number(row.highest_round_order || 0) < maxRoundOrder
+    ) {
+      row.status = "eliminated";
+    } else if (
+      eventHasCompletedFinal &&
+      maxRoundOrder &&
+      Number(row.highest_round_order || 0) === maxRoundOrder
+    ) {
+      row.status = "champion";
     } else if (row.wins > 0) {
       row.status = "still_alive_or_champion";
     } else {
