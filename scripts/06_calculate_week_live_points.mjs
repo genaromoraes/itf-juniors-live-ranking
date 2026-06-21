@@ -245,6 +245,11 @@ function getMainDrawRoundLabel(row, maxRoundOrderByEvent) {
   const labels = getRoundLabelsForMainDraw(totalRounds);
   const wins = toNumber(row.wins);
   const losses = toNumber(row.losses);
+  const status = cleanText(row.status).toLowerCase();
+
+  if (status === "champion") {
+    return "W";
+  }
 
   let achievedIndex;
 

@@ -316,6 +316,44 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(row.live_points_weighted, 16.75);
   });
 
+  test("production live calculation gives main draw champions winner points even with a bye", () => {
+    const playerResults = [
+      {
+        tournament_key: "J-J100-KAZ-2026-002",
+        tournament_name: "J100 Almaty",
+        category: "J100",
+        player_id: "800710317",
+        player_name: "Makhmudbek Beknazarov",
+        player_type_code: "B",
+        match_type_code: "D",
+        event_classification_code: "M",
+        wins: "4",
+        losses: "0",
+        status: "champion",
+      },
+    ];
+
+    const matchRows = [
+      {
+        tournament_key: "J-J100-KAZ-2026-002",
+        player_type_code: "B",
+        match_type_code: "D",
+        event_classification_code: "M",
+        round_order: "5",
+      },
+    ];
+
+    const pointsMap = new Map([
+      ["J100|doubles|main_draw|W", 75],
+    ]);
+
+    const [row] = buildLivePointRows(playerResults, matchRows, pointsMap);
+
+    assert.equal(row.calculated_round_label, "W");
+    assert.equal(row.live_points_raw, 75);
+    assert.equal(row.live_points_weighted, 18.75);
+  });
+
   test("production live calculation gives a JGS singles first-round loss 0 live points", () => {
     const playerResults = [
       {
