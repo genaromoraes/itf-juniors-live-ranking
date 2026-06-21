@@ -23,6 +23,17 @@ function cleanText(value) {
   return String(value).replace(/\s+/g, " ").trim();
 }
 
+function normalizeText(value) {
+  return cleanText(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[-_/]+/g, " ")
+    .replace(/[^\p{L}\p{N} ]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toUpperCase();
+}
+
 function toNumber(value) {
   if (value === undefined || value === null || value === "") return 0;
   const number = Number(String(value).replace(/[^\d.-]/g, ""));
@@ -45,61 +56,172 @@ function escapeMarkdownCell(value) {
   return cleanText(value).replaceAll("|", "\\|") || "-";
 }
 
-function statusLabel(status) {
-  if (status === "completed") return "concluido";
-  if (status === "pending") return "pendente";
-  if (status === "review_required") return "revisar";
-  return cleanText(status) || "-";
+function hasWinner(matchRow) {
+  return Boolean(cleanText(matchRow.winner_side) || cleanText(matchRow.winner_names));
 }
 
-function buildSummaryMarkdown({ completion, scrapedWithFreshData }) {
-  const tournaments = completion.tournaments || [];
-  const pendingTournaments = tournaments
-    .filter((item) => toNumber(item.pending_matches) > 0 || item.status !== "completed")
-    .sort((a, b) =>
-      toNumber(b.pending_matches) - toNumber(a.pending_matches) ||
-      cleanText(a.tournament_name).localeCompare(cleanText(b.tournament_name), "pt-BR")
-    );
-  const rows = pendingTournaments.length ? pendingTournaments : tournaments;
+function isTerminalSpecialResult(matchRow) {
+  const haystack = [
+    normalizeText(matchRow.play_status_code),
+    normalizeText(matchRow.play_status_desc),
+    normalizeText(matchRow.result_status_code),
+    normalizeText(matchRow.result_status_desc),
+    normalizeText(matchRow.score),
+  ].join(" ");
 
+  return (
+    haystack.includes("BYE") ||
+    haystack.includes("W O") ||
+    haystack.includes("WALKOVER") ||
+    haystack.includes("RET") ||
+    haystack.includes("RETIRED") ||
+    haystack.includes("DEFAULT") ||
+    haystack.includes("CANCELLED")
+  );
+}
+
+function isMatchComplete(matchRow) {
+  return hasWinner(matchRow) || isTerminalSpecialResult(matchRow);
+}
+
+function isKnockoutDrawMatch(matchRow) {
+  const structure = normalizeText(
+    `${matchRow.drawsheet_structure_code || ""} ${matchRow.drawsheet_structure_desc || ""}`
+  );
+
+  if (!structure) return true;
+  if (structure.includes("ROUND ROBIN") || structure.includes("ROBIN")) return false;
+  if (structure.includes("GROUP") || structure.includes("POOL")) return false;
+  if (structure === "RR") return false;
+
+  return true;
+}
+
+function getDrawLabel(row) {
+  const playerType = normalizeText(row.player_type_code || row.player_type_desc);
+  const matchType = normalizeText(row.match_type_code || row.match_type_desc);
+  const gender = playerType === "B" || playerType.includes("BOY")
+    ? "Masculino"
+    : playerType === "G" || playerType.includes("GIRL")
+      ? "Feminino"
+      : cleanText(row.player_type_desc || row.player_type_code) || "-";
+  const event = matchType === "S" || matchType.includes("SINGLE")
+    ? "simples"
+    : matchType === "D" || matchType.includes("DOUBLE")
+      ? "duplas"
+      : cleanText(row.match_type_desc || row.match_type_code) || "-";
+
+  return `${gender} ${event}`;
+}
+
+function getDrawOrder(row) {
+  const playerType = normalizeText(row.player_type_code || row.player_type_desc);
+  const matchType = normalizeText(row.match_type_code || row.match_type_desc);
+  const genderOrder = playerType === "B" || playerType.includes("BOY")
+    ? 0
+    : playerType === "G" || playerType.includes("GIRL")
+      ? 1
+      : 9;
+  const eventOrder = matchType === "S" || matchType.includes("SINGLE")
+    ? 0
+    : matchType === "D" || matchType.includes("DOUBLE")
+      ? 1
+      : 9;
+
+  return genderOrder * 10 + eventOrder;
+}
+
+function buildDrawProgressRows(weekMatchesRows) {
+  const groups = new Map();
+
+  for (const row of weekMatchesRows) {
+    const tournamentKey = cleanText(row.tournament_key);
+    const playerType = cleanText(row.player_type_code || row.player_type_desc);
+    const matchType = cleanText(row.match_type_code || row.match_type_desc);
+    if (!tournamentKey || !playerType || !matchType) continue;
+
+    const key = [tournamentKey, playerType, matchType].join("|");
+    if (!groups.has(key)) {
+      groups.set(key, {
+        tournament_key: tournamentKey,
+        tournament_name: cleanText(row.tournament_name),
+        category: cleanText(row.category),
+        draw: getDrawLabel(row),
+        draw_order: getDrawOrder(row),
+        total_matches: 0,
+        completed_matches: 0,
+      });
+    }
+
+    const group = groups.get(key);
+    group.total_matches += 1;
+    if (isMatchComplete(row)) group.completed_matches += 1;
+  }
+
+  return [...groups.values()]
+    .map((row) => ({
+      ...row,
+      pending_matches: Math.max(row.total_matches - row.completed_matches, 0),
+    }))
+    .sort((a, b) =>
+      cleanText(a.tournament_name).localeCompare(cleanText(b.tournament_name), "pt-BR") ||
+      a.draw_order - b.draw_order
+    );
+}
+
+function buildSummaryMarkdown({
+  completion,
+  drawProgressRows,
+  nonKnockoutRows,
+  scrapedWithFreshData,
+}) {
+  const totalMatches = drawProgressRows.reduce(
+    (sum, row) => sum + toNumber(row.total_matches),
+    0
+  );
+  const completedMatches = drawProgressRows.reduce(
+    (sum, row) => sum + toNumber(row.completed_matches),
+    0
+  );
+  const pendingMatches = drawProgressRows.reduce(
+    (sum, row) => sum + toNumber(row.pending_matches),
+    0
+  );
+  const nonKnockoutTotal = nonKnockoutRows.length;
+  const nonKnockoutCompleted = nonKnockoutRows.filter(isMatchComplete).length;
   const lines = [
     "## Resumo da raspagem semanal",
     "",
     `- Fonte dos dados: ${scrapedWithFreshData ? "raspagem ITF fresca" : "cache/local"}`,
-    `- Torneios: ${completion.tournaments_completed}/${completion.tournaments_total} concluidos`,
-    `- Eventos: ${completion.events_completed}/${completion.events_total} concluidos`,
-    `- Partidas pendentes: ${completion.pending_matches}`,
+    `- Torneios encontrados: ${completion.tournaments_total}`,
+    `- Jogos completos no mata-mata: ${completedMatches}/${totalMatches}`,
+    `- Jogos pendentes no mata-mata: ${pendingMatches}`,
+    ...(nonKnockoutTotal > 0
+      ? [`- Jogos fora do mata-mata coletados: ${nonKnockoutCompleted}/${nonKnockoutTotal}`]
+      : []),
     `- Eventos ausentes: ${completion.missing_events}`,
     `- Erros de coleta: ${completion.results_errors}`,
     "",
-    "### Partidas pendentes por torneio",
+    "### Jogos completos por torneio e chave (mata-mata)",
     "",
   ];
 
-  if (!rows.length) {
-    lines.push("Nenhum torneio encontrado nos artefatos da semana.");
+  if (!drawProgressRows.length) {
+    lines.push("Nenhum jogo encontrado nos artefatos da semana.");
     return `${lines.join("\n")}\n`;
   }
 
-  lines.push("| Torneio | Categoria | Status | Eventos | Partidas | Pendentes | Ausentes | Erros |");
-  lines.push("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |");
+  lines.push("| Torneio | Nivel | Chave | Jogos completos | Pendentes |");
+  lines.push("| --- | --- | --- | ---: | ---: |");
 
-  for (const tournament of rows) {
+  for (const row of drawProgressRows) {
     lines.push([
-      escapeMarkdownCell(tournament.tournament_name),
-      escapeMarkdownCell(tournament.category),
-      escapeMarkdownCell(statusLabel(tournament.status)),
-      `${toNumber(tournament.events_completed)}/${toNumber(tournament.events_total)}`,
-      String(toNumber(tournament.matches_found)),
-      String(toNumber(tournament.pending_matches)),
-      String(toNumber(tournament.missing_events)),
-      String(toNumber(tournament.results_errors)),
+      escapeMarkdownCell(row.tournament_name),
+      escapeMarkdownCell(row.category),
+      escapeMarkdownCell(row.draw),
+      `${toNumber(row.completed_matches)}/${toNumber(row.total_matches)}`,
+      String(toNumber(row.pending_matches)),
     ].join(" | ").replace(/^/, "| ").replace(/$/, " |"));
-  }
-
-  if (!pendingTournaments.length) {
-    lines.push("");
-    lines.push("Todos os torneios encontrados aparecem sem partidas pendentes.");
   }
 
   return `${lines.join("\n")}\n`;
@@ -126,8 +248,12 @@ async function main() {
     currentDate: todayIsoDate(),
     weekEnd: getWeekEnd(weekTournamentRows),
   });
+  const knockoutRows = weekMatchesRows.filter(isKnockoutDrawMatch);
+  const nonKnockoutRows = weekMatchesRows.filter((row) => !isKnockoutDrawMatch(row));
   const markdown = buildSummaryMarkdown({
     completion,
+    drawProgressRows: buildDrawProgressRows(knockoutRows),
+    nonKnockoutRows,
     scrapedWithFreshData: process.env.ITF_SCRAPE_FRESH === "true",
   });
 
