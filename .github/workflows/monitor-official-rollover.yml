@@ -1,0 +1,282 @@
+name: Monitor Official Rollover
+
+on:
+  workflow_dispatch:
+    inputs:
+      old_ranking_date:
+        description: "Current local official ranking date (optional, YYYY-MM-DD)"
+        required: false
+        type: string
+      expected_ranking_date:
+        description: "Expected new official ranking date (optional, YYYY-MM-DD)"
+        required: false
+        type: string
+      week_start:
+        description: "Closed week start date (optional, YYYY-MM-DD)"
+        required: false
+        type: string
+      week_end:
+        description: "Closed week end date (optional, YYYY-MM-DD)"
+        required: false
+        type: string
+      drop_cutoff:
+        description: "Drop cutoff for the staged ledger (optional, YYYY-MM-DD)"
+        required: false
+        type: string
+      network_mode:
+        description: "Official ranking network mode"
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - direct
+          - browser
+  schedule:
+    - cron: "0 9-21 * * 1"
+    - cron: "0 9-18 * * 2"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-rollover-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      NETWORK_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.network_mode || 'auto' }}
+      OLD_RANKING_DATE: ${{ github.event_name == 'workflow_dispatch' && inputs.old_ranking_date || '' }}
+      EXPECTED_RANKING_DATE: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_ranking_date || '' }}
+      INPUT_WEEK_START: ${{ github.event_name == 'workflow_dispatch' && inputs.week_start || '' }}
+      INPUT_WEEK_END: ${{ github.event_name == 'workflow_dispatch' && inputs.week_end || '' }}
+      INPUT_DROP_CUTOFF: ${{ github.event_name == 'workflow_dispatch' && inputs.drop_cutoff || '' }}
+      MONITOR_DIR: data/staging/official_rollover_monitor_${{ github.run_id }}
+      LOG_DIR: logs/official-rollover-monitor
+      ARTIFACT_NAME: official-rollover-monitor-${{ github.run_id }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Restore generated data cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/clean/week_tournaments.csv
+            data/clean/week_tournaments_debug_all.csv
+            data/clean/week_matches.csv
+            data/clean/week_player_results.csv
+            data/clean/week_results_errors.csv
+            data/clean/week_results_summary.csv
+            data/clean/week_live_points.csv
+            data/clean/week_live_ledger_rows.csv
+            data/clean/live_combined_ledger_with_drops.csv
+            data/clean/live_dropped_points.csv
+            data/clean/live_ranking_with_drops.csv
+            data/clean/live_ranking_with_drops_top500.csv
+            data/clean/live_ranking_with_drops_changes.csv
+          key: live-ranking-data-${{ github.run_id }}
+          restore-keys: |
+            live-ranking-data-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Validate monitor script
+        run: node --check scripts/25_monitor_official_rollover.mjs
+
+      - name: Check official ranking date
+        id: monitor
+        run: |
+          set -euo pipefail
+          mkdir -p "$MONITOR_DIR" "$LOG_DIR"
+          node scripts/25_monitor_official_rollover.mjs \
+            --network-mode="$NETWORK_MODE" \
+            --old-ranking-date="$OLD_RANKING_DATE" \
+            --expected-ranking-date="$EXPECTED_RANKING_DATE" \
+            --week-start="$INPUT_WEEK_START" \
+            --week-end="$INPUT_WEEK_END" \
+            --drop-cutoff="$INPUT_DROP_CUTOFF" \
+            --output-file="$MONITOR_DIR/monitor_summary.json" 2>&1 | tee "$LOG_DIR/monitor.log"
+
+      - name: Write waiting summary
+        if: steps.monitor.outputs.should_run_rollover != 'true'
+        run: |
+          set -euo pipefail
+          node - "$MONITOR_DIR/monitor_summary.json" <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs = require("fs");
+          const summary = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+          console.log("# Official Rollover Monitor");
+          console.log("");
+          console.log(`- status: ${summary.status}`);
+          console.log(`- local ranking_date: ${summary.old_ranking_date}`);
+          console.log(`- expected ranking_date: ${summary.expected_ranking_date}`);
+          console.log(`- detected ITF ranking_date: ${summary.detected_ranking_date || "not available"}`);
+          console.log(`- should_run_rollover: ${summary.should_run_rollover}`);
+          if (summary.error) console.log(`- error: ${summary.error}`);
+          NODE
+
+      - name: Resolve rollover environment
+        if: steps.monitor.outputs.should_run_rollover == 'true'
+        run: |
+          set -euo pipefail
+          {
+            echo "WEEK_START=${{ steps.monitor.outputs.week_start }}"
+            echo "WEEK_END=${{ steps.monitor.outputs.week_end }}"
+            echo "RANKING_DATE=${{ steps.monitor.outputs.expected_ranking_date }}"
+            echo "DROP_CUTOFF=${{ steps.monitor.outputs.drop_cutoff }}"
+            echo "NEW_WEEK_START=${{ steps.monitor.outputs.new_week_start }}"
+            echo "NEW_WEEK_END=${{ steps.monitor.outputs.new_week_end }}"
+            echo "BACKFILL_DIR=data/backfills/week_${{ steps.monitor.outputs.week_start }}_${{ steps.monitor.outputs.week_end }}_github_run_${{ github.run_id }}"
+            echo "WEEK_CLOSE_DIR=data/staging/week_close_${{ steps.monitor.outputs.week_end }}"
+            echo "VALIDATION_DIR=data/staging/official_validation_${{ steps.monitor.outputs.expected_ranking_date }}_github_run_${{ github.run_id }}"
+            echo "RECONCILIATION_DIR=data/staging/official_reconciliation_${{ steps.monitor.outputs.expected_ranking_date }}_github_run_${{ github.run_id }}"
+          } >> "$GITHUB_ENV"
+
+      - name: Validate rollover scripts
+        if: steps.monitor.outputs.should_run_rollover == 'true'
+        run: |
+          set -euo pipefail
+          node --check scripts/17_backfill_week.mjs
+          node --check scripts/16_close_week.mjs
+          node --check scripts/18_validate_staged_ledger_against_official.mjs
+          node --check scripts/19_refresh_selected_breakdowns.mjs
+          node --check scripts/20_promote_official_reconciliation.mjs
+          node --check scripts/21_weekly_rollover.mjs
+          npm test
+          npm run check
+
+      - name: Run official rollover pipeline
+        if: steps.monitor.outputs.should_run_rollover == 'true'
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$LOG_DIR" "$BACKFILL_DIR" "$WEEK_CLOSE_DIR" "$VALIDATION_DIR" "$RECONCILIATION_DIR"
+
+          run_logged() {
+            local log_file="$1"
+            shift
+            echo "Running: $*" | tee "$LOG_DIR/$log_file"
+            set +e
+            "$@" 2>&1 | tee -a "$LOG_DIR/$log_file"
+            local code=${PIPESTATUS[0]}
+            set -e
+            if [ "$code" -ne 0 ]; then
+              echo "Command failed with exit code $code" | tee -a "$LOG_DIR/$log_file"
+              return "$code"
+            fi
+          }
+
+          run_logged backfill.log \
+            node scripts/17_backfill_week.mjs \
+              --week-start="$WEEK_START" \
+              --week-end="$WEEK_END" \
+              --output-dir="$BACKFILL_DIR" \
+              --mode=run
+
+          run_logged close_week.log \
+            node scripts/16_close_week.mjs \
+              --source-dir="$BACKFILL_DIR" \
+              --week-start="$WEEK_START" \
+              --week-end="$WEEK_END" \
+              --mode=dry-run
+
+          run_logged official_validation.log \
+            node scripts/18_validate_staged_ledger_against_official.mjs \
+              --ledger-file="$WEEK_CLOSE_DIR/points_ledger.next.csv" \
+              --old-players-file=data/clean/players.csv \
+              --old-snapshot-file=data/clean/rankings_snapshot.csv \
+              --ranking-date="$RANKING_DATE" \
+              --drop-cutoff="$DROP_CUTOFF" \
+              --output-dir="$VALIDATION_DIR" \
+              --baseline-policy=as-collected \
+              --network-mode="$NETWORK_MODE" \
+              --mode=run
+
+          run_logged reconciliation.log \
+            node scripts/19_refresh_selected_breakdowns.mjs \
+              --validation-dir="$VALIDATION_DIR" \
+              --week-close-dir="$WEEK_CLOSE_DIR" \
+              --old-players-file=data/clean/players.csv \
+              --ranking-date="$RANKING_DATE" \
+              --drop-cutoff="$DROP_CUTOFF" \
+              --output-dir="$RECONCILIATION_DIR" \
+              --network-mode="$NETWORK_MODE" \
+              --mode=run
+
+          run_logged promotion.log \
+            node scripts/20_promote_official_reconciliation.mjs \
+              --source-dir="$RECONCILIATION_DIR" \
+              --ranking-date="$RANKING_DATE" \
+              --mode=apply \
+              --confirm-promotion=true
+
+          run_logged start_week.log \
+            npm run weekly:start -- \
+              --week-start="$NEW_WEEK_START" \
+              --week-end="$NEW_WEEK_END" \
+              --mode=apply \
+              --confirm=true
+
+          run_logged generate.log npm run generate
+
+      - name: Commit official rollover
+        if: steps.monitor.outputs.should_run_rollover == 'true'
+        id: commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/clean
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            echo "No data/clean changes to commit." | tee "$LOG_DIR/git.log"
+            exit 0
+          fi
+          git commit -m "Start official week $RANKING_DATE" 2>&1 | tee "$LOG_DIR/git.log"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push official rollover
+        if: steps.monitor.outputs.should_run_rollover == 'true' && steps.commit.outputs.committed == 'true'
+        run: git push origin HEAD:main
+
+      - name: Write rollover summary
+        if: steps.monitor.outputs.should_run_rollover == 'true'
+        run: |
+          set -euo pipefail
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          console.log("# Official Rollover Monitor");
+          console.log("");
+          console.log(`- status: updated`);
+          console.log(`- closed week: ${process.env.WEEK_START} to ${process.env.WEEK_END}`);
+          console.log(`- official ranking_date: ${process.env.RANKING_DATE}`);
+          console.log(`- new week: ${process.env.NEW_WEEK_START} to ${process.env.NEW_WEEK_END}`);
+          console.log(`- committed: ${process.env.COMMITTED || "see commit step"}`);
+          NODE
+
+      - name: Upload monitor artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: |
+            ${{ env.MONITOR_DIR }}
+            data/backfills/
+            data/staging/
+            logs/official-rollover-monitor/
+          retention-days: 7

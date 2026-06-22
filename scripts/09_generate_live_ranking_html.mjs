@@ -190,6 +190,63 @@ function formatDateTime(value) {
   });
 }
 
+function isIsoDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(cleanText(value));
+}
+
+function addDays(dateText, days) {
+  const date = new Date(`${dateText}T00:00:00.000Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function todayIsoInSaoPaulo(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Sao_Paulo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+function formatIsoDatePt(value) {
+  const text = cleanText(value);
+  if (!isIsoDate(text)) return text;
+  const [year, month, day] = text.split("-");
+  return `${day}/${month}/${year}`;
+}
+
+function buildRolloverNotice(weekTournaments, rankingDate, today = new Date()) {
+  const weekStarts = weekTournaments
+    .map((row) => cleanText(row.week_start))
+    .filter(isIsoDate)
+    .sort();
+  const weekEnds = weekTournaments
+    .map((row) => cleanText(row.week_end))
+    .filter(isIsoDate)
+    .sort();
+
+  if (!weekStarts.length || !weekEnds.length || !isIsoDate(rankingDate)) {
+    return null;
+  }
+
+  const weekStart = weekStarts[0];
+  const weekEnd = weekEnds[weekEnds.length - 1];
+  const todayIso = todayIsoInSaoPaulo(today);
+
+  if (rankingDate !== weekStart || todayIso < weekEnd) {
+    return null;
+  }
+
+  return {
+    weekStart,
+    weekEnd,
+    expectedRankingDate: addDays(weekEnd, 1),
+  };
+}
+
 function buildStaticPage(page) {
   const navLinks = [
     { href: "./", label: "Ranking" },
@@ -1385,6 +1442,7 @@ function buildHtml(
 
   const calculatedAt = rows[0]?.calculated_at || new Date().toISOString();
   const rankingDate = rows[0]?.ranking_date || "";
+  const rolloverNotice = buildRolloverNotice(weekTournaments, rankingDate);
 
   const biggestRise = stats.biggestRise;
   const biggestFall = stats.biggestFall;
@@ -1392,6 +1450,10 @@ function buildHtml(
   const dataJson = JSON.stringify(data);
   const tournamentGroupsJson = JSON.stringify(tournamentGroups);
   const pointsByCategoryJson = JSON.stringify(POINTS_BY_CATEGORY);
+  const rolloverNoticeJson = JSON.stringify(rolloverNotice);
+  const rolloverNoticeText = rolloverNotice
+    ? `Os resultados até ${formatIsoDatePt(rolloverNotice.weekEnd)} já estão considerados nesta projeção; a nova semana começa automaticamente assim que a ITF publicar a base oficial de ${formatIsoDatePt(rolloverNotice.expectedRankingDate)}.`
+    : "";
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1716,6 +1778,40 @@ function buildHtml(
       border-radius: var(--radius);
       box-shadow: var(--shadow-soft);
       backdrop-filter: blur(18px);
+    }
+
+    .rollover-notice {
+      display: grid;
+      gap: 3px;
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      color: #5f4312;
+      background: linear-gradient(135deg, rgba(255, 247, 226, 0.96), rgba(242, 252, 247, 0.94));
+      border: 1px solid rgba(203, 147, 42, 0.26);
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .rollover-notice strong {
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .rollover-notice span {
+      color: #735520;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    :root[data-theme="dark"] .rollover-notice {
+      color: #ffe3a8;
+      background: linear-gradient(135deg, rgba(72, 55, 22, 0.72), rgba(24, 46, 43, 0.72));
+      border-color: rgba(255, 204, 112, 0.2);
+    }
+
+    :root[data-theme="dark"] .rollover-notice span {
+      color: #f6d9a0;
     }
 
     .filter {
@@ -3399,6 +3495,13 @@ body.official-ranking-view .side {
       </div>
     </section>
 
+    ${rolloverNotice ? `
+    <section class="rollover-notice" id="rolloverNotice" aria-live="polite">
+      <strong id="rolloverNoticeTitle">Semana encerrada, aguardando ranking oficial da ITF.</strong>
+      <span id="rolloverNoticeText">${escapeHtml(rolloverNoticeText)}</span>
+    </section>
+    ` : ""}
+
     <main class="layout">
       <section class="ranking-card">
         <div class="ranking-card-header">
@@ -3499,6 +3602,7 @@ body.official-ranking-view .side {
     const rankingData = ${dataJson};
     const tournamentGroups = ${tournamentGroupsJson};
     const pointsByCategory = ${pointsByCategoryJson};
+    const rolloverNotice = ${rolloverNoticeJson};
     const officialRankingDate = ${JSON.stringify(rankingDate || "não informado")};
 
     const searchInput = document.getElementById("searchInput");
@@ -3595,6 +3699,8 @@ body.official-ranking-view .side {
         weekSimulator: "Simulador da semana",
         singles: "Simples",
         doubles: "Duplas",
+        rolloverNoticeTitle: "Semana encerrada, aguardando ranking oficial da ITF.",
+        rolloverNoticeText: "Os resultados até {{weekEnd}} já estão considerados nesta projeção; a nova semana começa automaticamente assim que a ITF publicar a base oficial de {{expectedRankingDate}}.",
         selectRound: "Selecione uma rodada para simular.",
         live: "ao vivo",
         official: "oficial",
@@ -3673,6 +3779,8 @@ body.official-ranking-view .side {
         weekSimulator: "Week simulator",
         singles: "Singles",
         doubles: "Doubles",
+        rolloverNoticeTitle: "Week complete, waiting for the official ITF ranking.",
+        rolloverNoticeText: "Results through {{weekEnd}} are already included in this projection; the new week starts automatically once the ITF publishes the official {{expectedRankingDate}} base.",
         selectRound: "Select a round to simulate.",
         live: "live",
         official: "official",
@@ -3751,6 +3859,8 @@ body.official-ranking-view .side {
         weekSimulator: "Simulador semanal",
         singles: "Singles",
         doubles: "Dobles",
+        rolloverNoticeTitle: "Semana finalizada, esperando el ranking oficial de la ITF.",
+        rolloverNoticeText: "Los resultados hasta {{weekEnd}} ya están incluidos en esta proyección; la nueva semana empieza automáticamente cuando la ITF publique la base oficial de {{expectedRankingDate}}.",
         selectRound: "Selecciona una ronda para simular.",
         live: "en vivo",
         official: "oficial",
@@ -3848,6 +3958,28 @@ body.official-ranking-view .side {
       if (element) element.innerHTML = value;
     }
 
+    function formatIsoDateForLanguage(value) {
+      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(value || ""))) {
+        return value || "";
+      }
+      const [year, month, day] = value.split("-").map(Number);
+      const locale = currentLanguage === "en" ? "en-US" : currentLanguage === "es" ? "es-ES" : "pt-BR";
+      return new Date(Date.UTC(year, month - 1, day)).toLocaleDateString(locale, {
+        timeZone: "UTC",
+      });
+    }
+
+    function updateRolloverNotice() {
+      if (!rolloverNotice) return;
+      const weekEnd = formatIsoDateForLanguage(rolloverNotice.weekEnd);
+      const expectedRankingDate = formatIsoDateForLanguage(rolloverNotice.expectedRankingDate);
+      const text = t("rolloverNoticeText")
+        .replaceAll("{{weekEnd}}", weekEnd)
+        .replaceAll("{{expectedRankingDate}}", expectedRankingDate);
+      setText("rolloverNoticeTitle", t("rolloverNoticeTitle"));
+      setText("rolloverNoticeText", text);
+    }
+
     function applyLanguage(language) {
       currentLanguage = ["pt-BR", "en", "es"].includes(language) ? language : "pt-BR";
       localStorage.setItem("itf-live-language", currentLanguage);
@@ -3879,6 +4011,7 @@ body.official-ranking-view .side {
       setText("weekTournamentsTitle", t("weekTournaments"));
       setText("profileDialogTitle", t("athletePoints"));
       setText("profileEmptyText", t("profileEmpty"));
+      updateRolloverNotice();
 
       searchInput.placeholder = t("athletePlaceholder");
       countrySearchInput.placeholder = t("countryPlaceholder");
