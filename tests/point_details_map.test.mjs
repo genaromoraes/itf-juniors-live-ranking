@@ -95,6 +95,39 @@ test("point details explain negative drop balances even when dropped rows are ma
   assert.equal(details.drops[0].impact_points, 15);
 });
 
+test("point details keep showing absorbed countable drops when the live balance is still negative", () => {
+  const map = buildPointDetailsMap(
+    [],
+    [
+      {
+        player_id: "250",
+        tournament_name: "J100 Almaty",
+        category: "J100",
+        event_type: "singles",
+        points: "100",
+        countable_status: "countable",
+        is_countable_at_collection: "true",
+        drop_date_calculated: "2026-06-15",
+      },
+    ],
+    [
+      {
+        player_id: "250",
+        ranking_date: "2026-06-22",
+        points_change_vs_official: "-40",
+        has_dropped_result: "true",
+      },
+    ]
+  );
+
+  const details = map.get("250");
+
+  assert.ok(details);
+  assert.equal(details.drops.length, 1);
+  assert.equal(details.drops[0].tournament, "J100 Almaty");
+  assert.equal(details.drops[0].impact_points, 100);
+});
+
 test("point details keep non-countable future drops hidden when there is no negative drop balance", () => {
   const map = buildPointDetailsMap(
     [],

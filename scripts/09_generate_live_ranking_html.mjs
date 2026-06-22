@@ -964,7 +964,12 @@ export function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRow
 
     if (!playerId || impactPoints <= 0) continue;
     if (!wasCountable && !needsExplanation) continue;
-    if (officialRankingDate && dropDateCalculated && dropDateCalculated <= officialRankingDate) {
+    if (
+      !needsExplanation &&
+      officialRankingDate &&
+      dropDateCalculated &&
+      dropDateCalculated <= officialRankingDate
+    ) {
       continue;
     }
 
