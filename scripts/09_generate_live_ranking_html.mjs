@@ -593,11 +593,16 @@ function getPlayingThisWeek(row) {
     ? `Duplas: ${getLiveRoundLabel(doubles[0])}`
     : "";
 
+  const singlesRound = singles.length ? getLiveRoundLabel(singles[0]) : "";
+  const doublesRound = doubles.length ? getLiveRoundLabel(doubles[0]) : "";
+
   return {
     tournament,
     round,
     singlesSummary,
     doublesSummary,
+    singlesProjectionEligible: isProjectionEligibleRoundLabel(singlesRound),
+    doublesProjectionEligible: isProjectionEligibleRoundLabel(doublesRound),
   };
 }
 
@@ -676,7 +681,30 @@ function getDisplayRoundLabel(round) {
   return text;
 }
 
-function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMatches = []) {
+function isQualifyingClassification(row) {
+  const classification = cleanText(row.event_classification_code).toUpperCase();
+  const classificationDesc = cleanText(row.event_classification_desc).toLowerCase();
+
+  return (
+    classification === "Q" ||
+    classificationDesc.includes("qual") ||
+    classificationDesc.includes("qualification")
+  );
+}
+
+function isProjectionEligibleRoundLabel(round) {
+  const text = cleanText(round).toUpperCase();
+
+  if (!text) return false;
+  if (text === "Q") return false;
+  if (/^Q\d+$/.test(text)) return false;
+  if (text.includes("QUALY")) return false;
+  if (text.includes("QUAL")) return false;
+
+  return true;
+}
+
+export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMatches = []) {
   const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
   const map = new Map();
   const priorityByEvent = new Map();
@@ -705,6 +733,8 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMa
   }
 
   function getTechnicalRoundFromOrder(row) {
+    if (isQualifyingClassification(row)) return "";
+
     const order = toNumber(row.highest_round_order);
     const maxOrder = maxRoundOrderByEvent.get(getDrawEventKey(row)) || 0;
 
@@ -764,6 +794,8 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMa
         doublesStatus: "",
         singlesRound: "",
         doublesRound: "",
+        singlesProjectionEligible: false,
+        doublesProjectionEligible: false,
       };
 
     if (participation.tournamentKey !== tournamentKey) continue;
@@ -780,6 +812,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMa
     if (eventType === "singles") {
       participation.singlesStatus = cleanText(row.status).toLowerCase();
       participation.singlesRound = technicalRound;
+      participation.singlesProjectionEligible = !isQualifyingClassification(row);
 
       if (roundLabel) {
         participation.singlesSummary = `Simples: ${roundLabel}`;
@@ -789,6 +822,7 @@ function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMa
     if (eventType === "doubles") {
       participation.doublesStatus = cleanText(row.status).toLowerCase();
       participation.doublesRound = technicalRound;
+      participation.doublesProjectionEligible = !isQualifyingClassification(row);
 
       if (roundLabel) {
         participation.doublesSummary = `Duplas: ${roundLabel}`;
@@ -1203,6 +1237,13 @@ function shouldProjectEvent(row, weekParticipationMap, eventType) {
 
   if (!participation) return false;
   if (participation.isFinishedByDate) return false;
+
+  const projectionEligible =
+    eventType === "singles"
+      ? participation.singlesProjectionEligible
+      : participation.doublesProjectionEligible;
+
+  if (!projectionEligible) return false;
 
   const status =
     eventType === "singles"
@@ -5038,10 +5079,10 @@ body.official-ranking-view .side {
       if (!row.playing_this_week) return "";
 
       const p = row.playing_this_week;
-      const singlesOptions = p.singlesSummary
+      const singlesOptions = p.singlesSummary && p.singlesProjectionEligible
         ? getSimulationRoundOptions("singles", p.category)
         : [];
-      const doublesOptions = p.doublesSummary
+      const doublesOptions = p.doublesSummary && p.doublesProjectionEligible
         ? getSimulationRoundOptions("doubles", p.category)
         : [];
 

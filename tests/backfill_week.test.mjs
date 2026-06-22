@@ -15,6 +15,7 @@ import {
   buildWeekWindow,
   parseArgs as parseTournamentArgs,
   resolveOutputPaths as resolveTournamentPaths,
+  tournamentBelongsToOfficialWeek,
 } from "../scripts/04_fetch_week_tournaments.mjs";
 import {
   parseArgs as parseResultsArgs,
@@ -380,6 +381,34 @@ describe("historical backfill support", () => {
     );
     assert.equal(outputPaths.cleanOutputFile, path.resolve("C:\\temp\\backfill", "week_tournaments.csv"));
     assert.equal(outputPaths.rawOutputFile, path.resolve("C:\\temp\\backfill", "raw", "week_tournaments.json"));
+  });
+
+  test("tournament selection excludes Sunday starters that belong to the next week", () => {
+    const weekWindow = buildWeekWindow(
+      parseTournamentArgs(["--week-start=2026-06-22", "--week-end=2026-06-28"])
+    );
+
+    assert.equal(
+      tournamentBelongsToOfficialWeek(
+        {
+          start_date: "2026-06-28",
+          end_date: "2026-07-04",
+        },
+        weekWindow
+      ),
+      false
+    );
+
+    assert.equal(
+      tournamentBelongsToOfficialWeek(
+        {
+          start_date: "2026-06-20",
+          end_date: "2026-06-27",
+        },
+        weekWindow
+      ),
+      true
+    );
   });
 
   test("results and points scripts resolve isolated input and output dirs", () => {

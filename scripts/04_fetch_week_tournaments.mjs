@@ -359,7 +359,7 @@ function isCancelledTournament(tournament) {
   return name.includes("cancelled") || promo.includes("cancelled");
 }
 
-function tournamentOverlapsOfficialWeek(tournament, weekWindow) {
+export function tournamentBelongsToOfficialWeek(tournament, weekWindow) {
   const start = tournament.start_date;
   const end = tournament.end_date || tournament.start_date;
 
@@ -369,7 +369,15 @@ function tournamentOverlapsOfficialWeek(tournament, weekWindow) {
 
   const effectiveEnd = end && end.match(/^\d{4}-\d{2}-\d{2}$/) ? end : start;
 
-  return effectiveEnd >= weekWindow.week_start && start <= weekWindow.week_end;
+  if (!(effectiveEnd >= weekWindow.week_start && start <= weekWindow.week_end)) {
+    return false;
+  }
+
+  if (start === weekWindow.week_end && effectiveEnd > weekWindow.week_end) {
+    return false;
+  }
+
+  return true;
 }
 
 function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
@@ -655,7 +663,7 @@ export async function main(cliArgs = parseArgs()) {
 
     const tournaments = debugAll
       .filter((tournament) => !isCancelledTournament(tournament))
-      .filter((tournament) => tournamentOverlapsOfficialWeek(tournament, weekWindow))
+      .filter((tournament) => tournamentBelongsToOfficialWeek(tournament, weekWindow))
       .sort((a, b) => {
         const dateCompare = String(a.start_date).localeCompare(String(b.start_date));
         if (dateCompare !== 0) return dateCompare;
