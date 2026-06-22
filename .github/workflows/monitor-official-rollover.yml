@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/monitor-official-rollover.yml"
+      - "scripts/18_validate_staged_ledger_against_official.mjs"
       - "scripts/25_monitor_official_rollover.mjs"
   workflow_dispatch:
     inputs:

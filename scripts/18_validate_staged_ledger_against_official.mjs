@@ -140,9 +140,9 @@ function inspectResponse(contentType, text) {
   };
 }
 
-function buildRankingPagePlan() {
+export function buildRankingPagePlan() {
   return GENDERS.flatMap((genderInfo) =>
-    [0, 100, 200, 300, 400].map((skip) => ({
+    Array.from({ length: TOP_LIMIT / PAGE_SIZE }, (_, index) => index * PAGE_SIZE).map((skip) => ({
       genderInfo,
       skip,
       url: buildRankingUrl(genderInfo, skip, PAGE_SIZE),

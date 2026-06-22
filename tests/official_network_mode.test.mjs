@@ -8,6 +8,7 @@ import {
   NETWORK_MODE_BROWSER,
   NETWORK_MODE_DIRECT,
   buildBaselineValidation,
+  buildRankingPagePlan,
   buildOutputPaths,
   collectOfficialRanking,
   createDefaultNetworkReport,
@@ -106,6 +107,20 @@ async function createTempOutputDir() {
 }
 
 describe("official ranking network modes", () => {
+  test("official ranking collection plans the full tracked Top 1000 per gender", () => {
+    const plan = buildRankingPagePlan();
+    const maleSkips = plan
+      .filter((page) => page.genderInfo.gender === "M")
+      .map((page) => page.skip);
+    const femaleSkips = plan
+      .filter((page) => page.genderInfo.gender === "F")
+      .map((page) => page.skip);
+
+    assert.equal(plan.length, 20);
+    assert.deepEqual(maleSkips, [0, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
+    assert.deepEqual(femaleSkips, [0, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
+  });
+
   test("detects closed week rows that should be removed only for baseline reconstruction", () => {
     assert.equal(
       isClosedWeekLedgerRow(
