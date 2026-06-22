@@ -74,7 +74,7 @@ test("point details explain negative drop balances even when dropped rows are ma
         points: "60",
         countable_status: "non_countable",
         is_countable_at_collection: "false",
-        drop_date_calculated: "2026-06-29",
+        drop_date_calculated: "2026-06-22",
       },
     ],
     [
@@ -84,7 +84,8 @@ test("point details explain negative drop balances even when dropped rows are ma
         points_change_vs_official: "-15",
         has_dropped_result: "true",
       },
-    ]
+    ],
+    [{ week_start: "2026-06-22", week_end: "2026-06-28" }]
   );
 
   const details = map.get("200");
@@ -95,7 +96,7 @@ test("point details explain negative drop balances even when dropped rows are ma
   assert.equal(details.drops[0].impact_points, 15);
 });
 
-test("point details keep showing absorbed countable drops when the live balance is still negative", () => {
+test("point details show current-week drops when the live balance is still negative", () => {
   const map = buildPointDetailsMap(
     [],
     [
@@ -107,7 +108,7 @@ test("point details keep showing absorbed countable drops when the live balance 
         points: "100",
         countable_status: "countable",
         is_countable_at_collection: "true",
-        drop_date_calculated: "2026-06-15",
+        drop_date_calculated: "2026-06-22",
       },
     ],
     [
@@ -117,7 +118,8 @@ test("point details keep showing absorbed countable drops when the live balance 
         points_change_vs_official: "-40",
         has_dropped_result: "true",
       },
-    ]
+    ],
+    [{ week_start: "2026-06-22", week_end: "2026-06-28" }]
   );
 
   const details = map.get("250");
@@ -126,6 +128,38 @@ test("point details keep showing absorbed countable drops when the live balance 
   assert.equal(details.drops.length, 1);
   assert.equal(details.drops[0].tournament, "J100 Almaty");
   assert.equal(details.drops[0].impact_points, 100);
+});
+
+test("point details hide old-week drops even when the live balance is still negative", () => {
+  const map = buildPointDetailsMap(
+    [],
+    [
+      {
+        player_id: "275",
+        tournament_name: "J100 Pazardzhik",
+        category: "J100",
+        event_type: "singles",
+        points: "100",
+        countable_status: "countable",
+        is_countable_at_collection: "true",
+        drop_date_calculated: "2026-06-15",
+      },
+    ],
+    [
+      {
+        player_id: "275",
+        ranking_date: "2026-06-22",
+        points_change_vs_official: "-40",
+        has_dropped_result: "true",
+      },
+    ],
+    [{ week_start: "2026-06-22", week_end: "2026-06-28" }]
+  );
+
+  const details = map.get("275");
+
+  assert.ok(details);
+  assert.equal(details.drops.length, 0);
 });
 
 test("point details keep non-countable future drops hidden when there is no negative drop balance", () => {

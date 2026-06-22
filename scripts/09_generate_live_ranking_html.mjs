@@ -931,9 +931,31 @@ function getOfficialRankingDateForDetails(rankingRows) {
   return "";
 }
 
-export function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
+function getCurrentWeekWindowForDetails(weekTournaments = []) {
+  const starts = weekTournaments
+    .map((row) => cleanText(row.week_start))
+    .filter(isIsoDate)
+    .sort();
+  const ends = weekTournaments
+    .map((row) => cleanText(row.week_end))
+    .filter(isIsoDate)
+    .sort();
+
+  return {
+    weekStart: starts[0] || "",
+    weekEnd: ends[ends.length - 1] || "",
+  };
+}
+
+export function buildPointDetailsMap(
+  weekLiveLedgerRows,
+  droppedRows,
+  rankingRows,
+  weekTournaments = []
+) {
   const map = new Map();
   const officialRankingDate = getOfficialRankingDateForDetails(rankingRows);
+  const { weekStart, weekEnd } = getCurrentWeekWindowForDetails(weekTournaments);
   const playersNeedingDropExplanation = new Set(
     rankingRows
       .filter(
@@ -964,6 +986,15 @@ export function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRow
 
     if (!playerId || impactPoints <= 0) continue;
     if (!wasCountable && !needsExplanation) continue;
+    if (
+      weekStart &&
+      weekEnd &&
+      (!dropDateCalculated ||
+        dropDateCalculated < weekStart ||
+        dropDateCalculated > weekEnd)
+    ) {
+      continue;
+    }
     if (
       !needsExplanation &&
       officialRankingDate &&
@@ -5481,7 +5512,8 @@ async function main() {
   const pointDetailsMap = buildPointDetailsMap(
     weekLiveLedgerRows,
     droppedRows,
-    rows
+    rows,
+    weekTournaments
   );
   const pointCartelMap = buildPointCartelMap(combinedLedgerRows);
 
