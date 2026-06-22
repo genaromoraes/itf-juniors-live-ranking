@@ -203,6 +203,10 @@ describe("weekly ledger close", () => {
     assert.equal(calculateDropDate("2026-06-08"), "2027-06-07");
   });
 
+  test("sunday starters drop with the following official week", () => {
+    assert.equal(calculateDropDate("2025-06-29"), "2026-06-29");
+  });
+
   test("transforms live rows into confirmed incremental rows", () => {
     const result = transformLiveRows({
       liveRows: [liveRow()],

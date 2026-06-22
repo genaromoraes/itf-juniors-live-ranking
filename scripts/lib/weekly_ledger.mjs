@@ -72,7 +72,19 @@ export function addDaysIso(dateText, days) {
 }
 
 export function calculateDropDate(startDate) {
-  return addDaysIso(startDate, 364);
+  const text = cleanText(startDate);
+
+  if (!isIsoDate(text)) {
+    return addDaysIso(startDate, 364);
+  }
+
+  const date = new Date(`${text}T00:00:00Z`);
+
+  if (date.getUTCDay() === 0) {
+    date.setUTCDate(date.getUTCDate() + 1);
+  }
+
+  return addDaysIso(date.toISOString().slice(0, 10), 364);
 }
 
 export function buildResultKey(row) {

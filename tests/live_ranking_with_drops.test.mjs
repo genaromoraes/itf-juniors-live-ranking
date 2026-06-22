@@ -396,6 +396,30 @@ describe("live ranking with tracked official players only", () => {
     assert.deepEqual(second, first);
   });
 
+  test("sunday-start tournament is not dropped before its official Monday week", () => {
+    const baseRows = [
+      makeLedgerRow({
+        player_id: "A",
+        gender: "M",
+        tournament_name: "J300 Roehampton",
+        category: "J300",
+        start_date: "2025-06-29",
+        drop_date_calculated: "2026-06-28",
+        points: 140,
+      }),
+    ];
+
+    const { activeRows, droppedRows } = mergeLedgersWithDrops(
+      baseRows,
+      [],
+      "2026-06-28"
+    );
+
+    assert.equal(activeRows.length, 1);
+    assert.equal(droppedRows.length, 0);
+    assert.equal(activeRows[0].drop_date_calculated, "2026-06-29");
+  });
+
   test("external audit aggregates counts per player correctly", () => {
     const ignoredRows = [
       makeLedgerRow({

@@ -267,6 +267,11 @@ function calculateDropDate(startDateRaw) {
   }
 
   const date = new Date(`${normalized}T00:00:00Z`);
+
+  if (date.getUTCDay() === 0) {
+    date.setUTCDate(date.getUTCDate() + 1);
+  }
+
   date.setDate(date.getDate() + 364);
 
   return date.toISOString().slice(0, 10);

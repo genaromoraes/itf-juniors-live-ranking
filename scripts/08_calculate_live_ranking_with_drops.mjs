@@ -17,6 +17,9 @@ import {
   STATUS_FETCHED,
   STATUS_INCLUDED,
 } from "./lib/external_candidates.mjs";
+import {
+  calculateDropDate as calculateLedgerDropDate,
+} from "./lib/player_breakdown.mjs";
 
 const PLAYERS_FILE = path.resolve("data/clean/players.csv");
 const POINTS_LEDGER_FILE = path.resolve("data/clean/points_ledger.csv");
@@ -478,6 +481,11 @@ export function markIncludedCandidates(candidateRows, includedRows) {
 }
 
 function normalizeLedgerRow(row, sourceType) {
+  const startDate = cleanText(row.start_date);
+  const storedDropDate = cleanText(row.drop_date_calculated);
+  const recalculatedDropDate =
+    sourceType === "base" ? cleanText(calculateLedgerDropDate(startDate)) : "";
+
   return {
     player_id: cleanText(row.player_id),
     player_name: cleanText(row.player_name),
@@ -497,8 +505,8 @@ function normalizeLedgerRow(row, sourceType) {
     surface: cleanText(row.surface),
     surface_code: cleanText(row.surface_code),
 
-    start_date: cleanText(row.start_date),
-    drop_date_calculated: cleanText(row.drop_date_calculated),
+    start_date: startDate,
+    drop_date_calculated: recalculatedDropDate || storedDropDate,
 
     round: cleanText(row.round),
     points: toNumber(row.points),

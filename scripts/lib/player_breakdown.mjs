@@ -58,10 +58,27 @@ export function parseItfDate(value) {
   return parsed.toISOString().slice(0, 10);
 }
 
-export function calculateDropDate(startDateRaw) {
+export function normalizeOfficialWeekStartDate(startDateRaw) {
   const normalized = parseItfDate(startDateRaw);
+
   if (!normalized.match(/^\d{4}-\d{2}-\d{2}$/)) return "";
+
   const date = new Date(`${normalized}T00:00:00Z`);
+
+  // Domingo pertence à semana oficial iniciada na segunda-feira seguinte.
+  if (date.getUTCDay() === 0) {
+    date.setUTCDate(date.getUTCDate() + 1);
+  }
+
+  return date.toISOString().slice(0, 10);
+}
+
+export function calculateDropDate(startDateRaw) {
+  const officialWeekStart = normalizeOfficialWeekStartDate(startDateRaw);
+
+  if (!officialWeekStart.match(/^\d{4}-\d{2}-\d{2}$/)) return "";
+
+  const date = new Date(`${officialWeekStart}T00:00:00Z`);
   date.setUTCDate(date.getUTCDate() + 364);
   return date.toISOString().slice(0, 10);
 }
