@@ -1,6 +1,7 @@
 ﻿import fs from "fs/promises";
 import path from "path";
 import { parse } from "csv-parse/sync";
+import { fileURLToPath } from "url";
 
 const LIVE_RANKING_FILE = path.resolve(
   "data/clean/live_ranking_with_drops.csv"
@@ -920,8 +921,19 @@ function getCountingLiveDetailsForRow(row) {
     .map(({ source, ...detail }) => detail);
 }
 
-function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
+function getOfficialRankingDateForDetails(rankingRows) {
+  for (const row of rankingRows) {
+    const rankingDate = cleanText(row.ranking_date);
+
+    if (rankingDate) return rankingDate;
+  }
+
+  return "";
+}
+
+export function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
   const map = new Map();
+  const officialRankingDate = getOfficialRankingDateForDetails(rankingRows);
 
   function getPlayerDetails(playerId) {
     if (!map.has(playerId)) {
@@ -937,8 +949,12 @@ function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
     const wasCountable =
       cleanText(row.countable_status) === "countable" ||
       cleanText(row.is_countable_at_collection).toLowerCase() === "true";
+    const dropDateCalculated = cleanText(row.drop_date_calculated);
 
     if (!playerId || impactPoints <= 0 || !wasCountable) continue;
+    if (officialRankingDate && dropDateCalculated && dropDateCalculated <= officialRankingDate) {
+      continue;
+    }
 
     getPlayerDetails(playerId).drops.push(buildPointDetail(row));
   }
@@ -5495,10 +5511,16 @@ async function main() {
   console.log(`file:///${HTML_OUTPUT_FILE.replaceAll("\\\\", "/")}`);
 }
 
-main().catch((err) => {
-  console.error("");
-  console.error("Erro fatal:");
-  console.error(err);
-  process.exit(1);
-});
+const isDirectRun =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error("");
+    console.error("Erro fatal:");
+    console.error(err);
+    process.exit(1);
+  });
+}
 
