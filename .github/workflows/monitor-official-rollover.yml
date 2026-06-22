@@ -33,8 +33,8 @@ on:
           - direct
           - browser
   schedule:
-    - cron: "0 9-21 * * 1"
-    - cron: "0 9-18 * * 2"
+    - cron: "17 9-21 * * 1"
+    - cron: "17 9-18 * * 2"
 
 permissions:
   contents: write
