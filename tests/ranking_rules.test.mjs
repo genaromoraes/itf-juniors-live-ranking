@@ -493,4 +493,74 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(row.calculated_round_label, "R16");
     assert.equal(row.live_points_raw, 36);
   });
+
+  test("production live calculation labels qualifying rounds from the qualifying draw length", () => {
+    const playerResults = [
+      {
+        tournament_key: "Q3-DRAW",
+        tournament_name: "Three Round Qualy",
+        category: "J100",
+        player_id: "Q3-2",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "Q",
+        highest_round_order: "2",
+        wins: "1",
+        losses: "0",
+        status: "still_alive_or_champion",
+      },
+      {
+        tournament_key: "Q2-DRAW",
+        tournament_name: "Two Round Qualy",
+        category: "J100",
+        player_id: "Q2-F",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "Q",
+        highest_round_order: "2",
+        wins: "1",
+        losses: "0",
+        status: "still_alive_or_champion",
+      },
+      {
+        tournament_key: "Q4-DRAW",
+        tournament_name: "Four Round Qualy",
+        category: "J100",
+        player_id: "Q4-3",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "Q",
+        highest_round_order: "3",
+        wins: "2",
+        losses: "0",
+        status: "still_alive_or_champion",
+      },
+      {
+        tournament_key: "Q4-DRAW",
+        tournament_name: "Four Round Qualy",
+        category: "J100",
+        player_id: "Q4-F",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "Q",
+        highest_round_order: "4",
+        wins: "3",
+        losses: "0",
+        status: "still_alive_or_champion",
+      },
+    ];
+    const matchRows = [
+      { tournament_key: "Q3-DRAW", player_type_code: "G", match_type_code: "S", event_classification_code: "Q", round_order: "3" },
+      { tournament_key: "Q2-DRAW", player_type_code: "G", match_type_code: "S", event_classification_code: "Q", round_order: "2" },
+      { tournament_key: "Q4-DRAW", player_type_code: "G", match_type_code: "S", event_classification_code: "Q", round_order: "4" },
+    ];
+
+    const rows = buildLivePointRows(playerResults, matchRows, new Map());
+    const labels = new Map(rows.map((row) => [row.player_id, row.calculated_round_label]));
+
+    assert.equal(labels.get("Q3-2"), "Q2");
+    assert.equal(labels.get("Q2-F"), "Q");
+    assert.equal(labels.get("Q4-3"), "Q3");
+    assert.equal(labels.get("Q4-F"), "Q");
+  });
 });

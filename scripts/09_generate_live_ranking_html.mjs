@@ -663,7 +663,12 @@ function getParticipationRoundLabel(row, round) {
   const status = cleanText(row.status).toLowerCase();
   const classificationLabel = getClassificationLabel(row);
   const visibleRound = getDisplayRoundLabel(round);
-  const displayRound = classificationLabel ? `${classificationLabel} ${visibleRound}` : visibleRound;
+  const displayRound =
+    classificationLabel && visibleRound === "Q"
+      ? `${classificationLabel} Final`
+      : classificationLabel
+        ? `${classificationLabel} ${visibleRound}`
+        : visibleRound;
 
   if (status === "eliminated") {
     return `${displayRound} ❌`;
@@ -747,9 +752,17 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
   function getQualifyingTechnicalRound(row) {
     if (!isQualifyingClassification(row)) return "";
 
+    const order = toNumber(row.highest_round_order);
+    const maxOrder = maxRoundOrderByEvent.get(getDrawEventKey(row)) || 0;
+
+    if (order && maxOrder) {
+      if (order >= maxOrder) return "Q";
+
+      return `Q${order}`;
+    }
+
     const wins = toNumber(row.wins);
     const losses = toNumber(row.losses);
-    const order = toNumber(row.highest_round_order);
 
     if (losses > 0) return `Q${wins + 1}`;
     if (wins > 0) return "Q";

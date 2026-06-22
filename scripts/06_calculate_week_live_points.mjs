@@ -353,17 +353,21 @@ function getMainDrawRoundLabel(row, maxRoundOrderByEvent, drawSizeByEvent) {
   return labels[achievedIndex];
 }
 
-function getQualifyingRoundLabel(row) {
+function getQualifyingRoundLabel(row, maxRoundOrderByEvent) {
+  const order = toNumber(row.highest_round_order);
+  const maxOrder = maxRoundOrderByEvent.get(getEventKey(row)) || 0;
+
+  if (order && maxOrder) {
+    if (order >= maxOrder) return "Q";
+
+    return `Q${order}`;
+  }
+
   const wins = toNumber(row.wins);
   const losses = toNumber(row.losses);
 
-  if (losses > 0) {
-    return `Q${wins + 1}`;
-  }
-
-  if (wins > 0) {
-    return "Q";
-  }
+  if (losses > 0) return `Q${wins + 1}`;
+  if (wins > 0) return "Q";
 
   return "Q1";
 }
@@ -372,7 +376,7 @@ function getRoundLabelFromResult(row, maxRoundOrderByEvent, drawSizeByEvent) {
   const eventClassification = normalizeEventClassification(row.event_classification_code);
 
   if (eventClassification === "qualifying") {
-    return getQualifyingRoundLabel(row);
+    return getQualifyingRoundLabel(row, maxRoundOrderByEvent);
   }
 
   return getMainDrawRoundLabel(row, maxRoundOrderByEvent, drawSizeByEvent);

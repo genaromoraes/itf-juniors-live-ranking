@@ -41,6 +41,44 @@ test("qualifying players stay out of main-draw projection scenarios", () => {
   assert.equal(participation.singlesSummary, "Simples: Qualy Q2");
 });
 
+test("last qualifying round is displayed as Qualy Final", () => {
+  const map = buildWeekParticipationMap(
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J300-GBR-2026-001",
+        tournament_name: "J300 Roehampton",
+        category: "J300",
+        end_date: "2026-07-04",
+        event_type: "singles",
+        match_type_code: "S",
+        player_type_code: "G",
+        event_classification_code: "Q",
+        event_classification_desc: "Qualifying",
+        highest_round_order: "3",
+        highest_round_name: "Final",
+        status: "still_alive_or_champion",
+      },
+    ],
+    [],
+    [
+      {
+        tournament_key: "J-J300-GBR-2026-001",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "Q",
+        round_order: "3",
+      },
+    ]
+  );
+
+  const participation = map.get("1");
+
+  assert.ok(participation);
+  assert.equal(participation.singlesRound, "Q");
+  assert.equal(participation.singlesSummary, "Simples: Qualy Final");
+});
+
 test("main-draw rows use technical round labels instead of raw round numbers", () => {
   const map = buildWeekParticipationMap(
     [
