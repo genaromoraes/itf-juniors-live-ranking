@@ -276,6 +276,18 @@ function looksBlockedOrHtml(result) {
   );
 }
 
+export function shouldTreatFetchFailureAsBlocked(result) {
+  const status = Number(result?.status || 0);
+
+  if (looksBlockedOrHtml(result)) return true;
+  if (result?.timedOut) return true;
+  if (status === 0) return true;
+  if (status === 408 || status === 425 || status === 429) return true;
+  if (status >= 500) return true;
+
+  return false;
+}
+
 async function fetchJsonInsideBrowser(page, url) {
   return await page.evaluate(
     async ({ url, timeoutMs }) => {
@@ -359,7 +371,7 @@ async function fetchRankingPage(page, genderInfo, take, skip) {
   const error = new Error(
     `Falha buscando universo ${genderInfo.label} skip=${skip}. HTTP ${lastResult?.status}. Content-Type: ${lastResult?.contentType}. ${lastResult?.textStart}`
   );
-  error.isBlocked = looksBlockedOrHtml(lastResult);
+  error.isBlocked = shouldTreatFetchFailureAsBlocked(lastResult);
   error.result = lastResult;
   throw error;
 }

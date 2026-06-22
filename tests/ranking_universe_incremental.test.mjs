@@ -6,6 +6,7 @@ import { describe, test } from "node:test";
 import { parse } from "csv-parse/sync";
 import {
   collectRankingUniverseIncremental,
+  shouldTreatFetchFailureAsBlocked,
 } from "../scripts/03_fetch_rankings_universe.mjs";
 import {
   mergeSeedAndUniverse,
@@ -50,6 +51,38 @@ async function makeRoot() {
 }
 
 describe("incremental ranking universe collection", () => {
+  test("transient fetch failures are treated as blocked instead of invalid", () => {
+    assert.equal(
+      shouldTreatFetchFailureAsBlocked({
+        status: 0,
+        timedOut: true,
+        contentType: "",
+        textStart: "Request timeout after 30000ms",
+      }),
+      true
+    );
+
+    assert.equal(
+      shouldTreatFetchFailureAsBlocked({
+        status: 502,
+        timedOut: false,
+        contentType: "application/json",
+        textStart: '{"error":"upstream"}',
+      }),
+      true
+    );
+
+    assert.equal(
+      shouldTreatFetchFailureAsBlocked({
+        status: 404,
+        timedOut: false,
+        contentType: "application/json",
+        textStart: '{"error":"not found"}',
+      }),
+      false
+    );
+  });
+
   test("valid page is persisted before the next request", async () => {
     const root = await makeRoot();
     const calls = [];

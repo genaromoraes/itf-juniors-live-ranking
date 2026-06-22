@@ -47,6 +47,7 @@ jobs:
             data/clean/week_results_summary.csv
             data/clean/week_live_points.csv
             data/clean/week_live_ledger_rows.csv
+            data/clean/rankings_universe.csv
             data/clean/live_combined_ledger_with_drops.csv
             data/clean/live_dropped_points.csv
             data/clean/live_ranking_with_drops.csv
@@ -69,6 +70,7 @@ jobs:
             week_results_summary.csv
             week_live_points.csv
             week_live_ledger_rows.csv
+            rankings_universe.csv
             live_combined_ledger_with_drops.csv
             live_dropped_points.csv
             live_ranking_with_drops.csv
@@ -124,6 +126,7 @@ jobs:
             week_results_summary.csv
             week_live_points.csv
             week_live_ledger_rows.csv
+            rankings_universe.csv
             live_combined_ledger_with_drops.csv
             live_dropped_points.csv
             live_ranking_with_drops.csv
