@@ -36,6 +36,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Restore generated data cache
+        id: generated_cache
         uses: actions/cache@v4
         with:
           path: |
@@ -57,8 +58,14 @@ jobs:
           restore-keys: |
             live-ranking-data-
 
+      - name: Check cached data for push deploy
+        id: push_cache
+        if: github.event_name == 'push'
+        run: |
+          node -e "const fs=require('fs'); const required=['data/clean/week_tournaments.csv','data/clean/week_matches.csv','data/clean/week_player_results.csv']; const missing=required.filter((file)=>!fs.existsSync(file)); const hasCache=missing.length===0; fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_cache=' + (hasCache ? 'true' : 'false') + '\n'); if (hasCache) { console.log('Push deploy will reuse cached generated data.'); } else { console.log('Push deploy cache is incomplete; switching to fresh ITF scrape.'); for (const file of missing) console.log('- ' + file); }"
+
       - name: Backup last valid generated data
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true'
         run: |
           mkdir -p .last-valid-data/data/clean
           files=(
@@ -87,26 +94,21 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Chromium
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]')
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Check cached data for push deploy
-        if: github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]')
-        run: |
-          node -e "const fs=require('fs'); const files=['data/clean/week_tournaments.csv','data/clean/week_matches.csv','data/clean/week_player_results.csv']; const missing=files.filter((file)=>!fs.existsSync(file)); if (missing.length) { console.error('Missing generated data cache for push deploy:'); for (const file of missing) console.error('- '+file); console.error('Run the workflow manually once to execute npm run update:full and refresh the cache.'); process.exit(1); }"
-
       - name: Build live ranking without scraping
-        if: github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]')
+        if: github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]') && steps.push_cache.outputs.has_cache == 'true'
         run: npm run update
 
       - name: Build live ranking with fresh ITF data
         id: scrape
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]')
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true'
         continue-on-error: true
         run: npm run update:full
 
       - name: Restore last valid data after scraping failure
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]')) && steps.scrape.outcome == 'failure'
+        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'failure' && (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
         run: |
           echo "ITF scraping failed. Restoring the last valid generated data from cache."
           for file in week_tournaments.csv week_matches.csv week_player_results.csv; do
@@ -140,18 +142,18 @@ jobs:
           done
 
       - name: Build live ranking from last valid data
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]')) && steps.scrape.outcome == 'failure'
+        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'failure' && (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
         run: npm run update
 
       - name: Report stale ITF data
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]')) && steps.scrape.outcome == 'failure'
+        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'failure' && (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
         run: |
           echo "WARNING: ITF scraping failed. GitHub Pages will be deployed using the last valid cached data."
 
       - name: Write weekly scraping summary
         if: always()
         env:
-          ITF_SCRAPE_FRESH: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]')) && steps.scrape.outcome == 'success' }}
+          ITF_SCRAPE_FRESH: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'success' }}
         run: node scripts/24_write_week_action_summary.mjs
 
       - name: Upload Pages artifact
