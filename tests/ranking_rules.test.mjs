@@ -391,4 +391,106 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(row.live_points_raw, 0);
     assert.equal(row.live_points_weighted, 0);
   });
+
+  test("production live calculation uses the actual 32-player main draw size for first-round losses", () => {
+    const playerResults = [
+      {
+        tournament_key: "J-J200-MEX-2026-005",
+        tournament_name: "J200 Puerto Escondido",
+        category: "J200",
+        player_id: "800000001",
+        player_name: "Test Player",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        wins: "0",
+        losses: "1",
+        status: "eliminated",
+      },
+    ];
+
+    const matchRows = [];
+
+    for (let index = 0; index < 16; index += 1) {
+      matchRows.push({
+        tournament_key: "J-J200-MEX-2026-005",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_order: "1",
+        round_name: "1st Round",
+        team1_player_ids: `P${index * 2 + 1}`,
+        team2_player_ids: `P${index * 2 + 2}`,
+      });
+    }
+
+    matchRows.push({
+      tournament_key: "J-J200-MEX-2026-005",
+      player_type_code: "B",
+      match_type_code: "S",
+      event_classification_code: "M",
+      round_order: "6",
+      team1_player_ids: "P1",
+      team2_player_ids: "P2",
+    });
+
+    const pointsMap = new Map([["J200|singles|main_draw|R32", 18]]);
+
+    const [row] = buildLivePointRows(playerResults, matchRows, pointsMap);
+
+    assert.equal(row.total_rounds_in_draw, 5);
+    assert.equal(row.calculated_round_label, "R32");
+    assert.equal(row.live_points_raw, 0);
+  });
+
+  test("production live calculation uses the actual 32-player main draw size for one-win results", () => {
+    const playerResults = [
+      {
+        tournament_key: "J-J200-MEX-2026-005",
+        tournament_name: "J200 Puerto Escondido",
+        category: "J200",
+        player_id: "800000001",
+        player_name: "Test Player",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        wins: "1",
+        losses: "1",
+        status: "eliminated",
+      },
+    ];
+
+    const matchRows = [];
+
+    for (let index = 0; index < 16; index += 1) {
+      matchRows.push({
+        tournament_key: "J-J200-MEX-2026-005",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_order: "1",
+        round_name: "1st Round",
+        team1_player_ids: `P${index * 2 + 1}`,
+        team2_player_ids: `P${index * 2 + 2}`,
+      });
+    }
+
+    matchRows.push({
+      tournament_key: "J-J200-MEX-2026-005",
+      player_type_code: "B",
+      match_type_code: "S",
+      event_classification_code: "M",
+      round_order: "6",
+      team1_player_ids: "P1",
+      team2_player_ids: "P2",
+    });
+
+    const pointsMap = new Map([["J200|singles|main_draw|R16", 36]]);
+
+    const [row] = buildLivePointRows(playerResults, matchRows, pointsMap);
+
+    assert.equal(row.total_rounds_in_draw, 5);
+    assert.equal(row.calculated_round_label, "R16");
+    assert.equal(row.live_points_raw, 36);
+  });
 });

@@ -215,6 +215,81 @@ function buildMaxRoundOrderByEventFromMatches(matchRows) {
   return map;
 }
 
+function nextPowerOfTwo(value) {
+  let power = 1;
+
+  while (power < value) {
+    power *= 2;
+  }
+
+  return power;
+}
+
+function isMainDrawOpeningRoundName(roundName) {
+  const text = cleanText(roundName).toLowerCase();
+
+  return (
+    text === "1st round" ||
+    text === "first round" ||
+    /^round of \d+$/.test(text) ||
+    /^r\d+$/.test(text)
+  );
+}
+
+function buildMainDrawSizeByEventFromMatches(matchRows) {
+  const metadataByEvent = new Map();
+
+  for (const row of matchRows) {
+    if (normalizeEventClassification(row.event_classification_code) !== "main_draw") {
+      continue;
+    }
+
+    const key = getEventKey(row);
+
+    if (!metadataByEvent.has(key)) {
+      metadataByEvent.set(key, {
+        participants: new Set(),
+        hasOpeningRoundSignal: false,
+      });
+    }
+
+    const metadata = metadataByEvent.get(key);
+
+    if (
+      toNumber(row.round_order) === 1 &&
+      isMainDrawOpeningRoundName(row.round_name)
+    ) {
+      metadata.hasOpeningRoundSignal = true;
+    }
+
+    for (const side of [row.team1_player_ids, row.team2_player_ids]) {
+      const participant = cleanText(side);
+
+      if (participant) {
+        metadata.participants.add(participant);
+      }
+    }
+  }
+
+  const drawSizeByEvent = new Map();
+
+  for (const [key, metadata] of metadataByEvent.entries()) {
+    if (!metadata.hasOpeningRoundSignal || !metadata.participants.size) continue;
+
+    drawSizeByEvent.set(key, nextPowerOfTwo(metadata.participants.size));
+  }
+
+  return drawSizeByEvent;
+}
+
+function getTotalRoundsFromDrawSize(drawSize) {
+  if (!Number.isFinite(drawSize) || drawSize <= 1) {
+    return 1;
+  }
+
+  return Math.log2(drawSize);
+}
+
 function getRoundLabelsForMainDraw(totalRounds) {
   const drawSize = Math.pow(2, totalRounds);
   const labels = [];
@@ -238,10 +313,23 @@ function getRoundLabelsForMainDraw(totalRounds) {
   return labels;
 }
 
-function getMainDrawRoundLabel(row, maxRoundOrderByEvent) {
+function resolveMainDrawTotalRounds(row, maxRoundOrderByEvent, drawSizeByEvent) {
   const eventKey = getEventKey(row);
-  const totalRounds =
-    maxRoundOrderByEvent.get(eventKey) || toNumber(row.highest_round_order) || 1;
+  const drawSize = drawSizeByEvent.get(eventKey);
+
+  if (drawSize) {
+    return getTotalRoundsFromDrawSize(drawSize);
+  }
+
+  return maxRoundOrderByEvent.get(eventKey) || toNumber(row.highest_round_order) || 1;
+}
+
+function getMainDrawRoundLabel(row, maxRoundOrderByEvent, drawSizeByEvent) {
+  const totalRounds = resolveMainDrawTotalRounds(
+    row,
+    maxRoundOrderByEvent,
+    drawSizeByEvent
+  );
   const labels = getRoundLabelsForMainDraw(totalRounds);
   const wins = toNumber(row.wins);
   const losses = toNumber(row.losses);
@@ -280,14 +368,14 @@ function getQualifyingRoundLabel(row) {
   return "Q1";
 }
 
-function getRoundLabelFromResult(row, maxRoundOrderByEvent) {
+function getRoundLabelFromResult(row, maxRoundOrderByEvent, drawSizeByEvent) {
   const eventClassification = normalizeEventClassification(row.event_classification_code);
 
   if (eventClassification === "qualifying") {
     return getQualifyingRoundLabel(row);
   }
 
-  return getMainDrawRoundLabel(row, maxRoundOrderByEvent);
+  return getMainDrawRoundLabel(row, maxRoundOrderByEvent, drawSizeByEvent);
 }
 
 function isMainDrawFirstRoundLoss(row) {
@@ -320,13 +408,21 @@ export function getLivePoints(row, roundLabel, pointsMap) {
 
 export function buildLivePointRows(playerResults, matchRows, pointsMap) {
   const maxRoundOrderByEvent = buildMaxRoundOrderByEventFromMatches(matchRows);
+  const drawSizeByEvent = buildMainDrawSizeByEventFromMatches(matchRows);
 
   return playerResults.map((row) => {
     const eventType = normalizeMatchType(row.match_type_code);
     const eventClassification = normalizeEventClassification(row.event_classification_code);
     const eventKey = getEventKey(row);
-    const totalRounds = maxRoundOrderByEvent.get(eventKey) || "";
-    const roundLabel = getRoundLabelFromResult(row, maxRoundOrderByEvent);
+    const totalRounds =
+      eventClassification === "main_draw"
+        ? resolveMainDrawTotalRounds(row, maxRoundOrderByEvent, drawSizeByEvent)
+        : maxRoundOrderByEvent.get(eventKey) || "";
+    const roundLabel = getRoundLabelFromResult(
+      row,
+      maxRoundOrderByEvent,
+      drawSizeByEvent
+    );
     const livePoints = getLivePoints(row, roundLabel, pointsMap);
 
     const doublesWeightedPoints =
