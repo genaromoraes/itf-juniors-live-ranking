@@ -1370,6 +1370,7 @@ function groupWeekTournaments(tournaments) {
   for (const row of tournaments) {
     const category = cleanText(row.category || row.tournament_category || "OUTROS");
     const name = cleanText(row.tournament_name);
+    const tournamentLink = cleanText(row.tournament_link);
     const country = cleanText(row.host_nation_code || row.country || row.hostNationCode);
     const surface = cleanText(row.surface);
     const surfaceCode = cleanText(row.surface_code).toUpperCase();
@@ -1387,6 +1388,7 @@ function groupWeekTournaments(tournaments) {
     map.get(category).items.push({
       name,
       displayName: getTournamentDisplayName(name, category),
+      tournamentLink,
       country,
       surface,
       surfaceCode,
@@ -2831,6 +2833,7 @@ function buildHtml(
       color: var(--cat-color, var(--muted));
       font-weight: 600;
       line-height: 1.1;
+      text-decoration: none;
     }
 
     :root[data-theme="dark"] .week-tournament-name {
@@ -4805,6 +4808,10 @@ body.official-ranking-view .side {
               \${group.items.map((item) => {
                 const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode);
                 const className = ["week-tournament-name", getSurfaceClass(surfaceKey)].filter(Boolean).join(" ");
+
+                if (item.tournamentLink) {
+                  return '<a class="' + className + '" title="' + escapeHtmlClient(item.name) + '" href="' + escapeHtmlClient(item.tournamentLink) + '" target="_blank" rel="noopener noreferrer">' + escapeHtmlClient(item.displayName || item.name) + '</a>';
+                }
 
                 return '<span class="' + className + '" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>';
               }).join("")}
