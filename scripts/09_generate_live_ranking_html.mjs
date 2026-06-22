@@ -674,12 +674,9 @@ function getParticipationRoundLabel(row, round) {
 
 function getDisplayRoundLabel(round) {
   const text = cleanText(round);
+  const normalized = normalizeRoundLabel(text);
 
-  if (/^1st\s+round$/i.test(text)) return "R1";
-  if (/^2nd\s+round$/i.test(text)) return "R2";
-  if (/^3rd\s+round$/i.test(text)) return "R3";
-
-  return text;
+  return normalized || text;
 }
 
 function isQualifyingClassification(row) {
@@ -747,6 +744,20 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
     return ROUND_ORDER[roundIndex] || "";
   }
 
+  function getQualifyingTechnicalRound(row) {
+    if (!isQualifyingClassification(row)) return "";
+
+    const wins = toNumber(row.wins);
+    const losses = toNumber(row.losses);
+    const order = toNumber(row.highest_round_order);
+
+    if (losses > 0) return `Q${wins + 1}`;
+    if (wins > 0) return "Q";
+    if (order > 0) return `Q${order}`;
+
+    return "Q1";
+  }
+
   for (const row of weekMatches) {
     const eventKey = getDrawEventKey(row);
     const order = toNumber(row.round_order);
@@ -806,9 +817,13 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
         ? liveRoundMap.get([playerId, tournamentKey, eventType].join("|")) ||
           liveRoundMap.get([playerId, tournament, eventType].join("|"))
         : "";
-    const round = liveRound || cleanText(row.highest_round_name);
+    const rawRound = liveRound || cleanText(row.highest_round_name);
+    const technicalRound =
+      normalizeRoundLabel(liveRound) ||
+      getTechnicalRoundFromOrder(row) ||
+      getQualifyingTechnicalRound(row);
+    const round = technicalRound || rawRound;
     const roundLabel = round ? getParticipationRoundLabel(row, round) : "";
-    const technicalRound = normalizeProjectionRound(liveRound) || getTechnicalRoundFromOrder(row);
 
     if (eventType === "singles") {
       participation.singlesStatus = cleanText(row.status).toLowerCase();
@@ -1095,7 +1110,7 @@ function buildPointCartelMap(combinedLedgerRows) {
         eventType,
         tournament: cleanText(row.tournament_name),
         category: cleanText(row.category),
-        round: cleanText(row.round),
+        round: normalizeRoundLabel(row.round) || cleanText(row.round),
         date: cleanText(row.start_date),
         points: toNumber(row.points),
         surface: cleanText(row.surface),
@@ -1139,7 +1154,7 @@ function parseLiveResult(resultText) {
   const parts = cleanText(resultText).split("|").map((part) => part.trim());
   const pointsText = parts[0] || "";
   const category = parts[2] || "";
-  const round = parts[3] || "";
+  const round = normalizeRoundLabel(parts[3]) || parts[3] || "";
 
   return {
     points: toNumber(pointsText),
@@ -1148,11 +1163,7 @@ function parseLiveResult(resultText) {
   };
 }
 
-function getLiveResultsFromBest(bestResults) {
-  return bestResults.filter((item) => item.toUpperCase().includes("LIVE"));
-}
-
-function normalizeProjectionRound(value) {
+function normalizeRoundLabel(value) {
   const text = cleanText(value)
     .replace("❌", "")
     .replace("🏆", "W")
@@ -1164,11 +1175,31 @@ function normalizeProjectionRound(value) {
     .trim()
     .toUpperCase();
 
-  if (text === "WR") return "W";
-  if (text === "1ST ROUND" || text === "R1") return "R32";
+  if (!text) return "";
+  if (/^Q[1-3]$/.test(text) || text === "Q") return text;
+  if (text === "WR" || text === "WINNER" || text === "CHAMPION") return "W";
+  if (text === "RU" || text === "RUNNER-UP" || text === "RUNNER UP") return "F";
+  if (text === "FINAL" || text === "FINALS" || text === "FINAL ROUND") return "F";
+  if (text === "SEMI-FINAL" || text === "SEMI-FINALS" || text === "SEMIFINAL" || text === "SEMIFINALS") return "SF";
+  if (text === "QUARTER-FINAL" || text === "QUARTER-FINALS" || text === "QUARTERFINAL" || text === "QUARTERFINALS") return "QF";
 
   const match = text.match(/\b(R128|R64|R32|R16|QF|SF|F|W)\b/);
   return match ? match[1] : "";
+}
+
+function getLiveResultsFromBest(bestResults) {
+  return bestResults.filter((item) => item.toUpperCase().includes("LIVE"));
+}
+
+function normalizeProjectionRound(value) {
+  const normalized = normalizeRoundLabel(value);
+
+  if (normalized && !/^Q\d?$/.test(normalized)) return normalized;
+
+  const text = cleanText(value).trim().toUpperCase();
+  if (text === "1ST ROUND" || text === "R1") return "R32";
+
+  return "";
 }
 
 function getParticipationRound(participation, eventType) {
@@ -4517,10 +4548,18 @@ body.official-ranking-view .side {
     }
 
     function getWeekRoundDisplay(round) {
-      if (/^1st\\s+round$/i.test(round)) return "R1";
-      if (/^2nd\\s+round$/i.test(round)) return "R2";
-      if (/^3rd\\s+round$/i.test(round)) return "R3";
-      return round;
+      const text = String(round || "").trim();
+      const upper = text.toUpperCase();
+
+      if (/^Q[1-3]$/.test(upper) || upper === "Q") return upper;
+      if (upper === "WR" || upper === "WINNER" || upper === "CHAMPION") return "W";
+      if (upper === "RU" || upper === "RUNNER-UP" || upper === "RUNNER UP") return "F";
+      if (upper === "FINAL" || upper === "FINALS" || upper === "FINAL ROUND") return "F";
+      if (upper === "SEMI-FINAL" || upper === "SEMI-FINALS" || upper === "SEMIFINAL" || upper === "SEMIFINALS") return "SF";
+      if (upper === "QUARTER-FINAL" || upper === "QUARTER-FINALS" || upper === "QUARTERFINAL" || upper === "QUARTERFINALS") return "QF";
+
+      const match = upper.match(/\\b(R128|R64|R32|R16|QF|SF|F|W)\\b/);
+      return match ? match[1] : text;
     }
 
     function getWeekRoundHtml(round) {

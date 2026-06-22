@@ -37,10 +37,11 @@ test("qualifying players stay out of main-draw projection scenarios", () => {
 
   assert.ok(participation);
   assert.equal(participation.singlesProjectionEligible, false);
-  assert.equal(participation.singlesRound, "");
+  assert.equal(participation.singlesRound, "Q2");
+  assert.equal(participation.singlesSummary, "Simples: Qualy Q2");
 });
 
-test("main-draw rows remain projection-eligible", () => {
+test("main-draw rows use technical round labels instead of raw round numbers", () => {
   const map = buildWeekParticipationMap(
     [
       {
@@ -75,5 +76,66 @@ test("main-draw rows remain projection-eligible", () => {
 
   assert.ok(participation);
   assert.equal(participation.singlesProjectionEligible, true);
-  assert.notEqual(participation.singlesRound, "");
+  assert.equal(participation.singlesRound, "R32");
+  assert.equal(participation.singlesSummary, "Simples: R32");
+});
+
+test("main-draw summaries normalize runner-up and winner labels", () => {
+  const map = buildWeekParticipationMap(
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J100-KAZ-2026-003",
+        tournament_name: "J100 Almaty",
+        category: "J100",
+        end_date: "2026-06-28",
+        event_type: "singles",
+        match_type_code: "S",
+        player_type_code: "B",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        highest_round_order: "5",
+        highest_round_name: "Final",
+        status: "eliminated",
+      },
+      {
+        player_id: "1",
+        tournament_key: "J-J100-KAZ-2026-003",
+        tournament_name: "J100 Almaty",
+        category: "J100",
+        end_date: "2026-06-28",
+        event_type: "doubles",
+        match_type_code: "D",
+        player_type_code: "B",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        highest_round_order: "5",
+        highest_round_name: "WR",
+        status: "champion",
+      },
+    ],
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J100-KAZ-2026-003",
+        event_type: "singles",
+        round: "RU",
+      },
+      {
+        player_id: "1",
+        tournament_key: "J-J100-KAZ-2026-003",
+        event_type: "doubles",
+        round: "WR",
+      },
+    ],
+    []
+  );
+
+  const participation = map.get("1");
+
+  assert.ok(participation);
+  assert.equal(participation.singlesRound, "F");
+  assert.equal(participation.singlesSummary, "Simples: F ❌");
+  assert.equal(participation.doublesRound, "W");
+  assert.equal(participation.doublesSummary, "Duplas: W");
 });
