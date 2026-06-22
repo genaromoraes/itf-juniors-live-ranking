@@ -1,6 +1,12 @@
 name: Monitor Official Rollover
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/monitor-official-rollover.yml"
+      - "scripts/25_monitor_official_rollover.mjs"
   workflow_dispatch:
     inputs:
       old_ranking_date:
