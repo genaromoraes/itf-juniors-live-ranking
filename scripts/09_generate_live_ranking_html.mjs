@@ -934,6 +934,16 @@ function getOfficialRankingDateForDetails(rankingRows) {
 export function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRows) {
   const map = new Map();
   const officialRankingDate = getOfficialRankingDateForDetails(rankingRows);
+  const playersNeedingDropExplanation = new Set(
+    rankingRows
+      .filter(
+        (row) =>
+          toNumber(row.points_change_vs_official) < 0 &&
+          cleanText(row.has_dropped_result).toLowerCase() === "true"
+      )
+      .map((row) => cleanText(row.player_id))
+      .filter(Boolean)
+  );
 
   function getPlayerDetails(playerId) {
     if (!map.has(playerId)) {
@@ -950,8 +960,10 @@ export function buildPointDetailsMap(weekLiveLedgerRows, droppedRows, rankingRow
       cleanText(row.countable_status) === "countable" ||
       cleanText(row.is_countable_at_collection).toLowerCase() === "true";
     const dropDateCalculated = cleanText(row.drop_date_calculated);
+    const needsExplanation = playersNeedingDropExplanation.has(playerId);
 
-    if (!playerId || impactPoints <= 0 || !wasCountable) continue;
+    if (!playerId || impactPoints <= 0) continue;
+    if (!wasCountable && !needsExplanation) continue;
     if (officialRankingDate && dropDateCalculated && dropDateCalculated <= officialRankingDate) {
       continue;
     }
@@ -2400,17 +2412,9 @@ function buildHtml(
       line-height: 1;
       cursor: pointer;
       box-shadow: none;
-      opacity: 0;
-      transform: translateY(1px);
-      transition: opacity 140ms ease, border-color 140ms ease, background 140ms ease, transform 140ms ease;
-    }
-
-    tbody tr:hover .points-info-button,
-    tbody tr.selected .points-info-button,
-    .points-cell:focus-within .points-info-button,
-    .points-info-button.active {
       opacity: 1;
       transform: translateY(0);
+      transition: border-color 140ms ease, background 140ms ease;
     }
 
     .points-info-button:hover,
