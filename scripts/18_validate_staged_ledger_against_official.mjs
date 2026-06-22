@@ -990,6 +990,102 @@ function assertProtectedHashes(beforeHashes, afterHashes) {
   }
 }
 
+function isIsoDateText(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(cleanText(value));
+}
+
+export function isClosedWeekLedgerRow(row, oldRankingDate, dropCutoff) {
+  const startDate = cleanText(row.start_date);
+
+  return (
+    cleanText(row.status) === "confirmed_from_week_close" &&
+    isIsoDateText(startDate) &&
+    isIsoDateText(oldRankingDate) &&
+    isIsoDateText(dropCutoff) &&
+    startDate >= oldRankingDate &&
+    startDate <= dropCutoff
+  );
+}
+
+export function removeClosedWeekRowsForBaseline(rows, { oldRankingDate, dropCutoff }) {
+  return rows.filter(
+    (row) => !isClosedWeekLedgerRow(row, oldRankingDate, dropCutoff)
+  );
+}
+
+export function buildBaselineValidation({
+  baselineLedgerRows,
+  oldSnapshotRows,
+  oldRankingDate,
+  dropCutoff,
+}) {
+  const calculatedRows = calculateLedgerPoints(baselineLedgerRows, {
+    policy: BASELINE_POLICY,
+    dropCutoff: "",
+  });
+  const baseline = compareCalculatedAgainstSnapshot(
+    calculatedRows,
+    oldSnapshotRows,
+    {
+      baselinePolicy: BASELINE_POLICY,
+    }
+  );
+
+  if (baseline.valid) {
+    return {
+      baseline,
+      reconstructed: false,
+      removedRows: 0,
+      warnings: [],
+    };
+  }
+
+  const reconstructedRows = removeClosedWeekRowsForBaseline(baselineLedgerRows, {
+    oldRankingDate,
+    dropCutoff,
+  });
+  const removedRows = baselineLedgerRows.length - reconstructedRows.length;
+
+  if (removedRows === 0) {
+    return {
+      baseline,
+      reconstructed: false,
+      removedRows,
+      warnings: [],
+    };
+  }
+
+  const reconstructedCalculatedRows = calculateLedgerPoints(reconstructedRows, {
+    policy: BASELINE_POLICY,
+    dropCutoff: "",
+  });
+  const reconstructedBaseline = compareCalculatedAgainstSnapshot(
+    reconstructedCalculatedRows,
+    oldSnapshotRows,
+    {
+      baselinePolicy: BASELINE_POLICY,
+    }
+  );
+
+  if (!reconstructedBaseline.valid) {
+    return {
+      baseline,
+      reconstructed: false,
+      removedRows,
+      warnings: [],
+    };
+  }
+
+  return {
+    baseline: reconstructedBaseline,
+    reconstructed: true,
+    removedRows,
+    warnings: [
+      `Baseline antigo reconstruido removendo ${removedRows} linhas confirmed_from_week_close entre ${oldRankingDate} e ${dropCutoff}.`,
+    ],
+  };
+}
+
 export async function runValidation(args, deps = {}) {
   const errors = [];
 
@@ -1060,17 +1156,19 @@ export async function runValidation(args, deps = {}) {
     throw new Error(ledgerValidation.errors.join("\n"));
   }
 
-  const baselineCalculatedRows = calculateLedgerPoints(baselineLedgerRows, {
-    policy: BASELINE_POLICY,
-    dropCutoff: "",
-  });
-  const baseline = compareCalculatedAgainstSnapshot(
-    baselineCalculatedRows,
+  const oldRankingDate = cleanText(oldSnapshotRows[0]?.ranking_date);
+  const baselineResult = buildBaselineValidation({
+    baselineLedgerRows,
     oldSnapshotRows,
-    {
-      baselinePolicy: BASELINE_POLICY,
-    }
-  );
+    oldRankingDate,
+    dropCutoff: args.dropCutoff,
+  });
+  const baseline = baselineResult.baseline;
+  const validationWarnings = [...baselineResult.warnings];
+
+  if (baselineResult.reconstructed) {
+    await logger.log(validationWarnings[0]);
+  }
 
   let official = null;
   let officialValidation = {
@@ -1138,7 +1236,7 @@ export async function runValidation(args, deps = {}) {
     networkReport.comparison_completed = true;
 
     summary = buildValidationSummary({
-      oldRankingDate: cleanText(oldSnapshotRows[0]?.ranking_date),
+      oldRankingDate,
       expectedRankingDate: args.rankingDate,
       receivedRankingDate: official.receivedRankingDate,
       baselinePolicy: BASELINE_POLICY,
@@ -1154,7 +1252,7 @@ export async function runValidation(args, deps = {}) {
       },
       oldTrackedTotal: oldPlayersRows.length,
       comparison,
-      warnings: [],
+      warnings: validationWarnings,
       errors: [],
       startedAt,
       finishedAt: new Date().toISOString(),
@@ -1172,7 +1270,7 @@ export async function runValidation(args, deps = {}) {
     networkReport.failure_reason = error?.message || String(error);
 
     summary = buildValidationSummary({
-      oldRankingDate: cleanText(oldSnapshotRows[0]?.ranking_date),
+      oldRankingDate,
       expectedRankingDate: args.rankingDate,
       receivedRankingDate: official?.receivedRankingDate || "",
       baselinePolicy: BASELINE_POLICY,
@@ -1188,7 +1286,7 @@ export async function runValidation(args, deps = {}) {
       },
       oldTrackedTotal: oldPlayersRows.length,
       comparison,
-      warnings: [],
+      warnings: validationWarnings,
       errors: [networkReport.failure_reason],
       startedAt,
       finishedAt: new Date().toISOString(),

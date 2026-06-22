@@ -7,9 +7,11 @@ import {
   NETWORK_MODE_AUTO,
   NETWORK_MODE_BROWSER,
   NETWORK_MODE_DIRECT,
+  buildBaselineValidation,
   buildOutputPaths,
   collectOfficialRanking,
   createDefaultNetworkReport,
+  isClosedWeekLedgerRow,
   writeNetworkArtifacts,
 } from "../scripts/18_validate_staged_ledger_against_official.mjs";
 
@@ -50,11 +52,119 @@ function makePayload(genderInfo, skip, rankDate = "2026-06-15") {
   };
 }
 
+function ledgerRow(overrides = {}) {
+  return {
+    player_id: "p1",
+    player_name: "Player One",
+    gender: "M",
+    country: "BRA",
+    country_name: "Brazil",
+    birth_year: "2009",
+    event_type: "singles",
+    countable_status: "countable",
+    tournament_name: "Old Tournament",
+    category: "J100",
+    draw_type: "main_draw",
+    host_nation: "Brazil",
+    host_nation_code: "BRA",
+    surface: "Clay",
+    surface_code: "C",
+    start_date: "2026-01-01",
+    drop_date_calculated: "2026-12-31",
+    round: "W",
+    points: "100",
+    tournament_link: "",
+    is_countable_at_collection: "true",
+    is_live: "false",
+    status: "confirmed_official_reconciliation",
+    source_url: "",
+    collected_at: "2026-06-15T00:00:00.000Z",
+    raw_json: "{}",
+    ...overrides,
+  };
+}
+
+function snapshotRow(overrides = {}) {
+  return {
+    ranking_date: "2026-06-15",
+    gender: "M",
+    rank: "1",
+    player_id: "p1",
+    player_name: "Player One",
+    country: "BRA",
+    country_name: "Brazil",
+    birth_year: "2009",
+    official_points: "100",
+    source_url: "",
+    collected_at: "2026-06-15T00:00:00.000Z",
+    ...overrides,
+  };
+}
+
 async function createTempOutputDir() {
   return fs.mkdtemp(path.join(os.tmpdir(), "official-network-test-"));
 }
 
 describe("official ranking network modes", () => {
+  test("detects closed week rows that should be removed only for baseline reconstruction", () => {
+    assert.equal(
+      isClosedWeekLedgerRow(
+        ledgerRow({
+          status: "confirmed_from_week_close",
+          start_date: "2026-06-15",
+        }),
+        "2026-06-15",
+        "2026-06-21"
+      ),
+      true
+    );
+    assert.equal(
+      isClosedWeekLedgerRow(
+        ledgerRow({
+          status: "confirmed_from_week_close",
+          start_date: "2026-06-22",
+        }),
+        "2026-06-15",
+        "2026-06-21"
+      ),
+      false
+    );
+    assert.equal(
+      isClosedWeekLedgerRow(
+        ledgerRow({
+          status: "confirmed_official_reconciliation",
+          start_date: "2026-06-15",
+        }),
+        "2026-06-15",
+        "2026-06-21"
+      ),
+      false
+    );
+  });
+
+  test("reconstructs the old baseline when current ledger already includes closed week rows", () => {
+    const result = buildBaselineValidation({
+      baselineLedgerRows: [
+        ledgerRow({ points: "100" }),
+        ledgerRow({
+          tournament_name: "Week Tournament",
+          status: "confirmed_from_week_close",
+          start_date: "2026-06-15",
+          points: "30",
+        }),
+      ],
+      oldSnapshotRows: [snapshotRow({ official_points: "100" })],
+      oldRankingDate: "2026-06-15",
+      dropCutoff: "2026-06-21",
+    });
+
+    assert.equal(result.reconstructed, true);
+    assert.equal(result.removedRows, 1);
+    assert.equal(result.baseline.valid, true);
+    assert.equal(result.baseline.exact, 1);
+    assert.match(result.warnings[0], /Baseline antigo reconstruido/);
+  });
+
   test("direct returns valid JSON", async () => {
     const outputDir = await createTempOutputDir();
     const outputPaths = buildOutputPaths(outputDir);
