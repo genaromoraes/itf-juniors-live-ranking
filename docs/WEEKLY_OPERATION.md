@@ -44,6 +44,14 @@ Depois:
 npm run weekly:start -- --week-start=AAAA-MM-DD --week-end=AAAA-MM-DD --mode=apply --confirm=true
 ```
 
+4. Se houver lista manual de torneios da semana, gere `week_tournaments.csv` a partir dela:
+
+```bash
+node scripts/04_fetch_week_tournaments.mjs --week-start=AAAA-MM-DD --week-end=AAAA-MM-DD --manual-file=data/config/weekly_tournaments_AAAA-MM-DD.json
+```
+
+O arquivo manual aceita `current_tournaments` e `dropping_tournaments` como listas de URLs da ITF. Os torneios atuais alimentam `week_tournaments.csv`; os torneios caindo ficam no JSON raw para auditoria e proximas validacoes de drops.
+
 ## O que nao fazer
 
 - Nao editar CSV manualmente.

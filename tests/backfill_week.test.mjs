@@ -13,7 +13,9 @@ import {
 } from "../scripts/17_backfill_week.mjs";
 import {
   buildWeekWindow,
+  main as tournamentMain,
   parseArgs as parseTournamentArgs,
+  parseTournamentUrl,
   resolveOutputPaths as resolveTournamentPaths,
   tournamentBelongsToOfficialWeek,
 } from "../scripts/04_fetch_week_tournaments.mjs";
@@ -408,6 +410,71 @@ describe("historical backfill support", () => {
         weekWindow
       ),
       true
+    );
+  });
+
+  test("manual tournament file writes current tournaments and raw dropping audit", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "manual-tournaments-"));
+    const manualFile = path.join(root, "week.json");
+    const outputDir = path.join(root, "out");
+
+    await fs.writeFile(
+      manualFile,
+      JSON.stringify({
+        week_start: "2026-06-22",
+        week_end: "2026-06-28",
+        current_tournaments: [
+          "https://www.itftennis.com/en/tournament/j200-pilsen/cze/2026/j-j200-cze-2026-001/",
+        ],
+        dropping_tournaments: [
+          "https://www.itftennis.com/en/tournament/j200-veracruz/mex/2025/j-j200-mex-2025-001/",
+          "https://www.itftennis.com/en/tournament/j200-veracruz/mex/2025/j-j200-mex-2025-001/",
+        ],
+      }),
+      "utf8"
+    );
+
+    await tournamentMain(
+      parseTournamentArgs([
+        "--week-start=2026-06-22",
+        "--week-end=2026-06-28",
+        `--output-dir=${outputDir}`,
+        `--manual-file=${manualFile}`,
+      ])
+    );
+
+    const tournamentsCsv = await fs.readFile(
+      path.join(outputDir, "week_tournaments.csv"),
+      "utf8"
+    );
+    const raw = JSON.parse(
+      await fs.readFile(path.join(outputDir, "raw", "week_tournaments.json"), "utf8")
+    );
+
+    assert.match(tournamentsCsv, /J-J200-CZE-2026-001/);
+    assert.match(tournamentsCsv, /J200 Pilsen/);
+    assert.equal(raw.manual_tournaments_count, 1);
+    assert.equal(raw.manual_dropping_tournaments_count, 1);
+    assert.deepEqual(raw.duplicate_dropping_tournament_keys, [
+      { tournament_key: "J-J200-MEX-2025-001", count: 2 },
+    ]);
+  });
+
+  test("ITF tournament URL parser extracts key, category and location", () => {
+    assert.deepEqual(
+      parseTournamentUrl(
+        "https://www.itftennis.com/en/tournament/j200-puerto-escondido/mex/2026/j-j200-mex-2026-002/"
+      ),
+      {
+        url: "https://www.itftennis.com/en/tournament/j200-puerto-escondido/mex/2026/j-j200-mex-2026-002/",
+        slug: "j200-puerto-escondido",
+        nation_code: "MEX",
+        year: "2026",
+        key: "J-J200-MEX-2026-002",
+        category: "J200",
+        location: "Puerto Escondido",
+        name: "J200 Puerto Escondido",
+      }
     );
   });
 

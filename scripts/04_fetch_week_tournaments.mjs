@@ -18,6 +18,33 @@ const RETRY_DELAY_MS = 10000;
 const BLOCK_DELAY_MS = 15000;
 const MAX_RETRIES = 2;
 
+const TOURNAMENT_COLUMNS = [
+  "week_start",
+  "week_end",
+  "search_start",
+  "search_end",
+  "tournament_id",
+  "tournament_key",
+  "tournament_name",
+  "promotional_name",
+  "category",
+  "host_nation",
+  "host_nation_code",
+  "location",
+  "venue",
+  "start_date",
+  "end_date",
+  "dates_raw",
+  "surface",
+  "surface_code",
+  "indoor_outdoor",
+  "tournament_link",
+  "live_link",
+  "source_url",
+  "collected_at",
+  "raw_json",
+];
+
 function getArg(name, argv = process.argv.slice(2)) {
   const prefix = `--${name}=`;
   const arg = argv.find((value) => value.startsWith(prefix));
@@ -77,6 +104,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     outputDir: cleanText(getArg("output-dir", argv)),
     searchStart: cleanText(getArg("search-start", argv)),
     searchEnd: cleanText(getArg("search-end", argv)),
+    manualFile: cleanText(getArg("manual-file", argv)),
   };
 }
 
@@ -380,6 +408,42 @@ export function tournamentBelongsToOfficialWeek(tournament, weekWindow) {
   return true;
 }
 
+function titleCaseSlug(value) {
+  return String(value || "")
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.slice(0, 1).toUpperCase() + part.slice(1).toLowerCase())
+    .join(" ");
+}
+
+export function parseTournamentUrl(value) {
+  const url = normalizeUrl(value);
+  const match = url.match(
+    /\/en\/tournament\/([^/]+)\/([^/]+)\/(\d{4})\/([^/?#]+)\/?/i
+  );
+
+  if (!match) {
+    throw new Error(`URL de torneio ITF invalida: ${value}`);
+  }
+
+  const [, slug, nationCode, year, key] = match;
+  const categoryMatch = slug.match(/^(j\d+|ja|jgs|jga|jgb)/i);
+  const category = categoryMatch ? categoryMatch[1].toUpperCase() : "";
+  const locationSlug = category ? slug.slice(category.length).replace(/^-/, "") : slug;
+  const location = titleCaseSlug(locationSlug);
+
+  return {
+    url,
+    slug,
+    nation_code: nationCode.toUpperCase(),
+    year,
+    key: key.toUpperCase(),
+    category,
+    location,
+    name: cleanText([category, location].filter(Boolean).join(" ")),
+  };
+}
+
 function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
   const params = new URLSearchParams({
     circuitCode: "JT",
@@ -589,6 +653,165 @@ function dedupeTournaments(rows) {
   return [...map.values()];
 }
 
+function getManualList(config, names) {
+  for (const name of names) {
+    if (Array.isArray(config?.[name])) return config[name];
+  }
+
+  return [];
+}
+
+function normalizeManualEntry(entry) {
+  if (typeof entry === "string") return { url: entry };
+  if (entry && typeof entry === "object") return entry;
+  return { url: "" };
+}
+
+function buildManualTournamentRows(entries, weekWindow, sourceUrl, collectedAt) {
+  const seen = new Map();
+  const duplicateKeys = new Map();
+
+  for (const rawEntry of entries) {
+    const entry = normalizeManualEntry(rawEntry);
+    const parsed = parseTournamentUrl(entry.url || entry.tournament_link);
+    const key = cleanText(entry.tournament_key || parsed.key);
+
+    duplicateKeys.set(key, (duplicateKeys.get(key) || 0) + 1);
+
+    if (seen.has(key)) continue;
+
+    const category = cleanText(entry.category || parsed.category);
+    const location = cleanText(entry.location || parsed.location);
+    const name = cleanText(entry.name || entry.tournament_name || parsed.name);
+
+    seen.set(key, {
+      week_start: weekWindow.week_start,
+      week_end: weekWindow.week_end,
+      search_start: weekWindow.search_start,
+      search_end: weekWindow.search_end,
+      tournament_id: cleanText(entry.tournament_id),
+      tournament_key: key,
+      tournament_name: name,
+      promotional_name: cleanText(entry.promotional_name),
+      category,
+      host_nation: cleanText(entry.host_nation),
+      host_nation_code: cleanText(entry.host_nation_code || parsed.nation_code),
+      location,
+      venue: cleanText(entry.venue),
+      start_date: cleanText(entry.start_date || weekWindow.week_start),
+      end_date: cleanText(entry.end_date || weekWindow.week_end),
+      dates_raw: cleanText(entry.dates_raw),
+      surface: cleanText(entry.surface),
+      surface_code: cleanText(entry.surface_code),
+      indoor_outdoor: cleanText(entry.indoor_outdoor),
+      tournament_link: parsed.url,
+      live_link: cleanText(entry.live_link),
+      source_url: sourceUrl,
+      collected_at: collectedAt,
+      raw_json: JSON.stringify(rawEntry),
+    });
+  }
+
+  return {
+    rows: [...seen.values()],
+    duplicate_keys: [...duplicateKeys.entries()]
+      .filter(([, count]) => count > 1)
+      .map(([tournament_key, count]) => ({ tournament_key, count })),
+  };
+}
+
+async function readJsonFile(filePath) {
+  return JSON.parse(await fs.readFile(filePath, "utf8"));
+}
+
+function validateManualWeek(config, weekWindow) {
+  const weekStart = cleanText(config.week_start || config.weekStart);
+  const weekEnd = cleanText(config.week_end || config.weekEnd);
+
+  if (weekStart && weekStart !== weekWindow.week_start) {
+    throw new Error(
+      `manual-file usa week_start=${weekStart}, mas a execucao usa ${weekWindow.week_start}.`
+    );
+  }
+
+  if (weekEnd && weekEnd !== weekWindow.week_end) {
+    throw new Error(
+      `manual-file usa week_end=${weekEnd}, mas a execucao usa ${weekWindow.week_end}.`
+    );
+  }
+}
+
+async function writeManualTournamentArtifacts(manualFile, weekWindow, outputPaths) {
+  const manualPath = path.resolve(manualFile);
+  const config = await readJsonFile(manualPath);
+  const sourceUrl = `manual-file:${manualPath}`;
+  const collectedAt = new Date().toISOString();
+
+  validateManualWeek(config, weekWindow);
+
+  const currentEntries = getManualList(config, [
+    "current_tournaments",
+    "currentTournaments",
+    "week_tournaments",
+    "weekTournaments",
+  ]);
+  const droppingEntries = getManualList(config, [
+    "dropping_tournaments",
+    "droppingTournaments",
+    "drop_tournaments",
+    "dropTournaments",
+  ]);
+
+  const current = buildManualTournamentRows(
+    currentEntries,
+    weekWindow,
+    sourceUrl,
+    collectedAt
+  );
+  const dropping = buildManualTournamentRows(
+    droppingEntries,
+    weekWindow,
+    sourceUrl,
+    collectedAt
+  );
+
+  const tournaments = current.rows.sort((a, b) => {
+    const categoryCompare = String(a.category).localeCompare(String(b.category));
+    if (categoryCompare !== 0) return categoryCompare;
+
+    return String(a.tournament_name).localeCompare(String(b.tournament_name));
+  });
+
+  await fs.writeFile(
+    outputPaths.rawOutputFile,
+    JSON.stringify(
+      {
+        week_window: weekWindow,
+        source: sourceUrl,
+        manual_tournaments_count: tournaments.length,
+        manual_dropping_tournaments_count: dropping.rows.length,
+        duplicate_current_tournament_keys: current.duplicate_keys,
+        duplicate_dropping_tournament_keys: dropping.duplicate_keys,
+        tournaments,
+        dropping_tournaments: dropping.rows,
+      },
+      null,
+      2
+    ),
+    "utf8"
+  );
+
+  await writeCsv(outputPaths.cleanOutputFile, tournaments, TOURNAMENT_COLUMNS);
+  await writeCsv(outputPaths.debugAllFile, tournaments, TOURNAMENT_COLUMNS);
+
+  return {
+    tournaments,
+    droppingTournaments: dropping.rows,
+    duplicateCurrentKeys: current.duplicate_keys,
+    duplicateDroppingKeys: dropping.duplicate_keys,
+  };
+}
+
 async function writeCsv(filePath, rows, columns) {
   const csv = stringify(rows, {
     header: true,
@@ -617,6 +840,43 @@ export async function main(cliArgs = parseArgs()) {
     search_start: weekWindow.search_start,
     search_end: weekWindow.search_end,
   });
+
+  if (cliArgs.manualFile) {
+    console.log("");
+    console.log(`Usando lista manual: ${path.resolve(cliArgs.manualFile)}`);
+
+    const result = await writeManualTournamentArtifacts(
+      cliArgs.manualFile,
+      weekWindow,
+      outputPaths
+    );
+
+    console.log("");
+    console.log("Finalizado.");
+    console.log(`Torneios manuais da semana oficial: ${result.tournaments.length}`);
+    console.log(
+      `Torneios manuais caindo nesta semana: ${result.droppingTournaments.length}`
+    );
+
+    if (result.duplicateCurrentKeys.length || result.duplicateDroppingKeys.length) {
+      console.log("");
+      console.log("Duplicatas ignoradas:");
+      for (const duplicate of [
+        ...result.duplicateCurrentKeys,
+        ...result.duplicateDroppingKeys,
+      ]) {
+        console.log(`${duplicate.tournament_key}: ${duplicate.count} ocorrencias`);
+      }
+    }
+
+    console.log("");
+    console.log("Arquivos gerados:");
+    console.log(outputPaths.cleanOutputFile);
+    console.log(outputPaths.debugAllFile);
+    console.log(outputPaths.rawOutputFile);
+
+    return;
+  }
 
   const browser = await chromium.launch({
     headless: IS_CI ? true : false,
@@ -692,35 +952,8 @@ export async function main(cliArgs = parseArgs()) {
       "utf8"
     );
 
-    const columns = [
-      "week_start",
-      "week_end",
-      "search_start",
-      "search_end",
-      "tournament_id",
-      "tournament_key",
-      "tournament_name",
-      "promotional_name",
-      "category",
-      "host_nation",
-      "host_nation_code",
-      "location",
-      "venue",
-      "start_date",
-      "end_date",
-      "dates_raw",
-      "surface",
-      "surface_code",
-      "indoor_outdoor",
-      "tournament_link",
-      "live_link",
-      "source_url",
-      "collected_at",
-      "raw_json",
-    ];
-
-    await writeCsv(outputPaths.cleanOutputFile, tournaments, columns);
-    await writeCsv(outputPaths.debugAllFile, debugAll, columns);
+    await writeCsv(outputPaths.cleanOutputFile, tournaments, TOURNAMENT_COLUMNS);
+    await writeCsv(outputPaths.debugAllFile, debugAll, TOURNAMENT_COLUMNS);
 
     console.log("");
     console.log("Finalizado.");
