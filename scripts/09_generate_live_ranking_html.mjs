@@ -4197,6 +4197,8 @@ body.official-ranking-view .side {
 
     function getCountryDisplayName(country) {
       if (!country) return "";
+      if (country.code === "BRA") return "Brasil (Top 1000)";
+
       return country.name && country.name !== country.code
         ? country.code + " - " + country.name
         : country.code;
@@ -4228,7 +4230,7 @@ body.official-ranking-view .side {
       }
 
       countrySuggestions.innerHTML = suggestions.map((country) => {
-        const label = escapeHtmlClient(country.name || country.code);
+        const label = escapeHtmlClient(getCountryDisplayName(country) || country.name || country.code);
         const code = escapeHtmlClient(country.code);
 
         return \`
