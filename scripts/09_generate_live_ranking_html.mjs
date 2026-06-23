@@ -681,6 +681,8 @@ function getDisplayRoundLabel(round) {
   const text = cleanText(round);
   const normalized = normalizeRoundLabel(text);
 
+  if (normalized === "RR") return "Round-robin";
+
   return normalized || text;
 }
 
@@ -695,10 +697,24 @@ function isQualifyingClassification(row) {
   );
 }
 
+function isRoundRobinParticipation(row) {
+  const status = cleanText(row.status).toLowerCase();
+  const roundName = cleanText(row.highest_round_name).toLowerCase();
+
+  return (
+    status === "round_robin" ||
+    roundName.includes("round-robin") ||
+    roundName.includes("round robin") ||
+    normalizeRoundLabel(row.highest_round_name) === "RR"
+  );
+}
+
 function isProjectionEligibleRoundLabel(round) {
   const text = cleanText(round).toUpperCase();
+  const normalized = normalizeRoundLabel(text);
 
   if (!text) return false;
+  if (normalized === "RR") return false;
   if (text === "Q") return false;
   if (/^Q\d+$/.test(text)) return false;
   if (text.includes("QUALY")) return false;
@@ -737,6 +753,7 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
 
   function getTechnicalRoundFromOrder(row) {
     if (isQualifyingClassification(row)) return "";
+    if (isRoundRobinParticipation(row)) return "";
 
     const order = toNumber(row.highest_round_order);
     const maxOrder = maxRoundOrderByEvent.get(getDrawEventKey(row)) || 0;
@@ -841,7 +858,8 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
     if (eventType === "singles") {
       participation.singlesStatus = cleanText(row.status).toLowerCase();
       participation.singlesRound = technicalRound;
-      participation.singlesProjectionEligible = !isQualifyingClassification(row);
+      participation.singlesProjectionEligible =
+        !isQualifyingClassification(row) && !isRoundRobinParticipation(row);
 
       if (roundLabel) {
         participation.singlesSummary = `Simples: ${roundLabel}`;
@@ -851,7 +869,8 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
     if (eventType === "doubles") {
       participation.doublesStatus = cleanText(row.status).toLowerCase();
       participation.doublesRound = technicalRound;
-      participation.doublesProjectionEligible = !isQualifyingClassification(row);
+      participation.doublesProjectionEligible =
+        !isQualifyingClassification(row) && !isRoundRobinParticipation(row);
 
       if (roundLabel) {
         participation.doublesSummary = `Duplas: ${roundLabel}`;
@@ -1190,6 +1209,8 @@ function normalizeRoundLabel(value) {
 
   if (!text) return "";
   if (/^Q[1-3]$/.test(text) || text === "Q") return text;
+  if (text === "RR" || text === "ROUND-ROBIN" || text === "ROUND ROBIN") return "RR";
+  if (text === "GROUP" || text.startsWith("GROUP ")) return "RR";
   if (text === "WR" || text === "WINNER" || text === "CHAMPION") return "W";
   if (text === "RU" || text === "RUNNER-UP" || text === "RUNNER UP") return "F";
   if (text === "FINAL" || text === "FINALS" || text === "FINAL ROUND") return "F";

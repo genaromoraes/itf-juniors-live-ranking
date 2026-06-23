@@ -372,7 +372,22 @@ function getQualifyingRoundLabel(row, maxRoundOrderByEvent) {
   return "Q1";
 }
 
+function isRoundRobinResult(row) {
+  const status = cleanText(row.status).toLowerCase();
+  const roundName = cleanText(row.highest_round_name).toLowerCase();
+
+  return (
+    status === "round_robin" ||
+    roundName.includes("round-robin") ||
+    roundName.includes("round robin")
+  );
+}
+
 function getRoundLabelFromResult(row, maxRoundOrderByEvent, drawSizeByEvent) {
+  if (isRoundRobinResult(row)) {
+    return "RR";
+  }
+
   const eventClassification = normalizeEventClassification(row.event_classification_code);
 
   if (eventClassification === "qualifying") {
@@ -393,6 +408,10 @@ function isMainDrawFirstRoundLoss(row) {
 }
 
 export function getLivePoints(row, roundLabel, pointsMap) {
+  if (roundLabel === "RR" || isRoundRobinResult(row)) {
+    return 0;
+  }
+
   if (isMainDrawFirstRoundLoss(row)) {
     return 0;
   }

@@ -118,6 +118,45 @@ test("main-draw rows use technical round labels instead of raw round numbers", (
   assert.equal(participation.singlesSummary, "Simples: R32");
 });
 
+test("round-robin rows appear as participation without projection eligibility", () => {
+  const map = buildWeekParticipationMap(
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J60-NED-2026-001",
+        tournament_name: "J60 Hilversum",
+        category: "J60",
+        end_date: "2026-06-28",
+        event_type: "singles",
+        match_type_code: "S",
+        player_type_code: "G",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        highest_round_order: "1",
+        highest_round_name: "Round-robin",
+        status: "round_robin",
+      },
+    ],
+    [],
+    [
+      {
+        tournament_key: "J-J60-NED-2026-001",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_order: "1",
+      },
+    ]
+  );
+
+  const participation = map.get("1");
+
+  assert.ok(participation);
+  assert.equal(participation.singlesProjectionEligible, false);
+  assert.equal(participation.singlesRound, "");
+  assert.equal(participation.singlesSummary, "Simples: Round-robin");
+});
+
 test("main-draw summaries normalize runner-up and winner labels", () => {
   const map = buildWeekParticipationMap(
     [

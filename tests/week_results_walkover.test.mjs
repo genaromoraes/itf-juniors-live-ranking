@@ -195,4 +195,82 @@ describe("week results walkover advancement", () => {
     assert.equal(duda.highest_round_name, "Final");
     assert.equal(duda.status, "champion");
   });
+
+  test("extracts round-robin groups as participation without awarding live points", () => {
+    const drawsheet = {
+      eventId: "event-girls-round-robin",
+      rrGroups: [
+        {
+          groupName: "Group E",
+          teams: [
+            {
+              ...team("800700001", "Kauany", "Rodrigues"),
+              matches: [
+                {
+                  matchId: "rr-1",
+                  playStatusCode: "TP",
+                  playStatusDesc: "To be played",
+                  teams: [
+                    team("800700001", "Kauany", "Rodrigues"),
+                    team("800700002", "Luisa", "Fusil", "SLO"),
+                  ],
+                },
+              ],
+            },
+            team("800700002", "Luisa", "Fusil", "SLO"),
+          ],
+        },
+      ],
+    };
+
+    const matches = extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament);
+    const rrMatch = matches.find((row) => row.match_id === "rr-1");
+
+    assert.equal(matches.length, 1);
+    assert.equal(rrMatch.drawsheet_structure_code, "RR");
+    assert.equal(rrMatch.drawsheet_structure_desc, "Round-robin");
+    assert.equal(rrMatch.round_name, "Round-robin");
+    assert.equal(rrMatch.group_name, "Group E");
+
+    const playerResults = buildPlayerResultsFromMatches(matches);
+    const kauany = playerResults.find((row) => row.player_id === "800700001");
+
+    assert.ok(kauany);
+    assert.equal(kauany.highest_round_name, "Round-robin");
+    assert.equal(kauany.status, "round_robin");
+
+    const livePoints = buildLivePointRows(playerResults, matches, new Map()).find(
+      (row) => row.player_id === "800700001"
+    );
+
+    assert.equal(livePoints.calculated_round_label, "RR");
+    assert.equal(livePoints.live_points_raw, 0);
+  });
+
+  test("creates round-robin participation from group teams when matches are absent", () => {
+    const drawsheet = {
+      eventId: "event-girls-round-robin",
+      rrGroups: [
+        {
+          groupName: "Group E",
+          teams: [
+            team("800700001", "Kauany", "Rodrigues"),
+            team("800700002", "Luisa", "Fusil", "SLO"),
+          ],
+        },
+      ],
+    };
+
+    const matches = extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament);
+    const playerResults = buildPlayerResultsFromMatches(matches);
+    const playerIds = new Set(playerResults.map((row) => row.player_id));
+
+    assert.equal(matches.length, 2);
+    assert.ok(playerIds.has("800700001"));
+    assert.ok(playerIds.has("800700002"));
+    assert.equal(
+      playerResults.find((row) => row.player_id === "800700001").status,
+      "round_robin"
+    );
+  });
 });

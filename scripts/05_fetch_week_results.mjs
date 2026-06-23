@@ -302,9 +302,108 @@ function getMatchesFromRound(round) {
   return [];
 }
 
+function getRoundRobinMatchesFromGroup(group) {
+  const matches = new Map();
+  const addMatch = (match) => {
+    if (!match || typeof match !== "object") return;
+
+    const key = cleanText(match.matchId) || JSON.stringify(match);
+    if (!key || matches.has(key)) return;
+
+    matches.set(key, match);
+  };
+
+  for (const match of getMatchesFromRound(group)) {
+    addMatch(match);
+  }
+
+  for (const team of Array.isArray(group?.teams) ? group.teams : []) {
+    for (const match of Array.isArray(team?.matches) ? team.matches : []) {
+      addMatch(match);
+    }
+  }
+
+  return [...matches.values()];
+}
+
+function buildRoundRobinParticipationMatches(group) {
+  const teams = Array.isArray(group?.teams) ? group.teams : [];
+
+  return teams
+    .filter((team) => getTeamPlayerIds(team))
+    .map((team, index) => ({
+      matchId: `rr-participation-${cleanText(group?.groupName) || "group"}-${index + 1}`,
+      playStatusCode: "RR",
+      playStatusDesc: "Round-robin",
+      teams: [team, {}],
+    }));
+}
+
+function createMatchRow({
+  drawsheet,
+  eventInfo,
+  tournament,
+  group,
+  roundName,
+  roundOrder,
+  match,
+  winnerSide,
+  structureCode,
+  structureDesc,
+}) {
+  const teams = match.teams || [];
+  const team1 = teams[0] || {};
+  const team2 = teams[1] || {};
+
+  return {
+    tournament_key: tournament.tournament_key,
+    tournament_name: tournament.tournament_name,
+    category: tournament.category,
+    start_date: tournament.start_date,
+    end_date: tournament.end_date,
+    tournament_id: eventInfo.tournamentId,
+    event_id: drawsheet?.eventId || "",
+    player_type_code: eventInfo.playerTypeCode,
+    player_type_desc: eventInfo.playerTypeDesc,
+    match_type_code: eventInfo.matchTypeCode,
+    match_type_desc: eventInfo.matchTypeDesc,
+    event_classification_code: eventInfo.eventClassificationCode,
+    event_classification_desc: eventInfo.eventClassificationDesc,
+    drawsheet_structure_code: structureCode || eventInfo.drawsheetStructureCode,
+    drawsheet_structure_desc: structureDesc || eventInfo.drawsheetStructureDesc,
+    group_name: cleanText(group?.groupName),
+    round_name: roundName,
+    round_order: roundOrder,
+    match_id: match.matchId || "",
+    play_status_code: cleanText(match.playStatusCode),
+    play_status_desc: cleanText(match.playStatusDesc),
+    result_status_code: cleanText(match.resultStatusCode),
+    result_status_desc: cleanText(match.resultStatusDesc),
+    team1_player_ids: getTeamPlayerIds(team1),
+    team1_names: getTeamName(team1),
+    team1_nationalities: getTeamNationalities(team1),
+    team1_seed: cleanText(team1.seeding),
+    team1_entry_status: cleanText(team1.entryStatus),
+    team2_player_ids: getTeamPlayerIds(team2),
+    team2_names: getTeamName(team2),
+    team2_nationalities: getTeamNationalities(team2),
+    team2_seed: cleanText(team2.seeding),
+    team2_entry_status: cleanText(team2.entryStatus),
+    winner_side: winnerSide,
+    winner_names:
+      winnerSide === 1 ? getTeamName(team1) : winnerSide === 2 ? getTeamName(team2) : "",
+    score: formatScore(match),
+    h2h_link: normalizeUrl(match.h2hLink),
+    live_scores_link: normalizeUrl(match.liveScoresLink),
+    raw_json: JSON.stringify(match),
+    collected_at: new Date().toISOString(),
+  };
+}
+
 export function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
   const matches = [];
   const koGroups = Array.isArray(drawsheet?.koGroups) ? drawsheet.koGroups : [];
+  const rrGroups = Array.isArray(drawsheet?.rrGroups) ? drawsheet.rrGroups : [];
 
   for (let groupIndex = 0; groupIndex < koGroups.length; groupIndex++) {
     const group = koGroups[groupIndex];
@@ -318,9 +417,6 @@ export function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
       const roundMatches = getMatchesFromRound(round);
 
       for (const match of roundMatches) {
-        const teams = match.teams || [];
-        const team1 = teams[0] || {};
-        const team2 = teams[1] || {};
         const winnerSide =
           findWinnerSide(match) ||
           inferWinnerSideFromLaterRounds(
@@ -328,50 +424,42 @@ export function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
             laterRoundPlayerIdsByRound.get(roundIndex) || new Set()
           );
 
-        matches.push({
-          tournament_key: tournament.tournament_key,
-          tournament_name: tournament.tournament_name,
-          category: tournament.category,
-          start_date: tournament.start_date,
-          end_date: tournament.end_date,
-          tournament_id: eventInfo.tournamentId,
-          event_id: drawsheet?.eventId || "",
-          player_type_code: eventInfo.playerTypeCode,
-          player_type_desc: eventInfo.playerTypeDesc,
-          match_type_code: eventInfo.matchTypeCode,
-          match_type_desc: eventInfo.matchTypeDesc,
-          event_classification_code: eventInfo.eventClassificationCode,
-          event_classification_desc: eventInfo.eventClassificationDesc,
-          drawsheet_structure_code: eventInfo.drawsheetStructureCode,
-          drawsheet_structure_desc: eventInfo.drawsheetStructureDesc,
-          group_name: cleanText(group?.groupName),
-          round_name: roundName,
-          round_order: roundOrder,
-          match_id: match.matchId || "",
-          play_status_code: cleanText(match.playStatusCode),
-          play_status_desc: cleanText(match.playStatusDesc),
-          result_status_code: cleanText(match.resultStatusCode),
-          result_status_desc: cleanText(match.resultStatusDesc),
-          team1_player_ids: getTeamPlayerIds(team1),
-          team1_names: getTeamName(team1),
-          team1_nationalities: getTeamNationalities(team1),
-          team1_seed: cleanText(team1.seeding),
-          team1_entry_status: cleanText(team1.entryStatus),
-          team2_player_ids: getTeamPlayerIds(team2),
-          team2_names: getTeamName(team2),
-          team2_nationalities: getTeamNationalities(team2),
-          team2_seed: cleanText(team2.seeding),
-          team2_entry_status: cleanText(team2.entryStatus),
-          winner_side: winnerSide,
-          winner_names:
-            winnerSide === 1 ? getTeamName(team1) : winnerSide === 2 ? getTeamName(team2) : "",
-          score: formatScore(match),
-          h2h_link: normalizeUrl(match.h2hLink),
-          live_scores_link: normalizeUrl(match.liveScoresLink),
-          raw_json: JSON.stringify(match),
-          collected_at: new Date().toISOString(),
-        });
+        matches.push(
+          createMatchRow({
+            drawsheet,
+            eventInfo,
+            tournament,
+            group,
+            roundName,
+            roundOrder,
+            match,
+            winnerSide,
+          })
+        );
       }
+    }
+  }
+
+  for (const group of rrGroups) {
+    const roundRobinMatches = getRoundRobinMatchesFromGroup(group);
+    const participationMatches =
+      roundRobinMatches.length > 0 ? roundRobinMatches : buildRoundRobinParticipationMatches(group);
+
+    for (const match of participationMatches) {
+      matches.push(
+        createMatchRow({
+          drawsheet,
+          eventInfo,
+          tournament,
+          group,
+          roundName: "Round-robin",
+          roundOrder: 1,
+          match,
+          winnerSide: findWinnerSide(match),
+          structureCode: "RR",
+          structureDesc: "Round-robin",
+        })
+      );
     }
   }
 
@@ -663,12 +751,33 @@ function getMatchEventKey(match) {
   ].join("|");
 }
 
+function isRoundRobinMatch(match) {
+  const structureCode = cleanText(match.drawsheet_structure_code).toUpperCase();
+  const text = [
+    match.drawsheet_structure_desc,
+    match.round_name,
+    match.group_name,
+    match.play_status_desc,
+  ]
+    .map(cleanText)
+    .join(" ")
+    .toLowerCase();
+
+  return (
+    structureCode === "RR" ||
+    text.includes("round-robin") ||
+    text.includes("round robin")
+  );
+}
+
 export function buildPlayerResultsFromMatches(matches) {
   const map = new Map();
   const maxRoundOrderByEvent = new Map();
   const completedFinalEvents = new Set();
 
   for (const match of matches) {
+    if (isRoundRobinMatch(match)) continue;
+
     const eventKey = getMatchEventKey(match);
     const roundOrder = Number(match.round_order || 0);
 
@@ -681,6 +790,8 @@ export function buildPlayerResultsFromMatches(matches) {
   }
 
   for (const match of matches) {
+    if (isRoundRobinMatch(match)) continue;
+
     const eventKey = getMatchEventKey(match);
     const roundOrder = Number(match.round_order || 0);
     const maxRoundOrder = maxRoundOrderByEvent.get(eventKey) || 0;
@@ -693,6 +804,7 @@ export function buildPlayerResultsFromMatches(matches) {
   for (const match of matches) {
     const eventKey = getMatchEventKey(match);
     const eventHasCompletedFinal = completedFinalEvents.has(eventKey);
+    const roundRobinMatch = isRoundRobinMatch(match);
     const team1Players = splitTeamPlayers(match, 1);
     const team2Players = splitTeamPlayers(match, 2);
     const allSides = [
@@ -746,6 +858,22 @@ export function buildPlayerResultsFromMatches(matches) {
 
         const row = map.get(key);
 
+        if (roundRobinMatch) {
+          if (Number(match.round_order || 0) >= Number(row.highest_round_order || 0)) {
+            row.highest_round_order = match.round_order || 1;
+            row.highest_round_name = "Round-robin";
+            row.last_match_id = match.match_id;
+            row.last_match_status = match.play_status_desc;
+            row.status = "round_robin";
+          }
+
+          continue;
+        }
+
+        if (row.status === "round_robin") {
+          row.status = "unknown";
+        }
+
         if (completed) {
           row.matches_played += 1;
 
@@ -770,6 +898,10 @@ export function buildPlayerResultsFromMatches(matches) {
   }
 
   for (const row of map.values()) {
+    if (row.status === "round_robin" && cleanText(row.highest_round_name) === "Round-robin") {
+      continue;
+    }
+
     const eventKey = getMatchEventKey(row);
     const eventHasCompletedFinal = completedFinalEvents.has(eventKey);
     const maxRoundOrder = maxRoundOrderByEvent.get(eventKey) || 0;
