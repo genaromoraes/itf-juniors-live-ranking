@@ -3605,6 +3605,18 @@ body.official-ranking-view .side {
       </div>
 
       <div class="filter">
+        <label id="displayScopeLabel">Escopo</label>
+        <div class="segmented-control" role="group" aria-label="Escopo de exibição">
+          <button type="button" class="active" data-display-scope-option="TOP500">Top 500</button>
+          <button type="button" data-display-scope-option="BRA_TOP1000">Brasil 1000</button>
+        </div>
+        <select id="displayScopeFilter" class="visually-hidden" aria-label="Escopo de exibição">
+          <option value="TOP500" selected>Top 500</option>
+          <option value="BRA_TOP1000">Brasil 1000</option>
+        </select>
+      </div>
+
+      <div class="filter">
         <label id="categoryLabel">Categoria</label>
         <div class="segmented-control" role="group" aria-label="Filtrar categoria">
           <button type="button" class="active" data-gender-option="M">Masculino</button>
@@ -3757,6 +3769,8 @@ body.official-ranking-view .side {
     const generationRankingFilter = document.getElementById("generationRankingFilter");
     const rankingModeButtons = Array.from(document.querySelectorAll("[data-ranking-mode-option]"));
     const turnoverRankingButton = document.getElementById("turnoverRankingButton");
+    const displayScopeFilter = document.getElementById("displayScopeFilter");
+    const displayScopeButtons = Array.from(document.querySelectorAll("[data-display-scope-option]"));
     const languageButtons = Array.from(document.querySelectorAll("[data-language-option]"));
     const themeToggle = document.getElementById("themeToggle");
     const genderFilter = document.getElementById("genderFilter");
@@ -3795,6 +3809,11 @@ body.official-ranking-view .side {
         turnoverBase: "Virada",
         turnover: "Virada de ano",
         turnoverTitle: "Ranking sem atletas nascidos em ",
+        displayScope: "Escopo",
+        displayScopeType: "Escopo de exibição",
+        top500Scope: "Top 500",
+        brazilTop1000Scope: "Brasil 1000",
+        brazilTop1000Summary: "Brasileiros Top 1000",
         category: "Categoria",
         filterCategory: "Filtrar categoria",
         boys: "Masculino",
@@ -3875,6 +3894,11 @@ body.official-ranking-view .side {
         turnoverBase: "Turnover",
         turnover: "Year-end turnover",
         turnoverTitle: "Ranking without players born in ",
+        displayScope: "Scope",
+        displayScopeType: "Display scope",
+        top500Scope: "Top 500",
+        brazilTop1000Scope: "Brazil 1000",
+        brazilTop1000Summary: "Brazilian Top 1000 players",
         category: "Category",
         filterCategory: "Filter category",
         boys: "Boys",
@@ -3955,6 +3979,11 @@ body.official-ranking-view .side {
         turnoverBase: "Cambio de año",
         turnover: "Cambio de año",
         turnoverTitle: "Ranking sin jugadores nacidos en ",
+        displayScope: "Alcance",
+        displayScopeType: "Alcance de visualización",
+        top500Scope: "Top 500",
+        brazilTop1000Scope: "Brasil 1000",
+        brazilTop1000Summary: "Brasileños Top 1000",
         category: "Categoría",
         filterCategory: "Filtrar categoría",
         boys: "Masculino",
@@ -4142,6 +4171,7 @@ body.official-ranking-view .side {
       setText("athleteSearchLabel", t("athleteSearch"));
       setText("countrySearchLabel", t("countrySearch"));
       setText("rankingModeLabel", t("ranking"));
+      setText("displayScopeLabel", t("displayScope"));
       setText("categoryLabel", t("category"));
       setText("sortLabel", t("sortBy"));
       setText("weeklyFilterLabel", t("weeklyFilter"));
@@ -4162,7 +4192,21 @@ body.official-ranking-view .side {
       countryClearButton.setAttribute("aria-label", t("clearCountry"));
       countrySuggestions.setAttribute("aria-label", t("countrySuggestions"));
       document.querySelector("[aria-label='Tipo de ranking']")?.setAttribute("aria-label", t("rankingType"));
+      document.querySelector("[aria-label='Escopo de exibição']")?.setAttribute("aria-label", t("displayScopeType"));
       document.querySelector("[aria-label='Filtrar categoria']")?.setAttribute("aria-label", t("filterCategory"));
+
+      displayScopeButtons.forEach((button) => {
+        button.textContent =
+          button.getAttribute("data-display-scope-option") === "BRA_TOP1000"
+            ? t("brazilTop1000Scope")
+            : t("top500Scope");
+      });
+      Array.from(displayScopeFilter.options).forEach((option) => {
+        option.textContent =
+          option.value === "BRA_TOP1000"
+            ? t("brazilTop1000Scope")
+            : t("top500Scope");
+      });
 
       genderButtons.forEach((button) => {
         button.textContent = button.getAttribute("data-gender-option") === "M" ? t("boys") : t("girls");
@@ -4444,6 +4488,24 @@ body.official-ranking-view .side {
       return generationRankingFilter.value !== "ALL";
     }
 
+    function isBrazilTop1000ScopeActive() {
+      return displayScopeFilter.value === "BRA_TOP1000";
+    }
+
+    function isBrazilianPlayer(row) {
+      return String(row.country || "").toUpperCase() === "BRA";
+    }
+
+    function isTrackedTop1000Player(row) {
+      const liveRank = Number(row.live_rank || 0);
+      const officialRank = Number(row.official_rank || 0);
+
+      return (
+        (liveRank > 0 && liveRank <= 1000) ||
+        (officialRank > 0 && officialRank <= 1000)
+      );
+    }
+
     function getGenerationLabel() {
       const selectedOption = generationRankingFilter.options[generationRankingFilter.selectedIndex];
       return selectedOption ? selectedOption.textContent : t("fullRanking");
@@ -4717,7 +4779,11 @@ body.official-ranking-view .side {
         return false;
       }
 
-      if (!isGenerationRankingActive() && Number(row.live_rank || 0) > 500) {
+      if (isBrazilTop1000ScopeActive()) {
+        if (!isBrazilianPlayer(row) || !isTrackedTop1000Player(row)) {
+          return false;
+        }
+      } else if (!isGenerationRankingActive() && Number(row.live_rank || 0) > 500) {
         return false;
       }
 
@@ -4733,7 +4799,11 @@ body.official-ranking-view .side {
         return false;
       }
 
-      if (selectedCountry && String(row.country || "").toUpperCase() !== selectedCountry.code) {
+      if (
+        !isBrazilTop1000ScopeActive() &&
+        selectedCountry &&
+        String(row.country || "").toUpperCase() !== selectedCountry.code
+      ) {
         return false;
       }
 
@@ -4788,6 +4858,7 @@ body.official-ranking-view .side {
     }
 
     function passesDisplayLimit(row) {
+      if (isBrazilTop1000ScopeActive()) return true;
       if (!isGenerationRankingActive()) return true;
 
       const rank = getDisplayRank(row);
@@ -4885,6 +4956,14 @@ body.official-ranking-view .side {
     function updateRankingModeControl() {
       rankingModeButtons.forEach((button) => {
         const active = button.getAttribute("data-ranking-mode-option") === generationRankingFilter.value;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
+    function updateDisplayScopeControl() {
+      displayScopeButtons.forEach((button) => {
+        const active = button.getAttribute("data-display-scope-option") === displayScopeFilter.value;
         button.classList.toggle("active", active);
         button.setAttribute("aria-pressed", active ? "true" : "false");
       });
@@ -5367,6 +5446,7 @@ body.official-ranking-view .side {
       updateSortHeaders();
       updateGenderControl();
       updateRankingModeControl();
+      updateDisplayScopeControl();
       document.body.classList.toggle("official-ranking-view", sortColumn === "OFFICIAL_RANK");
 
       const summaryLocale = currentLanguage === "en"
@@ -5375,7 +5455,11 @@ body.official-ranking-view .side {
           ? "es-ES"
           : "pt-BR";
       visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString(summaryLocale) + '</strong> ' + t("playersShown") +
-        (selectedCountry ? ' · ' + escapeHtmlClient(selectedCountry.code) : '') +
+        (isBrazilTop1000ScopeActive()
+          ? ' · ' + escapeHtmlClient(t("brazilTop1000Summary"))
+          : selectedCountry
+            ? ' · ' + escapeHtmlClient(selectedCountry.code)
+            : '') +
         (isGenerationRankingActive() ? ' · ' + escapeHtmlClient(getGenerationLabel()) : '');
 
       if (selectedPlayerId && !rows.some((row) => row.player_id === selectedPlayerId)) {
@@ -5489,6 +5573,17 @@ body.official-ranking-view .side {
       button.addEventListener("click", () => {
         generationRankingFilter.value = button.getAttribute("data-ranking-mode-option");
         generationRankingFilter.dispatchEvent(new Event("change"));
+      });
+    });
+    displayScopeFilter.addEventListener("change", () => {
+      selectedPlayerId = "";
+      renderProfile(null);
+      renderTable();
+    });
+    displayScopeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        displayScopeFilter.value = button.getAttribute("data-display-scope-option");
+        displayScopeFilter.dispatchEvent(new Event("change"));
       });
     });
     themeToggle.addEventListener("change", () => {
