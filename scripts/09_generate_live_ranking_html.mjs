@@ -4067,9 +4067,12 @@ body.official-ranking-view .side {
       current.count += 1;
       map.set(code, current);
       return map;
-    }, new Map()).values()].sort((a, b) =>
-      normalizeSearchText(a.name).localeCompare(normalizeSearchText(b.name), "pt-BR")
-    );
+    }, new Map()).values()].sort((a, b) => {
+      if (a.code === "BRA" && b.code !== "BRA") return -1;
+      if (b.code === "BRA" && a.code !== "BRA") return 1;
+
+      return normalizeSearchText(a.name).localeCompare(normalizeSearchText(b.name), "pt-BR");
+    });
 
     const tournamentSurfaceMap = new Map();
     for (const group of tournamentGroups) {
