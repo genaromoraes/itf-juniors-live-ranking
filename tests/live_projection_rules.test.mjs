@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { buildWeekParticipationMap } from "../scripts/09_generate_live_ranking_html.mjs";
+import {
+  buildDataForHtml,
+  buildWeekParticipationMap,
+} from "../scripts/09_generate_live_ranking_html.mjs";
 
 test("qualifying players stay out of main-draw projection scenarios", () => {
   const map = buildWeekParticipationMap(
@@ -155,6 +158,44 @@ test("round-robin rows appear as participation without projection eligibility", 
   assert.equal(participation.singlesProjectionEligible, false);
   assert.equal(participation.singlesRound, "");
   assert.equal(participation.singlesSummary, "Simples: Round-robin");
+});
+
+test("round-robin players can show title projection without next-round projection", () => {
+  const participationMap = buildWeekParticipationMap(
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J60-NED-2026-001",
+        tournament_name: "J60 Hilversum",
+        category: "J60",
+        end_date: "2026-06-28",
+        event_type: "singles",
+        match_type_code: "S",
+        player_type_code: "G",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        highest_round_order: "1",
+        highest_round_name: "Round-robin",
+        status: "round_robin",
+      },
+    ],
+    [],
+    []
+  );
+  const [row] = buildDataForHtml(
+    [
+      {
+        player_id: "1",
+        gender: "F",
+        live_points: "100",
+      },
+    ],
+    participationMap
+  );
+
+  assert.equal(row.next_round_scenarios.length, 0);
+  assert.equal(row.title_scenarios.length, 1);
+  assert.equal(row.title_scenarios[0].targetRound, "W");
 });
 
 test("main-draw summaries normalize runner-up and winner labels", () => {

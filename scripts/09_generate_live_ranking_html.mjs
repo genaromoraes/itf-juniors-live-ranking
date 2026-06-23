@@ -1361,7 +1361,7 @@ function getMeaningfulProjectionScenarios(scenarios, livePoints) {
   );
 }
 
-function shouldProjectEvent(row, weekParticipationMap, eventType) {
+function shouldProjectEvent(row, weekParticipationMap, eventType, scenarioType = "nextRound") {
   const participation = weekParticipationMap.get(cleanText(row.player_id));
 
   if (!participation) return false;
@@ -1372,17 +1372,21 @@ function shouldProjectEvent(row, weekParticipationMap, eventType) {
       ? participation.singlesProjectionEligible
       : participation.doublesProjectionEligible;
 
-  if (!projectionEligible) return false;
-
   const status =
     eventType === "singles"
       ? cleanText(participation.singlesStatus).toLowerCase()
       : cleanText(participation.doublesStatus).toLowerCase();
 
+  if (status === "round_robin") {
+    return scenarioType === "title";
+  }
+
+  if (!projectionEligible) return false;
+
   return status === "still_alive_or_champion" || status === "not_started_or_unknown";
 }
 
-function buildDataForHtml(
+export function buildDataForHtml(
   rows,
   weekParticipationMap = new Map(),
   pointDetailsMap = new Map(),
@@ -1464,10 +1468,10 @@ function buildDataForHtml(
       const singles = getBestSingles(row);
       const doubles = getBestDoubles(row);
       const participation = weekParticipationMap.get(cleanText(row.player_id));
-      const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles")
+      const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles", "title")
         ? getProjectedScenario(singles, livePoints, "singles", 1, participation)
         : { nextRound: null, title: null };
-      const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles")
+      const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles", "title")
         ? getProjectedScenario(doubles, livePoints, "doubles", 0.25, participation)
         : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
