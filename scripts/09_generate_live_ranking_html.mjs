@@ -1492,8 +1492,41 @@ export function buildDataForHtml(
   }));
 }
 
-function groupWeekTournaments(tournaments) {
+function buildTournamentProgress(matches) {
+  const progressByKey = new Map();
+
+  for (const row of matches) {
+    const tournamentKey = cleanText(row.tournament_key);
+    const tournamentName = cleanText(row.tournament_name).toLowerCase();
+    const key = tournamentKey || tournamentName;
+    const resultStatus = cleanText(row.result_status_code).toUpperCase();
+    const playStatus = cleanText(row.play_status_code).toUpperCase();
+    const winnerSide = cleanText(row.winner_side);
+
+    if (!key || resultStatus === "BYE") continue;
+
+    if (!progressByKey.has(key)) {
+      progressByKey.set(key, { completed: 0, total: 0 });
+    }
+
+    const progress = progressByKey.get(key);
+    progress.total += 1;
+
+    if (
+      playStatus === "PC" ||
+      winnerSide ||
+      ["WO", "W/O", "RET", "DEF", "ABD"].includes(resultStatus)
+    ) {
+      progress.completed += 1;
+    }
+  }
+
+  return progressByKey;
+}
+
+function groupWeekTournaments(tournaments, matches = []) {
   const map = new Map();
+  const progressByKey = buildTournamentProgress(matches);
 
   function getTournamentDisplayName(name, category) {
     const escapedCategory = category.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -1508,6 +1541,14 @@ function groupWeekTournaments(tournaments) {
     const surface = cleanText(row.surface);
     const surfaceCode = cleanText(row.surface_code).toUpperCase();
     const surfaceKey = getSurfaceKey(surface, surfaceCode);
+    const tournamentKey = cleanText(row.tournament_key);
+    const progress = tournamentKey
+      ? progressByKey.get(tournamentKey)
+      : progressByKey.get(name.toLowerCase());
+    const normalizedProgress = progress || { completed: 0, total: 0 };
+    const progressPercent = normalizedProgress.total
+      ? Math.round((normalizedProgress.completed / normalizedProgress.total) * 100)
+      : 0;
 
     if (!name) continue;
 
@@ -1526,6 +1567,9 @@ function groupWeekTournaments(tournaments) {
       surface,
       surfaceCode,
       surfaceKey,
+      completedMatches: normalizedProgress.completed,
+      totalMatches: normalizedProgress.total,
+      progressPercent,
     });
   }
 
@@ -1603,6 +1647,7 @@ function getStats(rows) {
 function buildHtml(
   rows,
   weekTournaments,
+  weekMatches,
   weekParticipationMap,
   pointDetailsMap,
   pointCartelMap
@@ -1614,7 +1659,7 @@ function buildHtml(
     pointCartelMap
   );
   const stats = getStats(rows);
-  const tournamentGroups = groupWeekTournaments(weekTournaments);
+  const tournamentGroups = groupWeekTournaments(weekTournaments, weekMatches);
 
   const calculatedAt = rows[0]?.calculated_at || new Date().toISOString();
   const rankingDate = rows[0]?.ranking_date || "";
@@ -2981,24 +3026,66 @@ function buildHtml(
     .tournament-list {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      gap: 4px;
+      align-items: flex-end;
+      gap: 5px 4px;
       font-size: 9px;
       line-height: 1.18;
       font-weight: 500;
     }
 
+    .tournament-progress-meta {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-bottom: 2px;
+    }
+
+    .tournament-progress-track {
+      flex: 1;
+      min-width: 18px;
+      height: 4px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(102, 120, 138, 0.15);
+    }
+
+    .tournament-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: rgba(8, 117, 109, 0.5);
+      transition: width 220ms ease;
+    }
+
+    .tournament-progress-value {
+      color: var(--muted-soft);
+      font-size: 7px;
+      line-height: 1;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tournament-progress-item {
+      display: inline-flex;
+      flex-direction: column;
+      min-width: 24px;
+      max-width: 100%;
+    }
+
     .week-tournament-name {
       display: inline-flex;
       align-items: center;
+      min-width: 24px;
       border-radius: 999px;
       padding: 1px 5px;
+      overflow: hidden;
       background: var(--cat-soft, rgba(247, 250, 249, 0.82));
       border: 1px solid var(--cat-border, var(--border-soft));
       color: var(--cat-color, var(--muted));
       font-weight: 600;
       line-height: 1.1;
       text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     :root[data-theme="dark"] .week-tournament-name {
@@ -3895,6 +3982,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Projeção<br />próx. rodada",
         titleProjection: "Projeção<br />título",
         weekTournaments: "Torneios da semana",
+        matchesCompleted: "jogos concluídos",
         athletePoints: "Pontuações do atleta",
         close: "Fechar",
         profileEmpty: "Clique em um atleta da tabela para ver o resumo de pontuação.",
@@ -3976,6 +4064,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Next round<br />projection",
         titleProjection: "Title<br />projection",
         weekTournaments: "This week's tournaments",
+        matchesCompleted: "matches completed",
         athletePoints: "Player points",
         close: "Close",
         profileEmpty: "Click a player in the table to see the points summary.",
@@ -4057,6 +4146,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Proyección<br />próx. ronda",
         titleProjection: "Proyección<br />título",
         weekTournaments: "Torneos de la semana",
+        matchesCompleted: "partidos finalizados",
         athletePoints: "Puntos del jugador",
         close: "Cerrar",
         profileEmpty: "Haz clic en un jugador de la tabla para ver el resumen de puntos.",
@@ -5015,7 +5105,7 @@ body.official-ranking-view .side {
     }
 
     function renderTournaments() {
-      weekTournaments.innerHTML = tournamentGroups.map((group) => {
+      const groupsHtml = tournamentGroups.map((group) => {
         const categoryClass = getCategoryClass(group.category);
 
         return \`
@@ -5025,17 +5115,31 @@ body.official-ranking-view .side {
               \${group.items.map((item) => {
                 const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode);
                 const className = ["week-tournament-name", getSurfaceClass(surfaceKey)].filter(Boolean).join(" ");
+                const nameHtml = item.tournamentLink
+                  ? '<a class="' + className + '" title="' + escapeHtmlClient(item.name) + '" href="' + escapeHtmlClient(item.tournamentLink) + '" target="_blank" rel="noopener noreferrer">' + escapeHtmlClient(item.displayName || item.name) + '</a>'
+                  : '<span class="' + className + '" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>';
+                const matchDetail = item.totalMatches
+                  ? item.completedMatches + '/' + item.totalMatches + ' ' + t("matchesCompleted")
+                  : t("loading");
 
-                if (item.tournamentLink) {
-                  return '<a class="' + className + '" title="' + escapeHtmlClient(item.name) + '" href="' + escapeHtmlClient(item.tournamentLink) + '" target="_blank" rel="noopener noreferrer">' + escapeHtmlClient(item.displayName || item.name) + '</a>';
-                }
-
-                return '<span class="' + className + '" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>';
+                return \`
+                  <div class="tournament-progress-item" title="\${escapeHtmlClient(matchDetail)}">
+                    <div class="tournament-progress-meta">
+                      <div class="tournament-progress-track" role="progressbar" aria-label="\${escapeHtmlClient(item.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="\${item.progressPercent}">
+                        <div class="tournament-progress-fill" style="width: \${item.progressPercent}%"></div>
+                      </div>
+                      <span class="tournament-progress-value">\${item.progressPercent}%</span>
+                    </div>
+                    \${nameHtml}
+                  </div>
+                \`;
               }).join("")}
             </div>
           </div>
         \`;
       }).join("");
+
+      weekTournaments.innerHTML = groupsHtml;
     }
 
     function renderResultCards(results) {
@@ -5685,6 +5789,7 @@ async function main() {
   const html = buildHtml(
     rows,
     weekTournaments,
+    weekMatches,
     weekParticipationMap,
     pointDetailsMap,
     pointCartelMap
