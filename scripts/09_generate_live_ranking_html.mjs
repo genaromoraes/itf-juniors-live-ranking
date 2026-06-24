@@ -3021,12 +3021,8 @@ function buildHtml(
     }
 
     .tournament-group {
-      display: grid;
-      grid-template-columns: 32px 1fr;
-      align-items: center;
-      gap: 5px;
       margin-top: 4px;
-      padding: 7px 0 3px;
+      padding: 8px 0 2px;
       border-top: 1px solid rgba(102, 120, 138, 0.24);
     }
 
@@ -3040,27 +3036,41 @@ function buildHtml(
       border-top-color: rgba(154, 172, 184, 0.28);
     }
 
-    .tournament-list {
+    .tournament-category-head {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      gap: 5px 4px;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .tournament-category-head::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border-soft);
+    }
+
+    .tournament-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
       font-size: 9px;
       line-height: 1.18;
       font-weight: 500;
     }
 
-    .tournament-progress-meta {
+    .tournament-progress-head {
       display: flex;
       align-items: center;
-      gap: 3px;
-      margin-bottom: 2px;
+      justify-content: space-between;
+      gap: 4px;
+      min-width: 0;
     }
 
     .tournament-progress-track {
-      flex: 1;
-      min-width: 18px;
-      height: 4px;
+      width: 100%;
+      height: 3px;
+      margin-top: 4px;
       overflow: hidden;
       border-radius: 999px;
       background: rgba(102, 120, 138, 0.15);
@@ -3082,21 +3092,24 @@ function buildHtml(
     }
 
     .tournament-progress-item {
-      display: inline-flex;
-      flex-direction: column;
-      min-width: 24px;
-      max-width: 100%;
+      min-width: 0;
+      padding: 5px 6px;
+      border: 1px solid var(--border-soft);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    :root[data-theme="dark"] .tournament-progress-item {
+      background: rgba(255, 255, 255, 0.025);
     }
 
     .week-tournament-name {
-      display: inline-flex;
-      align-items: center;
-      min-width: 24px;
-      border-radius: 999px;
-      padding: 1px 5px;
+      display: block;
+      min-width: 0;
+      padding: 0;
       overflow: hidden;
-      background: var(--cat-soft, rgba(247, 250, 249, 0.82));
-      border: 1px solid var(--cat-border, var(--border-soft));
+      background: transparent;
+      border: 0;
       color: var(--cat-color, var(--muted));
       font-weight: 600;
       line-height: 1.1;
@@ -3106,8 +3119,8 @@ function buildHtml(
     }
 
     :root[data-theme="dark"] .week-tournament-name {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: var(--border);
+      background: transparent;
+      border-color: transparent;
     }
 
     .profile-empty {
@@ -5127,7 +5140,7 @@ body.official-ranking-view .side {
 
         return \`
           <div class="tournament-group \${categoryClass}">
-            <div>\${getCategoryChipHtml(group.category)}</div>
+            <div class="tournament-category-head">\${getCategoryChipHtml(group.category)}</div>
             <div class="tournament-list">
               \${group.items.map((item) => {
                 const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode);
@@ -5141,13 +5154,13 @@ body.official-ranking-view .side {
 
                 return \`
                   <div class="tournament-progress-item" title="\${escapeHtmlClient(matchDetail)}">
-                    <div class="tournament-progress-meta">
-                      <div class="tournament-progress-track" role="progressbar" aria-label="\${escapeHtmlClient(item.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="\${item.progressPercent}">
-                        <div class="tournament-progress-fill" style="width: \${item.progressPercent}%"></div>
-                      </div>
+                    <div class="tournament-progress-head">
+                      \${nameHtml}
                       <span class="tournament-progress-value">\${item.progressPercent}%</span>
                     </div>
-                    \${nameHtml}
+                    <div class="tournament-progress-track" role="progressbar" aria-label="\${escapeHtmlClient(item.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="\${item.progressPercent}">
+                      <div class="tournament-progress-fill" style="width: \${item.progressPercent}%"></div>
+                    </div>
                   </div>
                 \`;
               }).join("")}
