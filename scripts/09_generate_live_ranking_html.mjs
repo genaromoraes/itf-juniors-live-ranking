@@ -3052,7 +3052,7 @@ function buildHtml(
     .tournament-progress-fill {
       height: 100%;
       border-radius: inherit;
-      background: rgba(8, 117, 109, 0.5);
+      background: rgba(102, 120, 138, 0.58);
       transition: width 220ms ease;
     }
 
