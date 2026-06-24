@@ -65,7 +65,7 @@ const STATIC_PAGES = [
         heading: "Contato",
         paragraphs: [
           'E-mail: <a href="mailto:infotenisbr@gmail.com">infotenisbr@gmail.com</a>.',
-          'Para avisos, correções e sugestões, entre em contato pelo perfil <a href="https://x.com/InfoTenisBrasil" target="_blank" rel="noopener">X @InfoTenisBrasil</a>.',
+          'Encontrou algum dado incorreto? <a href="https://x.com/messages/compose?recipient_id=1880677588231917568" target="_blank" rel="noopener">Envie uma mensagem direta no X para @InfoTenisBrasil</a>.',
           "Ao enviar uma correção, inclua o nome do atleta, categoria, torneio e link público da fonte quando possível.",
         ],
       },
@@ -1794,6 +1794,46 @@ function buildHtml(
       font-weight: 650;
     }
 
+    .site-footer .report-error-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .site-footer .report-error-link:hover {
+      border-color: var(--green-dark);
+    }
+
+    .floating-report-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 45;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      color: #ffffff;
+      background: var(--green-dark);
+      box-shadow: 0 8px 24px rgba(8, 117, 109, 0.24);
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 700;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .floating-report-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 11px 28px rgba(8, 117, 109, 0.30);
+    }
+
     .info-section {
       margin-top: 14px;
       padding: 18px 2px 2px;
@@ -3470,7 +3510,14 @@ body.official-ranking-view .side {
     @media (max-width: 720px) {
       .page {
         width: min(100% - 16px, 100%);
-        padding-bottom: 36px;
+        padding-bottom: 58px;
+      }
+
+      .floating-report-button {
+        right: 10px;
+        bottom: 10px;
+        padding: 8px 11px;
+        font-size: 11px;
       }
 
       .filters {
@@ -3747,12 +3794,15 @@ body.official-ranking-view .side {
     </section>
 
     <footer class="site-footer">
+      <a class="report-error-link" href="https://x.com/messages/compose?recipient_id=1880677588231917568" target="_blank" rel="noopener" aria-label="Reportar erro ou bug por mensagem direta no X">⚑ Reportar erro ou bug</a>
       <a href="sobre.html">Sobre</a>
       <a href="contato.html">Contato</a>
       <a href="privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
       <span>Site independente, sem afiliação oficial com a ITF.</span>
     </footer>
+
+    <a class="floating-report-button" href="https://x.com/messages/compose?recipient_id=1880677588231917568" target="_blank" rel="noopener" aria-label="Reportar erro ou bug por mensagem direta no X">⚑ Reportar erro ou bug</a>
 
     <div class="profile-modal" id="profileModal" aria-hidden="true" onclick="closeProfileModal()">
       <section class="side-card profile-dialog" id="profileCard" role="dialog" aria-modal="true" aria-labelledby="profileDialogTitle" onclick="event.stopPropagation()">
