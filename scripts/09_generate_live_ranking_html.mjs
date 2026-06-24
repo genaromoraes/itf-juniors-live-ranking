@@ -1003,6 +1003,15 @@ export function buildPointDetailsMap(
   const map = new Map();
   const officialRankingDate = getOfficialRankingDateForDetails(rankingRows);
   const { weekStart, weekEnd } = getCurrentWeekWindowForDetails(weekTournaments);
+  const playersWithNoNetChange = new Set(
+    rankingRows
+      .filter((row) => {
+        const change = cleanText(row.points_change_vs_official);
+        return change !== "" && Math.abs(toNumber(change)) < 0.001;
+      })
+      .map((row) => cleanText(row.player_id))
+      .filter(Boolean)
+  );
   const playersNeedingDropExplanation = new Set(
     rankingRows
       .filter(
@@ -1031,7 +1040,7 @@ export function buildPointDetailsMap(
     const dropDateCalculated = cleanText(row.drop_date_calculated);
     const needsExplanation = playersNeedingDropExplanation.has(playerId);
 
-    if (!playerId || impactPoints <= 0) continue;
+    if (!playerId || playersWithNoNetChange.has(playerId) || impactPoints <= 0) continue;
     if (!wasCountable && !needsExplanation) continue;
     if (
       weekStart &&
@@ -1060,6 +1069,8 @@ export function buildPointDetailsMap(
     if (!playerId) continue;
 
     const details = getPlayerDetails(playerId);
+    if (playersWithNoNetChange.has(playerId)) continue;
+
     const existingKeys = new Set([
       ...details.live.map(getDetailKey),
       ...details.drops.map(getDetailKey),

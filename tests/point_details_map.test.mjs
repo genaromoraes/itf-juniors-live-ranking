@@ -192,3 +192,24 @@ test("point details keep non-countable future drops hidden when there is no nega
   assert.ok(details);
   assert.equal(details.drops.length, 0);
 });
+
+test("point details hide counting live results when the net ranking change is zero", () => {
+  const map = buildPointDetailsMap(
+    [],
+    [],
+    [
+      {
+        player_id: "400",
+        ranking_date: "2026-06-22",
+        points_change_vs_official: "0",
+        best_doubles_1: "27 pts | LIVE | J100 | SF | J100 Almaty | 2026-06-22 | drop",
+      },
+    ]
+  );
+
+  const details = map.get("400");
+
+  assert.ok(details);
+  assert.equal(details.live.length, 0);
+  assert.equal(details.drops.length, 0);
+});
