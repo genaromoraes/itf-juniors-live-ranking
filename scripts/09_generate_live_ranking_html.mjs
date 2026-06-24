@@ -3025,13 +3025,19 @@ function buildHtml(
       grid-template-columns: 32px 1fr;
       align-items: center;
       gap: 5px;
-      padding: 3px 0;
-      border-top: 1px solid var(--border-soft);
+      margin-top: 4px;
+      padding: 7px 0 3px;
+      border-top: 1px solid rgba(102, 120, 138, 0.24);
     }
 
     .tournament-group:first-child {
+      margin-top: 0;
       border-top: 0;
       padding-top: 0;
+    }
+
+    :root[data-theme="dark"] .tournament-group {
+      border-top-color: rgba(154, 172, 184, 0.28);
     }
 
     .tournament-list {
