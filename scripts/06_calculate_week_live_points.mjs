@@ -150,6 +150,15 @@ function getDefaultPointsRows() {
     }
   }
 
+  for (const [category, table] of Object.entries({
+    J60: { RR2: 5, RR3: 2, RR4: 2 },
+    J30: { RR2: 2, RR3: 1, RR4: 1 },
+  })) {
+    for (const [roundLabel, points] of Object.entries(table)) {
+      add(category, "singles", "main_draw", roundLabel, points);
+    }
+  }
+
   for (const category of Object.keys(mainDrawTables.singles)) {
     for (const eventType of ["singles", "doubles"]) {
       for (const roundLabel of ["Q1", "Q2", "Q3", "Q", "W"]) {
@@ -194,6 +203,17 @@ export function buildPointsMap(pointsRows) {
     ].join("|");
 
     map.set(key, toNumber(row.points));
+  }
+
+  for (const [key, points] of [
+    ["J60|singles|main_draw|RR2", 5],
+    ["J60|singles|main_draw|RR3", 2],
+    ["J60|singles|main_draw|RR4", 2],
+    ["J30|singles|main_draw|RR2", 2],
+    ["J30|singles|main_draw|RR3", 1],
+    ["J30|singles|main_draw|RR4", 1],
+  ]) {
+    map.set(key, points);
   }
 
   return map;
@@ -383,9 +403,59 @@ function isRoundRobinResult(row) {
   );
 }
 
-function getRoundLabelFromResult(row, maxRoundOrderByEvent, drawSizeByEvent) {
-  if (isRoundRobinResult(row)) {
+function hasRoundRobinStage(row) {
+  return (
+    isRoundRobinResult(row) ||
+    toNumber(row.round_robin_position) > 0 ||
+    toNumber(row.round_robin_group_size) > 0
+  );
+}
+
+function isRoundRobinGroupComplete(row) {
+  return cleanText(row.round_robin_group_complete).toLowerCase() === "true";
+}
+
+function getRoundRobinEliminationLabel(row) {
+  const wins = Math.max(toNumber(row.wins), 0);
+  const status = cleanText(row.status).toLowerCase();
+  const labels = ["QF", "SF", "F", "W"];
+
+  if (status === "champion") return "W";
+
+  return labels[Math.min(wins, labels.length - 1)];
+}
+
+function getRoundRobinRoundLabel(row) {
+  if (!isRoundRobinGroupComplete(row)) return "RR";
+
+  const category = normalizeCategory(row.category);
+  const eventType = normalizeMatchType(row.match_type_code);
+  const position = toNumber(row.round_robin_position);
+  const roundRobinWins = toNumber(row.round_robin_wins);
+
+  if (
+    !["J60", "J30"].includes(category) ||
+    eventType !== "singles" ||
+    position < 1 ||
+    roundRobinWins < 1
+  ) {
     return "RR";
+  }
+
+  if (position === 1) {
+    return getRoundRobinEliminationLabel(row);
+  }
+
+  if (position === 2 && toNumber(row.wins) > 0) {
+    return getRoundRobinEliminationLabel(row);
+  }
+
+  return `RR${Math.min(position, 4)}`;
+}
+
+function getRoundLabelFromResult(row, maxRoundOrderByEvent, drawSizeByEvent) {
+  if (hasRoundRobinStage(row)) {
+    return getRoundRobinRoundLabel(row);
   }
 
   const eventClassification = normalizeEventClassification(row.event_classification_code);
@@ -408,11 +478,11 @@ function isMainDrawFirstRoundLoss(row) {
 }
 
 export function getLivePoints(row, roundLabel, pointsMap) {
-  if (roundLabel === "RR" || isRoundRobinResult(row)) {
+  if (roundLabel === "RR") {
     return 0;
   }
 
-  if (isMainDrawFirstRoundLoss(row)) {
+  if (!hasRoundRobinStage(row) && isMainDrawFirstRoundLoss(row)) {
     return 0;
   }
 
@@ -469,6 +539,13 @@ export function buildLivePointRows(playerResults, matchRows, pointsMap) {
       matches_played: row.matches_played,
       wins: row.wins,
       losses: row.losses,
+      round_robin_position: row.round_robin_position,
+      round_robin_group_size: row.round_robin_group_size,
+      round_robin_group_complete: row.round_robin_group_complete,
+      round_robin_matches_played: row.round_robin_matches_played,
+      round_robin_wins: row.round_robin_wins,
+      round_robin_losses: row.round_robin_losses,
+      elimination_matches_seen: row.elimination_matches_seen,
       highest_round_order: row.highest_round_order,
       highest_round_name: row.highest_round_name,
       total_rounds_in_draw: totalRounds,
@@ -597,6 +674,13 @@ export async function main(cliArgs = parseArgs()) {
     "matches_played",
     "wins",
     "losses",
+    "round_robin_position",
+    "round_robin_group_size",
+    "round_robin_group_complete",
+    "round_robin_matches_played",
+    "round_robin_wins",
+    "round_robin_losses",
+    "elimination_matches_seen",
     "highest_round_order",
     "highest_round_name",
     "total_rounds_in_draw",

@@ -682,6 +682,9 @@ function getDisplayRoundLabel(round) {
   const normalized = normalizeRoundLabel(text);
 
   if (normalized === "RR") return "Round-robin";
+  if (/^RR[2-4]$/.test(normalized)) {
+    return `Round-robin ${normalized.slice(2)}º`;
+  }
 
   return normalized || text;
 }
@@ -838,6 +841,8 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
         doublesRound: "",
         singlesProjectionEligible: false,
         doublesProjectionEligible: false,
+        singlesRoundRobinPosition: 0,
+        singlesRoundRobinGroupComplete: false,
       };
 
     if (participation.tournamentKey !== tournamentKey) continue;
@@ -860,6 +865,11 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
       participation.singlesRound = technicalRound;
       participation.singlesProjectionEligible =
         !isQualifyingClassification(row) && !isRoundRobinParticipation(row);
+      participation.singlesRoundRobinPosition = toNumber(
+        row.round_robin_position
+      );
+      participation.singlesRoundRobinGroupComplete =
+        cleanText(row.round_robin_group_complete).toLowerCase() === "true";
 
       if (roundLabel) {
         participation.singlesSummary = `Simples: ${roundLabel}`;
@@ -1220,6 +1230,7 @@ function normalizeRoundLabel(value) {
 
   if (!text) return "";
   if (/^Q[1-3]$/.test(text) || text === "Q") return text;
+  if (/^RR[2-4]$/.test(text)) return text;
   if (text === "RR" || text === "ROUND-ROBIN" || text === "ROUND ROBIN") return "RR";
   if (text === "GROUP" || text.startsWith("GROUP ")) return "RR";
   if (text === "WR" || text === "WINNER" || text === "CHAMPION") return "W";
@@ -1389,6 +1400,13 @@ function shouldProjectEvent(row, weekParticipationMap, eventType, scenarioType =
       : cleanText(participation.doublesStatus).toLowerCase();
 
   if (status === "round_robin") {
+    if (
+      eventType === "singles" &&
+      participation.singlesRoundRobinGroupComplete &&
+      participation.singlesRoundRobinPosition > 1
+    ) {
+      return false;
+    }
     return scenarioType === "title";
   }
 

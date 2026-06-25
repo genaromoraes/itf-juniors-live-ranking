@@ -339,6 +339,52 @@ function buildRoundRobinParticipationMatches(group) {
     }));
 }
 
+function isRoundRobinMatchComplete(match) {
+  const resultStatus = cleanText(match?.resultStatusCode).toUpperCase();
+
+  if (resultStatus === "BYE") return false;
+
+  return Boolean(
+    findWinnerSide(match) ||
+      cleanText(match?.playStatusCode).toUpperCase() === "PC" ||
+      cleanText(match?.playStatusDesc).toLowerCase().includes("completed")
+  );
+}
+
+function getRoundRobinGroupMetadata(group) {
+  const standings = Array.isArray(group?.groupStandings)
+    ? group.groupStandings
+    : [];
+  const teams = Array.isArray(group?.teams) ? group.teams : [];
+  const groupSize = Math.max(standings.length, teams.length);
+  const uniqueMatches = getRoundRobinMatchesFromGroup(group);
+  const expectedMatches = groupSize >= 2 ? (groupSize * (groupSize - 1)) / 2 : 0;
+  const completedMatches = uniqueMatches.filter(isRoundRobinMatchComplete).length;
+  const groupComplete =
+    expectedMatches > 0 && completedMatches >= expectedMatches;
+  const byPlayerId = new Map();
+
+  standings.forEach((standing, index) => {
+    const playerIds = getTeamPlayerIds(standing)
+      .split("|")
+      .map(cleanText)
+      .filter(Boolean);
+
+    for (const playerId of playerIds) {
+      byPlayerId.set(playerId, {
+        position: index + 1,
+        wins: Number(standing?.matches || 0),
+      });
+    }
+  });
+
+  return {
+    groupSize,
+    groupComplete,
+    byPlayerId,
+  };
+}
+
 function createMatchRow({
   drawsheet,
   eventInfo,
@@ -350,10 +396,15 @@ function createMatchRow({
   winnerSide,
   structureCode,
   structureDesc,
+  roundRobinMetadata,
 }) {
   const teams = match.teams || [];
   const team1 = teams[0] || {};
   const team2 = teams[1] || {};
+  const team1PlayerId = getTeamPlayerIds(team1).split("|").find(Boolean) || "";
+  const team2PlayerId = getTeamPlayerIds(team2).split("|").find(Boolean) || "";
+  const team1Standing = roundRobinMetadata?.byPlayerId.get(team1PlayerId);
+  const team2Standing = roundRobinMetadata?.byPlayerId.get(team2PlayerId);
 
   return {
     tournament_key: tournament.tournament_key,
@@ -372,6 +423,14 @@ function createMatchRow({
     drawsheet_structure_code: structureCode || eventInfo.drawsheetStructureCode,
     drawsheet_structure_desc: structureDesc || eventInfo.drawsheetStructureDesc,
     group_name: cleanText(group?.groupName),
+    rr_group_size: roundRobinMetadata?.groupSize || "",
+    rr_group_complete: roundRobinMetadata
+      ? String(roundRobinMetadata.groupComplete)
+      : "",
+    rr_team1_position: team1Standing?.position || "",
+    rr_team1_wins: team1Standing?.wins ?? "",
+    rr_team2_position: team2Standing?.position || "",
+    rr_team2_wins: team2Standing?.wins ?? "",
     round_name: roundName,
     round_order: roundOrder,
     match_id: match.matchId || "",
@@ -441,6 +500,7 @@ export function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
   }
 
   for (const group of rrGroups) {
+    const roundRobinMetadata = getRoundRobinGroupMetadata(group);
     const roundRobinMatches = getRoundRobinMatchesFromGroup(group);
     const participationMatches =
       roundRobinMatches.length > 0 ? roundRobinMatches : buildRoundRobinParticipationMatches(group);
@@ -458,6 +518,7 @@ export function extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament) {
           winnerSide: findWinnerSide(match),
           structureCode: "RR",
           structureDesc: "Round-robin",
+          roundRobinMetadata,
         })
       );
     }
@@ -851,6 +912,13 @@ export function buildPlayerResultsFromMatches(matches) {
             last_match_id: "",
             last_match_status: "",
             status: "unknown",
+            round_robin_position: "",
+            round_robin_group_size: "",
+            round_robin_group_complete: "false",
+            round_robin_matches_played: 0,
+            round_robin_wins: 0,
+            round_robin_losses: 0,
+            elimination_matches_seen: 0,
             live_points: "",
             collected_at: new Date().toISOString(),
           });
@@ -859,17 +927,53 @@ export function buildPlayerResultsFromMatches(matches) {
         const row = map.get(key);
 
         if (roundRobinMatch) {
+          const resultStatus = cleanText(match.result_status_code).toUpperCase();
+          const roundRobinCompleted =
+            completed || Boolean(match.winner_side);
+          const position =
+            sideInfo.side === 1
+              ? match.rr_team1_position
+              : match.rr_team2_position;
+          const standingWins =
+            sideInfo.side === 1 ? match.rr_team1_wins : match.rr_team2_wins;
+
+          row.round_robin_position = position || row.round_robin_position;
+          row.round_robin_group_size =
+            match.rr_group_size || row.round_robin_group_size;
+          row.round_robin_group_complete =
+            cleanText(match.rr_group_complete).toLowerCase() === "true"
+              ? "true"
+              : row.round_robin_group_complete;
+
+          if (roundRobinCompleted && resultStatus !== "BYE") {
+            row.round_robin_matches_played += 1;
+            if (won) {
+              row.round_robin_wins += 1;
+            } else if (match.winner_side) {
+              row.round_robin_losses += 1;
+            }
+          }
+
+          if (standingWins !== "" && standingWins !== undefined) {
+            row.round_robin_wins = Number(standingWins);
+          }
+
           if (Number(match.round_order || 0) >= Number(row.highest_round_order || 0)) {
             row.highest_round_order = match.round_order || 1;
-            row.highest_round_name = "Round-robin";
+            if (!row.elimination_matches_seen) {
+              row.highest_round_name = "Round-robin";
+            }
             row.last_match_id = match.match_id;
             row.last_match_status = match.play_status_desc;
-            row.status = "round_robin";
+            if (!row.elimination_matches_seen) {
+              row.status = "round_robin";
+            }
           }
 
           continue;
         }
 
+        row.elimination_matches_seen += 1;
         if (row.status === "round_robin") {
           row.status = "unknown";
         }
@@ -898,7 +1002,11 @@ export function buildPlayerResultsFromMatches(matches) {
   }
 
   for (const row of map.values()) {
-    if (row.status === "round_robin" && cleanText(row.highest_round_name) === "Round-robin") {
+    if (
+      row.status === "round_robin" &&
+      !row.elimination_matches_seen &&
+      cleanText(row.highest_round_name) === "Round-robin"
+    ) {
       continue;
     }
 
@@ -1191,6 +1299,12 @@ export async function main(cliArgs = parseArgs()) {
       "drawsheet_structure_code",
       "drawsheet_structure_desc",
       "group_name",
+      "rr_group_size",
+      "rr_group_complete",
+      "rr_team1_position",
+      "rr_team1_wins",
+      "rr_team2_position",
+      "rr_team2_wins",
       "round_name",
       "round_order",
       "match_id",
@@ -1235,6 +1349,13 @@ export async function main(cliArgs = parseArgs()) {
       "matches_played",
       "wins",
       "losses",
+      "round_robin_position",
+      "round_robin_group_size",
+      "round_robin_group_complete",
+      "round_robin_matches_played",
+      "round_robin_wins",
+      "round_robin_losses",
+      "elimination_matches_seen",
       "highest_round_order",
       "highest_round_name",
       "last_match_id",

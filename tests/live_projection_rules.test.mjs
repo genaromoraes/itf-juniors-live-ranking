@@ -198,6 +198,52 @@ test("round-robin players can show title projection without next-round projectio
   assert.equal(row.title_scenarios[0].targetRound, "W");
 });
 
+test("completed round-robin non-winners do not show title projections", () => {
+  const participationMap = buildWeekParticipationMap(
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J60-NED-2026-001",
+        tournament_name: "J60 Hilversum",
+        category: "J60",
+        end_date: "2026-06-28",
+        event_type: "singles",
+        match_type_code: "S",
+        player_type_code: "G",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        highest_round_order: "1",
+        highest_round_name: "Round-robin",
+        round_robin_position: "2",
+        round_robin_group_complete: "true",
+        status: "round_robin",
+      },
+    ],
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J60-NED-2026-001",
+        event_type: "singles",
+        round: "RR2",
+      },
+    ],
+    []
+  );
+  const [row] = buildDataForHtml(
+    [
+      {
+        player_id: "1",
+        gender: "F",
+        live_points: "105",
+      },
+    ],
+    participationMap
+  );
+
+  assert.equal(row.next_round_scenarios.length, 0);
+  assert.equal(row.title_scenarios.length, 0);
+});
+
 test("main-draw summaries normalize runner-up and winner labels", () => {
   const map = buildWeekParticipationMap(
     [

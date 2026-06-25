@@ -202,6 +202,30 @@ describe("week results walkover advancement", () => {
       rrGroups: [
         {
           groupName: "Group E",
+          groupStandings: [
+            {
+              matches: 1,
+              players: [
+                {
+                  playerId: 800700001,
+                  nationality: "BRA",
+                  givenName: "Kauany",
+                  familyName: "Rodrigues",
+                },
+              ],
+            },
+            {
+              matches: 0,
+              players: [
+                {
+                  playerId: 800700002,
+                  nationality: "SLO",
+                  givenName: "Luisa",
+                  familyName: "Fusil",
+                },
+              ],
+            },
+          ],
           teams: [
             {
               ...team("800700001", "Kauany", "Rodrigues"),
@@ -231,6 +255,10 @@ describe("week results walkover advancement", () => {
     assert.equal(rrMatch.drawsheet_structure_desc, "Round-robin");
     assert.equal(rrMatch.round_name, "Round-robin");
     assert.equal(rrMatch.group_name, "Group E");
+    assert.equal(rrMatch.rr_team1_position, 1);
+    assert.equal(rrMatch.rr_team1_wins, 1);
+    assert.equal(rrMatch.rr_group_size, 2);
+    assert.equal(rrMatch.rr_group_complete, "false");
 
     const playerResults = buildPlayerResultsFromMatches(matches);
     const kauany = playerResults.find((row) => row.player_id === "800700001");
@@ -272,5 +300,69 @@ describe("week results walkover advancement", () => {
       playerResults.find((row) => row.player_id === "800700001").status,
       "round_robin"
     );
+  });
+
+  test("keeps elimination-stage status and round-robin standing metadata", () => {
+    const common = {
+      tournament_key: "J-J60-NED-2026-001",
+      tournament_name: "J60 Hilversum",
+      category: "J60",
+      player_type_code: "G",
+      player_type_desc: "Girls",
+      match_type_code: "S",
+      match_type_desc: "Singles",
+      event_classification_code: "M",
+      event_classification_desc: "Main Draw",
+    };
+    const matches = [
+      {
+        ...common,
+        drawsheet_structure_code: "KO",
+        drawsheet_structure_desc: "Knock-out",
+        round_name: "Quarter-finals",
+        round_order: "1",
+        match_id: "qf-1",
+        play_status_code: "PC",
+        play_status_desc: "Played and completed",
+        team1_player_ids: "800700001",
+        team1_names: "Kauany Rodrigues",
+        team2_player_ids: "800700010",
+        team2_names: "Opponent",
+        winner_side: "2",
+      },
+      {
+        ...common,
+        drawsheet_structure_code: "RR",
+        drawsheet_structure_desc: "Round-robin",
+        group_name: "Group A",
+        rr_group_size: "4",
+        rr_group_complete: "true",
+        rr_team1_position: "1",
+        rr_team1_wins: "2",
+        rr_team2_position: "3",
+        rr_team2_wins: "1",
+        round_name: "Round-robin",
+        round_order: "1",
+        match_id: "rr-1",
+        play_status_code: "PC",
+        play_status_desc: "Played and completed",
+        team1_player_ids: "800700001",
+        team1_names: "Kauany Rodrigues",
+        team2_player_ids: "800700002",
+        team2_names: "Luisa Fusil",
+        winner_side: "1",
+      },
+    ];
+
+    const playerResults = buildPlayerResultsFromMatches(matches);
+    const kauany = playerResults.find((row) => row.player_id === "800700001");
+
+    assert.ok(kauany);
+    assert.equal(kauany.status, "eliminated");
+    assert.equal(kauany.highest_round_name, "Quarter-finals");
+    assert.equal(kauany.round_robin_position, "1");
+    assert.equal(kauany.round_robin_group_complete, "true");
+    assert.equal(kauany.round_robin_wins, 2);
+    assert.equal(kauany.elimination_matches_seen, 1);
   });
 });

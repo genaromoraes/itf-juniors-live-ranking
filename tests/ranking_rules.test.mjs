@@ -563,4 +563,131 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(labels.get("Q4-3"), "Q3");
     assert.equal(labels.get("Q4-F"), "Q");
   });
+
+  test("round-robin group placements receive the official J60 and J30 points", () => {
+    const playerResults = [
+      {
+        tournament_key: "J60-RR",
+        category: "J60",
+        player_id: "J60-SECOND",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_robin_position: "2",
+        round_robin_group_size: "4",
+        round_robin_group_complete: "true",
+        round_robin_wins: "1",
+        wins: "0",
+        losses: "0",
+        status: "round_robin",
+      },
+      {
+        tournament_key: "J30-RR",
+        category: "J30",
+        player_id: "J30-THIRD",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_robin_position: "3",
+        round_robin_group_size: "4",
+        round_robin_group_complete: "true",
+        round_robin_wins: "1",
+        wins: "0",
+        losses: "0",
+        status: "round_robin",
+      },
+      {
+        tournament_key: "J30-RR",
+        category: "J30",
+        player_id: "J30-FOURTH-NO-WIN",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_robin_position: "4",
+        round_robin_group_size: "4",
+        round_robin_group_complete: "true",
+        round_robin_wins: "0",
+        wins: "0",
+        losses: "0",
+        status: "round_robin",
+      },
+    ];
+    const pointsMap = new Map([
+      ["J60|singles|main_draw|RR2", 5],
+      ["J30|singles|main_draw|RR3", 1],
+      ["J30|singles|main_draw|RR4", 1],
+    ]);
+
+    const rows = buildLivePointRows(playerResults, [], pointsMap);
+    const byId = new Map(rows.map((row) => [row.player_id, row]));
+
+    assert.equal(byId.get("J60-SECOND").calculated_round_label, "RR2");
+    assert.equal(byId.get("J60-SECOND").live_points_raw, 5);
+    assert.equal(byId.get("J30-THIRD").calculated_round_label, "RR3");
+    assert.equal(byId.get("J30-THIRD").live_points_raw, 1);
+    assert.equal(byId.get("J30-FOURTH-NO-WIN").calculated_round_label, "RR");
+    assert.equal(byId.get("J30-FOURTH-NO-WIN").live_points_raw, 0);
+  });
+
+  test("round-robin group winners receive points from their elimination-stage position", () => {
+    const playerResults = [
+      {
+        tournament_key: "J60-RR-QF",
+        category: "J60",
+        player_id: "QF",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_robin_position: "1",
+        round_robin_group_complete: "true",
+        round_robin_wins: "3",
+        wins: "0",
+        losses: "0",
+        status: "round_robin",
+      },
+      {
+        tournament_key: "J60-RR-SF",
+        category: "J60",
+        player_id: "SF",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_robin_position: "1",
+        round_robin_group_complete: "true",
+        round_robin_wins: "2",
+        wins: "1",
+        losses: "1",
+        elimination_matches_seen: "2",
+        status: "eliminated",
+      },
+      {
+        tournament_key: "J60-RR-PENDING",
+        category: "J60",
+        player_id: "PENDING",
+        player_type_code: "G",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_robin_position: "1",
+        round_robin_group_complete: "false",
+        round_robin_wins: "1",
+        wins: "0",
+        losses: "0",
+        status: "round_robin",
+      },
+    ];
+    const pointsMap = new Map([
+      ["J60|singles|main_draw|QF", 10],
+      ["J60|singles|main_draw|SF", 18],
+    ]);
+
+    const rows = buildLivePointRows(playerResults, [], pointsMap);
+    const byId = new Map(rows.map((row) => [row.player_id, row]));
+
+    assert.equal(byId.get("QF").calculated_round_label, "QF");
+    assert.equal(byId.get("QF").live_points_raw, 10);
+    assert.equal(byId.get("SF").calculated_round_label, "SF");
+    assert.equal(byId.get("SF").live_points_raw, 18);
+    assert.equal(byId.get("PENDING").calculated_round_label, "RR");
+    assert.equal(byId.get("PENDING").live_points_raw, 0);
+  });
 });
