@@ -3117,8 +3117,33 @@ function buildHtml(
       background: rgba(255, 255, 255, 0.42);
     }
 
+    .tournament-progress-item.is-complete {
+      border-color: rgba(102, 120, 138, 0.26);
+      background: rgba(248, 250, 252, 0.74);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.36);
+    }
+
     :root[data-theme="dark"] .tournament-progress-item {
       background: rgba(255, 255, 255, 0.025);
+    }
+
+    :root[data-theme="dark"] .tournament-progress-item.is-complete {
+      border-color: rgba(154, 172, 184, 0.3);
+      background: rgba(255, 255, 255, 0.055);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+    }
+
+    .tournament-progress-item.is-complete .tournament-progress-fill {
+      background: rgba(74, 85, 99, 0.72);
+    }
+
+    .tournament-progress-item.is-complete .tournament-progress-value {
+      color: rgba(74, 85, 99, 0.82);
+      letter-spacing: 0.01em;
+    }
+
+    :root[data-theme="dark"] .tournament-progress-item.is-complete .tournament-progress-value {
+      color: rgba(214, 224, 230, 0.76);
     }
 
     .week-tournament-name {
@@ -5163,18 +5188,20 @@ body.official-ranking-view .side {
               \${group.items.map((item) => {
                 const surfaceKey = item.surfaceKey || getSurfaceKeyClient(item.surface, item.surfaceCode);
                 const className = ["week-tournament-name", getSurfaceClass(surfaceKey)].filter(Boolean).join(" ");
+                const isComplete = item.totalMatches > 0 && item.progressPercent >= 100;
                 const nameHtml = item.tournamentLink
                   ? '<a class="' + className + '" title="' + escapeHtmlClient(item.name) + '" href="' + escapeHtmlClient(item.tournamentLink) + '" target="_blank" rel="noopener noreferrer">' + escapeHtmlClient(item.displayName || item.name) + '</a>'
                   : '<span class="' + className + '" title="' + escapeHtmlClient(item.name) + '">' + escapeHtmlClient(item.displayName || item.name) + '</span>';
                 const matchDetail = item.totalMatches
                   ? item.completedMatches + '/' + item.totalMatches + ' ' + t("matchesCompleted")
                   : t("loading");
+                const progressLabel = isComplete ? "✓ 100%" : item.progressPercent + "%";
 
                 return \`
-                  <div class="tournament-progress-item" title="\${escapeHtmlClient(matchDetail)}">
+                  <div class="tournament-progress-item \${isComplete ? "is-complete" : ""}" title="\${escapeHtmlClient(matchDetail)}">
                     <div class="tournament-progress-head">
                       \${nameHtml}
-                      <span class="tournament-progress-value">\${item.progressPercent}%</span>
+                      <span class="tournament-progress-value">\${progressLabel}</span>
                     </div>
                     <div class="tournament-progress-track" role="progressbar" aria-label="\${escapeHtmlClient(item.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="\${item.progressPercent}">
                       <div class="tournament-progress-fill" style="width: \${item.progressPercent}%"></div>
