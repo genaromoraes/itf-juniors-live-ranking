@@ -1,9 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { parse } from "csv-parse/sync";
 import { summarizeWeekCompletion } from "./lib/week_completion.mjs";
 
 const CLEAN_DIR = path.resolve("data/clean");
+const PREVIOUS_WEEK_MATCHES_FILE = path.resolve(
+  process.env.PREVIOUS_WEEK_MATCHES_FILE ||
+    ".last-valid-data/data/clean/week_matches.csv"
+);
 
 async function readCsvIfExists(filePath) {
   try {
@@ -82,6 +87,64 @@ function isTerminalSpecialResult(matchRow) {
 
 function isMatchComplete(matchRow) {
   return hasWinner(matchRow) || isTerminalSpecialResult(matchRow);
+}
+
+export function isActualMatchResult(matchRow) {
+  const resultStatus = normalizeText(matchRow.result_status_code);
+  const resultDescription = normalizeText(matchRow.result_status_desc);
+  const playStatus = normalizeText(matchRow.play_status_code);
+  const playDescription = normalizeText(matchRow.play_status_desc);
+  const score = normalizeText(matchRow.score);
+  const haystack = [
+    resultStatus,
+    resultDescription,
+    playStatus,
+    playDescription,
+    score,
+  ].join(" ");
+
+  if (haystack.includes("BYE") || haystack.includes("CANCELLED")) return false;
+  if (hasWinner(matchRow)) return true;
+
+  return (
+    haystack.includes("W O") ||
+    haystack.includes("WALKOVER") ||
+    haystack.includes("RET") ||
+    haystack.includes("RETIRED") ||
+    haystack.includes("DEFAULT")
+  );
+}
+
+function getMatchIdentity(row) {
+  const matchId = cleanText(row.match_id);
+  if (matchId) return `id:${matchId}`;
+
+  return [
+    cleanText(row.tournament_key),
+    cleanText(row.event_id),
+    cleanText(row.player_type_code),
+    cleanText(row.match_type_code),
+    cleanText(row.event_classification_code),
+    cleanText(row.group_name),
+    cleanText(row.round_order || row.round_name),
+    cleanText(row.team1_player_ids || row.team1_names),
+    cleanText(row.team2_player_ids || row.team2_names),
+  ].join("|");
+}
+
+export function countNewMatchResults(currentRows, previousRows) {
+  const previousResultKeys = new Set(
+    previousRows
+      .filter(isActualMatchResult)
+      .map(getMatchIdentity)
+      .filter(Boolean)
+  );
+
+  return currentRows.filter((row) => {
+    if (!isActualMatchResult(row)) return false;
+    const key = getMatchIdentity(row);
+    return key && !previousResultKeys.has(key);
+  }).length;
 }
 
 function isFinalRound(value) {
@@ -285,6 +348,7 @@ function buildSummaryMarkdown({
   drawProgressRows,
   nonKnockoutRows,
   scrapedWithFreshData,
+  newMatchResults,
 }) {
   const totalMatches = drawProgressRows.reduce(
     (sum, row) => sum + toNumber(row.total_matches),
@@ -305,6 +369,9 @@ function buildSummaryMarkdown({
     "",
     `- Fonte dos dados: ${scrapedWithFreshData ? "raspagem ITF fresca" : "cache/local"}`,
     `- Torneios encontrados: ${completion.tournaments_total}`,
+    `- Novos resultados de partidas identificados: ${
+      newMatchResults === null ? "comparação indisponível" : newMatchResults
+    }`,
     `- Jogos completos no mata-mata: ${completedMatches}/${totalMatches}`,
     `- Jogos pendentes no mata-mata: ${pendingMatches}`,
     ...(nonKnockoutTotal > 0
@@ -353,6 +420,13 @@ async function main() {
     readCsvIfExists(path.join(CLEAN_DIR, "week_results_summary.csv")),
     readCsvIfExists(path.join(CLEAN_DIR, "week_results_errors.csv")),
   ]);
+  const previousMatchesAvailable = await fs
+    .access(PREVIOUS_WEEK_MATCHES_FILE)
+    .then(() => true)
+    .catch(() => false);
+  const previousWeekMatchesRows = previousMatchesAvailable
+    ? await readCsvIfExists(PREVIOUS_WEEK_MATCHES_FILE)
+    : [];
 
   const completion = summarizeWeekCompletion({
     weekTournamentRows,
@@ -369,6 +443,9 @@ async function main() {
     drawProgressRows: buildDrawProgressRows(knockoutRows),
     nonKnockoutRows,
     scrapedWithFreshData: process.env.ITF_SCRAPE_FRESH === "true",
+    newMatchResults: previousMatchesAvailable
+      ? countNewMatchResults(weekMatchesRows, previousWeekMatchesRows)
+      : null,
   });
 
   if (process.env.GITHUB_STEP_SUMMARY) {
@@ -378,7 +455,13 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+const isMain =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isMain) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

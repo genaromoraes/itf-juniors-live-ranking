@@ -151,9 +151,9 @@ jobs:
           echo "WARNING: ITF scraping failed. GitHub Pages will be deployed using the last valid cached data."
 
       - name: Write weekly scraping summary
-        if: always()
+        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'success'
         env:
-          ITF_SCRAPE_FRESH: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'success' }}
+          ITF_SCRAPE_FRESH: "true"
         run: node scripts/24_write_week_action_summary.mjs
 
       - name: Upload Pages artifact
