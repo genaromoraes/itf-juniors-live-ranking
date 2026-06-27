@@ -726,12 +726,17 @@ function isProjectionEligibleRoundLabel(round) {
   return true;
 }
 
-export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows, weekMatches = []) {
+export function buildWeekParticipationMap(
+  weekPlayerResults,
+  weekLiveLedgerRows,
+  weekMatches = [],
+  todayOverride = ""
+) {
   const liveRoundMap = buildLiveRoundMap(weekLiveLedgerRows);
   const map = new Map();
   const priorityByEvent = new Map();
   const maxRoundOrderByEvent = new Map();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = cleanText(todayOverride) || new Date().toISOString().slice(0, 10);
 
   function getClassificationPriority(row) {
     const classification = cleanText(row.event_classification_code).toUpperCase();
@@ -832,7 +837,7 @@ export function buildWeekParticipationMap(weekPlayerResults, weekLiveLedgerRows,
         tournamentKey,
         category,
         endDate,
-        isFinishedByDate: endDate ? endDate <= today : false,
+        isFinishedByDate: endDate ? endDate < today : false,
         singlesSummary: "",
         doublesSummary: "",
         singlesStatus: "",

@@ -303,3 +303,52 @@ test("main-draw summaries normalize runner-up and winner labels", () => {
   assert.equal(participation.doublesRound, "W");
   assert.equal(participation.doublesSummary, "Duplas: W");
 });
+
+test("title projection remains active on the tournament end date", () => {
+  const participationMap = buildWeekParticipationMap(
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J60-ECU-2026-001",
+        tournament_name: "J60 Salinas",
+        category: "J60",
+        end_date: "2026-06-27",
+        event_type: "singles",
+        match_type_code: "S",
+        player_type_code: "G",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        highest_round_order: "5",
+        highest_round_name: "Final",
+        status: "still_alive_or_champion",
+      },
+    ],
+    [
+      {
+        player_id: "1",
+        tournament_key: "J-J60-ECU-2026-001",
+        event_type: "singles",
+        round: "F",
+      },
+    ],
+    [],
+    "2026-06-27"
+  );
+  const participation = participationMap.get("1");
+  const [row] = buildDataForHtml(
+    [
+      {
+        player_id: "1",
+        gender: "F",
+        live_points: "284.5",
+        best_singles_1: "36 pts | LIVE | J60 | F | J60 Salinas | 2026-06-22 | drop",
+      },
+    ],
+    participationMap
+  );
+
+  assert.equal(participation.isFinishedByDate, false);
+  assert.equal(row.title_scenarios.length, 1);
+  assert.equal(row.title_scenarios[0].targetRound, "W");
+  assert.equal(row.title_scenarios[0].projectedTotal, 308.5);
+});
