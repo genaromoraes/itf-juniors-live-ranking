@@ -3061,11 +3061,40 @@ function buildHtml(
       margin-bottom: 5px;
     }
 
+    .tournament-category-head::before,
     .tournament-category-head::after {
       content: "";
       flex: 1;
       height: 1px;
       background: var(--border-soft);
+    }
+
+    .tournament-color-legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 10px;
+      margin: 5px 0 8px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    .tournament-color-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .tournament-color-dot {
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      border-radius: 999px;
+      background: var(--cat-color, var(--muted));
+      box-shadow: 0 0 0 1px var(--cat-border, var(--border));
     }
 
     .tournament-list {
@@ -4055,6 +4084,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Projeção<br />próx. rodada",
         titleProjection: "Projeção<br />título",
         weekTournaments: "Torneios da semana",
+        surfaceColors: "Legenda das cores dos pisos",
         matchesCompleted: "jogos concluídos",
         athletePoints: "Pontuações do atleta",
         close: "Fechar",
@@ -4137,6 +4167,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Next round<br />projection",
         titleProjection: "Title<br />projection",
         weekTournaments: "This week's tournaments",
+        surfaceColors: "Court surface color legend",
         matchesCompleted: "matches completed",
         athletePoints: "Player points",
         close: "Close",
@@ -4219,6 +4250,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Proyección<br />próx. ronda",
         titleProjection: "Proyección<br />título",
         weekTournaments: "Torneos de la semana",
+        surfaceColors: "Leyenda de colores de superficies",
         matchesCompleted: "partidos finalizados",
         athletePoints: "Puntos del jugador",
         close: "Cerrar",
@@ -5178,6 +5210,12 @@ body.official-ranking-view .side {
     }
 
     function renderTournaments() {
+      const surfaceLegendHtml = ["clay", "hard", "grass", "carpet"].map((surfaceKey) =>
+        '<span class="tournament-color-legend-item surface-' + surfaceKey + '">' +
+          '<span class="tournament-color-dot" aria-hidden="true"></span>' +
+          '<span>' + escapeHtmlClient(getSurfaceLabel(surfaceKey)) + '</span>' +
+        '</span>'
+      ).join("");
       const groupsHtml = tournamentGroups.map((group) => {
         const categoryClass = getCategoryClass(group.category);
 
@@ -5214,7 +5252,9 @@ body.official-ranking-view .side {
         \`;
       }).join("");
 
-      weekTournaments.innerHTML = groupsHtml;
+      weekTournaments.innerHTML = groupsHtml
+        ? '<div class="tournament-color-legend" aria-label="' + escapeHtmlClient(t("surfaceColors")) + '">' + surfaceLegendHtml + '</div>' + groupsHtml
+        : '<span class="small">' + t("loading") + '</span>';
     }
 
     function renderResultCards(results) {

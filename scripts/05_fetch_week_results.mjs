@@ -797,7 +797,15 @@ function splitTeamPlayers(matchRow, side) {
 }
 
 function isCompletedMatch(match) {
+  const resultStatus = cleanText(match.result_status_code).toUpperCase();
+  const resultDescription = cleanText(match.result_status_desc).toUpperCase();
+  const isWalkover =
+    resultStatus === "WO" ||
+    resultStatus === "W/O" ||
+    resultDescription.includes("WALKOVER");
+
   return (
+    isWalkover ||
     match.play_status_code === "PC" ||
     String(match.play_status_desc || "").toLowerCase().includes("completed")
   );

@@ -36,6 +36,53 @@ function team(playerId, givenName, familyName, nationality = "BRA") {
 }
 
 describe("week results walkover advancement", () => {
+  test("counts a not-played walkover as a win and an elimination", () => {
+    const matches = [
+      {
+        tournament_key: tournament.tournament_key,
+        tournament_name: tournament.tournament_name,
+        category: tournament.category,
+        start_date: tournament.start_date,
+        end_date: tournament.end_date,
+        player_type_code: "G",
+        player_type_desc: "Girls",
+        match_type_code: "S",
+        match_type_desc: "Singles",
+        event_classification_code: "M",
+        event_classification_desc: "Main Draw",
+        drawsheet_structure_code: "KO",
+        drawsheet_structure_desc: "Knock-out",
+        round_name: "Quarter-finals",
+        round_order: 1,
+        match_id: "qf-wo",
+        play_status_code: "NP",
+        play_status_desc: "Not played",
+        result_status_code: "WO",
+        result_status_desc: "Walkover",
+        team1_player_ids: "800000001",
+        team1_names: "Ana Winner",
+        team1_nationalities: "BRA",
+        team2_player_ids: "800000002",
+        team2_names: "Bella Walkover",
+        team2_nationalities: "BRA",
+        winner_side: 1,
+      },
+    ];
+
+    const playerResults = buildPlayerResultsFromMatches(matches);
+    const winner = playerResults.find((row) => row.player_id === "800000001");
+    const loser = playerResults.find((row) => row.player_id === "800000002");
+
+    assert.equal(winner.matches_played, 1);
+    assert.equal(winner.wins, 1);
+    assert.equal(winner.losses, 0);
+    assert.equal(winner.status, "champion");
+    assert.equal(loser.matches_played, 1);
+    assert.equal(loser.wins, 0);
+    assert.equal(loser.losses, 1);
+    assert.equal(loser.status, "eliminated");
+  });
+
   test("infers a walkover winner from later KO round placement", () => {
     const drawsheet = {
       eventId: "event-girls-singles",
