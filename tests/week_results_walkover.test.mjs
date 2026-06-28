@@ -349,6 +349,55 @@ describe("week results walkover advancement", () => {
     );
   });
 
+  test("counts only real players when a round-robin standing contains an empty slot", () => {
+    const player1 = team("800700001", "Lee", "Dube", "RSA");
+    const player2 = team("800700002", "Yulu", "Ulendo", "ZAM");
+    const player3 = team("800700003", "Sophie", "Van Der Merwe", "ZIM");
+    const completedMatch = (matchId, first, second, winnerSide) => ({
+      matchId,
+      playStatusCode: "PC",
+      playStatusDesc: "Played and completed",
+      teams: [
+        { ...first, isWinner: winnerSide === 1 },
+        { ...second, isWinner: winnerSide === 2 },
+      ],
+    });
+    const drawsheet = {
+      eventId: "event-girls-round-robin",
+      rrGroups: [
+        {
+          groupName: "Group A",
+          groupStandings: [
+            { ...player1, matches: 2 },
+            { ...player2, matches: 1 },
+            {},
+            { ...player3, matches: 0 },
+          ],
+          teams: [
+            {
+              ...player1,
+              matches: [
+                completedMatch("rr-1", player1, player2, 1),
+                completedMatch("rr-2", player1, player3, 1),
+              ],
+            },
+            {
+              ...player2,
+              matches: [completedMatch("rr-3", player2, player3, 1)],
+            },
+            player3,
+          ],
+        },
+      ],
+    };
+
+    const matches = extractMatchesFromDrawsheet(drawsheet, eventInfo, tournament);
+
+    assert.equal(matches.length, 3);
+    assert.equal(matches[0].rr_group_size, 3);
+    assert.equal(matches[0].rr_group_complete, "true");
+  });
+
   test("keeps elimination-stage status and round-robin standing metadata", () => {
     const common = {
       tournament_key: "J-J60-NED-2026-001",

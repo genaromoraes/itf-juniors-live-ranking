@@ -356,8 +356,26 @@ function getRoundRobinGroupMetadata(group) {
     ? group.groupStandings
     : [];
   const teams = Array.isArray(group?.teams) ? group.teams : [];
-  const groupSize = Math.max(standings.length, teams.length);
   const uniqueMatches = getRoundRobinMatchesFromGroup(group);
+  const participantKeys = new Set();
+  const addParticipant = (team) => {
+    const key = getTeamPlayerIds(team)
+      .split("|")
+      .map(cleanText)
+      .filter(Boolean)
+      .sort()
+      .join("|");
+
+    if (key) participantKeys.add(key);
+  };
+
+  standings.forEach(addParticipant);
+  teams.forEach(addParticipant);
+  uniqueMatches.forEach((match) => {
+    (match?.teams || []).forEach(addParticipant);
+  });
+
+  const groupSize = participantKeys.size;
   const expectedMatches = groupSize >= 2 ? (groupSize * (groupSize - 1)) / 2 : 0;
   const completedMatches = uniqueMatches.filter(isRoundRobinMatchComplete).length;
   const groupComplete =

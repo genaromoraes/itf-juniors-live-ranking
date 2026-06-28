@@ -321,12 +321,33 @@ function buildPendingItem(base, reason) {
   };
 }
 
-function isToleratedPendingEvent(event) {
-  return (
+function getDrawCounterpartKey(event) {
+  return [
+    cleanText(event.tournament_key),
+    cleanText(event.player_type_code),
+    cleanText(event.match_type_code),
+  ].join("|");
+}
+
+function isMainDrawEvent(event) {
+  return normalizeText(event.event_classification_code) === "M";
+}
+
+function isQualifyingEvent(event) {
+  return normalizeText(event.event_classification_code) === "Q";
+}
+
+function isToleratedPendingEvent(event, completedMainDrawKeys = new Set()) {
+  const harmlessMissingEvent =
     event.status === "pending" &&
     cleanText(event.reason) === "final_not_found" &&
-    toNumber(event.pending_matches) === 0
-  );
+    toNumber(event.pending_matches) === 0;
+  const qualifyingNoLongerAffectsMainDraw =
+    event.status === "pending" &&
+    isQualifyingEvent(event) &&
+    completedMainDrawKeys.has(getDrawCounterpartKey(event));
+
+  return harmlessMissingEvent || qualifyingNoLongerAffectsMainDraw;
 }
 
 export function summarizeWeekCompletion({
@@ -361,6 +382,13 @@ export function summarizeWeekCompletion({
   const eventSummaries = [...eventsByKey.values()].map((rows) =>
     classifyEventCompletion(rows)
   );
+  const completedMainDrawKeys = new Set(
+    eventSummaries
+      .filter((event) => event.status === "completed" && isMainDrawEvent(event))
+      .map(getDrawCounterpartKey)
+  );
+  const isEventTolerated = (event) =>
+    isToleratedPendingEvent(event, completedMainDrawKeys);
 
   const eventsByTournament = new Map();
   for (const event of eventSummaries) {
@@ -382,9 +410,11 @@ export function summarizeWeekCompletion({
   let pendingMatches = 0;
 
   for (const event of eventSummaries) {
-    pendingMatches += event.pending_matches;
+    if (!isEventTolerated(event)) {
+      pendingMatches += event.pending_matches;
+    }
 
-    if (event.status !== "completed" && !isToleratedPendingEvent(event)) {
+    if (event.status !== "completed" && !isEventTolerated(event)) {
       pendingItems.push(buildPendingItem(event, event.reason));
     }
   }
@@ -431,7 +461,8 @@ export function summarizeWeekCompletion({
     const expectedEvents = toNumber(summaryRow?.events_found);
     const tournamentMissingEvents = Math.max(expectedEvents - events.length, 0);
     const tournamentPendingMatches = events.reduce(
-      (sum, event) => sum + toNumber(event.pending_matches),
+      (sum, event) =>
+        sum + (isEventTolerated(event) ? 0 : toNumber(event.pending_matches)),
       0
     );
     const tournamentResultsErrors = weekResultsErrorsRows.filter(
@@ -439,13 +470,11 @@ export function summarizeWeekCompletion({
     ).length;
     const hasReview = events.some((event) => event.status === "review_required");
     const hasPending = events.some(
-      (event) => event.status === "pending" && !isToleratedPendingEvent(event)
+      (event) => event.status === "pending" && !isEventTolerated(event)
     );
     const hasOnlyCompletedOrToleratedEvents =
       events.length > 0 &&
-      events.every(
-        (event) => event.status === "completed" || isToleratedPendingEvent(event)
-      );
+      events.every((event) => event.status === "completed" || isEventTolerated(event));
     const tournamentMissingEventsTolerated =
       tournamentMissingEvents > 0 &&
       hasOnlyCompletedOrToleratedEvents &&
@@ -492,7 +521,7 @@ export function summarizeWeekCompletion({
   const eventsPending = eventSummaries.filter(
     (event) => event.status === "pending"
   ).length;
-  const toleratedPendingEvents = eventSummaries.filter(isToleratedPendingEvent).length;
+  const toleratedPendingEvents = eventSummaries.filter(isEventTolerated).length;
   const blockingPendingEvents = eventsPending - toleratedPendingEvents;
   const eventsReviewRequired = eventSummaries.filter(
     (event) => event.status === "review_required"

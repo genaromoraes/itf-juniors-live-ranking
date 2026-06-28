@@ -278,4 +278,56 @@ describe("week completion detector", () => {
     assert.equal(summary.tournaments[0].status, "completed");
     assert.equal(summary.safe_to_close, true);
   });
+
+  test("ignores unplayed qualifying placeholders after the matching main draw is complete", () => {
+    const qualifyingPlaceholders = Array.from({ length: 8 }, (_, index) =>
+      matchRow({
+        event_id: "E-QUALIFYING",
+        player_type_code: "G",
+        player_type_desc: "Girls",
+        event_classification_code: "Q",
+        round_name: "Quarter-finals",
+        round_order: "1",
+        match_id: `Q-${index + 1}`,
+        play_status_code: "NP",
+        play_status_desc: "Not played",
+        team1_player_ids: "",
+        team1_names: "",
+        team2_player_ids: "",
+        team2_names: "",
+        winner_side: "",
+        winner_names: "",
+        score: "",
+      })
+    );
+    const completedMainDraw = matchRow({
+      event_id: "E-MAIN",
+      player_type_code: "G",
+      player_type_desc: "Girls",
+      event_classification_code: "M",
+    });
+    const summary = summarizeWeekCompletion({
+      weekTournamentRows: [{ tournament_key: "T1", tournament_name: "J30 Huamantla" }],
+      weekMatchesRows: [...qualifyingPlaceholders, completedMainDraw],
+      weekResultsSummaryRows: [
+        {
+          tournament_key: "T1",
+          tournament_name: "J30 Huamantla",
+          category: "J30",
+          events_found: "2",
+          matches_found: "9",
+        },
+      ],
+      currentDate: "2026-06-29",
+      weekEnd: "2026-06-28",
+    });
+
+    assert.equal(summary.events_pending, 1);
+    assert.equal(summary.tolerated_pending_events, 1);
+    assert.equal(summary.blocking_pending_events, 0);
+    assert.equal(summary.pending_matches, 0);
+    assert.equal(summary.tournaments[0].pending_matches, 0);
+    assert.equal(summary.tournaments[0].status, "completed");
+    assert.equal(summary.safe_to_close, true);
+  });
 });
