@@ -2,6 +2,10 @@
 import path from "path";
 import { parse } from "csv-parse/sync";
 import { fileURLToPath } from "url";
+import {
+  buildEventKey,
+  classifyEventCompletion,
+} from "./lib/week_completion.mjs";
 
 const LIVE_RANKING_FILE = path.resolve(
   "data/clean/live_ranking_with_drops.csv"
@@ -1526,8 +1530,46 @@ export function buildDataForHtml(
   }));
 }
 
-function buildTournamentProgress(matches) {
+function getProgressDrawKey(row) {
+  return [
+    cleanText(row.tournament_key),
+    cleanText(row.player_type_code),
+    cleanText(row.match_type_code),
+  ].join("|");
+}
+
+function hasMaterializedMatchSides(row) {
+  const team1 = cleanText(row.team1_player_ids || row.team1_names);
+  const team2 = cleanText(row.team2_player_ids || row.team2_names);
+
+  return Boolean(team1 && team2);
+}
+
+export function buildTournamentProgress(matches) {
   const progressByKey = new Map();
+  const eventsByKey = new Map();
+
+  for (const row of matches) {
+    const eventKey = buildEventKey(row);
+    if (!eventsByKey.has(eventKey)) eventsByKey.set(eventKey, []);
+    eventsByKey.get(eventKey).push(row);
+  }
+
+  const eventCompletionByKey = new Map(
+    [...eventsByKey.entries()].map(([eventKey, rows]) => [
+      eventKey,
+      classifyEventCompletion(rows),
+    ])
+  );
+  const completedMainDrawKeys = new Set(
+    [...eventCompletionByKey.values()]
+      .filter(
+        (event) =>
+          event.status === "completed" &&
+          cleanText(event.event_classification_code).toUpperCase() === "M"
+      )
+      .map(getProgressDrawKey)
+  );
 
   for (const row of matches) {
     const tournamentKey = cleanText(row.tournament_key);
@@ -1536,8 +1578,23 @@ function buildTournamentProgress(matches) {
     const resultStatus = cleanText(row.result_status_code).toUpperCase();
     const playStatus = cleanText(row.play_status_code).toUpperCase();
     const winnerSide = cleanText(row.winner_side);
+    const event = eventCompletionByKey.get(buildEventKey(row));
+    const eventCompleted = event?.status === "completed";
+    const irrelevantQualifyingPending =
+      event?.status === "pending" &&
+      cleanText(event.event_classification_code).toUpperCase() === "Q" &&
+      completedMainDrawKeys.has(getProgressDrawKey(event));
 
     if (!key || resultStatus === "BYE") continue;
+    if (!hasMaterializedMatchSides(row) && !winnerSide) continue;
+
+    const rowCompleted =
+      eventCompleted ||
+      playStatus === "PC" ||
+      winnerSide ||
+      ["WO", "W/O", "RET", "DEF", "ABD"].includes(resultStatus);
+
+    if (irrelevantQualifyingPending && !rowCompleted) continue;
 
     if (!progressByKey.has(key)) {
       progressByKey.set(key, { completed: 0, total: 0 });
@@ -1546,11 +1603,7 @@ function buildTournamentProgress(matches) {
     const progress = progressByKey.get(key);
     progress.total += 1;
 
-    if (
-      playStatus === "PC" ||
-      winnerSide ||
-      ["WO", "W/O", "RET", "DEF", "ABD"].includes(resultStatus)
-    ) {
+    if (rowCompleted) {
       progress.completed += 1;
     }
   }

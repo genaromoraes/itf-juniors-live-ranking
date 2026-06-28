@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   buildDataForHtml,
+  buildTournamentProgress,
   buildWeekParticipationMap,
 } from "../scripts/09_generate_live_ranking_html.mjs";
 
@@ -351,4 +352,41 @@ test("title projection remains active on the tournament end date", () => {
   assert.equal(row.title_scenarios.length, 1);
   assert.equal(row.title_scenarios[0].targetRound, "W");
   assert.equal(row.title_scenarios[0].projectedTotal, 308.5);
+});
+
+test("tournament progress ignores a technical empty match placeholder", () => {
+  const common = {
+    tournament_key: "J-J30-EGY-2026-004",
+    tournament_name: "J30 Cairo",
+    player_type_code: "G",
+    match_type_code: "S",
+    event_classification_code: "M",
+    event_id: "CAIRO-GIRLS-MAIN",
+  };
+  const progress = buildTournamentProgress([
+    {
+      ...common,
+      round_name: "Final",
+      round_order: "4",
+      play_status_code: "PC",
+      team1_player_ids: "1",
+      team2_player_ids: "2",
+      winner_side: "1",
+    },
+    {
+      ...common,
+      match_id: "EMPTY-SLOT",
+      round_name: "Round-robin",
+      round_order: "1",
+      play_status_code: "NP",
+      play_status_desc: "Not played",
+      team1_player_ids: "",
+      team1_names: "",
+      team2_player_ids: "",
+      team2_names: "",
+      winner_side: "",
+    },
+  ]).get("J-J30-EGY-2026-004");
+
+  assert.deepEqual(progress, { completed: 1, total: 1 });
 });
