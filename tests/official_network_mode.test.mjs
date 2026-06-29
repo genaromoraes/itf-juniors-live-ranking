@@ -180,6 +180,33 @@ describe("official ranking network modes", () => {
     assert.match(result.warnings[0], /Baseline antigo reconstruido/);
   });
 
+  test("reconstructs the old baseline with the old official ranking cutoff", () => {
+    const result = buildBaselineValidation({
+      baselineLedgerRows: [
+        ledgerRow({
+          tournament_name: "Expired Tournament",
+          drop_date_calculated: "2026-06-14",
+          points: "40",
+        }),
+        ledgerRow({
+          tournament_name: "Active Tournament",
+          drop_date_calculated: "2026-12-31",
+          points: "100",
+        }),
+      ],
+      oldSnapshotRows: [snapshotRow({ official_points: "100" })],
+      oldRankingDate: "2026-06-15",
+      dropCutoff: "2026-06-21",
+    });
+
+    assert.equal(result.reconstructed, true);
+    assert.equal(result.baselinePolicy, "drop_cutoff");
+    assert.equal(result.baselineDropCutoff, "2026-06-14");
+    assert.equal(result.baseline.valid, true);
+    assert.equal(result.baseline.exact, 1);
+    assert.match(result.warnings[0], /corte em 2026-06-14/);
+  });
+
   test("direct returns valid JSON", async () => {
     const outputDir = await createTempOutputDir();
     const outputPaths = buildOutputPaths(outputDir);

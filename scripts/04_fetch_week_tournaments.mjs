@@ -724,6 +724,29 @@ async function readJsonFile(filePath) {
   return JSON.parse(await fs.readFile(filePath, "utf8"));
 }
 
+export async function resolveManualTournamentFile(
+  weekStart,
+  explicitManualFile = "",
+  cwd = process.cwd()
+) {
+  if (cleanText(explicitManualFile)) {
+    return path.resolve(cwd, explicitManualFile);
+  }
+
+  const automaticFile = path.resolve(
+    cwd,
+    "data/config",
+    `weekly_tournaments_${weekStart}.json`
+  );
+
+  try {
+    await fs.access(automaticFile);
+    return automaticFile;
+  } catch {
+    return "";
+  }
+}
+
 function validateManualWeek(config, weekWindow) {
   const weekStart = cleanText(config.week_start || config.weekStart);
   const weekEnd = cleanText(config.week_end || config.weekEnd);
@@ -824,6 +847,10 @@ async function writeCsv(filePath, rows, columns) {
 export async function main(cliArgs = parseArgs()) {
   const weekWindow = buildWeekWindow(cliArgs);
   const outputPaths = resolveOutputPaths(cliArgs);
+  const manualFile = await resolveManualTournamentFile(
+    weekWindow.week_start,
+    cliArgs.manualFile
+  );
 
   await ensureDirs(outputPaths);
 
@@ -841,12 +868,12 @@ export async function main(cliArgs = parseArgs()) {
     search_end: weekWindow.search_end,
   });
 
-  if (cliArgs.manualFile) {
+  if (manualFile) {
     console.log("");
-    console.log(`Usando lista manual: ${path.resolve(cliArgs.manualFile)}`);
+    console.log(`Usando lista manual: ${manualFile}`);
 
     const result = await writeManualTournamentArtifacts(
-      cliArgs.manualFile,
+      manualFile,
       weekWindow,
       outputPaths
     );

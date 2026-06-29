@@ -994,6 +994,14 @@ function isIsoDateText(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(cleanText(value));
 }
 
+function previousIsoDate(value) {
+  if (!isIsoDateText(value)) return "";
+
+  const date = new Date(`${value}T00:00:00.000Z`);
+  date.setUTCDate(date.getUTCDate() - 1);
+  return date.toISOString().slice(0, 10);
+}
+
 export function isClosedWeekLedgerRow(row, oldRankingDate, dropCutoff) {
   const startDate = cleanText(row.start_date);
 
@@ -1034,6 +1042,8 @@ export function buildBaselineValidation({
   if (baseline.valid) {
     return {
       baseline,
+      baselinePolicy: BASELINE_POLICY,
+      baselineDropCutoff: "",
       reconstructed: false,
       removedRows: 0,
       warnings: [],
@@ -1045,15 +1055,6 @@ export function buildBaselineValidation({
     dropCutoff,
   });
   const removedRows = baselineLedgerRows.length - reconstructedRows.length;
-
-  if (removedRows === 0) {
-    return {
-      baseline,
-      reconstructed: false,
-      removedRows,
-      warnings: [],
-    };
-  }
 
   const reconstructedCalculatedRows = calculateLedgerPoints(reconstructedRows, {
     policy: BASELINE_POLICY,
@@ -1067,9 +1068,37 @@ export function buildBaselineValidation({
     }
   );
 
-  if (!reconstructedBaseline.valid) {
+  if (reconstructedBaseline.valid) {
+    return {
+      baseline: reconstructedBaseline,
+      baselinePolicy: BASELINE_POLICY,
+      baselineDropCutoff: "",
+      reconstructed: true,
+      removedRows,
+      warnings: [
+        `Baseline antigo reconstruido removendo ${removedRows} linhas confirmed_from_week_close entre ${oldRankingDate} e ${dropCutoff}.`,
+      ],
+    };
+  }
+
+  const baselineDropCutoff = previousIsoDate(oldRankingDate);
+  const cutoffCalculatedRows = calculateLedgerPoints(reconstructedRows, {
+    policy: STAGED_POLICY,
+    dropCutoff: baselineDropCutoff,
+  });
+  const cutoffBaseline = compareCalculatedAgainstSnapshot(
+    cutoffCalculatedRows,
+    oldSnapshotRows,
+    {
+      baselinePolicy: STAGED_POLICY,
+    }
+  );
+
+  if (!cutoffBaseline.valid) {
     return {
       baseline,
+      baselinePolicy: BASELINE_POLICY,
+      baselineDropCutoff: "",
       reconstructed: false,
       removedRows,
       warnings: [],
@@ -1077,11 +1106,17 @@ export function buildBaselineValidation({
   }
 
   return {
-    baseline: reconstructedBaseline,
+    baseline: cutoffBaseline,
+    baselinePolicy: STAGED_POLICY,
+    baselineDropCutoff,
     reconstructed: true,
     removedRows,
     warnings: [
-      `Baseline antigo reconstruido removendo ${removedRows} linhas confirmed_from_week_close entre ${oldRankingDate} e ${dropCutoff}.`,
+      `Baseline antigo reconstruido com corte em ${baselineDropCutoff}, vespera do ranking oficial ${oldRankingDate}${
+        removedRows > 0
+          ? ` e remocao de ${removedRows} linhas confirmed_from_week_close da semana ainda nao oficial`
+          : ""
+      }.`,
     ],
   };
 }
@@ -1239,9 +1274,9 @@ export async function runValidation(args, deps = {}) {
       oldRankingDate,
       expectedRankingDate: args.rankingDate,
       receivedRankingDate: official.receivedRankingDate,
-      baselinePolicy: BASELINE_POLICY,
+      baselinePolicy: baselineResult.baselinePolicy,
       stagedPolicy: STAGED_POLICY,
-      baselineDropCutoff: "",
+      baselineDropCutoff: baselineResult.baselineDropCutoff,
       stagedDropCutoff: args.dropCutoff,
       baseline,
       officialCounts: {
@@ -1273,9 +1308,9 @@ export async function runValidation(args, deps = {}) {
       oldRankingDate,
       expectedRankingDate: args.rankingDate,
       receivedRankingDate: official?.receivedRankingDate || "",
-      baselinePolicy: BASELINE_POLICY,
+      baselinePolicy: baselineResult.baselinePolicy,
       stagedPolicy: STAGED_POLICY,
-      baselineDropCutoff: "",
+      baselineDropCutoff: baselineResult.baselineDropCutoff,
       stagedDropCutoff: args.dropCutoff,
       baseline,
       officialCounts: {

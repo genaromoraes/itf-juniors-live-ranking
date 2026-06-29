@@ -17,6 +17,7 @@ import {
   parseArgs as parseTournamentArgs,
   parseTournamentUrl,
   resolveOutputPaths as resolveTournamentPaths,
+  resolveManualTournamentFile,
   tournamentBelongsToOfficialWeek,
 } from "../scripts/04_fetch_week_tournaments.mjs";
 import {
@@ -357,6 +358,43 @@ describe("historical backfill support", () => {
     );
 
     assert.match(config.outputDir, /data[\\/]backfills[\\/]week_2026-06-08_2026-06-14$/);
+  });
+
+  test("backfill forwards an explicit manual tournament file", () => {
+    const manualFile = path.resolve("data/config/weekly_tournaments_test.json");
+    const config = buildBackfillConfig(
+      parseBackfillArgs([
+        "--week-start=2026-06-08",
+        "--week-end=2026-06-14",
+        `--manual-file=${manualFile}`,
+      ]),
+      new Date("2026-06-15T00:00:00.000Z")
+    );
+    const tournamentStep = buildStepCommands(config)[0];
+
+    assert.equal(config.manualFile, manualFile);
+    assert.ok(tournamentStep.args.includes(`--manual-file=${manualFile}`));
+  });
+
+  test("tournament collector automatically uses the configured weekly list", async () => {
+    const cwd = await fs.mkdtemp(path.join(os.tmpdir(), "weekly-config-"));
+    const configFile = path.join(
+      cwd,
+      "data",
+      "config",
+      "weekly_tournaments_2026-06-29.json"
+    );
+    await writeJson(configFile, {
+      week_start: "2026-06-29",
+      week_end: "2026-07-05",
+      current_tournaments: [],
+    });
+
+    assert.equal(
+      await resolveManualTournamentFile("2026-06-29", "", cwd),
+      configFile
+    );
+    assert.equal(await resolveManualTournamentFile("2026-07-06", "", cwd), "");
   });
 
   test("tournament script keeps current-week default behavior and supports isolated output dir", () => {

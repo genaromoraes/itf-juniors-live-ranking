@@ -1,4 +1,5 @@
 import { spawn } from "child_process";
+import { existsSync } from "node:fs";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -72,6 +73,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     weekStart: cleanText(getArg("week-start", argv)),
     weekEnd: cleanText(getArg("week-end", argv)),
     outputDir: cleanText(getArg("output-dir", argv)),
+    manualFile: cleanText(getArg("manual-file", argv)),
     mode: cleanText(getArg("mode", argv)) || MODE_DRY_RUN,
   };
 }
@@ -103,6 +105,15 @@ export function buildBackfillConfig(args = parseArgs(), now = new Date()) {
   const outputDir = args.outputDir
     ? path.resolve(args.outputDir)
     : path.resolve("data/backfills", `week_${args.weekStart}_${args.weekEnd}`);
+  const automaticManualFile = path.resolve(
+    "data/config",
+    `weekly_tournaments_${args.weekStart}.json`
+  );
+  const manualFile = args.manualFile
+    ? path.resolve(args.manualFile)
+    : existsSync(automaticManualFile)
+      ? automaticManualFile
+      : "";
 
   return {
     weekStart: toIsoDateUtc(weekStartDate),
@@ -114,6 +125,7 @@ export function buildBackfillConfig(args = parseArgs(), now = new Date()) {
     rawResultsDir: path.join(outputDir, "raw", "week_results"),
     logFile: path.join(outputDir, "backfill.log"),
     reportFile: path.join(outputDir, "backfill_report.json"),
+    manualFile,
     mode: args.mode,
   };
 }
@@ -128,6 +140,7 @@ export function buildStepCommands(config) {
         `--week-start=${config.weekStart}`,
         `--week-end=${config.weekEnd}`,
         `--output-dir=${config.outputDir}`,
+        ...(config.manualFile ? [`--manual-file=${config.manualFile}`] : []),
       ],
     },
     {
