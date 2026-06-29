@@ -181,7 +181,8 @@ test("round-robin players can show title projection without next-round projectio
       },
     ],
     [],
-    []
+    [],
+    "2026-06-28"
   );
   const [row] = buildDataForHtml(
     [
