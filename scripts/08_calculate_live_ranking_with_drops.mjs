@@ -483,8 +483,12 @@ export function markIncludedCandidates(candidateRows, includedRows) {
 function normalizeLedgerRow(row, sourceType) {
   const startDate = cleanText(row.start_date);
   const storedDropDate = cleanText(row.drop_date_calculated);
-  const recalculatedDropDate =
+  const baseDropDate =
     sourceType === "base" ? cleanText(calculateLedgerDropDate(startDate)) : "";
+  const recalculatedDropDate = deferWimbledonDropToNextOfficialWeek(
+    cleanText(row.tournament_name),
+    baseDropDate || storedDropDate
+  );
 
   return {
     player_id: cleanText(row.player_id),
@@ -522,6 +526,21 @@ function normalizeLedgerRow(row, sourceType) {
 
     source_type: sourceType,
   };
+}
+
+export function deferWimbledonDropToNextOfficialWeek(tournamentName, dropDate) {
+  const name = cleanText(tournamentName).toLowerCase();
+  const parsed = parseIsoDate(dropDate);
+
+  if (!name.includes("wimbledon") || !parsed) return parsed;
+
+  const date = new Date(`${parsed}T00:00:00.000Z`);
+  const day = date.getUTCDay();
+
+  if (day === 6) date.setUTCDate(date.getUTCDate() + 2);
+  if (day === 0) date.setUTCDate(date.getUTCDate() + 1);
+
+  return date.toISOString().slice(0, 10);
 }
 
 function isDropped(row, dropCutoffDate) {
