@@ -195,16 +195,6 @@ function formatDateTime(value) {
   });
 }
 
-export function getMatchResultsUpdatedAt(matchRows) {
-  const timestamps = (matchRows || [])
-    .map((row) => cleanText(row?.collected_at))
-    .filter(Boolean);
-
-  if (!timestamps.length) return "";
-
-  return timestamps.sort().at(-1) || "";
-}
-
 function isIsoDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(cleanText(value));
 }
@@ -1747,8 +1737,7 @@ function buildHtml(
   weekMatches,
   weekParticipationMap,
   pointDetailsMap,
-  pointCartelMap,
-  matchResultsUpdatedAt
+  pointCartelMap
 ) {
   const data = buildDataForHtml(
     rows,
@@ -1759,6 +1748,7 @@ function buildHtml(
   const stats = getStats(rows);
   const tournamentGroups = groupWeekTournaments(weekTournaments, weekMatches);
 
+  const calculatedAt = rows[0]?.calculated_at || new Date().toISOString();
   const rankingDate = rows[0]?.ranking_date || "";
   const rolloverNotice = buildRolloverNotice(weekTournaments, rankingDate);
 
@@ -3962,12 +3952,10 @@ body.official-ranking-view .side {
         </select>
       </div>
 
-      ${matchResultsUpdatedAt ? `
       <div class="filter">
-        <label id="updatedAtLabel">Última atualização dos resultados (UTC-3)</label>
-        <input value="${escapeHtml(formatDateTime(matchResultsUpdatedAt))}" disabled />
+        <label id="updatedAtLabel">Última atualização (UTC-3)</label>
+        <input value="${escapeHtml(formatDateTime(calculatedAt))}" disabled />
       </div>
-      ` : ""}
     </section>
 
     ${rolloverNotice ? `
@@ -4139,7 +4127,7 @@ body.official-ranking-view .side {
         officialRanking: "Ranking oficial",
         weeklyFilter: "Filtro semanal",
         playing: "Jogando",
-        updatedAt: "Última atualização dos resultados (UTC-3)",
+        updatedAt: "Última atualização (UTC-3)",
         formula: "Pontos = ∑ 6 melhores resultados de simples + ∑ 25% dos 6 melhores resultados de duplas",
         loading: "Carregando...",
         officialBase: "Base oficial",
@@ -4222,7 +4210,7 @@ body.official-ranking-view .side {
         officialRanking: "Official ranking",
         weeklyFilter: "Weekly filter",
         playing: "Playing",
-        updatedAt: "Last results update (UTC-3)",
+        updatedAt: "Last update (UTC-3)",
         formula: "Points = ∑ best 6 singles results + ∑ 25% of best 6 doubles results",
         loading: "Loading...",
         officialBase: "Official base",
@@ -4305,7 +4293,7 @@ body.official-ranking-view .side {
         officialRanking: "Ranking oficial",
         weeklyFilter: "Filtro semanal",
         playing: "Jugando",
-        updatedAt: "Última actualización de resultados (UTC-3)",
+        updatedAt: "Última actualización (UTC-3)",
         formula: "Puntos = ∑ mejores 6 resultados de singles + ∑ 25% de los mejores 6 resultados de dobles",
         loading: "Cargando...",
         officialBase: "Base oficial",
@@ -5970,7 +5958,6 @@ async function main() {
     weekTournaments
   );
   const pointCartelMap = buildPointCartelMap(combinedLedgerRows);
-  const matchResultsUpdatedAt = getMatchResultsUpdatedAt(weekMatches);
 
   const html = buildHtml(
     rows,
@@ -5978,8 +5965,7 @@ async function main() {
     weekMatches,
     weekParticipationMap,
     pointDetailsMap,
-    pointCartelMap,
-    matchResultsUpdatedAt
+    pointCartelMap
   );
 
   await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
