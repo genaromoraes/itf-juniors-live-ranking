@@ -31,6 +31,10 @@ const INDEX_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "index.html");
 const CNAME_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "CNAME");
 const FAVICON_SOURCE_FILE = path.resolve("assets/favicon.png");
 const FAVICON_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "favicon.png");
+const ROBOTS_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "robots.txt");
+const SITEMAP_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "sitemap.xml");
+const NOT_FOUND_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "404.html");
+const ADS_TXT_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "ads.txt");
 const CUSTOM_DOMAIN = "www.juniorsliveranking.com.br";
 const SITE_URL = `https://${CUSTOM_DOMAIN}`;
 const ADSENSE_CLIENT_ID = "ca-pub-5423465092890611";
@@ -47,7 +51,23 @@ const STATIC_PAGES = [
         heading: "Sobre o projeto",
         paragraphs: [
           "O Juniors Live Ranking é uma ferramenta independente para acompanhar projeções e ranking oficial do circuito juvenil internacional.",
-          "A página reúne dados públicos, resultados semanais e cálculos automatizados para facilitar a leitura do cenário competitivo.",
+          "A página reúne dados públicos, resultados semanais e cálculos próprios para transformar informações dispersas em uma leitura clara do cenário competitivo.",
+          "Além de exibir a base oficial, o projeto identifica os torneios em andamento, acompanha rodadas concluídas, estima os pontos que entram e os resultados que deixam de contar e recalcula a ordem do ranking.",
+        ],
+      },
+      {
+        heading: "O valor editorial",
+        paragraphs: [
+          "Os dados não são apenas reproduzidos. Eles são normalizados, relacionados por atleta e torneio e apresentados com contexto: variação diante da lista oficial, situação na semana e cenários possíveis para a próxima rodada e para o título.",
+          "A seleção dos torneios, as regras de cálculo e as exceções encontradas nos resultados são revisadas durante a operação semanal. Quando uma fonte publica uma correção, a projeção pode ser recalculada.",
+          'A explicação completa e o guia de leitura estão reunidos na página <a href="metodologia.html">Como funciona</a>.',
+        ],
+      },
+      {
+        heading: "Para quem o site foi criado",
+        paragraphs: [
+          "O serviço foi pensado para atletas, famílias, treinadores, jornalistas e fãs que precisam entender rapidamente como os resultados da semana podem alterar o ranking juvenil.",
+          "A consulta é gratuita, não exige cadastro e oferece filtros por categoria, país, geração e participação na semana.",
         ],
       },
       {
@@ -55,6 +75,7 @@ const STATIC_PAGES = [
         paragraphs: [
           "Este site não é afiliado, endossado ou administrado pela ITF ou por qualquer entidade oficial de tênis.",
           "As informações são organizadas para consulta pública e podem sofrer ajustes conforme fontes oficiais sejam atualizadas.",
+          "Para inscrições, elegibilidade, aceitação em torneios ou qualquer decisão oficial, confirme sempre os dados diretamente com a ITF e com a organização do evento.",
         ],
       },
     ],
@@ -79,20 +100,42 @@ const STATIC_PAGES = [
     fileName: "privacidade.html",
     title: "Política de Privacidade",
     description:
-      "Política de Privacidade do Juniors Live Ranking.",
+      "Como o Juniors Live Ranking trata dados públicos, identificadores técnicos, cookies e publicidade.",
     sections: [
       {
-        heading: "Dados coletados",
+        heading: "Conteúdo esportivo e dados fornecidos pelo usuário",
         paragraphs: [
           "O site exibe informações esportivas públicas sobre atletas, rankings, torneios e pontuações.",
-          "Não há cadastro de usuários, área logada ou coleta direta de dados pessoais sensíveis pelo site.",
+          "Não há cadastro, área logada, comentários ou formulário de perfil. O contato por e-mail ou rede social é voluntário e os dados enviados são usados apenas para responder à mensagem ou conferir uma correção.",
         ],
       },
       {
-        heading: "Cookies, métricas e anúncios",
+        heading: "Dados técnicos",
         paragraphs: [
-          "O site poderá usar ferramentas de métricas e publicidade, como Google AdSense, que podem utilizar cookies ou tecnologias semelhantes conforme suas próprias políticas.",
-          "Essas ferramentas ajudam a medir audiência, proteger contra abuso e exibir anúncios relevantes.",
+          "Serviços de hospedagem, segurança, métricas e publicidade podem processar endereço IP, tipo de navegador e dispositivo, data e hora, páginas acessadas e identificadores semelhantes.",
+          "Esses dados podem ser usados para entregar o site, medir audiência, diagnosticar falhas, prevenir fraude e proteger os serviços contra abuso.",
+        ],
+      },
+      {
+        heading: "Google AdSense, cookies e tecnologias semelhantes",
+        paragraphs: [
+          "O site utiliza o Google AdSense. O Google e seus parceiros podem inserir ou ler cookies no navegador e usar web beacons, endereços IP e outros identificadores para veicular, medir e proteger anúncios.",
+          "Os anúncios podem ser personalizados ou não personalizados conforme localização, consentimento, configurações do usuário e regras aplicáveis.",
+          'Consulte <a href="https://policies.google.com/technologies/partner-sites?hl=pt-BR" target="_blank" rel="noopener">como o Google usa informações de sites que utilizam seus serviços</a>.',
+        ],
+      },
+      {
+        heading: "Escolhas e controle",
+        paragraphs: [
+          'O usuário pode gerenciar a personalização de anúncios em <a href="https://adssettings.google.com/" target="_blank" rel="noopener">Configurações de anúncios do Google</a> e controlar ou excluir cookies nas configurações do navegador.',
+          "Quando exigido pela legislação aplicável, o Google ou uma plataforma de consentimento poderá apresentar opções adicionais antes da utilização de cookies não essenciais.",
+        ],
+      },
+      {
+        heading: "Público juvenil",
+        paragraphs: [
+          "Embora o conteúdo trate de tênis juvenil e mostre dados esportivos públicos, o serviço não é destinado especificamente a crianças menores de 13 anos e não solicita informações pessoais diretamente delas.",
+          "Solicitações relacionadas a dados esportivos publicados podem ser encaminhadas pelos canais de contato abaixo.",
         ],
       },
       {
@@ -128,6 +171,148 @@ const STATIC_PAGES = [
         heading: "Independência",
         paragraphs: [
           "O Juniors Live Ranking é um site independente e não representa a ITF ou qualquer entidade oficial de tênis.",
+        ],
+      },
+    ],
+  },
+  {
+    fileName: "metodologia.html",
+    title: "Como funciona",
+    description:
+      "Metodologia resumida do cálculo e das projeções exibidas no site.",
+    sections: [
+      {
+        heading: "Base e fórmula",
+        paragraphs: [
+          "A projeção parte do ranking oficial ITF mais recente e incorpora os resultados da semana já publicados.",
+          "Pontuação = 6 melhores resultados de simples + 25% dos 6 melhores resultados de duplas.",
+        ],
+      },
+      {
+        heading: "Entrada e descarte",
+        paragraphs: [
+          "Um resultado novo só acrescenta a diferença sobre o resultado que ele substitui entre os seis válidos. Resultados com drop date na semana também são retirados da base.",
+          "A variação mostrada é líquida: pontos ganhos menos substituições e descartes.",
+        ],
+      },
+      {
+        heading: "Ranking ao vivo",
+        paragraphs: [
+          "A classificação é reordenada pela pontuação projetada. A mudança de posição é calculada contra a mesma base oficial usada no início da semana.",
+          "O painel do atleta detalha resultados que entram, deixam de contar ou expiram.",
+        ],
+      },
+      {
+        heading: "Cenários",
+        paragraphs: [
+          "Próxima rodada calcula o total em caso de avanço. Título calcula o teto ainda disponível no torneio.",
+          "Simples e duplas são projetadas separadamente e, quando aplicável, também em cenário combinado. Não são probabilidades ou previsões de resultado.",
+        ],
+      },
+      {
+        heading: "Resultados e exceções",
+        paragraphs: [
+          "Chaves, rodadas e modalidades são associadas pelo identificador do atleta. W/O, bye, round robin, qualifying e chaves incompletas recebem tratamento específico.",
+          "O horário no topo indica a última coleta concluída; resultados ainda não publicados pela fonte não entram na projeção.",
+        ],
+      },
+      {
+        heading: "Status da projeção",
+        paragraphs: [
+          "O ranking ao vivo é uma projeção independente e pode divergir da publicação final por correções, critérios de desempate ou atualização tardia da ITF.",
+          'Para reportar uma divergência, envie atleta, torneio e rodada pela página de <a href="contato.html">Contato</a>.',
+        ],
+      },
+    ],
+  },
+  {
+    fileName: "guia-ranking.html",
+    redirectTo: "metodologia.html",
+  },
+  {
+    fileName: "perguntas-frequentes.html",
+    title: "Perguntas frequentes",
+    description:
+      "Respostas rápidas sobre cobertura, cálculo, atualização e leitura das projeções.",
+    sections: [
+      {
+        heading: "Com que frequência o ranking é atualizado?",
+        paragraphs: [
+          "Há execuções programadas ao longo da semana. O horário no topo da home indica a última atualização concluída, em UTC-3.",
+          "A projeção depende da publicação das chaves. Um jogo encerrado pode ainda não aparecer se a fonte não tiver sido atualizada.",
+        ],
+      },
+      {
+        heading: "Quais atletas entram na classificação exibida?",
+        paragraphs: [
+          "O cálculo parte da base oficial acompanhada pelo projeto e a home exibe os 500 primeiros de cada categoria.",
+          "Atletas fora da faixa monitorada não entram automaticamente apenas por disputarem um torneio na semana.",
+        ],
+      },
+      {
+        heading: "Como os pontos de simples e duplas são calculados?",
+        paragraphs: [
+          "A soma considera os 6 melhores resultados de simples e 25% dos 6 melhores resultados de duplas.",
+          'A metodologia resumida está em <a href="metodologia.html">Como funciona</a>.',
+        ],
+      },
+      {
+        heading: "Por que o ganho líquido pode ser menor que os pontos do torneio?",
+        paragraphs: [
+          "Porque o novo resultado pode substituir outro que já contava entre os seis melhores. A variação exibida é líquida, não o valor bruto da rodada.",
+        ],
+      },
+      {
+        heading: "Como os descartes são tratados?",
+        paragraphs: [
+          "Resultados cuja drop date pertence à semana deixam a pontuação válida. O cálculo combina esse descarte com os pontos que entram na mesma janela.",
+          "O painel do atleta identifica os ajustes considerados na projeção.",
+        ],
+      },
+      {
+        heading: "O que significam próxima rodada e título?",
+        paragraphs: [
+          "Próxima rodada mostra o total projetado em caso de avanço. Título mostra o teto disponível se o atleta vencer o evento.",
+          "Quando simples e duplas seguem abertas, podem existir cenários separados e combinado. Não são probabilidades de vitória.",
+        ],
+      },
+      {
+        heading: "Como W/O, bye, qualifying e round robin são tratados?",
+        paragraphs: [
+          "Cada situação segue sua função esportiva na chave: bye não conta como vitória jogada; W/O pode definir avanço; qualifying e round robin usam fases e elegibilidade próprias.",
+          "Chaves incompletas ou contraditórias podem ficar pendentes até nova coleta ou revisão.",
+        ],
+      },
+      {
+        heading: "Por que um atleta aparece sem projeção de próxima rodada?",
+        paragraphs: [
+          "A coluna só é preenchida quando a chave permite identificar um avanço futuro elegível. Eliminação, evento concluído, fase sem projeção ou dado pendente produzem um traço.",
+        ],
+      },
+      {
+        heading: "Por que a projeção pode diferir da lista oficial?",
+        paragraphs: [
+          "A publicação final pode incorporar correções, desempates, penalidades ou resultados recebidos depois da última coleta.",
+          "O ranking ao vivo é uma projeção independente; para inscrições, seedings e cortes, vale a publicação oficial.",
+        ],
+      },
+      {
+        heading: "O ranking oficial mostrado no site é alterado pela projeção?",
+        paragraphs: [
+          "Não. A visualização oficial preserva a base publicada. A visualização ao vivo aplica resultados e descartes sobre essa base para comparação.",
+        ],
+      },
+      {
+        heading: "O site pertence à ITF?",
+        paragraphs: [
+          "Não. O Juniors Live Ranking é um projeto editorial e tecnológico independente, sem afiliação, administração ou endosso da ITF.",
+          "Links para páginas oficiais são fornecidos como referência e para facilitar a conferência pelo leitor.",
+        ],
+      },
+      {
+        heading: "Como reportar um erro?",
+        paragraphs: [
+          'Use a página de <a href="contato.html">Contato</a> e informe atleta, torneio, modalidade, rodada e link da fonte. Esses dados permitem reproduzir o cálculo.',
         ],
       },
     ],
@@ -253,12 +438,18 @@ function buildRolloverNotice(weekTournaments, rankingDate, today = new Date()) {
 }
 
 function buildStaticPage(page) {
+  if (page.redirectTo) {
+    return buildContentRedirectPage(page.redirectTo);
+  }
+
   const navLinks = [
     { href: "./", label: "Ranking" },
-    ...STATIC_PAGES.map((item) => ({
-      href: item.fileName,
-      label: item.title,
-    })),
+    { href: "metodologia.html", label: "Como funciona" },
+    { href: "sobre.html", label: "Sobre" },
+    { href: "perguntas-frequentes.html", label: "Perguntas frequentes" },
+    { href: "contato.html", label: "Contato" },
+    { href: "privacidade.html", label: "Privacidade" },
+    { href: "termos.html", label: "Termos de Uso" },
   ];
 
   return `<!doctype html>
@@ -270,7 +461,6 @@ function buildStaticPage(page) {
   <meta name="description" content="${escapeHtml(page.description)}" />
   <link rel="canonical" href="${SITE_URL}/${escapeHtml(page.fileName)}" />
   <link rel="icon" href="favicon.png" type="image/png" />
-  ${ADSENSE_SCRIPT}
   <style>
     :root {
       color-scheme: light;
@@ -306,9 +496,7 @@ function buildStaticPage(page) {
     .topbar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
 
     .brand {
@@ -319,19 +507,36 @@ function buildStaticPage(page) {
       text-decoration: none;
     }
 
-    nav {
+    .primary-nav {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: flex-end;
+      gap: 18px;
+      margin-bottom: 20px;
+      padding-bottom: 9px;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: none;
     }
 
-    nav a,
-    .back-link {
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 700;
+    .primary-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .primary-nav a {
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
       text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .primary-nav a:hover,
+    .primary-nav a[aria-current="page"] {
+      color: var(--green);
+    }
+
+    .primary-nav a[aria-current="page"] {
+      font-weight: 800;
     }
 
     .panel {
@@ -362,6 +567,98 @@ function buildStaticPage(page) {
       border-top: 1px solid var(--border);
     }
 
+    .explain-panel {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .explain-panel > h1,
+    .explain-panel > .description {
+      grid-column: 1 / -1;
+    }
+
+    .explain-panel > .description {
+      margin-bottom: 4px;
+    }
+
+    .explain-panel section,
+    .explain-panel section + section {
+      margin: 0;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(245, 251, 249, 0.72);
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      color: var(--green);
+      background: #dff5ee;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .faq-panel .description {
+      margin-bottom: 18px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(245, 251, 249, 0.68);
+      overflow: hidden;
+    }
+
+    .faq-item + .faq-item {
+      margin-top: 10px;
+    }
+
+    .faq-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 750;
+      line-height: 1.35;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "+";
+      flex: 0 0 auto;
+      color: var(--green);
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .faq-item[open] summary::after {
+      content: "−";
+    }
+
+    .faq-answer {
+      padding: 0 18px 17px;
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-answer p:first-child {
+      padding-top: 14px;
+    }
+
     h2 {
       margin: 0 0 10px;
       font-size: 18px;
@@ -384,24 +681,29 @@ function buildStaticPage(page) {
     }
 
     footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
       margin-top: 22px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.5;
     }
 
+    footer a {
+      color: var(--green);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
     @media (max-width: 720px) {
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      nav {
-        justify-content: flex-start;
-      }
-
       .panel {
         padding: 24px;
+      }
+
+      .explain-panel {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -410,27 +712,101 @@ function buildStaticPage(page) {
   <div class="page">
     <header class="topbar">
       <a class="brand" href="./">Juniors Live Ranking</a>
-      <nav aria-label="Navegação principal">
-        ${navLinks.map((link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a>`).join("\n        ")}
-      </nav>
     </header>
 
-    <main class="panel">
+    <nav class="primary-nav" aria-label="Navegação principal">
+      ${navLinks.map((link) => `<a href="${escapeHtml(link.href)}"${link.href === page.fileName || (link.href === "./" && page.fileName === "index.html") ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`).join("\n      ")}
+    </nav>
+
+    <main class="panel${page.fileName === "metodologia.html" ? " explain-panel" : page.fileName === "perguntas-frequentes.html" ? " faq-panel" : ""}">
       <h1>${escapeHtml(page.title)}</h1>
       <p class="description">${escapeHtml(page.description)}</p>
-      ${page.sections.map((section) => `
+      ${page.sections.map((section, index) => page.fileName === "perguntas-frequentes.html" ? `
+      <details class="faq-item"${index === 0 ? " open" : ""}>
+        <summary>${escapeHtml(section.heading)}</summary>
+        <div class="faq-answer">
+          ${section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("\n          ")}
+        </div>
+      </details>` : `
       <section>
+        ${page.fileName === "metodologia.html" ? `<span class="section-number">${String(index + 1).padStart(2, "0")}</span>` : ""}
         <h2>${escapeHtml(section.heading)}</h2>
         ${section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("\n        ")}
       </section>`).join("\n")}
     </main>
 
-    <footer>
-      Juniors Live Ranking é um projeto independente. Última atualização desta página: 20/06/2026.
+    <footer aria-label="Links institucionais">
+      <a href="./">Ranking</a>
+      <a href="metodologia.html">Como funciona</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="perguntas-frequentes.html">Perguntas frequentes</a>
+      <a href="contato.html">Contato</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+      <span>Projeto independente, sem afiliação oficial com a ITF.</span>
     </footer>
   </div>
 </body>
 </html>`;
+}
+
+function buildContentRedirectPage(target) {
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, follow" />
+  <meta http-equiv="refresh" content="0; url=${escapeHtml(target)}" />
+  <link rel="canonical" href="${SITE_URL}/${escapeHtml(target)}" />
+  <title>Conteúdo atualizado | Juniors Live Ranking</title>
+</head>
+<body>
+  <p>Este conteúdo foi reunido em uma página única. <a href="${escapeHtml(target)}">Acesse Como funciona</a>.</p>
+</body>
+</html>`;
+}
+
+function buildNotFoundPage() {
+  return buildStaticPage({
+    fileName: "404.html",
+    title: "Página não encontrada",
+    description: "O endereço informado não existe no Juniors Live Ranking.",
+    sections: [
+      {
+        heading: "Volte para uma área disponível",
+        paragraphs: [
+          'A página pode ter mudado de endereço ou o link pode estar incompleto. Acesse o <a href="./">ranking ao vivo</a>, consulte a <a href="metodologia.html">metodologia</a> ou veja as <a href="perguntas-frequentes.html">perguntas frequentes</a>.',
+        ],
+      },
+    ],
+  }).replace("</head>", '  <meta name="robots" content="noindex, follow" />\n</head>');
+}
+
+function buildLegacyRedirectPage() {
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, follow" />
+  <meta http-equiv="refresh" content="0; url=./" />
+  <link rel="canonical" href="${SITE_URL}/" />
+  <title>Redirecionando | Juniors Live Ranking</title>
+</head>
+<body>
+  <p>Este endereço mudou. <a href="./">Acesse o Juniors Live Ranking</a>.</p>
+</body>
+</html>`;
+}
+
+function buildSitemap() {
+  const urls = ["", ...STATIC_PAGES.filter((page) => !page.redirectTo).map((page) => page.fileName)];
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((url) => `  <url><loc>${SITE_URL}/${url}</loc></url>`).join("\n")}
+</urlset>
+`;
 }
 
 function countryCodeToIso2(countryCode) {
@@ -1769,6 +2145,12 @@ function buildHtml(
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ITF Juniors Live Ranking</title>
+  <meta name="description" content="Ranking juvenil internacional ao vivo com pontos da semana, variações, torneios em andamento e cenários de próxima rodada." />
+  <link rel="canonical" href="${SITE_URL}/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ITF Juniors Live Ranking" />
+  <meta property="og:description" content="Acompanhe o ranking juvenil internacional, resultados da semana e cenários de pontuação." />
+  <meta property="og:url" content="${SITE_URL}/" />
   <link rel="icon" href="favicon.png" type="image/png" />
   ${ADSENSE_SCRIPT}
   <script>
@@ -1908,6 +2290,73 @@ function buildHtml(
       font-weight: 600;
     }
 
+    .primary-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      margin: -8px 0 12px;
+      padding: 0 2px 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .primary-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .primary-nav a {
+      flex: 0 0 auto;
+      padding: 3px 0;
+      color: var(--green-dark);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 160ms ease;
+    }
+
+    .primary-nav a:hover,
+    .primary-nav a:focus-visible {
+      color: var(--green-dark);
+      outline: none;
+    }
+
+    .primary-nav a[aria-current="page"] {
+      color: var(--green-dark);
+      font-weight: 750;
+    }
+
+    .primary-nav .utility-link {
+      color: var(--green-dark);
+      font-weight: 650;
+    }
+
+    .editorial-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin: -3px 0 12px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .editorial-note strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .editorial-note a {
+      color: var(--green-dark);
+      font-weight: 650;
+      text-decoration: none;
+    }
+
     .site-footer {
       display: flex;
       flex-wrap: wrap;
@@ -1964,56 +2413,6 @@ function buildHtml(
     .floating-report-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 11px 28px rgba(8, 117, 109, 0.30);
-    }
-
-    .info-section {
-      margin-top: 14px;
-      padding: 18px 2px 2px;
-      border-top: 1px solid var(--border-soft);
-    }
-
-    .info-section h2 {
-      margin: 0 0 6px;
-      color: var(--green-dark);
-      font-size: 18px;
-      line-height: 1.2;
-      letter-spacing: 0;
-    }
-
-    .info-intro {
-      max-width: 860px;
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .info-item {
-      min-width: 0;
-      padding: 12px;
-      border: 1px solid var(--border-soft);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.48);
-    }
-
-    .info-item h3 {
-      margin: 0 0 6px;
-      color: var(--text);
-      font-size: 12px;
-      line-height: 1.25;
-    }
-
-    .info-item p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
     }
 
     .beta {
@@ -3745,10 +4144,6 @@ body.official-ranking-view .side {
         overflow-x: auto;
       }
 
-      .info-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
       table {
         min-width: 820px;
       }
@@ -3778,6 +4173,22 @@ body.official-ranking-view .side {
         grid-template-columns: 1fr 1fr;
       }
 
+      .primary-nav {
+        justify-content: flex-start;
+        gap: 14px;
+        margin-top: -7px;
+      }
+
+      .primary-nav a {
+        padding: 4px 0;
+      }
+
+      .editorial-note {
+        flex-wrap: wrap;
+        margin-top: -1px;
+      }
+
+
       .brand-lockup {
         grid-template-columns: 42px minmax(0, 1fr);
         gap: 9px;
@@ -3791,10 +4202,6 @@ body.official-ranking-view .side {
 
       .ranking-card-header {
         padding: 10px 10px 8px;
-      }
-
-      .info-grid {
-        grid-template-columns: 1fr;
       }
 
       .profile-modal {
@@ -3891,6 +4298,22 @@ body.official-ranking-view .side {
         </div>
       </div>
     </header>
+
+    <nav class="primary-nav" aria-label="Navegação principal">
+      <a href="./" aria-current="page">Ranking</a>
+      <a href="metodologia.html">Como funciona</a>
+      <a href="sobre.html">Sobre</a>
+      <a class="utility-link" href="perguntas-frequentes.html">Perguntas frequentes</a>
+      <a class="utility-link" href="contato.html">Contato</a>
+      <a class="utility-link" href="privacidade.html">Privacidade</a>
+      <a class="utility-link" href="termos.html">Termos de Uso</a>
+    </nav>
+
+    <aside class="editorial-note" aria-label="Contexto da projeção">
+      <strong>Projeção independente:</strong>
+      <span>base oficial ITF, cálculo próprio, regras verificadas e tratamento de exceções.</span>
+      <a href="metodologia.html">Ver metodologia</a>
+    </aside>
 
     <section class="filters">
       <div class="filter">
@@ -4015,36 +4438,13 @@ body.official-ranking-view .side {
       </aside>
     </main>
 
-    <section class="info-section" aria-labelledby="siteInfoTitle">
-      <h2 id="siteInfoTitle">O que é o Juniors Live Ranking</h2>
-      <p class="info-intro">
-        O Juniors Live Ranking acompanha atletas juvenis em uma leitura prática: ranking oficial, projeções ao vivo, pontos da semana e cenários de próxima rodada. A tabela é atualizada automaticamente a partir dos dados disponíveis no momento de cada execução.
-      </p>
-      <div class="info-grid">
-        <article class="info-item">
-          <h3>Ranking oficial</h3>
-          <p>Mostra a posição e a pontuação publicadas como base oficial para a semana.</p>
-        </article>
-        <article class="info-item">
-          <h3>Ranking ao vivo</h3>
-          <p>Projeta mudanças com resultados semanais, pontos entrando e pontos que deixam de contar.</p>
-        </article>
-        <article class="info-item">
-          <h3>Atualização</h3>
-          <p>O robô recalcula o site em execuções programadas e pode refletir correções posteriores das fontes.</p>
-        </article>
-        <article class="info-item">
-          <h3>Site independente</h3>
-          <p>Este projeto não é afiliado ou administrado pela ITF. Consulte fontes oficiais para decisões finais.</p>
-        </article>
-      </div>
-    </section>
-
     <footer class="site-footer">
-      <a class="report-error-link" href="https://x.com/messages/compose?recipient_id=1880677588231917568" target="_blank" rel="noopener" aria-label="Reportar erro ou bug por mensagem direta no X">⚑ Reportar erro ou bug</a>
+      <a href="./">Ranking</a>
+      <a href="metodologia.html">Como funciona</a>
       <a href="sobre.html">Sobre</a>
+      <a href="perguntas-frequentes.html">Perguntas frequentes</a>
       <a href="contato.html">Contato</a>
-      <a href="privacidade.html">Política de Privacidade</a>
+      <a href="privacidade.html">Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
       <span>Site independente, sem afiliação oficial com a ITF.</span>
     </footer>
@@ -5968,9 +6368,21 @@ async function main() {
     pointCartelMap
   );
 
-  await fs.writeFile(HTML_OUTPUT_FILE, html, "utf8");
+  await fs.writeFile(HTML_OUTPUT_FILE, buildLegacyRedirectPage(), "utf8");
   await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
   await fs.writeFile(CNAME_OUTPUT_FILE, `${CUSTOM_DOMAIN}\n`, "utf8");
+  await fs.writeFile(
+    ROBOTS_OUTPUT_FILE,
+    `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
+    "utf8"
+  );
+  await fs.writeFile(SITEMAP_OUTPUT_FILE, buildSitemap(), "utf8");
+  await fs.writeFile(NOT_FOUND_OUTPUT_FILE, buildNotFoundPage(), "utf8");
+  await fs.writeFile(
+    ADS_TXT_OUTPUT_FILE,
+    "google.com, pub-5423465092890611, DIRECT, f08c47fec0942fa0\n",
+    "utf8"
+  );
   await fs.copyFile(FAVICON_SOURCE_FILE, FAVICON_OUTPUT_FILE);
 
   for (const page of STATIC_PAGES) {
@@ -5987,12 +6399,16 @@ async function main() {
   console.log("data/exports/index.html");
   console.log("data/exports/CNAME");
   console.log("data/exports/favicon.png");
+  console.log("data/exports/robots.txt");
+  console.log("data/exports/sitemap.xml");
+  console.log("data/exports/404.html");
+  console.log("data/exports/ads.txt");
   for (const page of STATIC_PAGES) {
     console.log(`data/exports/${page.fileName}`);
   }
   console.log("");
   console.log("Para abrir no navegador:");
-  console.log(`file:///${HTML_OUTPUT_FILE.replaceAll("\\\\", "/")}`);
+  console.log(`file:///${INDEX_OUTPUT_FILE.replaceAll("\\\\", "/")}`);
 }
 
 const isDirectRun =
