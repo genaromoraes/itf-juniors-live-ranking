@@ -494,6 +494,59 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(row.live_points_raw, 36);
   });
 
+  test("main-draw round order counts a bye in a 48-player draw", () => {
+    const playerResults = [
+      {
+        tournament_key: "J-J200-NED-2026-001",
+        tournament_name: "J200 Castricum",
+        category: "J200",
+        player_id: "SEEDED-PLAYER",
+        player_name: "Seeded Player",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        wins: "2",
+        losses: "1",
+        highest_round_order: "4",
+        highest_round_name: "Quarter-finals",
+        status: "eliminated",
+      },
+    ];
+
+    const matchRows = [];
+
+    for (let index = 0; index < 24; index += 1) {
+      matchRows.push({
+        tournament_key: "J-J200-NED-2026-001",
+        player_type_code: "B",
+        match_type_code: "S",
+        event_classification_code: "M",
+        round_order: "1",
+        round_name: "1st Round",
+        team1_player_ids: `P${index * 2 + 1}`,
+        team2_player_ids: `P${index * 2 + 2}`,
+      });
+    }
+
+    matchRows.push({
+      tournament_key: "J-J200-NED-2026-001",
+      player_type_code: "B",
+      match_type_code: "S",
+      event_classification_code: "M",
+      round_order: "4",
+      round_name: "Quarter-finals",
+      team1_player_ids: "SEEDED-PLAYER",
+      team2_player_ids: "QF-OPPONENT",
+    });
+
+    const pointsMap = new Map([["J200|singles|main_draw|QF", 60]]);
+    const [row] = buildLivePointRows(playerResults, matchRows, pointsMap);
+
+    assert.equal(row.total_rounds_in_draw, 6);
+    assert.equal(row.calculated_round_label, "QF");
+    assert.equal(row.live_points_raw, 60);
+  });
+
   test("production live calculation labels qualifying rounds from the qualifying draw length", () => {
     const playerResults = [
       {
