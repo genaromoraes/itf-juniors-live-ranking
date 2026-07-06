@@ -344,6 +344,33 @@ function resolveMainDrawTotalRounds(row, maxRoundOrderByEvent, drawSizeByEvent) 
   return maxRoundOrderByEvent.get(eventKey) || toNumber(row.highest_round_order) || 1;
 }
 
+function getExplicitMainDrawRoundLabel(row, labels, totalRounds) {
+  const roundName = cleanText(row.highest_round_name).toLowerCase();
+  const namedRounds = new Map([
+    ["quarter-final", "QF"],
+    ["quarter-finals", "QF"],
+    ["quarterfinal", "QF"],
+    ["quarterfinals", "QF"],
+    ["semi-final", "SF"],
+    ["semi-finals", "SF"],
+    ["semifinal", "SF"],
+    ["semifinals", "SF"],
+    ["final", "F"],
+  ]);
+
+  if (namedRounds.has(roundName)) {
+    return namedRounds.get(roundName);
+  }
+
+  const roundOrder = toNumber(row.highest_round_order);
+
+  if (roundOrder >= 1 && roundOrder <= totalRounds) {
+    return labels[roundOrder - 1];
+  }
+
+  return "";
+}
+
 function getMainDrawRoundLabel(row, maxRoundOrderByEvent, drawSizeByEvent) {
   const totalRounds = resolveMainDrawTotalRounds(
     row,
@@ -357,6 +384,16 @@ function getMainDrawRoundLabel(row, maxRoundOrderByEvent, drawSizeByEvent) {
 
   if (status === "champion") {
     return "W";
+  }
+
+  // The draw round is authoritative when the ITF provides it. Counting wins
+  // alone places seeded players one round too early in incomplete draws (for
+  // example, a 48-player draw inside a 64-slot bracket) because a bye is not a
+  // played win.
+  const explicitRound = getExplicitMainDrawRoundLabel(row, labels, totalRounds);
+
+  if (explicitRound) {
+    return explicitRound;
   }
 
   let achievedIndex;
