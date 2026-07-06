@@ -49,6 +49,9 @@ function parseArgs(argv = process.argv.slice(2)) {
       cleanText(readArg("network-mode", NETWORK_MODE_AUTO)).toLowerCase() ||
       NETWORK_MODE_AUTO,
     mode: cleanText(readArg("mode", "dry-run")) || "dry-run",
+    allowPartialPromotion:
+      cleanText(readArg("allow-partial-promotion", "false")).toLowerCase() ===
+      "true",
   };
 }
 
@@ -266,6 +269,16 @@ export async function runReconciliation(args, deps = {}) {
     finalValidation,
     expectedOfficialTotal: EXPECTED_OFFICIAL_TOTAL,
   });
+  const safeEnoughForPartialPromotion =
+    args.allowPartialPromotion &&
+    inputValidation.valid &&
+    fetchResult.errors.length === 0 &&
+    ledgerValidation.valid &&
+    finalValidation.finalTotal === EXPECTED_OFFICIAL_TOTAL &&
+    finalValidation.finalMissingLedger === 0 &&
+    finalValidation.uniqueLedgerPlayers === EXPECTED_OFFICIAL_TOTAL &&
+    finalValidation.ledgerPlayersOutsideOfficial === 0 &&
+    fetchResult.networkReport.get_rankings_calls === 0;
   const finishedAt = new Date().toISOString();
   const summary = buildSummary({
     args,
@@ -276,7 +289,7 @@ export async function runReconciliation(args, deps = {}) {
     ledgerParts,
     ledgerValidation,
     finalValidation,
-    safeForPromotion,
+    safeForPromotion: safeForPromotion || safeEnoughForPartialPromotion,
   });
 
   await writeReconciliationArtifacts({
@@ -298,13 +311,19 @@ export async function runReconciliation(args, deps = {}) {
     `Validacao final: ${finalValidation.finalExact}/${finalValidation.finalTotal}.`
   );
 
-  if (!safeForPromotion) {
+  if (!safeForPromotion && !safeEnoughForPartialPromotion) {
     throw new Error(
       `Reconciliacao nao ficou segura para promocao: ${finalValidation.finalExact}/${EXPECTED_OFFICIAL_TOTAL} reconciliados.`
     );
   }
 
-  await logger.log("Reconciliacao seletiva concluida e segura para promocao.");
+  if (safeEnoughForPartialPromotion && !safeForPromotion) {
+    await logger.log(
+      `Promocao parcial autorizada: ${finalValidation.finalExact}/${EXPECTED_OFFICIAL_TOTAL} reconciliados.`
+    );
+  } else {
+    await logger.log("Reconciliacao seletiva concluida e segura para promocao.");
+  }
   return {
     summary,
     fetchResult,

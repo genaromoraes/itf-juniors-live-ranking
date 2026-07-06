@@ -32,6 +32,11 @@ on:
           - auto
           - direct
           - browser
+      allow_partial_promotion:
+        description: "Promote even when official reconciliation has point divergences"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   actions: write
@@ -54,6 +59,7 @@ jobs:
       NEW_WEEK_START: ${{ inputs.ranking_date }}
       NEW_WEEK_END: ${{ inputs.new_week_end }}
       NETWORK_MODE: ${{ inputs.network_mode }}
+      ALLOW_PARTIAL_PROMOTION: ${{ inputs.allow_partial_promotion }}
       BACKFILL_DIR: data/backfills/week_${{ inputs.week_start }}_${{ inputs.week_end }}_github_run_${{ github.run_id }}
       WEEK_CLOSE_DIR: data/staging/week_close_${{ inputs.week_end }}
       VALIDATION_DIR: data/staging/official_validation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
@@ -145,6 +151,7 @@ jobs:
               --drop-cutoff="$DROP_CUTOFF" \
               --output-dir="$RECONCILIATION_DIR" \
               --network-mode="$NETWORK_MODE" \
+              --allow-partial-promotion="$ALLOW_PARTIAL_PROMOTION" \
               --mode=run
 
           run_logged promote_official_base.log \
@@ -152,6 +159,7 @@ jobs:
               --source-dir="$RECONCILIATION_DIR" \
               --ranking-date="$RANKING_DATE" \
               --mode=apply \
+              --allow-partial-promotion="$ALLOW_PARTIAL_PROMOTION" \
               --confirm-promotion=true
 
           run_logged start_new_week.log \

@@ -47,6 +47,15 @@ const EXPECTED_SUMMARY_VALUES = {
   mode_safe_for_promotion: true,
 };
 
+const EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES = {
+  final_total: TRACKED_BASE_TOTAL,
+  final_missing_ledger: 0,
+  unique_ledger_players: TRACKED_BASE_TOTAL,
+  ledger_players_outside_official: 0,
+  breakdowns_failed: 0,
+  mode_safe_for_promotion: true,
+};
+
 function parseArgs(argv = process.argv.slice(2)) {
   const readArg = (name, fallback = "") => {
     const prefix = `--${name}=`;
@@ -60,6 +69,9 @@ function parseArgs(argv = process.argv.slice(2)) {
     mode: cleanText(readArg("mode", "dry-run")) || "dry-run",
     confirmPromotion:
       cleanText(readArg("confirm-promotion", "false")).toLowerCase() === "true",
+    allowPartialPromotion:
+      cleanText(readArg("allow-partial-promotion", "false")).toLowerCase() ===
+      "true",
   };
 }
 
@@ -161,13 +173,17 @@ export function validateSourceRows({
   snapshotRows,
   ledgerRows,
   rankingDate,
+  allowPartialPromotion = false,
 }) {
   const errors = [];
 
   if (summary.ranking_date !== rankingDate) {
     errors.push(`summary.ranking_date esperado ${rankingDate}, recebido ${summary.ranking_date}.`);
   }
-  for (const [key, expected] of Object.entries(EXPECTED_SUMMARY_VALUES)) {
+  const expectedSummaryValues = allowPartialPromotion
+    ? EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES
+    : EXPECTED_SUMMARY_VALUES;
+  for (const [key, expected] of Object.entries(expectedSummaryValues)) {
     if (summary[key] !== expected) {
       errors.push(`summary.${key} esperado ${expected}, recebido ${summary[key]}.`);
     }
@@ -336,7 +352,12 @@ function comparePlayers(oldPlayers, newPlayers) {
   };
 }
 
-export async function loadPromotionData({ cwd, sourceDir, rankingDate }) {
+export async function loadPromotionData({
+  cwd,
+  sourceDir,
+  rankingDate,
+  allowPartialPromotion = false,
+}) {
   const sourceFiles = await locateSourceFiles(sourceDir);
   const summary = JSON.parse(await fs.readFile(sourceFiles.summaryFile, "utf8"));
   const playersRows = await readCsv(sourceFiles.playersFile);
@@ -358,6 +379,7 @@ export async function loadPromotionData({ cwd, sourceDir, rankingDate }) {
     snapshotRows,
     ledgerRows,
     rankingDate,
+    allowPartialPromotion,
   });
   const playerDiff = comparePlayers(oldPlayersRows, playersRows);
 
@@ -430,10 +452,12 @@ async function writeReports({ reportDir, report, sourceHashes, beforeHashes, aft
   });
 }
 
-async function validateDestinationAfterApply(destinationFiles, rankingDate) {
+async function validateDestinationAfterApply(destinationFiles, rankingDate, allowPartialPromotion = false) {
   const summary = {
     ranking_date: rankingDate,
-    ...EXPECTED_SUMMARY_VALUES,
+    ...(allowPartialPromotion
+      ? EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES
+      : EXPECTED_SUMMARY_VALUES),
   };
   const validation = validateSourceRows({
     summary,
@@ -441,6 +465,7 @@ async function validateDestinationAfterApply(destinationFiles, rankingDate) {
     snapshotRows: await readCsv(destinationFiles.snapshot),
     ledgerRows: await readCsv(destinationFiles.ledger),
     rankingDate,
+    allowPartialPromotion,
   });
   if (!validation.validationPassed) {
     throw new Error(validation.errors.join("\n"));
@@ -475,6 +500,7 @@ export async function runPromotion(rawArgs, deps = {}) {
     cwd,
     sourceDir: args.sourceDir,
     rankingDate: args.rankingDate,
+    allowPartialPromotion: args.allowPartialPromotion,
   });
   const sourceHashes = await buildFileHashMap({
     players: data.sourceFiles.playersFile,
@@ -516,6 +542,7 @@ export async function runPromotion(rawArgs, deps = {}) {
         snapshotRows: await readCsv(`${data.destinationFiles.snapshot}.next`),
         ledgerRows: await readCsv(`${data.destinationFiles.ledger}.next`),
         rankingDate: args.rankingDate,
+        allowPartialPromotion: args.allowPartialPromotion,
       }).errors.forEach((error) => {
         throw new Error(error);
       });
@@ -526,7 +553,11 @@ export async function runPromotion(rawArgs, deps = {}) {
       }
       await fs.rename(`${data.destinationFiles.snapshot}.next`, data.destinationFiles.snapshot);
       await fs.rename(`${data.destinationFiles.ledger}.next`, data.destinationFiles.ledger);
-      await validateDestinationAfterApply(data.destinationFiles, args.rankingDate);
+      await validateDestinationAfterApply(
+        data.destinationFiles,
+        args.rankingDate,
+        args.allowPartialPromotion
+      );
       afterHashes = await buildFileHashMap(data.destinationFiles);
       promotionCompleted = true;
     } catch (error) {
