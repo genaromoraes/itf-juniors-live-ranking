@@ -167,6 +167,7 @@ jobs:
               --week-start="$NEW_WEEK_START" \
               --week-end="$NEW_WEEK_END" \
               --mode=apply \
+              --allow-partial-promotion="$ALLOW_PARTIAL_PROMOTION" \
               --confirm=true
 
       - name: Commit official week data

@@ -260,6 +260,9 @@ export function parseArgs(argv = process.argv.slice(2)) {
   const mode = cleanText(getArg("mode", argv, MODE_DRY_RUN)).toLowerCase();
   const confirm =
     cleanText(getArg("confirm", argv, "false")).toLowerCase() === "true";
+  const allowPartialPromotion =
+    cleanText(getArg("allow-partial-promotion", argv, "false")).toLowerCase() ===
+    "true";
 
   if (![ACTION_STATUS, ACTION_CLOSE, ACTION_START].includes(action)) {
     throw new Error(
@@ -277,6 +280,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     weekEnd: cleanText(getArg("week-end", argv)),
     mode,
     confirm,
+    allowPartialPromotion,
   };
 }
 
@@ -1202,7 +1206,12 @@ export async function runStartAction({ args, facts, runNodeScript }) {
     args.weekStart
   );
 
-  if (!reconciliation.valid) {
+  const partialReconciliationAllowed =
+    args.allowPartialPromotion &&
+    reconciliation.total === getActiveBaseTotal() &&
+    reconciliation.exact > 0;
+
+  if (!reconciliation.valid && !partialReconciliationAllowed) {
     const expectedTotal = getActiveBaseTotal();
     errors.push(
       `A base oficial nao reconciliou ${expectedTotal}/${expectedTotal} (${reconciliation.exact}/${reconciliation.total}).`
@@ -1247,6 +1256,9 @@ export async function runStartAction({ args, facts, runNodeScript }) {
         : STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START,
     output: [
       `Base oficial reconciliada: ${reconciliation.exact}/${reconciliation.total}`,
+      partialReconciliationAllowed
+        ? "Promocao parcial aceita para iniciar a semana."
+        : "",
       `Modo: ${args.mode}`,
       `Nova semana: ${args.weekStart} a ${args.weekEnd}`,
       args.mode === MODE_DRY_RUN
