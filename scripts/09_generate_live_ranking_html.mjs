@@ -1,4 +1,5 @@
 ﻿import fs from "fs/promises";
+import "dotenv/config";
 import path from "path";
 import { parse } from "csv-parse/sync";
 import { fileURLToPath } from "url";
@@ -39,6 +40,11 @@ const CUSTOM_DOMAIN = "www.juniorsliveranking.com.br";
 const SITE_URL = `https://${CUSTOM_DOMAIN}`;
 const ADSENSE_CLIENT_ID = "ca-pub-5423465092890611";
 const ADSENSE_SCRIPT_URL = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`;
+const GOOGLE_ANALYTICS_ID =
+  process.env.GOOGLE_ANALYTICS_ID || process.env.GA_MEASUREMENT_ID || "";
+const GOOGLE_ANALYTICS_SCRIPT_URL = GOOGLE_ANALYTICS_ID
+  ? `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GOOGLE_ANALYTICS_ID)}`
+  : "";
 const COOKIE_CONSENT_STORAGE_KEY = "jlr-cookie-consent-v1";
 
 function buildCookieConsentStyles() {
@@ -276,7 +282,7 @@ function buildCookieConsentMarkup() {
     <section class="cookie-consent-banner" id="cookieConsentBanner" aria-label="Consentimento de cookies" hidden>
       <div class="cookie-consent-content">
         <h2 class="cookie-consent-title">Cookies e publicidade</h2>
-        <p class="cookie-consent-text">Usamos cookies para preferências do site e, com sua permissão, para ativar anúncios do Google AdSense.</p>
+        <p class="cookie-consent-text">Usamos cookies para preferências do site e, com sua permissão, para medir audiência e ativar anúncios do Google.</p>
         <p class="cookie-consent-text">A escolha pode ser alterada depois em <a href="privacidade.html">Privacidade</a> ou no rodapé.</p>
         <div class="cookie-consent-actions">
           <button class="cookie-consent-button primary" type="button" id="cookieConsentAccept">Aceitar anúncios</button>
@@ -289,7 +295,7 @@ function buildCookieConsentMarkup() {
     <section class="cookie-consent-panel" id="cookieConsentPanel" aria-modal="true" aria-labelledby="cookieConsentPanelTitle" role="dialog" hidden>
       <div class="cookie-consent-content">
         <h2 class="cookie-consent-title" id="cookieConsentPanelTitle">Preferências de cookies</h2>
-        <p class="cookie-consent-text">Os itens essenciais mantêm idioma, tema e funcionamento básico. Os itens de publicidade habilitam o carregamento do Google AdSense, sujeito às regras e à disponibilidade da sua região.</p>
+        <p class="cookie-consent-text">Os itens essenciais mantêm idioma, tema e funcionamento básico. Os itens de publicidade e medição habilitam o carregamento do Google Analytics e do Google AdSense, sujeito às regras e à disponibilidade da sua região.</p>
         <div class="cookie-consent-choices">
           <div class="cookie-choice">
             <div class="cookie-choice-header">
@@ -306,8 +312,8 @@ function buildCookieConsentMarkup() {
           <div class="cookie-choice">
             <div class="cookie-choice-header">
               <div>
-                <h3 class="cookie-choice-title">Publicidade</h3>
-                <p class="cookie-choice-description">Permite carregar o Google AdSense e seus recursos de medição e proteção contra fraude.</p>
+                <h3 class="cookie-choice-title">Medição e publicidade</h3>
+                <p class="cookie-choice-description">Permite carregar o Google Analytics, o Google AdSense e seus recursos de medição, anúncios e proteção contra fraude.</p>
               </div>
               <label class="cookie-toggle" for="cookieAdsToggle">
                 <input type="checkbox" id="cookieAdsToggle" />
@@ -318,7 +324,7 @@ function buildCookieConsentMarkup() {
         </div>
         <div class="cookie-consent-actions">
           <button class="cookie-consent-button primary" type="button" id="cookieConsentSave">Salvar preferências</button>
-          <button class="cookie-consent-button soft" type="button" id="cookieConsentAcceptAll">Aceitar anúncios</button>
+          <button class="cookie-consent-button soft" type="button" id="cookieConsentAcceptAll">Aceitar medição e anúncios</button>
           <button class="cookie-consent-button" type="button" id="cookieConsentClose">Fechar</button>
         </div>
       </div>
@@ -344,6 +350,31 @@ function buildCookieConsentScript({ loadAdsense = false } = {}) {
     function loadAdsense() {
       return;
     }`;
+  const googleAnalyticsLoader = GOOGLE_ANALYTICS_ID
+    ? `
+    let googleAnalyticsLoaded = false;
+
+    function loadGoogleAnalytics() {
+      if (googleAnalyticsLoaded) return;
+      googleAnalyticsLoaded = true;
+
+      const measurementId = ${JSON.stringify(GOOGLE_ANALYTICS_ID)};
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function gtag() {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag("js", new Date());
+      window.gtag("config", measurementId, { anonymize_ip: true });
+
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = ${JSON.stringify(GOOGLE_ANALYTICS_SCRIPT_URL)};
+      document.head.appendChild(script);
+    }`
+    : `
+    function loadGoogleAnalytics() {
+      return;
+    }`;
 
   return `
   <script>
@@ -361,6 +392,7 @@ function buildCookieConsentScript({ loadAdsense = false } = {}) {
       const acceptAllButton = document.getElementById("cookieConsentAcceptAll");
       const closeButton = document.getElementById("cookieConsentClose");
       ${adsenseLoader}
+      ${googleAnalyticsLoader}
 
       function readConsent() {
         try {
@@ -434,6 +466,7 @@ function buildCookieConsentScript({ loadAdsense = false } = {}) {
         window.__jlrCookieConsent = consent;
         if (consent?.ads) {
           loadAdsense();
+          loadGoogleAnalytics();
         }
         hideBanner();
         closePanel();
@@ -561,9 +594,9 @@ const STATIC_PAGES = [
         ],
       },
       {
-        heading: "Google AdSense, cookies e tecnologias semelhantes",
+        heading: "Google Analytics, Google AdSense e tecnologias semelhantes",
         paragraphs: [
-          "O site utiliza o Google AdSense. O Google e seus parceiros podem inserir ou ler cookies no navegador e usar web beacons, endereços IP e outros identificadores para veicular, medir e proteger anúncios.",
+          "O site pode utilizar Google Analytics e Google AdSense. O Google e seus parceiros podem inserir ou ler cookies no navegador e usar web beacons, endereços IP e outros identificadores para medir audiência, veicular anúncios e proteger os serviços contra fraude.",
           "Os anúncios podem ser personalizados ou não personalizados conforme localização, consentimento, configurações do usuário e regras aplicáveis.",
           'Consulte <a href="https://policies.google.com/technologies/partner-sites?hl=pt-BR" target="_blank" rel="noopener">como o Google usa informações de sites que utilizam seus serviços</a>.',
         ],
