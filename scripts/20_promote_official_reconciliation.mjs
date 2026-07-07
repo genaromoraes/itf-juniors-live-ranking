@@ -496,6 +496,7 @@ export async function runPromotion(rawArgs, deps = {}) {
     rankingDate: cleanText(rawArgs.rankingDate),
     mode: cleanText(rawArgs.mode || "dry-run"),
     confirmPromotion: rawArgs.confirmPromotion === true,
+    allowPartialPromotion: rawArgs.allowPartialPromotion === true,
   };
   const errors = [];
   const warnings = [];
