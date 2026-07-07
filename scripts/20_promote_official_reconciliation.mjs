@@ -514,9 +514,17 @@ export async function runPromotion(rawArgs, deps = {}) {
   let backupDir = buildBackupDir(cwd, timestamp);
   let promotionCompleted = false;
   let rollbackPerformed = false;
-  const validationErrors = [...data.validation.errors];
+  const allowedPartialPromotionErrors = new Set([
+    `summary.final_exact esperado ${TRACKED_BASE_TOTAL}, recebido ${data.summary.final_exact}.`,
+    `summary.final_divergent esperado 0, recebido ${data.summary.final_divergent}.`,
+  ]);
+  const validationErrors = args.allowPartialPromotion
+    ? data.validation.errors.filter(
+        (error) => !allowedPartialPromotionErrors.has(error)
+      )
+    : [...data.validation.errors];
 
-  if (!data.validation.validationPassed) {
+  if (validationErrors.length > 0) {
     errors.push(...validationErrors);
   }
 
@@ -597,8 +605,8 @@ export async function runPromotion(rawArgs, deps = {}) {
     throw new Error(errors.join("\n"));
   }
 
-  if (!data.validation.validationPassed) {
-    throw new Error(data.validation.errors.join("\n"));
+  if (validationErrors.length > 0) {
+    throw new Error(validationErrors.join("\n"));
   }
 
   return {
