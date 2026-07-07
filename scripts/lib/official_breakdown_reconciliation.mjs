@@ -117,6 +117,36 @@ export function parseItfDate(value) {
   return parsed.toISOString().slice(0, 10);
 }
 
+export function getRankingWeekEndDate(rankingDate) {
+  const text = cleanText(rankingDate);
+  if (!isIsoDate(text)) return "";
+  const date = new Date(`${text}T00:00:00.000Z`);
+  const day = date.getUTCDay();
+  const daysUntilSunday = (7 - day) % 7;
+  date.setUTCDate(date.getUTCDate() + daysUntilSunday);
+  return date.toISOString().slice(0, 10);
+}
+
+export function resolveOfficialBreakdownDropDate({
+  startDate,
+  countableStatus,
+  rankingDate,
+}) {
+  const calculatedDropDate = calculateDropDate(startDate);
+  if (countableStatus !== "countable") return calculatedDropDate;
+
+  const rankingWeekEndDate = getRankingWeekEndDate(rankingDate);
+  if (
+    rankingWeekEndDate &&
+    isIsoDate(calculatedDropDate) &&
+    calculatedDropDate < rankingWeekEndDate
+  ) {
+    return rankingWeekEndDate;
+  }
+
+  return calculatedDropDate;
+}
+
 export async function readCsv(filePath) {
   return parse(await fs.readFile(filePath, "utf8"), {
     columns: true,
@@ -164,6 +194,7 @@ export function normalizeBreakdownRow({
   item,
   sourceUrl,
   collectedAt,
+  rankingDate = "",
 }) {
   const eventType =
     cleanText(sectionTitle).toLowerCase().includes("double")
@@ -188,7 +219,11 @@ export function normalizeBreakdownRow({
     surface: cleanText(item.surfaceDesc),
     surface_code: cleanText(item.surfaceCode),
     start_date: startDate,
-    drop_date_calculated: calculateDropDate(startDate),
+    drop_date_calculated: resolveOfficialBreakdownDropDate({
+      startDate,
+      countableStatus,
+      rankingDate,
+    }),
     round: cleanText(item.round),
     points: toNumber(item.points) ?? "",
     tournament_link: normalizeUrl(item.tournamentLink),
@@ -207,6 +242,7 @@ export function extractLedgerRowsFromRankingPoints({
   player,
   sourceUrl,
   collectedAt = new Date().toISOString(),
+  rankingDate = "",
 }) {
   const rows = [];
   const sections = Array.isArray(json?.countable) ? json.countable : [];
@@ -227,6 +263,7 @@ export function extractLedgerRowsFromRankingPoints({
           item,
           sourceUrl,
           collectedAt,
+          rankingDate,
         })
       );
     }
@@ -240,6 +277,7 @@ export function extractLedgerRowsFromRankingPoints({
           item,
           sourceUrl,
           collectedAt,
+          rankingDate,
         })
       );
     }
@@ -605,6 +643,7 @@ export async function fetchSelectedBreakdowns({
   outputDir,
   networkMode = NETWORK_MODE_AUTO,
   breakdownCacheDir = "",
+  rankingDate = "",
   deps = {},
 }) {
   const attempts = [];
@@ -640,6 +679,7 @@ export async function fetchSelectedBreakdowns({
           json: cached.json,
           player,
           sourceUrl: cached.sourceUrl,
+          rankingDate,
         });
         byPlayerId.set(player.player_id, rows);
         summaries.push({
@@ -712,6 +752,7 @@ export async function fetchSelectedBreakdowns({
         json: result.json,
         player,
         sourceUrl,
+        rankingDate,
       });
       byPlayerId.set(player.player_id, rows);
       summaries.push({

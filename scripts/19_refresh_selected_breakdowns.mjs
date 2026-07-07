@@ -238,6 +238,7 @@ export async function runReconciliation(args, deps = {}) {
     outputDir,
     networkMode: args.networkMode,
     breakdownCacheDir: args.breakdownCacheDir,
+    rankingDate: args.rankingDate,
     deps,
   });
 
