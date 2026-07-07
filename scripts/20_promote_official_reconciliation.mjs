@@ -467,9 +467,25 @@ async function validateDestinationAfterApply(destinationFiles, rankingDate, allo
     rankingDate,
     allowPartialPromotion,
   });
-  if (!validation.validationPassed) {
-    throw new Error(validation.errors.join("\n"));
+  const errors = filterPartialPromotionErrors(
+    validation.errors,
+    allowPartialPromotion
+  );
+  if (errors.length > 0) {
+    throw new Error(errors.join("\n"));
   }
+}
+
+function isAllowedPartialPromotionError(error) {
+  return (
+    error.startsWith("summary.final_exact esperado ") ||
+    error.startsWith("summary.final_divergent esperado ")
+  );
+}
+
+function filterPartialPromotionErrors(errors, allowPartialPromotion) {
+  if (!allowPartialPromotion) return [...errors];
+  return errors.filter((error) => !isAllowedPartialPromotionError(error));
 }
 
 export async function runPromotion(rawArgs, deps = {}) {
@@ -514,15 +530,10 @@ export async function runPromotion(rawArgs, deps = {}) {
   let backupDir = buildBackupDir(cwd, timestamp);
   let promotionCompleted = false;
   let rollbackPerformed = false;
-  const allowedPartialPromotionErrors = new Set([
-    `summary.final_exact esperado ${TRACKED_BASE_TOTAL}, recebido ${data.summary.final_exact}.`,
-    `summary.final_divergent esperado 0, recebido ${data.summary.final_divergent}.`,
-  ]);
-  const validationErrors = args.allowPartialPromotion
-    ? data.validation.errors.filter(
-        (error) => !allowedPartialPromotionErrors.has(error)
-      )
-    : [...data.validation.errors];
+  const validationErrors = filterPartialPromotionErrors(
+    data.validation.errors,
+    args.allowPartialPromotion
+  );
 
   if (validationErrors.length > 0) {
     errors.push(...validationErrors);
@@ -544,14 +555,18 @@ export async function runPromotion(rawArgs, deps = {}) {
         throw new Error("Falha simulada apos gravar arquivos .next.");
       }
 
-      validateSourceRows({
+      const nextValidationErrors = filterPartialPromotionErrors(
+        validateSourceRows({
         summary: data.summary,
         playersRows: await readCsv(`${data.destinationFiles.players}.next`),
         snapshotRows: await readCsv(`${data.destinationFiles.snapshot}.next`),
         ledgerRows: await readCsv(`${data.destinationFiles.ledger}.next`),
         rankingDate: args.rankingDate,
         allowPartialPromotion: args.allowPartialPromotion,
-      }).errors.forEach((error) => {
+        }).errors,
+        args.allowPartialPromotion
+      );
+      nextValidationErrors.forEach((error) => {
         throw new Error(error);
       });
 
@@ -584,7 +599,7 @@ export async function runPromotion(rawArgs, deps = {}) {
     args,
     data,
     backupDir,
-    validationPassed: data.validation.validationPassed && errors.length === 0,
+    validationPassed: validationErrors.length === 0 && errors.length === 0,
     promotionCompleted,
     rollbackPerformed,
     errors,
