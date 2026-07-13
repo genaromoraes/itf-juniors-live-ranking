@@ -158,6 +158,21 @@ jobs:
           ITF_SCRAPE_FRESH: "true"
         run: node scripts/24_write_week_action_summary.mjs
 
+      - name: Validate publication coherence
+        run: npm run validate:publication
+
+      - name: Upload failed publication diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-pages-publication-${{ github.run_id }}
+          path: |
+            logs/
+            data/clean/week_results_errors.csv
+            data/clean/week_results_summary.csv
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
