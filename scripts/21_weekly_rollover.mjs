@@ -22,6 +22,7 @@ import {
   DISPLAY_LIMIT_PER_GENDER,
   getActiveBaseLimitPerGender,
   getActiveBaseTotal,
+  validateCompetitionRanks,
 } from "./lib/ranking_limits.mjs";
 
 const ACTION_STATUS = "status";
@@ -453,14 +454,11 @@ function validateSnapshotBase(playersRows, snapshotRows, expectedRankingDate) {
   for (const gender of ["M", "F"]) {
     const ranks = snapshotRows
       .filter((row) => normalizeGender(row.gender) === gender)
-      .map((row) => Number(cleanText(row.rank)))
-      .sort((a, b) => a - b);
+      .map((row) => cleanText(row.rank));
     if (ranks.length !== expectedPerGender) continue;
-    for (let index = 0; index < ranks.length; index += 1) {
-      if (ranks[index] !== index + 1) {
-        errors.push(`rankings_snapshot.csv possui ranks invalidos para ${gender}.`);
-        break;
-      }
+    const rankValidation = validateCompetitionRanks(ranks, expectedPerGender);
+    if (!rankValidation.valid) {
+      errors.push(`rankings_snapshot.csv possui ranks invalidos para ${gender}.`);
     }
   }
   if (

@@ -551,6 +551,20 @@ describe("weekly rollover controller", () => {
     assert.equal(result.report.status, STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START);
   });
 
+  test("official base accepts competition ranking ties", async () => {
+    const root = await makeProject({
+      officialDate: "2026-06-22",
+      weekStart: "2026-06-15",
+      weekEnd: "2026-06-21",
+      snapshotOverrides: new Map([[1918, { rank: "917" }]]),
+    });
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-22" }
+    );
+    assert.equal(result.report.status, STATUS_OFFICIAL_BASE_UPDATED_READY_TO_START);
+  });
+
   test("start without fully reconciled active Top 1000 base is blocked", async () => {
     const root = await makeProject({
       officialDate: "2026-06-22",
