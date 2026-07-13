@@ -6,6 +6,7 @@ import { stringify } from "csv-stringify/sync";
 import {
   TRACKED_BASE_LIMIT_PER_GENDER,
   TRACKED_BASE_TOTAL,
+  validateCompetitionRanks,
 } from "./ranking_limits.mjs";
 
 export const REQUEST_TIMEOUT_MS = 30000;
@@ -571,11 +572,14 @@ export function validateOfficialSnapshotRows(playersRows, snapshotRows, expected
 
     if (sortedRanks.length !== TRACKED_BASE_LIMIT_PER_GENDER) continue;
 
-    for (let index = 0; index < sortedRanks.length; index++) {
-      if (sortedRanks[index] !== index + 1) {
-        errors.push(`Ranks oficiais invalidos para ${gender}: esperado ${index + 1}, recebido ${sortedRanks[index]}.`);
-        break;
-      }
+    const rankValidation = validateCompetitionRanks(
+      sortedRanks,
+      TRACKED_BASE_LIMIT_PER_GENDER
+    );
+    if (!rankValidation.valid) {
+      errors.push(
+        `Ranks oficiais invalidos para ${gender}: sequencia de ranking de competicao invalida no item ${rankValidation.index + 1}, recebido ${rankValidation.received}.`
+      );
     }
   }
 

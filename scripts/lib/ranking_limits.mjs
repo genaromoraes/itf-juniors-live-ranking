@@ -19,6 +19,46 @@ export const EXTERNAL_CANDIDATE_FALLBACK_MARGIN = 40;
 
 export const BASE_STATE_FILE = path.join("data", "config", "base_state.json");
 
+export function validateCompetitionRanks(values, expectedCount) {
+  const ranks = values
+    .map((value) => Number(value))
+    .sort((a, b) => a - b);
+
+  if (ranks.length !== expectedCount) {
+    return {
+      valid: false,
+      index: -1,
+      expected: expectedCount,
+      received: ranks.length,
+      reason: "count",
+    };
+  }
+
+  let previousRank = 0;
+  for (let index = 0; index < ranks.length; index++) {
+    const rank = ranks[index];
+    const ordinalRank = index + 1;
+    const validRank =
+      Number.isInteger(rank) &&
+      rank > 0 &&
+      (rank === previousRank || rank === ordinalRank);
+
+    if (!validRank) {
+      return {
+        valid: false,
+        index,
+        expected: previousRank || ordinalRank,
+        received: rank,
+        reason: "sequence",
+      };
+    }
+
+    previousRank = rank;
+  }
+
+  return { valid: true, ranks };
+}
+
 const VALID_BASE_STATES = new Set([
   BASE_STATE_LEGACY_500,
   BASE_STATE_TOP1000_STAGING,

@@ -360,4 +360,19 @@ describe("official reconciliation promotion", () => {
     assert.equal(validation.validationPassed, false);
     assert.match(validation.errors.join("\n"), /ranking_date invalido/);
   });
+
+  test("promotion accepts official tied competition ranks", () => {
+    const snapshotRows = Array.from({ length: 2000 }, (_, i) => snapshot(i + 1));
+    snapshotRows[1917] = { ...snapshotRows[1917], rank: 917 };
+
+    const validation = validateSourceRows({
+      summary: validSummary(),
+      playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
+      snapshotRows,
+      ledgerRows: Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1)),
+      rankingDate: RANKING_DATE,
+    });
+
+    assert.equal(validation.validationPassed, true);
+  });
 });

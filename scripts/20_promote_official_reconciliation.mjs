@@ -19,6 +19,7 @@ import {
 import {
   TRACKED_BASE_LIMIT_PER_GENDER,
   TRACKED_BASE_TOTAL,
+  validateCompetitionRanks,
 } from "./lib/ranking_limits.mjs";
 
 export const REQUIRED_SOURCE_FILES = [
@@ -225,11 +226,14 @@ export function validateSourceRows({
       errors.push(`Snapshot precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} ranks ${gender}, recebeu ${ranks.length}.`);
       continue;
     }
-    for (let index = 0; index < ranks.length; index++) {
-      if (ranks[index] !== index + 1) {
-        errors.push(`Ranks ${gender} invalidos: esperado ${index + 1}, recebido ${ranks[index]}.`);
-        break;
-      }
+    const rankValidation = validateCompetitionRanks(
+      ranks,
+      TRACKED_BASE_LIMIT_PER_GENDER
+    );
+    if (!rankValidation.valid) {
+      errors.push(
+        `Ranks ${gender} invalidos: sequencia de ranking de competicao invalida no item ${rankValidation.index + 1}, recebido ${rankValidation.received}.`
+      );
     }
   }
 

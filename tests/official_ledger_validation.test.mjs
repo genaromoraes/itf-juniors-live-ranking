@@ -302,6 +302,63 @@ describe("official ledger validation", () => {
     assert.equal(validation.countsByGender.F, 1000);
   });
 
+  test("accepts official competition ranks with a tie and skipped next rank", () => {
+    const players = [];
+    const snapshots = [];
+
+    for (const gender of ["M", "F"]) {
+      for (let index = 1; index <= 1000; index++) {
+        const id = `${gender}${index}`;
+        players.push({ player_id: id, player_name: id, gender });
+        snapshots.push({
+          ranking_date: "2026-07-13",
+          gender,
+          rank: gender === "F" && index === 918 ? 917 : index,
+          player_id: id,
+          player_name: id,
+          official_points: index,
+        });
+      }
+    }
+
+    const validation = validateOfficialSnapshotRows(
+      players,
+      snapshots,
+      "2026-07-13"
+    );
+
+    assert.equal(validation.valid, true);
+  });
+
+  test("rejects a skipped rank without an official competition tie", () => {
+    const players = [];
+    const snapshots = [];
+
+    for (const gender of ["M", "F"]) {
+      for (let index = 1; index <= 1000; index++) {
+        const id = `${gender}${index}`;
+        players.push({ player_id: id, player_name: id, gender });
+        snapshots.push({
+          ranking_date: "2026-07-13",
+          gender,
+          rank: gender === "F" && index === 918 ? 919 : index,
+          player_id: id,
+          player_name: id,
+          official_points: index,
+        });
+      }
+    }
+
+    const validation = validateOfficialSnapshotRows(
+      players,
+      snapshots,
+      "2026-07-13"
+    );
+
+    assert.equal(validation.valid, false);
+    assert.match(validation.errors.join("\n"), /ranking de competicao invalida/);
+  });
+
   test("rejects duplicate player_id", () => {
     const validation = validateOfficialSnapshotRows(
       [{ player_id: "p1" }, { player_id: "p1" }],
