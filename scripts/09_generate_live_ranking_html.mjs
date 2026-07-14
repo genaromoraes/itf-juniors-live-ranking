@@ -4844,7 +4844,7 @@ body.official-ranking-view .side {
       <div class="filter toggle-filter weekly-only">
         <label id="weeklyFilterLabel">Filtro semanal</label>
         <label class="toggle-button" for="playingOnlyFilter">
-          <input id="playingOnlyFilter" type="checkbox" />
+          <input id="playingOnlyFilter" type="checkbox" checked />
           <span class="toggle-track"></span>
           <span id="playingLabel">Jogando</span>
         </label>
