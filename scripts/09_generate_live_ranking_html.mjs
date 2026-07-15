@@ -986,10 +986,13 @@ function buildStaticPage(page) {
 
     .primary-nav {
       display: flex;
+      align-items: center;
+      justify-content: center;
       gap: 18px;
-      margin-bottom: 20px;
-      padding-bottom: 9px;
+      margin: -2px 0 20px;
+      padding: 9px 12px;
       overflow-x: auto;
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       scrollbar-width: none;
     }
@@ -1177,6 +1180,10 @@ function buildStaticPage(page) {
     ${buildCookieConsentStyles()}
 
     @media (max-width: 720px) {
+      .primary-nav {
+        justify-content: flex-start;
+      }
+
       .panel {
         padding: 24px;
       }
@@ -2720,9 +2727,9 @@ function buildHtml(
 
     .header {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      align-items: start;
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
       margin-bottom: 18px;
     }
 
@@ -2774,13 +2781,25 @@ function buildHtml(
     .primary-nav {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 14px;
-      width: 100%;
-      margin: -8px 0 12px;
-      padding: 0 2px 8px;
+      min-width: 0;
+      margin: 0;
+      padding: 9px 12px;
       overflow-x: auto;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
       scrollbar-width: none;
+    }
+
+    .header .primary-nav {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .header .top-controls {
+      grid-column: 3;
+      grid-row: 1;
     }
 
     .primary-nav::-webkit-scrollbar {
@@ -2813,29 +2832,6 @@ function buildHtml(
     .primary-nav .utility-link {
       color: var(--green-dark);
       font-weight: 650;
-    }
-
-    .editorial-note {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      margin: -3px 0 12px;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.45;
-      text-align: center;
-    }
-
-    .editorial-note strong {
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .editorial-note a {
-      color: var(--green-dark);
-      font-weight: 650;
-      text-decoration: none;
     }
 
     .site-footer {
@@ -4598,12 +4594,25 @@ body.official-ranking-view .side {
       }
 
       .header {
-        grid-template-columns: 1fr;
-        gap: 18px;
+        grid-template-columns: minmax(220px, 1fr) minmax(0, 1.8fr) auto;
+        gap: 12px;
       }
 
       .top-controls {
-        justify-self: start;
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+      }
+
+      .primary-nav {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .header .primary-nav {
+        gap: 8px;
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .brand-lockup {
@@ -4638,6 +4647,18 @@ body.official-ranking-view .side {
         padding-bottom: 58px;
       }
 
+      .header {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .header .brand-lockup,
+      .header .top-controls,
+      .header .primary-nav {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
       .floating-report-button {
         right: 10px;
         bottom: 10px;
@@ -4659,18 +4680,11 @@ body.official-ranking-view .side {
       .primary-nav {
         justify-content: flex-start;
         gap: 14px;
-        margin-top: -7px;
       }
 
       .primary-nav a {
         padding: 4px 0;
       }
-
-      .editorial-note {
-        flex-wrap: wrap;
-        margin-top: -1px;
-      }
-
 
       .brand-lockup {
         grid-template-columns: 42px minmax(0, 1fr);
@@ -4780,23 +4794,17 @@ body.official-ranking-view .side {
           </div>
         </div>
       </div>
+
+      <nav class="primary-nav" aria-label="Navegação principal">
+        <a href="./" aria-current="page">Ranking</a>
+        <a href="metodologia.html">Como funciona</a>
+        <a href="sobre.html">Sobre</a>
+        <a class="utility-link" href="perguntas-frequentes.html">Perguntas frequentes</a>
+        <a class="utility-link" href="contato.html">Contato</a>
+        <a class="utility-link" href="privacidade.html">Privacidade</a>
+        <a class="utility-link" href="termos.html">Termos de Uso</a>
+      </nav>
     </header>
-
-    <nav class="primary-nav" aria-label="Navegação principal">
-      <a href="./" aria-current="page">Ranking</a>
-      <a href="metodologia.html">Como funciona</a>
-      <a href="sobre.html">Sobre</a>
-      <a class="utility-link" href="perguntas-frequentes.html">Perguntas frequentes</a>
-      <a class="utility-link" href="contato.html">Contato</a>
-      <a class="utility-link" href="privacidade.html">Privacidade</a>
-      <a class="utility-link" href="termos.html">Termos de Uso</a>
-    </nav>
-
-    <aside class="editorial-note" aria-label="Contexto da projeção">
-      <strong>Projeção independente:</strong>
-      <span>base oficial ITF, cálculo próprio, regras verificadas e tratamento de exceções.</span>
-      <a href="metodologia.html">Ver metodologia</a>
-    </aside>
 
     <section class="filters">
       <div class="filter">
