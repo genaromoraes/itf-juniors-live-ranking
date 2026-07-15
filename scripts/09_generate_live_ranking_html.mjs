@@ -3261,9 +3261,35 @@ function buildHtml(
       background: rgba(255, 255, 255, 0.96);
     }
 
+    @keyframes weekly-filter-attention {
+      0%,
+      68%,
+      100% {
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 0 rgba(8, 117, 109, 0);
+      }
+
+      76% {
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 4px rgba(8, 117, 109, 0.30), 0 0 14px rgba(8, 117, 109, 0.18);
+      }
+
+      86% {
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 9px rgba(8, 117, 109, 0), 0 0 18px rgba(8, 117, 109, 0);
+      }
+    }
+
+    .weekly-only .toggle-button {
+      animation: weekly-filter-attention 6s ease-in-out infinite;
+    }
+
     :root[data-theme="dark"] .toggle-button:has(input:checked) {
       border-color: rgba(97, 198, 184, 0.36);
       background: rgba(25, 42, 50, 0.96);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .weekly-only .toggle-button {
+        animation: none;
+      }
     }
 
     .layout {
