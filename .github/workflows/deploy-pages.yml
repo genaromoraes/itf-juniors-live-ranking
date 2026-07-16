@@ -6,7 +6,8 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: "0 10,22 * * *"
+    # Five daily reads from 08:00 to 20:00 in Brasilia; cron values below are UTC.
+    - cron: "0 11,14,17,20,23 * * *"
 
 permissions:
   contents: read
