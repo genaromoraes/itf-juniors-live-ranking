@@ -4821,14 +4821,14 @@ body.official-ranking-view .side {
         </div>
       </div>
 
-      <nav class="primary-nav" aria-label="Navegação principal">
-        <a href="./" aria-current="page">Ranking</a>
-        <a href="metodologia.html">Como funciona</a>
-        <a href="sobre.html">Sobre</a>
-        <a class="utility-link" href="perguntas-frequentes.html">Perguntas frequentes</a>
-        <a class="utility-link" href="contato.html">Contato</a>
-        <a class="utility-link" href="privacidade.html">Privacidade</a>
-        <a class="utility-link" href="termos.html">Termos de Uso</a>
+      <nav class="primary-nav" aria-label="Navegação principal" data-main-navigation>
+        <a href="./" aria-current="page" data-nav-key="navRanking">Ranking</a>
+        <a href="metodologia.html" data-nav-key="navHowItWorks">Como funciona</a>
+        <a href="sobre.html" data-nav-key="navAbout">Sobre</a>
+        <a class="utility-link" href="perguntas-frequentes.html" data-nav-key="navFaq">Perguntas frequentes</a>
+        <a class="utility-link" href="contato.html" data-nav-key="navContact">Contato</a>
+        <a class="utility-link" href="privacidade.html" data-nav-key="navPrivacy">Privacidade</a>
+        <a class="utility-link" href="termos.html" data-nav-key="navTerms">Termos de Uso</a>
       </nav>
     </header>
 
@@ -4956,13 +4956,13 @@ body.official-ranking-view .side {
     </main>
 
     <footer class="site-footer">
-      <a href="./">Ranking</a>
-      <a href="metodologia.html">Como funciona</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="perguntas-frequentes.html">Perguntas frequentes</a>
-      <a href="contato.html">Contato</a>
-      <a href="privacidade.html">Privacidade</a>
-      <a href="termos.html">Termos de Uso</a>
+      <a href="./" data-nav-key="navRanking">Ranking</a>
+      <a href="metodologia.html" data-nav-key="navHowItWorks">Como funciona</a>
+      <a href="sobre.html" data-nav-key="navAbout">Sobre</a>
+      <a href="perguntas-frequentes.html" data-nav-key="navFaq">Perguntas frequentes</a>
+      <a href="contato.html" data-nav-key="navContact">Contato</a>
+      <a href="privacidade.html" data-nav-key="navPrivacy">Privacidade</a>
+      <a href="termos.html" data-nav-key="navTerms">Termos de Uso</a>
       <button class="cookie-preferences-trigger" type="button" data-open-cookie-preferences>Preferências de cookies</button>
       <span>Site independente, sem afiliação oficial com a ITF.</span>
     </footer>
@@ -5020,6 +5020,14 @@ body.official-ranking-view .side {
 
     const translations = {
       "pt-BR": {
+        mainNavigation: "Navegação principal",
+        navRanking: "Ranking",
+        navHowItWorks: "Como funciona",
+        navAbout: "Sobre",
+        navFaq: "Perguntas frequentes",
+        navContact: "Contato",
+        navPrivacy: "Privacidade",
+        navTerms: "Termos de Uso",
         createdBy: "Criado por",
         theme: "Tema",
         dark: "Escuro",
@@ -5103,6 +5111,14 @@ body.official-ranking-view .side {
         weekTournament: "Torneio da semana",
       },
       en: {
+        mainNavigation: "Main navigation",
+        navRanking: "Ranking",
+        navHowItWorks: "How it works",
+        navAbout: "About",
+        navFaq: "FAQ",
+        navContact: "Contact",
+        navPrivacy: "Privacy",
+        navTerms: "Terms of Use",
         createdBy: "Created by",
         theme: "Theme",
         dark: "Dark",
@@ -5186,6 +5202,14 @@ body.official-ranking-view .side {
         weekTournament: "This week's tournament",
       },
       es: {
+        mainNavigation: "Navegación principal",
+        navRanking: "Ranking",
+        navHowItWorks: "Cómo funciona",
+        navAbout: "Acerca de",
+        navFaq: "Preguntas frecuentes",
+        navContact: "Contacto",
+        navPrivacy: "Privacidad",
+        navTerms: "Términos de uso",
         createdBy: "Creado por",
         theme: "Tema",
         dark: "Oscuro",
@@ -5387,6 +5411,13 @@ body.official-ranking-view .side {
         const active = button.getAttribute("data-language-option") === currentLanguage;
         button.classList.toggle("active", active);
         button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+      document.querySelectorAll("[data-nav-key]").forEach((link) => {
+        link.textContent = t(link.getAttribute("data-nav-key"));
+      });
+      document.querySelectorAll("[data-main-navigation]").forEach((nav) => {
+        nav.setAttribute("aria-label", t("mainNavigation"));
       });
 
       setText("creatorLabel", t("createdBy"));
