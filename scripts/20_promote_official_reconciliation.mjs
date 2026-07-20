@@ -210,8 +210,10 @@ export function validateSourceRows({
       continue;
     }
     for (let index = 0; index < ranks.length; index++) {
-      if (ranks[index] !== index + 1) {
-        errors.push(`Ranks ${gender} invalidos: esperado ${index + 1}, recebido ${ranks[index]}.`);
+      const tiedWithPrevious = index > 0 && ranks[index] === ranks[index - 1];
+      const expectedRank = tiedWithPrevious ? ranks[index - 1] : index + 1;
+      if (ranks[index] !== expectedRank) {
+        errors.push(`Ranks ${gender} invalidos: esperado ${expectedRank}, recebido ${ranks[index]}.`);
         break;
       }
     }

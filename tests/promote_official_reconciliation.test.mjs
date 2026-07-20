@@ -346,6 +346,21 @@ describe("official reconciliation promotion", () => {
     assert.deepEqual(await destinationHashes(root), first);
   });
 
+  test("competition ranking ties pass promotion validation", () => {
+    const validation = validateSourceRows({
+      summary: validSummary(),
+      playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
+      snapshotRows: Array.from({ length: 2000 }, (_, i) =>
+        snapshot(i + 1, i === 1912 ? { rank: 912 } : {})
+      ),
+      ledgerRows: Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1)),
+      rankingDate: RANKING_DATE,
+    });
+
+    assert.equal(validation.validationPassed, true);
+    assert.deepEqual(validation.errors, []);
+  });
+
   test("final ranking_date is validated", () => {
     const validation = validateSourceRows({
       summary: validSummary(),
