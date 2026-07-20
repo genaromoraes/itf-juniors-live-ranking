@@ -342,6 +342,10 @@ export function isLedgerRowActive(
     return true;
   }
 
+  if (cleanText(row.countable_status).toLowerCase() === "non_countable") {
+    return false;
+  }
+
   const dropDate = cleanText(row.drop_date_calculated);
   if (!dropDate) return true;
   if (!isIsoDate(dropDate)) return false;

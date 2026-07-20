@@ -81,6 +81,29 @@ describe("official ledger validation", () => {
     assert.equal(totals.calculated_total, 675);
   });
 
+  test("staged calculation ignores explicitly non-countable results", () => {
+    const rows = [
+      ledgerRow({ tournament_name: "Countable", points: "100" }),
+      ledgerRow({
+        tournament_name: "Non-countable",
+        points: "200",
+        countable_status: "non_countable",
+      }),
+    ];
+
+    const baseline = calculatePlayerTotals(rows, {
+      policy: BASELINE_POLICY,
+      dropCutoff: "",
+    });
+    const staged = calculatePlayerTotals(rows, {
+      policy: STAGED_POLICY,
+      dropCutoff: "2026-06-07",
+    });
+
+    assert.equal(baseline.calculated_total, 300);
+    assert.equal(staged.calculated_total, 100);
+  });
+
   test("baseline as-collected keeps result even when drop_date is earlier than snapshot date", () => {
     const totals = calculatePlayerTotals(
       [ledgerRow({ points: "200", drop_date_calculated: "2026-06-01" })],
