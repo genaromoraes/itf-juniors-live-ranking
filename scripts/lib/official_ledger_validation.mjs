@@ -580,8 +580,11 @@ export function validateOfficialSnapshotRows(playersRows, snapshotRows, expected
     if (sortedRanks.length !== TRACKED_BASE_LIMIT_PER_GENDER) continue;
 
     for (let index = 0; index < sortedRanks.length; index++) {
-      if (sortedRanks[index] !== index + 1) {
-        errors.push(`Ranks oficiais invalidos para ${gender}: esperado ${index + 1}, recebido ${sortedRanks[index]}.`);
+      const tiedWithPrevious = index > 0 && sortedRanks[index] === sortedRanks[index - 1];
+      const expectedRank = tiedWithPrevious ? sortedRanks[index - 1] : index + 1;
+
+      if (sortedRanks[index] !== expectedRank) {
+        errors.push(`Ranks oficiais invalidos para ${gender}: esperado ${expectedRank}, recebido ${sortedRanks[index]}.`);
         break;
       }
     }

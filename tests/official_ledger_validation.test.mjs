@@ -358,6 +358,36 @@ describe("official ledger validation", () => {
     assert.equal(validation.countsByGender.F, 1000);
   });
 
+  test("accepts competition ranking ties", () => {
+    const players = [];
+    const snapshots = [];
+
+    for (const gender of ["M", "F"]) {
+      for (let index = 1; index <= 1000; index++) {
+        const id = `${gender}${index}`;
+        const rank = gender === "F" && index === 913 ? 912 : index;
+
+        players.push({
+          player_id: id,
+          player_name: id,
+          gender,
+        });
+        snapshots.push({
+          ranking_date: "2026-06-15",
+          gender,
+          rank,
+          player_id: id,
+          player_name: id,
+          official_points: index,
+        });
+      }
+    }
+
+    const validation = validateOfficialSnapshotRows(players, snapshots, "2026-06-15");
+
+    assert.equal(validation.valid, true);
+  });
+
   test("rejects duplicate player_id", () => {
     const validation = validateOfficialSnapshotRows(
       [{ player_id: "p1" }, { player_id: "p1" }],
