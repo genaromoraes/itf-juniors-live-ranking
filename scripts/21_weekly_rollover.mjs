@@ -453,7 +453,9 @@ function validateSnapshotBase(playersRows, snapshotRows, expectedRankingDate) {
       .sort((a, b) => a - b);
     if (ranks.length !== expectedPerGender) continue;
     for (let index = 0; index < ranks.length; index += 1) {
-      if (ranks[index] !== index + 1) {
+      const tiedWithPrevious = index > 0 && ranks[index] === ranks[index - 1];
+      const expectedRank = tiedWithPrevious ? ranks[index - 1] : index + 1;
+      if (ranks[index] !== expectedRank) {
         errors.push(`rankings_snapshot.csv possui ranks invalidos para ${gender}.`);
         break;
       }

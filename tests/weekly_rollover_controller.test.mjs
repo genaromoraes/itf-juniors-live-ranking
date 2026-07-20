@@ -332,6 +332,18 @@ describe("weekly rollover controller", () => {
     assert.equal(result.report.status, STATUS_WEEK_COMPLETE_WAITING_END_DATE);
   });
 
+  test("competition ranking ties keep the official base valid", async () => {
+    const root = await makeProject({
+      snapshotOverrides: new Map([[1913, { rank: 912 }]]),
+    });
+    const result = await runWeeklyOperation(
+      { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" },
+      { cwd: root, today: "2026-06-20" }
+    );
+
+    assert.equal(result.report.status, STATUS_WEEK_COMPLETE_WAITING_END_DATE);
+  });
+
   test("all complete after week_end -> WEEK_READY_TO_CLOSE", async () => {
     const root = await makeProject();
     const result = await runWeeklyOperation(
