@@ -1055,10 +1055,12 @@ export function buildBaselineValidation({
     dropCutoff,
   });
   const removedRows = baselineLedgerRows.length - reconstructedRows.length;
+  const baselineDropCutoff = previousIsoDate(oldRankingDate);
 
   const reconstructedCalculatedRows = calculateLedgerPoints(reconstructedRows, {
     policy: BASELINE_POLICY,
-    dropCutoff: "",
+    dropCutoff: baselineDropCutoff,
+    applyDropCutoff: true,
   });
   const reconstructedBaseline = compareCalculatedAgainstSnapshot(
     reconstructedCalculatedRows,
@@ -1072,16 +1074,19 @@ export function buildBaselineValidation({
     return {
       baseline: reconstructedBaseline,
       baselinePolicy: BASELINE_POLICY,
-      baselineDropCutoff: "",
+      baselineDropCutoff,
       reconstructed: true,
       removedRows,
       warnings: [
-        `Baseline antigo reconstruido removendo ${removedRows} linhas confirmed_from_week_close entre ${oldRankingDate} e ${dropCutoff}.`,
+        `Baseline antigo reconstruido com corte em ${baselineDropCutoff}, vespera do ranking oficial ${oldRankingDate}${
+          removedRows > 0
+            ? ` e remocao de ${removedRows} linhas confirmed_from_week_close entre ${oldRankingDate} e ${dropCutoff}`
+            : ""
+        }.`,
       ],
     };
   }
 
-  const baselineDropCutoff = previousIsoDate(oldRankingDate);
   const cutoffCalculatedRows = calculateLedgerPoints(reconstructedRows, {
     policy: STAGED_POLICY,
     dropCutoff: baselineDropCutoff,

@@ -335,9 +335,9 @@ export function buildOfficialSnapshotRow(player, rankingDate) {
 
 export function isLedgerRowActive(
   row,
-  { policy = STAGED_POLICY, dropCutoff = "" } = {}
+  { policy = STAGED_POLICY, dropCutoff = "", applyDropCutoff = false } = {}
 ) {
-  if (policy === BASELINE_POLICY) {
+  if (policy === BASELINE_POLICY && !applyDropCutoff) {
     return true;
   }
 
@@ -375,6 +375,7 @@ export function calculatePlayerTotals(
       : {
           policy: options?.policy || STAGED_POLICY,
           dropCutoff: cleanText(options?.dropCutoff),
+          applyDropCutoff: options?.applyDropCutoff === true,
         };
 
   const activeRows = rows.filter((row) =>
@@ -416,7 +417,8 @@ export function calculatePlayerTotals(
     active_ledger_rows: activeRows.length,
     expired_ledger_rows: expiredRows.length,
     drop_cutoff:
-      normalizedOptions.policy === BASELINE_POLICY
+      normalizedOptions.policy === BASELINE_POLICY &&
+      !normalizedOptions.applyDropCutoff
         ? ""
         : normalizedOptions.dropCutoff,
     ledger_rows: rows.length,

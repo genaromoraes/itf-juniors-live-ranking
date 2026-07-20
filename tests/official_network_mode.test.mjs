@@ -15,6 +15,7 @@ import {
   isClosedWeekLedgerRow,
   writeNetworkArtifacts,
 } from "../scripts/18_validate_staged_ledger_against_official.mjs";
+import { BASELINE_POLICY } from "../scripts/lib/official_ledger_validation.mjs";
 
 function makeArgs(outputDir, networkMode) {
   return {
@@ -200,7 +201,7 @@ describe("official ranking network modes", () => {
     });
 
     assert.equal(result.reconstructed, true);
-    assert.equal(result.baselinePolicy, "drop_cutoff");
+    assert.equal(result.baselinePolicy, BASELINE_POLICY);
     assert.equal(result.baselineDropCutoff, "2026-06-14");
     assert.equal(result.baseline.valid, true);
     assert.equal(result.baseline.exact, 1);

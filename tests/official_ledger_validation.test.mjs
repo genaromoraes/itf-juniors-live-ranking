@@ -209,6 +209,32 @@ describe("official ledger validation", () => {
     assert.equal(staged.calculated_total, 0);
   });
 
+  test("historical baseline reconstruction applies cutoff without dropping non-countable rows", () => {
+    const rows = [
+      ledgerRow({
+        points: "200",
+        drop_date_calculated: "2026-06-01",
+        countable_status: "countable",
+      }),
+      ledgerRow({
+        points: "180",
+        drop_date_calculated: "2026-07-01",
+        countable_status: "non_countable",
+      }),
+    ];
+
+    const reconstructed = calculatePlayerTotals(rows, {
+      policy: BASELINE_POLICY,
+      dropCutoff: "2026-06-14",
+      applyDropCutoff: true,
+    });
+
+    assert.equal(reconstructed.active_ledger_rows, 1);
+    assert.equal(reconstructed.expired_ledger_rows, 1);
+    assert.equal(reconstructed.calculated_total, 180);
+    assert.equal(reconstructed.drop_cutoff, "2026-06-14");
+  });
+
   test("baseline validation rows record the active policy and totals", () => {
     const baseline = compareCalculatedAgainstSnapshot(
       [
