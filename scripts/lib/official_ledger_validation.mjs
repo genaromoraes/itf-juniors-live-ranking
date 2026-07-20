@@ -383,9 +383,12 @@ export function calculatePlayerTotals(
   const expiredRows = rows.filter(
     (row) => !isLedgerRowActive(row, normalizedOptions)
   );
-  const countableRows = activeRows.filter(
-    (row) => cleanText(row.countable_status).toLowerCase() !== "non_countable"
-  );
+  const countableRows =
+    normalizedOptions.policy === STAGED_POLICY
+      ? activeRows.filter(
+          (row) => cleanText(row.countable_status).toLowerCase() !== "non_countable"
+        )
+      : activeRows;
   const singlesRows = countableRows.filter(
     (row) => normalizeEventType(row.event_type) === "singles"
   );

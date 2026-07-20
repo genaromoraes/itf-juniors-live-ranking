@@ -102,6 +102,15 @@ describe("official ledger validation", () => {
     assert.equal(totals.calculated_total, 138.75);
   });
 
+  test("preserves non-countable results in the as-collected baseline", () => {
+    const totals = calculatePlayerTotals(
+      [ledgerRow({ points: "100", countable_status: "non_countable" })],
+      { policy: BASELINE_POLICY, dropCutoff: "" }
+    );
+
+    assert.equal(totals.calculated_total, 100);
+  });
+
   test("baseline as-collected keeps result even when drop_date is earlier than snapshot date", () => {
     const totals = calculatePlayerTotals(
       [ledgerRow({ points: "200", drop_date_calculated: "2026-06-01" })],
