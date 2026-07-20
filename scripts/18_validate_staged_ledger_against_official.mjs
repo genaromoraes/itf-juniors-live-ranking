@@ -427,7 +427,10 @@ async function defaultBrowserRequest({ url, referer, timeoutMs }, browserState) 
     browserState.browser = await chromium.launch({ headless: true });
     browserState.context = await browserState.browser.newContext();
     browserState.page = await browserState.context.newPage();
-    await browserState.page.goto(RANKING_PAGE_URL, { waitUntil: "domcontentloaded" });
+    await browserState.page.goto(RANKING_PAGE_URL, {
+      waitUntil: "domcontentloaded",
+      timeout: timeoutMs,
+    });
     await browserState.page.waitForTimeout(5000);
 
     const content = await browserState.page.content();
