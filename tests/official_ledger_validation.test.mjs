@@ -81,6 +81,27 @@ describe("official ledger validation", () => {
     assert.equal(totals.calculated_total, 675);
   });
 
+  test("ignores explicitly non-countable results", () => {
+    const rows = [
+      ledgerRow({ event_type: "singles", points: "124", countable_status: "countable" }),
+      ledgerRow({ event_type: "doubles", tournament_name: "D1", points: "15", countable_status: "countable" }),
+      ledgerRow({ event_type: "doubles", tournament_name: "D2", points: "15", countable_status: "countable" }),
+      ledgerRow({ event_type: "doubles", tournament_name: "D3", points: "15", countable_status: "countable" }),
+      ledgerRow({ event_type: "doubles", tournament_name: "D4", points: "14", countable_status: "countable" }),
+      ledgerRow({ event_type: "doubles", tournament_name: "D5", points: "15", countable_status: "non_countable" }),
+    ];
+
+    const totals = calculatePlayerTotals(rows, {
+      policy: STAGED_POLICY,
+      dropCutoff: "2026-06-07",
+    });
+
+    assert.equal(totals.singles_total, 124);
+    assert.equal(totals.doubles_raw_total, 59);
+    assert.equal(totals.doubles_weighted_total, 14.75);
+    assert.equal(totals.calculated_total, 138.75);
+  });
+
   test("baseline as-collected keeps result even when drop_date is earlier than snapshot date", () => {
     const totals = calculatePlayerTotals(
       [ledgerRow({ points: "200", drop_date_calculated: "2026-06-01" })],

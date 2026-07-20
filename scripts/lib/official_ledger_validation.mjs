@@ -383,10 +383,13 @@ export function calculatePlayerTotals(
   const expiredRows = rows.filter(
     (row) => !isLedgerRowActive(row, normalizedOptions)
   );
-  const singlesRows = activeRows.filter(
+  const countableRows = activeRows.filter(
+    (row) => cleanText(row.countable_status).toLowerCase() !== "non_countable"
+  );
+  const singlesRows = countableRows.filter(
     (row) => normalizeEventType(row.event_type) === "singles"
   );
-  const doublesRows = activeRows.filter(
+  const doublesRows = countableRows.filter(
     (row) => normalizeEventType(row.event_type) === "doubles"
   );
   const bestSingles = sortResultsByPointsDesc(singlesRows).slice(0, 6);
