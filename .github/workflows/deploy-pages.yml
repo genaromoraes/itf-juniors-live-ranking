@@ -21,9 +21,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    # A fresh publication after the official rollover must rebuild the
+    # ranking universe before the coherence check. The 32-minute pipeline
+    # limit was reached while the ITF API was still returning pages.
+    timeout-minutes: 90
     env:
       GOOGLE_ANALYTICS_ID: G-D6CG6ZH0P1
+      ITF_PIPELINE_TIMEOUT_MS: "3600000"
 
     steps:
       - name: Checkout
