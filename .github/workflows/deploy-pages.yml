@@ -69,7 +69,38 @@ jobs:
         id: push_cache
         if: github.event_name == 'push'
         run: |
-          node -e "const fs=require('fs'); const required=['data/clean/week_tournaments.csv','data/clean/week_matches.csv','data/clean/week_player_results.csv']; const missing=required.filter((file)=>!fs.existsSync(file)); const hasCache=missing.length===0; fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_cache=' + (hasCache ? 'true' : 'false') + '\n'); if (hasCache) { console.log('Push deploy will reuse cached generated data.'); } else { console.log('Push deploy cache is incomplete; switching to fresh ITF scrape.'); for (const file of missing) console.log('- ' + file); }"
+          node <<'NODE'
+          const fs = require('fs');
+          const required = [
+            'data/clean/week_tournaments.csv',
+            'data/clean/week_matches.csv',
+            'data/clean/week_player_results.csv',
+          ];
+          const missing = required.filter((file) => !fs.existsSync(file));
+          const readFirstValue = (file, column) => {
+            if (!fs.existsSync(file)) return '';
+            const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
+            if (lines.length < 2) return '';
+            const headers = lines[0].split(',');
+            const index = headers.indexOf(column);
+            return index >= 0 ? lines[1].split(',')[index] : '';
+          };
+          const officialDate = readFirstValue('data/clean/rankings_snapshot.csv', 'ranking_date');
+          const cachedWeekStart = readFirstValue('data/clean/week_tournaments.csv', 'week_start');
+          const cacheMatchesOfficialWeek = Boolean(officialDate && cachedWeekStart && officialDate === cachedWeekStart);
+          const hasCache = missing.length === 0 && cacheMatchesOfficialWeek;
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_cache=${hasCache ? 'true' : 'false'}\n`);
+          if (hasCache) {
+            console.log(`Push deploy will reuse cached generated data for ${cachedWeekStart}.`);
+          } else {
+            console.log('Push deploy cache is incomplete or belongs to an older official week; switching to fresh ITF scrape.');
+            for (const file of missing) console.log('- missing: ' + file);
+            if (officialDate || cachedWeekStart) {
+              console.log(`- official ranking date: ${officialDate || '<missing>'}`);
+              console.log(`- cached week start: ${cachedWeekStart || '<missing>'}`);
+            }
+          }
+          NODE
 
       - name: Backup last valid generated data
         if: github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true'
