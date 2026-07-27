@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { buildLivePointRows } from "../scripts/06_calculate_week_live_points.mjs";
+import {
+  buildLivePointRows,
+  findUnscoredCompletedChampions,
+} from "../scripts/06_calculate_week_live_points.mjs";
 
 const MAX_COUNTING_RESULTS = 6;
 const DOUBLES_WEIGHT = 0.25;
@@ -742,5 +745,52 @@ describe("ITF Junior ranking rules", () => {
     assert.equal(byId.get("SF").live_points_raw, 18);
     assert.equal(byId.get("PENDING").calculated_round_label, "RR");
     assert.equal(byId.get("PENDING").live_points_raw, 0);
+  });
+
+  test("hybrid round-robin champions receive winner points with incomplete standings", () => {
+    const rows = buildLivePointRows(
+      [
+        {
+          tournament_key: "J60-EINDHOVEN",
+          tournament_name: "J60 Eindhoven",
+          category: "J60",
+          player_id: "800742444",
+          player_name: "Victor Pignaton",
+          player_type_code: "G",
+          match_type_code: "S",
+          event_classification_code: "M",
+          round_robin_position: "",
+          round_robin_group_size: "4",
+          round_robin_group_complete: "true",
+          round_robin_wins: "",
+          elimination_matches_seen: "3",
+          highest_round_order: "4",
+          highest_round_name: "Final",
+          wins: "0",
+          losses: "0",
+          status: "champion",
+        },
+      ],
+      [],
+      new Map([["J60|singles|main_draw|W", 60]])
+    );
+
+    assert.equal(rows[0].calculated_round_label, "W");
+    assert.equal(rows[0].live_points_raw, 60);
+    assert.deepEqual(findUnscoredCompletedChampions(rows), []);
+  });
+
+  test("reports any completed main-draw champion that still has zero points", () => {
+    const rows = [
+      {
+        event_classification: "main_draw",
+        status: "champion",
+        live_points_raw: 0,
+        player_name: "Broken Champion",
+        tournament_name: "J60 Missing Points",
+      },
+    ];
+
+    assert.equal(findUnscoredCompletedChampions(rows).length, 1);
   });
 });

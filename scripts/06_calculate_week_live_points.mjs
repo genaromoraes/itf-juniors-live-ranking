@@ -463,6 +463,18 @@ function getRoundRobinEliminationLabel(row) {
 }
 
 function getRoundRobinRoundLabel(row) {
+  const status = cleanText(row.status).toLowerCase();
+
+  // Hybrid round-robin tournaments can return incomplete standing metadata
+  // after the elimination stage has finished. The terminal result is still
+  // authoritative: a champion must receive the winner points even when the
+  // group position/win counters are missing or stale.
+  if (status === "champion") return "W";
+
+  if (toNumber(row.elimination_matches_seen) > 0) {
+    return getRoundRobinEliminationLabel(row);
+  }
+
   if (!isRoundRobinGroupComplete(row)) return "RR";
 
   const category = normalizeCategory(row.category);
@@ -595,6 +607,21 @@ export function buildLivePointRows(playerResults, matchRows, pointsMap) {
   });
 }
 
+export function findUnscoredCompletedChampions(livePointRows) {
+  return livePointRows.filter((row) => {
+    const eventClassification = normalizeEventClassification(
+      row.event_classification
+    );
+    const status = cleanText(row.status).toLowerCase();
+
+    return (
+      eventClassification === "main_draw" &&
+      status === "champion" &&
+      toNumber(row.live_points_raw) <= 0
+    );
+  });
+}
+
 function buildLedgerRows(livePointRows) {
   return livePointRows
     .filter((row) => toNumber(row.live_points_raw) > 0)
@@ -693,6 +720,22 @@ export async function main(cliArgs = parseArgs()) {
   const pointsMap = buildPointsMap(pointsRows);
 
   const livePointRows = buildLivePointRows(playerResults, matchRows, pointsMap);
+  const unscoredChampions = findUnscoredCompletedChampions(livePointRows);
+
+  if (unscoredChampions.length > 0) {
+    const details = unscoredChampions
+      .map(
+        (row) =>
+          `${row.player_name} (${row.player_id}) - ${row.tournament_name} ${row.event_type}`
+      )
+      .join("; ");
+
+    throw new Error(
+      `Campeoes do main draw sem pontos live: ${details}. ` +
+        "A coleta nao pode continuar com um resultado final perdido."
+    );
+  }
+
   const ledgerRows = buildLedgerRows(livePointRows);
 
   await writeCsv(paths.weekLivePointsFile, livePointRows, [
