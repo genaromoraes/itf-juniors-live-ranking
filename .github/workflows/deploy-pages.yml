@@ -5,6 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      use_committed_data:
+        description: "Publicar usando os dados já validados no commit, sem nova coleta no ITF"
+        required: false
+        default: false
+        type: boolean
   schedule:
     # Five daily reads from 08:00 to 20:00 in Brasilia; cron values below are UTC.
     - cron: "0 11,14,17,20,23 * * *"
@@ -132,21 +138,31 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Chromium
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true'
+        if: >
+          inputs.use_committed_data != true &&
+          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true')
         run: npx playwright install --with-deps chromium
 
       - name: Build live ranking without scraping
-        if: github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]') && steps.push_cache.outputs.has_cache == 'true'
+        if: >
+          (github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]') && steps.push_cache.outputs.has_cache == 'true') ||
+          (github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true)
         run: npm run update
 
       - name: Build live ranking with fresh ITF data
         id: scrape
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true'
+        if: >
+          inputs.use_committed_data != true &&
+          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true')
         continue-on-error: true
         run: npm run update:full
 
       - name: Restore last valid data after scraping failure
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'failure' && (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
+        if: >
+          inputs.use_committed_data != true &&
+          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
+          steps.scrape.outcome == 'failure' &&
+          (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
         run: |
           echo "ITF scraping failed. Restoring the last valid generated data from cache."
           for file in week_tournaments.csv week_matches.csv week_player_results.csv; do
@@ -180,16 +196,27 @@ jobs:
           done
 
       - name: Build live ranking from last valid data
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'failure' && (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
+        if: >
+          inputs.use_committed_data != true &&
+          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
+          steps.scrape.outcome == 'failure' &&
+          (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
         run: npm run update
 
       - name: Report stale ITF data
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'failure' && (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
+        if: >
+          inputs.use_committed_data != true &&
+          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
+          steps.scrape.outcome == 'failure' &&
+          (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
         run: |
           echo "WARNING: ITF scraping failed. GitHub Pages will be deployed using the last valid cached data."
 
       - name: Write weekly scraping summary
-        if: (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') && steps.scrape.outcome == 'success'
+        if: >
+          inputs.use_committed_data != true &&
+          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
+          steps.scrape.outcome == 'success'
         env:
           ITF_SCRAPE_FRESH: "true"
         run: node scripts/24_write_week_action_summary.mjs
