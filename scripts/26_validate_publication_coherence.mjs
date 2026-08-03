@@ -52,15 +52,30 @@ export async function validatePublication({ cwd = process.cwd() } = {}) {
   const files = {
     snapshot: path.join(cleanDir, "rankings_snapshot.csv"),
     tournaments: path.join(cleanDir, "week_tournaments.csv"),
+    matches: path.join(cleanDir, "week_matches.csv"),
+    playerResults: path.join(cleanDir, "week_player_results.csv"),
+    resultSummary: path.join(cleanDir, "week_results_summary.csv"),
     liveRanking: path.join(cleanDir, "live_ranking_with_drops.csv"),
     resultErrors: path.join(cleanDir, "week_results_errors.csv"),
     html: path.join(exportsDir, "index.html"),
   };
 
-  const [snapshotRows, tournamentRows, liveRows, resultErrorRows, html] =
+  const [
+    snapshotRows,
+    tournamentRows,
+    matchRows,
+    playerResultRows,
+    resultSummaryRows,
+    liveRows,
+    resultErrorRows,
+    html,
+  ] =
     await Promise.all([
       readCsv(files.snapshot),
       readCsv(files.tournaments),
+      readCsv(files.matches),
+      readCsv(files.playerResults),
+      readCsv(files.resultSummary),
       readCsv(files.liveRanking),
       readCsv(files.resultErrors),
       fs.readFile(files.html, "utf8"),
@@ -131,6 +146,17 @@ export async function validatePublication({ cwd = process.cwd() } = {}) {
   if (realTournaments.length === 0) {
     errors.push("week_tournaments.csv nao contem nenhum torneio materializado.");
   }
+  if (matchRows.length === 0) {
+    errors.push("week_matches.csv nao contem nenhuma partida coletada.");
+  }
+  if (playerResultRows.length === 0) {
+    errors.push("week_player_results.csv nao contem nenhum atleta coletado.");
+  }
+  if (resultSummaryRows.length !== realTournaments.length) {
+    errors.push(
+      `week_results_summary.csv esta incompleto: ${resultSummaryRows.length}/${realTournaments.length} torneios.`
+    );
+  }
   if (resultErrorRows.length > 0) {
     errors.push(`week_results_errors.csv contem ${resultErrorRows.length} erro(s) de coleta.`);
   }
@@ -147,6 +173,9 @@ export async function validatePublication({ cwd = process.cwd() } = {}) {
     snapshot_players: snapshotRows.length,
     live_players: liveRows.length,
     tournaments: realTournaments.length,
+    matches: matchRows.length,
+    player_results: playerResultRows.length,
+    result_summaries: resultSummaryRows.length,
     collection_errors: resultErrorRows.length,
     errors,
   };

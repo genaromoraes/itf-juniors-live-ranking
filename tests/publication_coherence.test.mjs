@@ -52,6 +52,21 @@ async function createFixture() {
     ],
     ["week_start", "week_end", "tournament_key", "tournament_name"]
   );
+  await writeCsv(
+    path.join(cleanDir, "week_matches.csv"),
+    [{ tournament_key: "J-J100-TEST-2026-001", match_id: "match-1" }],
+    ["tournament_key", "match_id"]
+  );
+  await writeCsv(
+    path.join(cleanDir, "week_player_results.csv"),
+    [{ tournament_key: "J-J100-TEST-2026-001", player_id: "player-1" }],
+    ["tournament_key", "player_id"]
+  );
+  await writeCsv(
+    path.join(cleanDir, "week_results_summary.csv"),
+    [{ tournament_key: "J-J100-TEST-2026-001" }],
+    ["tournament_key"]
+  );
   await writeCsv(path.join(cleanDir, "week_results_errors.csv"), [], [
     "tournament_key",
     "error",
@@ -104,4 +119,17 @@ test("blocks publication when collection errors exist", async () => {
   const report = await validatePublication({ cwd: fixture.cwd });
   assert.equal(report.valid, false);
   assert.match(report.errors.join("\n"), /1 erro\(s\) de coleta/);
+});
+
+test("blocks publication when weekly results are empty", async () => {
+  const fixture = await createFixture();
+  await writeCsv(
+    path.join(fixture.cleanDir, "week_player_results.csv"),
+    [],
+    ["tournament_key", "player_id"]
+  );
+
+  const report = await validatePublication({ cwd: fixture.cwd });
+  assert.equal(report.valid, false);
+  assert.match(report.errors.join("\n"), /week_player_results\.csv nao contem nenhum atleta/);
 });
