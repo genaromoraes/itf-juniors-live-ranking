@@ -38,6 +38,10 @@ export const NETWORK_MODE_BROWSER = "browser";
 export const NETWORK_MODE_AUTO = "auto";
 export const DIRECT_MAX_RETRIES = 2;
 export const DIRECT_RETRY_DELAY_MS = 15000;
+export const BROWSER_MAX_RETRIES =
+  Number(process.env.ITF_OFFICIAL_BROWSER_MAX_RETRIES) || 1;
+export const BROWSER_RETRY_DELAY_MS =
+  Number(process.env.ITF_OFFICIAL_BROWSER_RETRY_DELAY_MS) || 15000;
 export const BETWEEN_PAGES_DELAY_MS = 750;
 export const RANKING_PAGE_URL =
   "https://www.itftennis.com/en/rankings/juniors/";
@@ -127,6 +131,22 @@ function detectCaptcha(text) {
     snippet.includes("hcaptcha") ||
     snippet.includes("cf-challenge")
   );
+}
+
+function detectBrowserChallenge(text) {
+  const snippet = cleanText(text).toLowerCase();
+  return [
+    "incapsula",
+    "imperva",
+    "_incapsula_resource",
+    "incident_id",
+    "captcha",
+    "recaptcha",
+    "hcaptcha",
+    "cf-challenge",
+    "challenge-platform",
+    "verify you are human",
+  ].some((marker) => snippet.includes(marker));
 }
 
 function inspectResponse(contentType, text) {
@@ -431,7 +451,7 @@ async function defaultBrowserRequest({ url, referer, timeoutMs }, browserState) 
     await browserState.page.waitForTimeout(5000);
 
     const content = await browserState.page.content();
-    if (inspectResponse("text/html", content).blockedHtml) {
+    if (detectBrowserChallenge(content)) {
       throw new Error("Browser page carregou challenge ou bloqueio HTML antes da coleta.");
     }
   }
@@ -677,26 +697,36 @@ async function fetchDirectRankingPage(context) {
 }
 
 async function fetchBrowserRankingPage(context) {
-  const result = await runSingleAttempt({
-    ...context,
-    networkMode: NETWORK_MODE_BROWSER,
-    attempt: 1,
-    requestFn: context.deps.browserRequest || defaultBrowserRequest,
-  });
+  let lastFailure = null;
 
-  if (result.ok) {
-    return result;
+  for (let attempt = 1; attempt <= BROWSER_MAX_RETRIES; attempt++) {
+    const result = await runSingleAttempt({
+      ...context,
+      networkMode: NETWORK_MODE_BROWSER,
+      attempt,
+      requestFn: context.deps.browserRequest || defaultBrowserRequest,
+    });
+
+    if (result.ok) {
+      return result;
+    }
+
+    lastFailure = result;
+
+    if (attempt < BROWSER_MAX_RETRIES) {
+      await (context.deps.sleep || sleep)(BROWSER_RETRY_DELAY_MS);
+    }
   }
 
   return {
     ok: false,
     errorMessage:
-      result.errorMessage || `Falha no modo browser para ${context.url}.`,
-    blockedHtml: result.blockedHtml || false,
-    incapsulaDetected: result.incapsulaDetected || false,
-    impervaDetected: result.impervaDetected || false,
-    captchaDetected: result.captchaDetected || false,
-    timeout: result.timeout || false,
+      lastFailure?.errorMessage || `Falha no modo browser para ${context.url}.`,
+    blockedHtml: lastFailure?.blockedHtml || false,
+    incapsulaDetected: lastFailure?.incapsulaDetected || false,
+    impervaDetected: lastFailure?.impervaDetected || false,
+    captchaDetected: lastFailure?.captchaDetected || false,
+    timeout: lastFailure?.timeout || false,
   };
 }
 
