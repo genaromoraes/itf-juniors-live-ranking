@@ -1,0 +1,134 @@
+name: Refresh Current Week Results
+
+on:
+  workflow_dispatch:
+    inputs:
+      week_start:
+        description: "Inicio da semana oficial (YYYY-MM-DD)"
+        required: true
+        default: "2026-08-03"
+        type: string
+      week_end:
+        description: "Fim da semana oficial (YYYY-MM-DD)"
+        required: true
+        default: "2026-08-09"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-week-results
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    env:
+      WEEK_START: ${{ inputs.week_start }}
+      WEEK_END: ${{ inputs.week_end }}
+      STAGING_DIR: data/staging/week-results-${{ inputs.week_start }}
+      ITF_RESULTS_MAX_RETRIES: "4"
+      ITF_RESULTS_BLOCK_DELAY_MS: "60000"
+      ITF_RESULTS_RETRY_DELAY_MS: "15000"
+      ITF_RESULTS_EVENT_DELAY_MS: "3500"
+      ITF_RESULTS_TOURNAMENT_DELAY_MS: "15000"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Fetch weekly tournament calendar
+        run: |
+          node scripts/04_fetch_week_tournaments.mjs \
+            --week-start="$WEEK_START" \
+            --week-end="$WEEK_END" \
+            --output-dir="$STAGING_DIR"
+
+      - name: Fetch weekly results
+        run: |
+          node scripts/05_fetch_week_results.mjs \
+            --input-dir="$STAGING_DIR" \
+            --output-dir="$STAGING_DIR"
+
+      - name: Validate collected weekly results
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const { parse } = require('csv-parse/sync');
+
+          const staging = process.env.STAGING_DIR;
+          const read = (name) => parse(
+            fs.readFileSync(path.join(staging, name), 'utf8'),
+            { columns: true, skip_empty_lines: true }
+          );
+
+          const tournaments = read('week_tournaments.csv');
+          const matches = read('week_matches.csv');
+          const playerResults = read('week_player_results.csv');
+          const errors = read('week_results_errors.csv');
+          const summaries = read('week_results_summary.csv');
+
+          console.log(JSON.stringify({
+            tournaments: tournaments.length,
+            matches: matches.length,
+            player_results: playerResults.length,
+            summaries: summaries.length,
+            errors: errors.length,
+          }, null, 2));
+
+          if (tournaments.length === 0) throw new Error('Nenhum torneio foi coletado.');
+          if (matches.length === 0 || playerResults.length === 0) {
+            throw new Error('A coleta nao encontrou partidas ou atletas nesta semana.');
+          }
+          if (errors.length > 0) {
+            throw new Error(`A coleta terminou com ${errors.length} erro(s).`);
+          }
+          if (summaries.length !== tournaments.length) {
+            throw new Error(`Resumo incompleto: ${summaries.length}/${tournaments.length} torneios.`);
+          }
+          NODE
+
+      - name: Install collected weekly data
+        run: |
+          cp "$STAGING_DIR/week_tournaments.csv" data/clean/week_tournaments.csv
+          cp "$STAGING_DIR/week_tournaments_debug_all.csv" data/clean/week_tournaments_debug_all.csv
+          cp "$STAGING_DIR/week_matches.csv" data/clean/week_matches.csv
+          cp "$STAGING_DIR/week_player_results.csv" data/clean/week_player_results.csv
+          cp "$STAGING_DIR/week_results_errors.csv" data/clean/week_results_errors.csv
+          cp "$STAGING_DIR/week_results_summary.csv" data/clean/week_results_summary.csv
+
+      - name: Commit and push collected weekly data
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f \
+            data/clean/week_tournaments.csv \
+            data/clean/week_tournaments_debug_all.csv \
+            data/clean/week_matches.csv \
+            data/clean/week_player_results.csv \
+            data/clean/week_results_errors.csv \
+            data/clean/week_results_summary.csv
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteracao nos resultados semanais."
+            exit 0
+          fi
+          git commit -m "Refresh live week results $WEEK_START"
+          git push origin HEAD:main
