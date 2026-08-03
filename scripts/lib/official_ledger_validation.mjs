@@ -9,7 +9,8 @@ import {
   validateCompetitionRanks,
 } from "./ranking_limits.mjs";
 
-export const REQUEST_TIMEOUT_MS = 30000;
+export const REQUEST_TIMEOUT_MS =
+  Number(process.env.ITF_OFFICIAL_REQUEST_TIMEOUT_MS) || 30000;
 export const RETRY_DELAY_MS = 10000;
 export const MAX_RETRIES = 2;
 export const TOP_LIMIT = TRACKED_BASE_LIMIT_PER_GENDER;

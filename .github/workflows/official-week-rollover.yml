@@ -104,6 +104,7 @@ jobs:
 
       - name: Run official week rollover
         env:
+          ITF_OFFICIAL_REQUEST_TIMEOUT_MS: "90000"
           ITF_OFFICIAL_BROWSER_MAX_RETRIES: "2"
           ITF_OFFICIAL_BROWSER_RETRY_DELAY_MS: "15000"
         run: |
