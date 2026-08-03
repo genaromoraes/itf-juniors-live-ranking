@@ -14,9 +14,10 @@ const CALENDAR_PAGE =
   "https://www.itftennis.com/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
 
 const REQUEST_TIMEOUT_MS = 30000;
-const RETRY_DELAY_MS = 10000;
-const BLOCK_DELAY_MS = 15000;
-const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 15000;
+const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 60000;
+const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 4;
+const ITF_HOME_URL = "https://www.itftennis.com/en/";
 
 const TOURNAMENT_COLUMNS = [
   "week_start",
@@ -541,6 +542,19 @@ function looksBlockedOrHtml(result) {
   return false;
 }
 
+async function recoverBrowserSessionAfterBlock(page, attempt) {
+  try {
+    await page.context().clearCookies();
+    await page.goto(ITF_HOME_URL, {
+      waitUntil: "domcontentloaded",
+      timeout: 90000,
+    });
+    await page.waitForTimeout(Math.min(5000, 1500 * attempt));
+  } catch (error) {
+    console.log(`Recuperacao da sessao falhou: ${error?.message || error}`);
+  }
+}
+
 async function fetchJsonWithRetry(page, url, label = "calendar request") {
   let lastError = null;
 
@@ -570,10 +584,12 @@ async function fetchJsonWithRetry(page, url, label = "calendar request") {
       }
 
       if (err.isBlocked) {
+        await recoverBrowserSessionAfterBlock(page, attempt);
+        const delay = BLOCK_DELAY_MS * attempt;
         console.log(
-          `Possivel bloqueio/HTML detectado. Esperando ${BLOCK_DELAY_MS / 1000}s...`
+          `Possivel bloqueio/HTML detectado. Esperando ${delay / 1000}s antes da proxima tentativa...`
         );
-        await sleep(BLOCK_DELAY_MS);
+        await sleep(delay);
       } else {
         console.log(`Erro temporario. Esperando ${RETRY_DELAY_MS / 1000}s...`);
         await sleep(RETRY_DELAY_MS);

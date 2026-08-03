@@ -66,6 +66,11 @@ jobs:
       RECONCILIATION_DIR: data/staging/official_reconciliation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
       LOG_DIR: logs/official-week-rollover
       ARTIFACT_NAME: official-week-rollover-${{ inputs.ranking_date }}-${{ github.run_id }}
+      ITF_RESULTS_MAX_RETRIES: "4"
+      ITF_RESULTS_BLOCK_DELAY_MS: "60000"
+      ITF_RESULTS_RETRY_DELAY_MS: "15000"
+      ITF_RESULTS_EVENT_DELAY_MS: "3500"
+      ITF_RESULTS_TOURNAMENT_DELAY_MS: "15000"
 
     steps:
       - name: Checkout
