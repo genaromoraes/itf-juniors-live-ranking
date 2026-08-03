@@ -186,6 +186,21 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/clean
+          weekly_files=(
+            week_tournaments.csv
+            week_tournaments_debug_all.csv
+            week_matches.csv
+            week_player_results.csv
+            week_results_errors.csv
+            week_results_summary.csv
+          )
+          for file in "${weekly_files[@]}"; do
+            if [ ! -f "data/clean/$file" ]; then
+              echo "Missing generated weekly package file: data/clean/$file" | tee "$LOG_DIR/git.log"
+              exit 1
+            fi
+            git add -f "data/clean/$file"
+          done
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
             echo "No data/clean changes to commit." | tee "$LOG_DIR/git.log"
@@ -202,7 +217,7 @@ jobs:
         if: steps.commit.outputs.committed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run deploy-pages.yml --ref main
+        run: gh workflow run deploy-pages.yml --ref main -f use_committed_data=true
 
       - name: Write rollover summary
         run: |

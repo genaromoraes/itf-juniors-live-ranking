@@ -50,6 +50,7 @@ jobs:
 
       - name: Restore generated data cache
         id: generated_cache
+        if: inputs.use_committed_data != true
         uses: actions/cache@v4
         with:
           path: |
