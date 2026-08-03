@@ -89,7 +89,7 @@ jobs:
         id: generated_cache
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true')
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))
         uses: actions/cache@v4
         with:
           path: |
@@ -180,7 +180,7 @@ jobs:
       - name: Install Playwright Chromium
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true') &&
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
           (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true')
         run: npx playwright install --with-deps chromium
 
@@ -188,14 +188,14 @@ jobs:
         if: >
           (github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]') && steps.push_cache.outputs.has_cache == 'true') ||
           (github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true) ||
-          (github.event_name == 'push' && steps.committed_data.outputs.valid == 'true')
+          (github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))
         run: npm run update
 
       - name: Build live ranking with fresh ITF data
         id: scrape
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true') &&
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
           (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true')
         continue-on-error: true
         run: npm run update:full
@@ -203,7 +203,7 @@ jobs:
       - name: Restore last valid data after scraping failure
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true') &&
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
           (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
           steps.scrape.outcome == 'failure' &&
           (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
@@ -242,7 +242,7 @@ jobs:
       - name: Build live ranking from last valid data
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true') &&
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
           (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
           steps.scrape.outcome == 'failure' &&
           (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
@@ -251,7 +251,7 @@ jobs:
       - name: Report stale ITF data
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true') &&
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
           (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
           steps.scrape.outcome == 'failure' &&
           (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
@@ -261,7 +261,7 @@ jobs:
       - name: Write weekly scraping summary
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true') &&
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
           (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
           steps.scrape.outcome == 'success'
         env:
