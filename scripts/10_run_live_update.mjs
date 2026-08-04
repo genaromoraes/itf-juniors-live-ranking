@@ -12,6 +12,9 @@ const PIPELINE_TIMEOUT_MS =
   Number.isFinite(PIPELINE_TIMEOUT_MS_ENV) && PIPELINE_TIMEOUT_MS_ENV > 0
     ? PIPELINE_TIMEOUT_MS_ENV
     : DEFAULT_PIPELINE_TIMEOUT_MS;
+const SKIP_RANKINGS_UNIVERSE_FETCH = /^(1|true|yes)$/i.test(
+  String(process.env.ITF_SKIP_RANKINGS_UNIVERSE_FETCH || "")
+);
 
 const STEPS = [
   {
@@ -102,7 +105,13 @@ const STEPS = [
       "data/audit/player_audit.html",
     ],
   },
-];
+].filter(
+  (step) =>
+    !(
+      SKIP_RANKINGS_UNIVERSE_FETCH &&
+      step.args.includes("scripts/03_fetch_rankings_universe.mjs")
+    )
+);
 
 function nowIso() {
   return new Date().toISOString();
@@ -378,6 +387,11 @@ async function main() {
   console.log("==================================================");
   console.log(`Início: ${nowIso()}`);
   console.log(`Limite total do pipeline: ${formatDuration(PIPELINE_TIMEOUT_MS)}`);
+  if (SKIP_RANKINGS_UNIVERSE_FETCH) {
+    console.log(
+      "Modo agendado: reutilizando a base oficial validada no commit e pulando a coleta do universo."
+    );
+  }
   console.log("");
 
   for (const step of STEPS) {

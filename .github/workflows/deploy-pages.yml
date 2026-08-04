@@ -27,13 +27,14 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # A fresh publication after the official rollover must rebuild the
-    # ranking universe before the coherence check. The 32-minute pipeline
-    # limit was reached while the ITF API was still returning pages.
-    timeout-minutes: 90
+    # Scheduled runs refresh the week's results but reuse the official ranking
+    # snapshot already validated in the repository. Full universe collection
+    # remains available for explicit fresh/manual publications.
+    timeout-minutes: 120
     env:
       GOOGLE_ANALYTICS_ID: G-D6CG6ZH0P1
-      ITF_PIPELINE_TIMEOUT_MS: "3600000"
+      ITF_PIPELINE_TIMEOUT_MS: "5400000"
+      ITF_SKIP_RANKINGS_UNIVERSE_FETCH: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
 
     steps:
       - name: Checkout
@@ -50,7 +51,10 @@ jobs:
 
       - name: Check committed data before cache restore
         id: committed_data
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: >
+          github.event_name == 'push' ||
+          github.event_name == 'workflow_dispatch' ||
+          github.event_name == 'schedule'
         run: |
           node <<'NODE'
           const fs = require('fs');
@@ -89,7 +93,8 @@ jobs:
         id: generated_cache
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))
+          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
+          !(github.event_name == 'schedule' && steps.committed_data.outputs.valid == 'true')
         uses: actions/cache@v4
         with:
           path: |
