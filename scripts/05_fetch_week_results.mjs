@@ -25,6 +25,12 @@ const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 2;
 const ITF_HOME_URL = "https://www.itftennis.com/en/";
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
+const FALLBACK_MATCHES_FILE = process.env.ITF_RESULTS_FALLBACK_MATCHES_FILE
+  ? path.resolve(process.env.ITF_RESULTS_FALLBACK_MATCHES_FILE)
+  : "";
+const FALLBACK_TOURNAMENTS_FILE = process.env.ITF_RESULTS_FALLBACK_TOURNAMENTS_FILE
+  ? path.resolve(process.env.ITF_RESULTS_FALLBACK_TOURNAMENTS_FILE)
+  : "";
 
 function getArg(name, argv = process.argv.slice(2)) {
   const prefix = `--${name}=`;
@@ -697,6 +703,35 @@ async function fetchJsonInsideBrowser(page, url, options = {}) {
   );
 }
 
+async function readSameWeekFallbackMatches(tournaments) {
+  if (!FALLBACK_MATCHES_FILE || !FALLBACK_TOURNAMENTS_FILE) return [];
+
+  try {
+    const [fallbackTournaments, fallbackMatches] = await Promise.all([
+      readCsv(FALLBACK_TOURNAMENTS_FILE),
+      readCsv(FALLBACK_MATCHES_FILE),
+    ]);
+    const currentWeekStart = cleanText(tournaments[0]?.week_start);
+    const fallbackWeekStart = cleanText(fallbackTournaments[0]?.week_start);
+
+    if (!currentWeekStart || currentWeekStart !== fallbackWeekStart) {
+      console.log(
+        `Fallback de draws ignorado: semana atual ${currentWeekStart || "<ausente>"} ` +
+          `e pacote anterior ${fallbackWeekStart || "<ausente>"} sao diferentes.`
+      );
+      return [];
+    }
+
+    console.log(
+      `Fallback de draws habilitado para a mesma semana: ${fallbackMatches.length} partidas disponiveis.`
+    );
+    return fallbackMatches;
+  } catch (error) {
+    console.log(`Fallback de draws indisponivel: ${error?.message || error}`);
+    return [];
+  }
+}
+
 async function recoverBrowserSessionAfterBlock(page, attempt) {
   try {
     await page.context().clearCookies();
@@ -852,6 +887,71 @@ function getMatchEventKey(match) {
     match.match_type_code,
     match.event_classification_code,
   ].join("|");
+}
+
+function getErrorEventKey(error) {
+  return [
+    error.tournament_key,
+    error.player_type_code,
+    error.match_type_code,
+    error.event_classification_code,
+  ].join("|");
+}
+
+function getMatchIdentity(match) {
+  return [
+    getMatchEventKey(match),
+    match.match_id,
+    match.round_order,
+    match.team1_player_ids,
+    match.team2_player_ids,
+  ].join("|");
+}
+
+export function mergeFallbackMatches(currentMatches, errors, fallbackMatches) {
+  const failedEventKeys = new Set(
+    errors
+      .filter(
+        (error) =>
+          cleanText(error.player_type_code) &&
+          cleanText(error.match_type_code) &&
+          cleanText(error.event_classification_code)
+      )
+      .map(getErrorEventKey)
+  );
+  const failedTournamentKeys = new Set(
+    errors
+      .filter(
+        (error) =>
+          cleanText(error.tournament_key) &&
+          !cleanText(error.player_type_code) &&
+          !cleanText(error.match_type_code) &&
+          !cleanText(error.event_classification_code)
+      )
+      .map((error) => cleanText(error.tournament_key))
+  );
+  const present = new Set(currentMatches.map(getMatchIdentity));
+  const recovered = [];
+
+  for (const match of fallbackMatches) {
+    const eventKey = getMatchEventKey(match);
+    const tournamentKey = cleanText(match.tournament_key);
+    const belongsToFailedScope =
+      failedEventKeys.has(eventKey) || failedTournamentKeys.has(tournamentKey);
+
+    if (!belongsToFailedScope) continue;
+
+    const identity = getMatchIdentity(match);
+    if (present.has(identity)) continue;
+
+    present.add(identity);
+    recovered.push(match);
+  }
+
+  return {
+    matches: [...currentMatches, ...recovered],
+    recovered,
+  };
 }
 
 function isRoundRobinMatch(match) {
@@ -1305,6 +1405,7 @@ export async function main(cliArgs = parseArgs()) {
   const allMatches = [];
   const allErrors = [];
   const summaries = [];
+  const fallbackMatches = await readSameWeekFallbackMatches(tournaments);
 
   try {
     for (let i = 0; i < tournaments.length; i++) {
@@ -1320,6 +1421,18 @@ export async function main(cliArgs = parseArgs()) {
       summaries.push(result.summary);
 
       await sleep(DELAY_BETWEEN_TOURNAMENTS_MS);
+    }
+
+    const mergedMatches = mergeFallbackMatches(
+      allMatches,
+      allErrors,
+      fallbackMatches
+    );
+    if (mergedMatches.recovered.length > 0) {
+      allMatches.push(...mergedMatches.recovered);
+      console.log(
+        `Partidas preservadas do pacote anterior para draws bloqueados: ${mergedMatches.recovered.length}`
+      );
     }
 
     const playerResults = buildPlayerResultsFromMatches(allMatches);

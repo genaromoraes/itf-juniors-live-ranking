@@ -3,6 +3,7 @@ import { describe, test } from "node:test";
 import {
   buildPlayerResultsFromMatches,
   extractMatchesFromDrawsheet,
+  mergeFallbackMatches,
 } from "../scripts/05_fetch_week_results.mjs";
 import {
   buildPointsMap,
@@ -28,6 +29,62 @@ const tournament = {
   start_date: "2026-06-15",
   end_date: "2026-06-21",
 };
+
+test("preserves only blocked draws from the previous package", () => {
+  const currentMatches = [
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "M",
+      match_id: "fresh-main",
+      round_order: 1,
+      team1_player_ids: "1",
+      team2_player_ids: "2",
+    },
+  ];
+  const errors = [
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "Q",
+    },
+  ];
+  const fallbackMatches = [
+    { ...currentMatches[0] },
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "Q",
+      match_id: "previous-qualy",
+      round_order: 1,
+      team1_player_ids: "3",
+      team2_player_ids: "4",
+    },
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "M",
+      match_id: "previous-main",
+      round_order: 1,
+      team1_player_ids: "5",
+      team2_player_ids: "6",
+    },
+  ];
+
+  const merged = mergeFallbackMatches(
+    currentMatches,
+    errors,
+    fallbackMatches
+  );
+
+  assert.equal(merged.recovered.length, 1);
+  assert.equal(merged.matches.length, 2);
+  assert.equal(merged.recovered[0].match_id, "previous-qualy");
+});
 
 function team(playerId, givenName, familyName, nationality = "BRA") {
   return {

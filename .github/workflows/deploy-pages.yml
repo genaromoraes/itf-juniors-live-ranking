@@ -39,6 +39,8 @@ jobs:
       ITF_RESULTS_RETRY_DELAY_MS: "10000"
       ITF_RESULTS_EVENT_DELAY_MS: "2000"
       ITF_RESULTS_TOURNAMENT_DELAY_MS: "10000"
+      ITF_RESULTS_FALLBACK_MATCHES_FILE: ".last-valid-data/data/clean/week_matches.csv"
+      ITF_RESULTS_FALLBACK_TOURNAMENTS_FILE: ".last-valid-data/data/clean/week_tournaments.csv"
 
     steps:
       - name: Checkout
