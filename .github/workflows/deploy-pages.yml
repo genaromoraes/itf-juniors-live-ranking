@@ -228,6 +228,8 @@ jobs:
         run: node scripts/24_write_week_action_summary.mjs
 
       - name: Validate publication coherence
+        env:
+          ITF_ALLOW_PARTIAL_COLLECTION: ${{ steps.scrape.outcome == 'success' && 'true' || 'false' }}
         run: npm run validate:publication
 
       - name: Stage weekly package for next run

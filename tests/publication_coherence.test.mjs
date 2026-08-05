@@ -121,6 +121,23 @@ test("blocks publication when collection errors exist", async () => {
   assert.match(report.errors.join("\n"), /1 erro\(s\) de coleta/);
 });
 
+test("allows explicitly marked partial collection errors", async () => {
+  const fixture = await createFixture();
+  await writeCsv(
+    path.join(fixture.cleanDir, "week_results_errors.csv"),
+    [{ tournament_key: "J-J100-TEST-2026-001", error: "anti-bot" }],
+    ["tournament_key", "error"]
+  );
+
+  const report = await validatePublication({
+    cwd: fixture.cwd,
+    allowPartialCollection: true,
+  });
+  assert.equal(report.valid, true);
+  assert.equal(report.collection_errors, 1);
+  assert.match(report.warnings.join("\n"), /1 erro\(s\) de coleta/);
+});
+
 test("blocks publication when weekly results are empty", async () => {
   const fixture = await createFixture();
   await writeCsv(

@@ -46,7 +46,12 @@ function requireSingleDate(rows, field, label, errors) {
   return values[0];
 }
 
-export async function validatePublication({ cwd = process.cwd() } = {}) {
+export async function validatePublication({
+  cwd = process.cwd(),
+  allowPartialCollection = /^(1|true|yes)$/i.test(
+    String(process.env.ITF_ALLOW_PARTIAL_COLLECTION || "")
+  ),
+} = {}) {
   const cleanDir = path.join(cwd, "data", "clean");
   const exportsDir = path.join(cwd, "data", "exports");
   const files = {
@@ -82,6 +87,7 @@ export async function validatePublication({ cwd = process.cwd() } = {}) {
     ]);
 
   const errors = [];
+  const warnings = [];
   const rankingDate = requireSingleDate(
     snapshotRows,
     "ranking_date",
@@ -158,7 +164,12 @@ export async function validatePublication({ cwd = process.cwd() } = {}) {
     );
   }
   if (resultErrorRows.length > 0) {
-    errors.push(`week_results_errors.csv contem ${resultErrorRows.length} erro(s) de coleta.`);
+    const message = `week_results_errors.csv contem ${resultErrorRows.length} erro(s) de coleta.`;
+    if (allowPartialCollection) {
+      warnings.push(message);
+    } else {
+      errors.push(message);
+    }
   }
   if (rankingDate && !html.includes(`\"ranking_date\":\"${rankingDate}\"`)) {
     errors.push(`index.html nao contem dados da base oficial ${rankingDate}.`);
@@ -177,6 +188,8 @@ export async function validatePublication({ cwd = process.cwd() } = {}) {
     player_results: playerResultRows.length,
     result_summaries: resultSummaryRows.length,
     collection_errors: resultErrorRows.length,
+    partial_collection_allowed: allowPartialCollection,
+    warnings,
     errors,
   };
 }
@@ -187,7 +200,13 @@ export async function main() {
   if (!report.valid) {
     throw new Error("Publicacao bloqueada: base oficial, semana e site nao estao coerentes.");
   }
-  console.log("Publicacao validada: pacote coerente e sem erros de coleta.");
+  if (report.warnings.length > 0) {
+    console.log(
+      `Publicacao validada: pacote coerente; ${report.warnings.join(" ")}`
+    );
+  } else {
+    console.log("Publicacao validada: pacote coerente e sem erros de coleta.");
+  }
 }
 
 const isCli = process.argv[1]

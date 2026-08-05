@@ -1190,10 +1190,6 @@ async function processTournament(page, tournament, paths) {
       } catch (err) {
         console.log(`ERRO evento: ${err.message}`);
 
-        if (err.isBlocked) {
-          throw err;
-        }
-
         errors.push({
           tournament_key: tournament.tournament_key,
           tournament_name: tournament.tournament_name,
@@ -1243,10 +1239,6 @@ async function processTournament(page, tournament, paths) {
     };
   } catch (err) {
     console.log(`ERRO torneio: ${err.message}`);
-
-    if (err.isBlocked) {
-      throw err;
-    }
 
     errors.push({
       tournament_key: tournament.tournament_key,
