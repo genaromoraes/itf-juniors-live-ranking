@@ -29,11 +29,13 @@ jobs:
       WEEK_START: ${{ inputs.week_start }}
       WEEK_END: ${{ inputs.week_end }}
       STAGING_DIR: data/staging/week-results-${{ inputs.week_start }}
+      # Keep anti-bot recovery responsive; a blocked request backs off inside
+      # the scraper, while routine event/tournament pacing stays lightweight.
       ITF_RESULTS_MAX_RETRIES: "4"
-      ITF_RESULTS_BLOCK_DELAY_MS: "60000"
-      ITF_RESULTS_RETRY_DELAY_MS: "15000"
-      ITF_RESULTS_EVENT_DELAY_MS: "3500"
-      ITF_RESULTS_TOURNAMENT_DELAY_MS: "15000"
+      ITF_RESULTS_BLOCK_DELAY_MS: "15000"
+      ITF_RESULTS_RETRY_DELAY_MS: "10000"
+      ITF_RESULTS_EVENT_DELAY_MS: "2000"
+      ITF_RESULTS_TOURNAMENT_DELAY_MS: "10000"
 
     steps:
       - name: Checkout
