@@ -9,7 +9,7 @@ on:
       use_committed_data:
         description: "Publicar usando os dados já validados no commit, sem nova coleta no ITF"
         required: false
-        default: true
+        default: false
         type: boolean
   schedule:
     # Five daily reads from 08:00 to 20:00 in Brasilia; cron values below are UTC.
@@ -27,14 +27,18 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Scheduled runs refresh the week's results but reuse the official ranking
-    # snapshot already validated in the repository. Full universe collection
-    # remains available for explicit fresh/manual publications.
-    timeout-minutes: 120
+    # One weekly pipeline: collect current results, calculate the live ranking,
+    # write the run summary, validate coherence, and deploy Pages.
+    timeout-minutes: 90
     env:
       GOOGLE_ANALYTICS_ID: G-D6CG6ZH0P1
       ITF_PIPELINE_TIMEOUT_MS: "5400000"
-      ITF_SKIP_RANKINGS_UNIVERSE_FETCH: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+      ITF_SKIP_RANKINGS_UNIVERSE_FETCH: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'true' || 'false' }}
+      ITF_RESULTS_MAX_RETRIES: "2"
+      ITF_RESULTS_BLOCK_DELAY_MS: "15000"
+      ITF_RESULTS_RETRY_DELAY_MS: "10000"
+      ITF_RESULTS_EVENT_DELAY_MS: "2000"
+      ITF_RESULTS_TOURNAMENT_DELAY_MS: "10000"
 
     steps:
       - name: Checkout
@@ -89,72 +93,16 @@ jobs:
           }
           NODE
 
-      - name: Restore generated data cache
-        id: generated_cache
-        if: >
-          inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          !(github.event_name == 'schedule' && steps.committed_data.outputs.valid == 'true')
+      - name: Restore previous weekly package for comparison
+        id: previous_week_cache
         uses: actions/cache@v4
         with:
-          path: |
-            data/clean/week_tournaments.csv
-            data/clean/week_tournaments_debug_all.csv
-            data/clean/week_matches.csv
-            data/clean/week_player_results.csv
-            data/clean/week_results_errors.csv
-            data/clean/week_results_summary.csv
-            data/clean/week_live_points.csv
-            data/clean/week_live_ledger_rows.csv
-            data/clean/rankings_universe.csv
-            data/clean/live_combined_ledger_with_drops.csv
-            data/clean/live_dropped_points.csv
-            data/clean/live_ranking_with_drops.csv
-            data/clean/live_ranking_with_drops_top500.csv
-            data/clean/live_ranking_with_drops_changes.csv
-          key: live-ranking-data-${{ github.run_id }}
+          path: .previous-run/data/clean
+          key: weekly-results-${{ github.run_id }}
           restore-keys: |
-            live-ranking-data-
+            weekly-results-
 
-      - name: Check cached data for push deploy
-        id: push_cache
-        if: github.event_name == 'push'
-        run: |
-          node <<'NODE'
-          const fs = require('fs');
-          const required = [
-            'data/clean/week_tournaments.csv',
-            'data/clean/week_matches.csv',
-            'data/clean/week_player_results.csv',
-          ];
-          const missing = required.filter((file) => !fs.existsSync(file));
-          const readFirstValue = (file, column) => {
-            if (!fs.existsSync(file)) return '';
-            const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
-            if (lines.length < 2) return '';
-            const headers = lines[0].split(',');
-            const index = headers.indexOf(column);
-            return index >= 0 ? lines[1].split(',')[index] : '';
-          };
-          const officialDate = readFirstValue('data/clean/rankings_snapshot.csv', 'ranking_date');
-          const cachedWeekStart = readFirstValue('data/clean/week_tournaments.csv', 'week_start');
-          const cacheMatchesOfficialWeek = Boolean(officialDate && cachedWeekStart && officialDate === cachedWeekStart);
-          const hasCache = missing.length === 0 && cacheMatchesOfficialWeek;
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_cache=${hasCache ? 'true' : 'false'}\n`);
-          if (hasCache) {
-            console.log(`Push deploy will reuse cached generated data for ${cachedWeekStart}.`);
-          } else {
-            console.log('Push deploy cache is incomplete or belongs to an older official week; switching to fresh ITF scrape.');
-            for (const file of missing) console.log('- missing: ' + file);
-            if (officialDate || cachedWeekStart) {
-              console.log(`- official ranking date: ${officialDate || '<missing>'}`);
-              console.log(`- cached week start: ${cachedWeekStart || '<missing>'}`);
-            }
-          }
-          NODE
-
-      - name: Backup last valid generated data
-        if: github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true'
+      - name: Backup committed publication package
         run: |
           mkdir -p .last-valid-data/data/clean
           files=(
@@ -185,13 +133,13 @@ jobs:
       - name: Install Playwright Chromium
         if: >
           inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true')
+          !(
+            (github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))
+          )
         run: npx playwright install --with-deps chromium
 
       - name: Build live ranking without scraping
         if: >
-          (github.event_name == 'push' && !contains(github.event.head_commit.message, '[fresh-pages]') && steps.push_cache.outputs.has_cache == 'true') ||
           (github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true) ||
           (github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))
         run: npm run update
@@ -199,82 +147,99 @@ jobs:
       - name: Build live ranking with fresh ITF data
         id: scrape
         if: >
-          inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true')
+          !(
+            (github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true) ||
+            (github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))
+          )
         continue-on-error: true
         run: npm run update:full
 
       - name: Restore last valid data after scraping failure
-        if: >
-          inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
-          steps.scrape.outcome == 'failure' &&
-          (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
+        if: steps.scrape.outcome == 'failure'
         run: |
-          echo "ITF scraping failed. Restoring the last valid generated data from cache."
-          for file in week_tournaments.csv week_matches.csv week_player_results.csv; do
-            if [ ! -f ".last-valid-data/data/clean/$file" ]; then
-              echo "Missing required cached file: .last-valid-data/data/clean/$file"
-              echo "No valid cached data is available to restore after scraping failure."
-              exit 1
-            fi
-          done
-          mkdir -p data/clean
-          files=(
-            week_tournaments.csv
-            week_tournaments_debug_all.csv
-            week_matches.csv
-            week_player_results.csv
-            week_results_errors.csv
-            week_results_summary.csv
-            week_live_points.csv
-            week_live_ledger_rows.csv
-            rankings_universe.csv
-            live_combined_ledger_with_drops.csv
-            live_dropped_points.csv
-            live_ranking_with_drops.csv
-            live_ranking_with_drops_top500.csv
-            live_ranking_with_drops_changes.csv
-          )
-          for file in "${files[@]}"; do
-            if [ -f ".last-valid-data/data/clean/$file" ]; then
-              cp -f ".last-valid-data/data/clean/$file" "data/clean/$file"
-            fi
-          done
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const requiredFiles = [
+            'week_tournaments.csv',
+            'week_matches.csv',
+            'week_player_results.csv',
+          ];
+          const optionalFiles = [
+            'week_tournaments_debug_all.csv',
+            'week_results_errors.csv',
+            'week_results_summary.csv',
+          ];
+          const files = [...requiredFiles, ...optionalFiles];
+          const cleanDir = path.resolve('data/clean');
+          const committedDir = path.resolve('.last-valid-data/data/clean');
+          const previousDir = path.resolve('.previous-run/data/clean');
+          const readFirst = (file, column) => {
+            if (!fs.existsSync(file)) return '';
+            const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
+            if (lines.length < 2) return '';
+            const headers = lines[0].split(',');
+            const index = headers.indexOf(column);
+            return index >= 0 ? lines[1].split(',')[index] : '';
+          };
+          const officialDate = readFirst(
+            path.resolve('data/clean/rankings_snapshot.csv'),
+            'ranking_date'
+          );
+          const previousWeek = readFirst(path.join(previousDir, 'week_tournaments.csv'), 'week_start');
+          const committedWeek = readFirst(path.join(committedDir, 'week_tournaments.csv'), 'week_start');
+          const previousComplete = requiredFiles.every((file) => fs.existsSync(path.join(previousDir, file)));
+          const usePrevious = previousComplete && previousWeek && previousWeek === officialDate;
+          const sourceDir = usePrevious ? previousDir : committedDir;
+
+          console.log(`Scrape falhou; restaurando ${usePrevious ? 'o ultimo pacote semanal valido' : 'o pacote commitado'}.`);
+          if (!fs.existsSync(sourceDir) || !requiredFiles.every((file) => fs.existsSync(path.join(sourceDir, file)))) {
+            throw new Error('Nenhum pacote semanal completo esta disponivel para fallback.');
+          }
+          if (!usePrevious && committedWeek !== officialDate) {
+            console.log(`Pacote commitado tambem esta em ${committedWeek || '<ausente>'}; a validacao bloqueara a publicacao incoerente.`);
+          }
+          fs.mkdirSync(cleanDir, { recursive: true });
+          for (const file of files) {
+            const sourceFile = path.join(sourceDir, file);
+            if (fs.existsSync(sourceFile)) {
+              fs.copyFileSync(sourceFile, path.join(cleanDir, file));
+            }
+          }
+          NODE
 
       - name: Build live ranking from last valid data
-        if: >
-          inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
-          steps.scrape.outcome == 'failure' &&
-          (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
+        if: steps.scrape.outcome == 'failure'
         run: npm run update
 
       - name: Report stale ITF data
-        if: >
-          inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
-          steps.scrape.outcome == 'failure' &&
-          (github.event_name != 'push' || steps.push_cache.outputs.has_cache == 'true')
+        if: steps.scrape.outcome == 'failure'
         run: |
-          echo "WARNING: ITF scraping failed. GitHub Pages will be deployed using the last valid cached data."
+          echo "WARNING: ITF scraping failed. GitHub Pages will be rebuilt from the last coherent weekly package."
 
       - name: Write weekly scraping summary
-        if: >
-          inputs.use_committed_data != true &&
-          !(github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]')) &&
-          (github.event_name != 'push' || contains(github.event.head_commit.message, '[fresh-pages]') || steps.push_cache.outputs.has_cache != 'true') &&
-          steps.scrape.outcome == 'success'
+        if: steps.scrape.outcome == 'success'
         env:
           ITF_SCRAPE_FRESH: "true"
+          PREVIOUS_WEEK_MATCHES_FILE: .previous-run/data/clean/week_matches.csv
+          PREVIOUS_WEEK_TOURNAMENTS_FILE: .previous-run/data/clean/week_tournaments.csv
         run: node scripts/24_write_week_action_summary.mjs
 
       - name: Validate publication coherence
         run: npm run validate:publication
+
+      - name: Stage weekly package for next run
+        if: success()
+        run: |
+          set -euo pipefail
+          mkdir -p .previous-run/data/clean
+          for file in week_tournaments.csv week_tournaments_debug_all.csv week_matches.csv week_player_results.csv week_results_errors.csv week_results_summary.csv; do
+            if [ -f "data/clean/$file" ]; then
+              cp -f "data/clean/$file" ".previous-run/data/clean/$file"
+            fi
+          done
 
       - name: Upload failed publication diagnostics
         if: failure()

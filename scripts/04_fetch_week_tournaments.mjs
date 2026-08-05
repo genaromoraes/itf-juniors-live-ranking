@@ -14,9 +14,9 @@ const CALENDAR_PAGE =
   "https://www.itftennis.com/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
 
 const REQUEST_TIMEOUT_MS = 30000;
-const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 15000;
-const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 60000;
-const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 4;
+const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 10000;
+const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 15000;
+const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 2;
 const ITF_HOME_URL = "https://www.itftennis.com/en/";
 
 const TOURNAMENT_COLUMNS = [

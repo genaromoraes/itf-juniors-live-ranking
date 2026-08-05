@@ -16,12 +16,12 @@ const EVENT_FILTERS_URL =
 const DRAWSHEET_URL =
   "https://www.itftennis.com/tennis/api/TournamentApi/GetDrawsheet";
 
-const DELAY_BETWEEN_EVENTS_MS = Number(process.env.ITF_RESULTS_EVENT_DELAY_MS) || 3500;
-const DELAY_BETWEEN_TOURNAMENTS_MS = Number(process.env.ITF_RESULTS_TOURNAMENT_DELAY_MS) || 15000;
+const DELAY_BETWEEN_EVENTS_MS = Number(process.env.ITF_RESULTS_EVENT_DELAY_MS) || 2000;
+const DELAY_BETWEEN_TOURNAMENTS_MS = Number(process.env.ITF_RESULTS_TOURNAMENT_DELAY_MS) || 10000;
 const REQUEST_TIMEOUT_MS = 30000;
-const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 15000;
-const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 60000;
-const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 4;
+const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 10000;
+const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 15000;
+const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 2;
 const ITF_HOME_URL = "https://www.itftennis.com/en/";
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";

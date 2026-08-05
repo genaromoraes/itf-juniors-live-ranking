@@ -9,6 +9,10 @@ const PREVIOUS_WEEK_MATCHES_FILE = path.resolve(
   process.env.PREVIOUS_WEEK_MATCHES_FILE ||
     ".last-valid-data/data/clean/week_matches.csv"
 );
+const PREVIOUS_WEEK_TOURNAMENTS_FILE = path.resolve(
+  process.env.PREVIOUS_WEEK_TOURNAMENTS_FILE ||
+    ".last-valid-data/data/clean/week_tournaments.csv"
+);
 
 async function readCsvIfExists(filePath) {
   try {
@@ -55,6 +59,14 @@ function getWeekEnd(tournaments) {
     .filter(Boolean)
     .sort()
     .at(-1) || "";
+}
+
+function getWeekStart(tournaments) {
+  return tournaments
+    .map((row) => cleanText(row.week_start))
+    .filter(Boolean)
+    .sort()
+    .at(0) || "";
 }
 
 function escapeMarkdownCell(value) {
@@ -427,6 +439,13 @@ async function main() {
   const previousWeekMatchesRows = previousMatchesAvailable
     ? await readCsvIfExists(PREVIOUS_WEEK_MATCHES_FILE)
     : [];
+  const previousWeekTournamentsRows = await readCsvIfExists(
+    PREVIOUS_WEEK_TOURNAMENTS_FILE
+  );
+  const currentWeekStart = getWeekStart(weekTournamentRows);
+  const previousWeekStart = getWeekStart(previousWeekTournamentsRows);
+  const hasComparablePreviousWeek =
+    Boolean(currentWeekStart && currentWeekStart === previousWeekStart);
 
   const completion = summarizeWeekCompletion({
     weekTournamentRows,
@@ -443,7 +462,7 @@ async function main() {
     drawProgressRows: buildDrawProgressRows(knockoutRows),
     nonKnockoutRows,
     scrapedWithFreshData: process.env.ITF_SCRAPE_FRESH === "true",
-    newMatchResults: previousMatchesAvailable
+    newMatchResults: hasComparablePreviousWeek
       ? countNewMatchResults(weekMatchesRows, previousWeekMatchesRows)
       : null,
   });
