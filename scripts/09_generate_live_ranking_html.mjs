@@ -3169,6 +3169,18 @@ function buildHtml(
       width: 142px;
     }
 
+    .language-toggle button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .language-flag {
+      font-size: 14px;
+      line-height: 1;
+    }
+
     .ranking-mode-control {
       grid-template-columns: minmax(76px, 1.1fr) minmax(60px, 0.9fr) minmax(54px, 0.75fr) minmax(54px, 0.75fr);
     }
@@ -4800,9 +4812,15 @@ body.official-ranking-view .side {
         <div class="mini-control">
           <label id="languageLabel">Idioma</label>
           <div class="segmented-control language-toggle" role="group" aria-label="Idioma">
-            <button type="button" class="active" data-language-option="pt-BR">PT-BR</button>
-            <button type="button" data-language-option="en">EN</button>
-            <button type="button" data-language-option="es">ES</button>
+            <button type="button" class="active" data-language-option="pt-BR" aria-label="Português do Brasil" title="Português do Brasil">
+              <span class="language-flag" aria-hidden="true">🇧🇷</span><span>PT-BR</span>
+            </button>
+            <button type="button" data-language-option="en" aria-label="English" title="English">
+              <span class="language-flag" aria-hidden="true">🇬🇧</span><span>EN</span>
+            </button>
+            <button type="button" data-language-option="es" aria-label="Español" title="Español">
+              <span class="language-flag" aria-hidden="true">🇪🇸</span><span>ES</span>
+            </button>
           </div>
         </div>
       </div>
