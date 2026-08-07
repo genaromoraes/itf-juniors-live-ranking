@@ -919,16 +919,6 @@ function buildStaticPage(page) {
     return buildContentRedirectPage(page.redirectTo);
   }
 
-  const navLinks = [
-    { href: "./", label: "Ranking" },
-    { href: "metodologia.html", label: "Como funciona" },
-    { href: "sobre.html", label: "Sobre" },
-    { href: "perguntas-frequentes.html", label: "Perguntas frequentes" },
-    { href: "contato.html", label: "Contato" },
-    { href: "privacidade.html", label: "Privacidade" },
-    { href: "termos.html", label: "Termos de Uso" },
-  ];
-
   return `<!doctype html>
 <html lang="pt-BR">
 <head>
@@ -1199,10 +1189,6 @@ function buildStaticPage(page) {
     <header class="topbar">
       <a class="brand" href="./">Juniors Live Ranking</a>
     </header>
-
-    <nav class="primary-nav" aria-label="Navegação principal">
-      ${navLinks.map((link) => `<a href="${escapeHtml(link.href)}"${link.href === page.fileName || (link.href === "./" && page.fileName === "index.html") ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`).join("\n      ")}
-    </nav>
 
     <main class="panel${page.fileName === "metodologia.html" ? " explain-panel" : page.fileName === "perguntas-frequentes.html" ? " faq-panel" : ""}">
       <h1>${escapeHtml(page.title)}</h1>
@@ -4821,15 +4807,6 @@ body.official-ranking-view .side {
         </div>
       </div>
 
-      <nav class="primary-nav" aria-label="Navegação principal">
-        <a href="./" aria-current="page">Ranking</a>
-        <a href="metodologia.html">Como funciona</a>
-        <a href="sobre.html">Sobre</a>
-        <a class="utility-link" href="perguntas-frequentes.html">Perguntas frequentes</a>
-        <a class="utility-link" href="contato.html">Contato</a>
-        <a class="utility-link" href="privacidade.html">Privacidade</a>
-        <a class="utility-link" href="termos.html">Termos de Uso</a>
-      </nav>
     </header>
 
     <section class="filters">
