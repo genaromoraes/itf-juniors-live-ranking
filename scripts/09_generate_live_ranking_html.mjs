@@ -3177,8 +3177,13 @@ function buildHtml(
     }
 
     .language-flag {
-      font-size: 14px;
-      line-height: 1;
+      display: block;
+      width: 16px;
+      height: 11px;
+      flex: 0 0 auto;
+      overflow: hidden;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(26, 45, 57, 0.12);
     }
 
     .ranking-mode-control {
@@ -4813,13 +4818,27 @@ body.official-ranking-view .side {
           <label id="languageLabel">Idioma</label>
           <div class="segmented-control language-toggle" role="group" aria-label="Idioma">
             <button type="button" class="active" data-language-option="pt-BR" aria-label="Português do Brasil" title="Português do Brasil">
-              <span class="language-flag" aria-hidden="true">🇧🇷</span><span>PT-BR</span>
+              <svg class="language-flag" viewBox="0 0 24 16" aria-hidden="true" focusable="false">
+                <rect width="24" height="16" fill="#009b3a" />
+                <path d="M12 1.5 22 8 12 14.5 2 8Z" fill="#ffdf00" />
+                <circle cx="12" cy="8" r="4" fill="#002776" />
+                <path d="M8.5 6.8c2.7-.8 5.5-.4 7.6 1" fill="none" stroke="#fff" stroke-width=".75" />
+              </svg><span>PT-BR</span>
             </button>
             <button type="button" data-language-option="en" aria-label="English" title="English">
-              <span class="language-flag" aria-hidden="true">🇬🇧</span><span>EN</span>
+              <svg class="language-flag" viewBox="0 0 24 16" aria-hidden="true" focusable="false">
+                <rect width="24" height="16" fill="#012169" />
+                <path d="M0 0 24 16M24 0 0 16" stroke="#fff" stroke-width="4" />
+                <path d="M0 0 24 16M24 0 0 16" stroke="#c8102e" stroke-width="1.5" />
+                <path d="M12 0v16M0 8h24" stroke="#fff" stroke-width="6" />
+                <path d="M12 0v16M0 8h24" stroke="#c8102e" stroke-width="3" />
+              </svg><span>EN</span>
             </button>
             <button type="button" data-language-option="es" aria-label="Español" title="Español">
-              <span class="language-flag" aria-hidden="true">🇪🇸</span><span>ES</span>
+              <svg class="language-flag" viewBox="0 0 24 16" aria-hidden="true" focusable="false">
+                <rect width="24" height="16" fill="#aa151b" />
+                <rect y="4" width="24" height="8" fill="#f1bf00" />
+              </svg><span>ES</span>
             </button>
           </div>
         </div>
