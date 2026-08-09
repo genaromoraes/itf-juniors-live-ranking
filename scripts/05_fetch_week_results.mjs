@@ -22,6 +22,10 @@ const REQUEST_TIMEOUT_MS = 30000;
 const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 10000;
 const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 15000;
 const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 2;
+const REQUEST_JITTER_MS = Math.max(
+  0,
+  Number(process.env.ITF_RESULTS_JITTER_MS) || 0
+);
 const ITF_HOME_URL = "https://www.itftennis.com/en/";
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
@@ -31,6 +35,7 @@ const FALLBACK_MATCHES_FILE = process.env.ITF_RESULTS_FALLBACK_MATCHES_FILE
 const FALLBACK_TOURNAMENTS_FILE = process.env.ITF_RESULTS_FALLBACK_TOURNAMENTS_FILE
   ? path.resolve(process.env.ITF_RESULTS_FALLBACK_TOURNAMENTS_FILE)
   : "";
+let requestCooldownUntil = 0;
 
 function getArg(name, argv = process.argv.slice(2)) {
   const prefix = `--${name}=`;
@@ -47,6 +52,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
   return {
     inputDir: cleanText(getArg("input-dir", argv)),
     outputDir: cleanText(getArg("output-dir", argv)),
+    tournamentKeys: cleanText(getArg("tournament-keys", argv)),
   };
 }
 
@@ -94,6 +100,15 @@ async function readCsv(filePath) {
   });
 }
 
+async function readOptionalCsv(filePath) {
+  try {
+    return await readCsv(filePath);
+  } catch (error) {
+    if (error?.code === "ENOENT") return [];
+    throw error;
+  }
+}
+
 async function writeCsv(filePath, rows, columns) {
   const csv = stringify(rows, {
     header: true,
@@ -116,6 +131,25 @@ function normalizeUrl(value) {
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function withJitter(delayMs) {
+  if (!REQUEST_JITTER_MS) return delayMs;
+  return delayMs + Math.floor(Math.random() * (REQUEST_JITTER_MS + 1));
+}
+
+function extendRequestCooldown(delayMs) {
+  requestCooldownUntil = Math.max(requestCooldownUntil, Date.now() + delayMs);
+}
+
+async function waitForRequestCooldown() {
+  const remainingMs = requestCooldownUntil - Date.now();
+  if (remainingMs <= 0) return;
+
+  console.log(
+    `Cooldown da ITF ativo. Esperando ${Math.ceil(remainingMs / 1000)}s antes da proxima chave...`
+  );
+  await sleep(remainingMs);
 }
 
 function getPlayerName(player) {
@@ -750,6 +784,7 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
+      await waitForRequestCooldown();
       console.log(`Tentativa ${attempt}/${MAX_RETRIES}: ${label}`);
 
       const result = await fetchJsonInsideBrowser(page, url, options);
@@ -769,21 +804,27 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
     } catch (err) {
       lastError = err;
 
-      if (attempt >= MAX_RETRIES) {
-        throw lastError;
+      if (err.isBlocked) {
+        const delay = withJitter(BLOCK_DELAY_MS * attempt);
+        extendRequestCooldown(delay);
+        console.log(
+          `Possivel bloqueio/HTML detectado. Cooldown de ${Math.ceil(
+            delay / 1000
+          )}s ativado para as proximas leituras.`
+        );
+
+        if (attempt < MAX_RETRIES) {
+          await recoverBrowserSessionAfterBlock(page, attempt);
+        }
+      } else {
+        const delay = withJitter(RETRY_DELAY_MS);
+        console.log(`Erro temporario. Esperando ${Math.ceil(delay / 1000)}s...`);
+        if (attempt < MAX_RETRIES) {
+          await sleep(delay);
+        }
       }
 
-      if (err.isBlocked) {
-        await recoverBrowserSessionAfterBlock(page, attempt);
-        const delay = BLOCK_DELAY_MS * attempt;
-        console.log(
-          `Possivel bloqueio/HTML detectado. Esperando ${delay / 1000}s antes da proxima tentativa...`
-        );
-        await sleep(delay);
-      } else {
-        console.log(`Erro temporario. Esperando ${RETRY_DELAY_MS / 1000}s...`);
-        await sleep(RETRY_DELAY_MS);
-      }
+      if (attempt >= MAX_RETRIES) throw lastError;
     }
   }
 
@@ -898,9 +939,23 @@ function getErrorEventKey(error) {
   ].join("|");
 }
 
-function getMatchIdentity(match) {
+function getMatchDrawScopeKey(match) {
   return [
     getMatchEventKey(match),
+    cleanText(match.drawsheet_structure_code).toUpperCase(),
+  ].join("|");
+}
+
+function getErrorDrawScopeKey(error) {
+  return [
+    getErrorEventKey(error),
+    cleanText(error.drawsheet_structure_code).toUpperCase(),
+  ].join("|");
+}
+
+function getMatchIdentity(match) {
+  return [
+    getMatchDrawScopeKey(match),
     match.match_id,
     match.round_order,
     match.team1_player_ids,
@@ -909,13 +964,25 @@ function getMatchIdentity(match) {
 }
 
 export function mergeFallbackMatches(currentMatches, errors, fallbackMatches) {
+  const failedDrawScopeKeys = new Set(
+    errors
+      .filter(
+        (error) =>
+          cleanText(error.player_type_code) &&
+          cleanText(error.match_type_code) &&
+          cleanText(error.event_classification_code) &&
+          cleanText(error.drawsheet_structure_code)
+      )
+      .map(getErrorDrawScopeKey)
+  );
   const failedEventKeys = new Set(
     errors
       .filter(
         (error) =>
           cleanText(error.player_type_code) &&
           cleanText(error.match_type_code) &&
-          cleanText(error.event_classification_code)
+          cleanText(error.event_classification_code) &&
+          !cleanText(error.drawsheet_structure_code)
       )
       .map(getErrorEventKey)
   );
@@ -935,9 +1002,12 @@ export function mergeFallbackMatches(currentMatches, errors, fallbackMatches) {
 
   for (const match of fallbackMatches) {
     const eventKey = getMatchEventKey(match);
+    const drawScopeKey = getMatchDrawScopeKey(match);
     const tournamentKey = cleanText(match.tournament_key);
     const belongsToFailedScope =
-      failedEventKeys.has(eventKey) || failedTournamentKeys.has(tournamentKey);
+      failedDrawScopeKeys.has(drawScopeKey) ||
+      failedEventKeys.has(eventKey) ||
+      failedTournamentKeys.has(tournamentKey);
 
     if (!belongsToFailedScope) continue;
 
@@ -1285,8 +1355,6 @@ async function processTournament(page, tournament, paths) {
           matches_count: matches.length,
           json: drawsheet.json,
         });
-
-        await sleep(DELAY_BETWEEN_EVENTS_MS);
       } catch (err) {
         console.log(`ERRO evento: ${err.message}`);
 
@@ -1304,6 +1372,11 @@ async function processTournament(page, tournament, paths) {
           error_message: err.message,
           collected_at: new Date().toISOString(),
         });
+      } finally {
+        const delay = withJitter(DELAY_BETWEEN_EVENTS_MS);
+        if (delay > 0) {
+          await sleep(delay);
+        }
       }
     }
 
@@ -1378,12 +1451,35 @@ export async function main(cliArgs = parseArgs()) {
 
   await ensureDirs(paths);
 
-  const tournaments = await readCsv(paths.tournamentsFile);
+  const allTournaments = await readCsv(paths.tournamentsFile);
+  const requestedTournamentKeys = new Set(
+    cliArgs.tournamentKeys
+      .split(",")
+      .map((value) => cleanText(value).toUpperCase())
+      .filter(Boolean)
+  );
+  const isTargetedRecovery = requestedTournamentKeys.size > 0;
+  const tournaments = isTargetedRecovery
+    ? allTournaments.filter((tournament) =>
+        requestedTournamentKeys.has(cleanText(tournament.tournament_key).toUpperCase())
+      )
+    : allTournaments;
+
+  if (isTargetedRecovery && tournaments.length !== requestedTournamentKeys.size) {
+    const foundKeys = new Set(
+      tournaments.map((tournament) => cleanText(tournament.tournament_key).toUpperCase())
+    );
+    const missing = [...requestedTournamentKeys].filter((key) => !foundKeys.has(key));
+    throw new Error(`Torneio(s) nao encontrado(s) para recuperacao direcionada: ${missing.join(", ")}`);
+  }
 
   console.log("");
-  console.log(`Torneios da semana carregados: ${tournaments.length}`);
+  console.log(
+    `${isTargetedRecovery ? "Torneios selecionados para recuperacao" : "Torneios da semana carregados"}: ${tournaments.length}`
+  );
   console.log(`Pausa entre eventos: ${DELAY_BETWEEN_EVENTS_MS / 1000}s`);
   console.log(`Pausa entre torneios: ${DELAY_BETWEEN_TOURNAMENTS_MS / 1000}s`);
+  console.log(`Jitter maximo por pausa: ${REQUEST_JITTER_MS / 1000}s`);
   console.log(`Tentativas por request: ${MAX_RETRIES}`);
 
   const browser = await chromium.launch({
@@ -1402,9 +1498,24 @@ export async function main(cliArgs = parseArgs()) {
 
   const page = await context.newPage();
 
-  const allMatches = [];
-  const allErrors = [];
-  const summaries = [];
+  const belongsToTargetedTournament = (row) =>
+    requestedTournamentKeys.has(cleanText(row.tournament_key).toUpperCase());
+  const [existingMatches, existingErrors, existingSummaries] = isTargetedRecovery
+    ? await Promise.all([
+        readOptionalCsv(paths.weekMatchesFile),
+        readOptionalCsv(paths.weekResultsErrorsFile),
+        readOptionalCsv(paths.weekResultsSummaryFile),
+      ])
+    : [[], [], []];
+  const allMatches = isTargetedRecovery
+    ? existingMatches.filter((match) => !belongsToTargetedTournament(match))
+    : [];
+  const allErrors = isTargetedRecovery
+    ? existingErrors.filter((error) => !belongsToTargetedTournament(error))
+    : [];
+  const summaries = isTargetedRecovery
+    ? existingSummaries.filter((summary) => !belongsToTargetedTournament(summary))
+    : [];
   const fallbackMatches = await readSameWeekFallbackMatches(tournaments);
 
   try {
@@ -1420,7 +1531,9 @@ export async function main(cliArgs = parseArgs()) {
       allErrors.push(...result.errors);
       summaries.push(result.summary);
 
-      await sleep(DELAY_BETWEEN_TOURNAMENTS_MS);
+      if (i < tournaments.length - 1) {
+        await sleep(withJitter(DELAY_BETWEEN_TOURNAMENTS_MS));
+      }
     }
 
     const mergedMatches = mergeFallbackMatches(

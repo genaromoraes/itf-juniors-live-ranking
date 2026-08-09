@@ -86,6 +86,51 @@ test("preserves only blocked draws from the previous package", () => {
   assert.equal(merged.recovered[0].match_id, "previous-qualy");
 });
 
+test("preserves a blocked draw structure without overwriting another draw structure", () => {
+  const currentMatches = [
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "M",
+      drawsheet_structure_code: "RR",
+      match_id: "fresh-round-robin",
+      round_order: 1,
+      team1_player_ids: "1",
+      team2_player_ids: "2",
+    },
+  ];
+  const errors = [
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "M",
+      drawsheet_structure_code: "KO",
+    },
+  ];
+  const fallbackMatches = [
+    {
+      ...currentMatches[0],
+      match_id: "previous-round-robin",
+      team1_player_ids: "3",
+      team2_player_ids: "4",
+    },
+    {
+      ...currentMatches[0],
+      drawsheet_structure_code: "KO",
+      match_id: "previous-knock-out",
+      team1_player_ids: "5",
+      team2_player_ids: "6",
+    },
+  ];
+
+  const merged = mergeFallbackMatches(currentMatches, errors, fallbackMatches);
+
+  assert.equal(merged.recovered.length, 1);
+  assert.equal(merged.recovered[0].match_id, "previous-knock-out");
+});
+
 function team(playerId, givenName, familyName, nationality = "BRA") {
   return {
     players: [{ playerId, givenName, familyName, nationality }],

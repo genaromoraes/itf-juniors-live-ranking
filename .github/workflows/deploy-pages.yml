@@ -29,16 +29,17 @@ jobs:
     runs-on: ubuntu-latest
     # One weekly pipeline: collect current results, calculate the live ranking,
     # write the run summary, validate coherence, and deploy Pages.
-    timeout-minutes: 90
+    timeout-minutes: 150
     env:
       GOOGLE_ANALYTICS_ID: G-D6CG6ZH0P1
-      ITF_PIPELINE_TIMEOUT_MS: "5400000"
+      ITF_PIPELINE_TIMEOUT_MS: "8100000"
       ITF_SKIP_RANKINGS_UNIVERSE_FETCH: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'true' || 'false' }}
       ITF_RESULTS_MAX_RETRIES: "2"
-      ITF_RESULTS_BLOCK_DELAY_MS: "15000"
-      ITF_RESULTS_RETRY_DELAY_MS: "10000"
-      ITF_RESULTS_EVENT_DELAY_MS: "2000"
-      ITF_RESULTS_TOURNAMENT_DELAY_MS: "10000"
+      ITF_RESULTS_BLOCK_DELAY_MS: "90000"
+      ITF_RESULTS_RETRY_DELAY_MS: "20000"
+      ITF_RESULTS_EVENT_DELAY_MS: "12000"
+      ITF_RESULTS_TOURNAMENT_DELAY_MS: "20000"
+      ITF_RESULTS_JITTER_MS: "3000"
       ITF_RESULTS_FALLBACK_MATCHES_FILE: ".last-valid-data/data/clean/week_matches.csv"
       ITF_RESULTS_FALLBACK_TOURNAMENTS_FILE: ".last-valid-data/data/clean/week_tournaments.csv"
 
@@ -104,30 +105,73 @@ jobs:
           restore-keys: |
             weekly-results-
 
-      - name: Backup committed publication package
+      - name: Prepare last complete weekly fallback
         run: |
-          mkdir -p .last-valid-data/data/clean
-          files=(
-            week_tournaments.csv
-            week_tournaments_debug_all.csv
-            week_matches.csv
-            week_player_results.csv
-            week_results_errors.csv
-            week_results_summary.csv
-            week_live_points.csv
-            week_live_ledger_rows.csv
-            rankings_universe.csv
-            live_combined_ledger_with_drops.csv
-            live_dropped_points.csv
-            live_ranking_with_drops.csv
-            live_ranking_with_drops_top500.csv
-            live_ranking_with_drops_changes.csv
-          )
-          for file in "${files[@]}"; do
-            if [ -f "data/clean/$file" ]; then
-              cp "data/clean/$file" ".last-valid-data/data/clean/$file"
-            fi
-          done
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const cleanDir = path.resolve('data/clean');
+          const previousDir = path.resolve('.previous-run/data/clean');
+          const targetDir = path.resolve('.last-valid-data/data/clean');
+          const weeklyFiles = [
+            'week_tournaments.csv',
+            'week_tournaments_debug_all.csv',
+            'week_matches.csv',
+            'week_player_results.csv',
+            'week_results_errors.csv',
+            'week_results_summary.csv',
+          ];
+          const auxiliaryFiles = [
+            'week_live_points.csv',
+            'week_live_ledger_rows.csv',
+            'rankings_universe.csv',
+            'live_combined_ledger_with_drops.csv',
+            'live_dropped_points.csv',
+            'live_ranking_with_drops.csv',
+            'live_ranking_with_drops_top500.csv',
+            'live_ranking_with_drops_changes.csv',
+          ];
+          const readFirstValue = (file, column) => {
+            if (!fs.existsSync(file)) return '';
+            const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
+            if (lines.length < 2) return '';
+            const headers = lines[0].split(',');
+            const index = headers.indexOf(column);
+            return index >= 0 ? lines[1].split(',')[index] : '';
+          };
+          const errorCount = (file) => {
+            if (!fs.existsSync(file)) return 0;
+            return Math.max(0, fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean).length - 1);
+          };
+          const requiredWeeklyFiles = [
+            'week_tournaments.csv',
+            'week_matches.csv',
+            'week_player_results.csv',
+          ];
+          const committedWeek = readFirstValue(path.join(cleanDir, 'week_tournaments.csv'), 'week_start');
+          const previousWeek = readFirstValue(path.join(previousDir, 'week_tournaments.csv'), 'week_start');
+          const previousIsComplete =
+            previousWeek &&
+            previousWeek === committedWeek &&
+            requiredWeeklyFiles.every((file) => fs.existsSync(path.join(previousDir, file))) &&
+            errorCount(path.join(previousDir, 'week_results_errors.csv')) === 0;
+          const weeklySource = previousIsComplete ? previousDir : cleanDir;
+
+          fs.mkdirSync(targetDir, { recursive: true });
+          for (const file of [...weeklyFiles, ...auxiliaryFiles]) {
+            const sourceDir = weeklyFiles.includes(file) ? weeklySource : cleanDir;
+            const source = path.join(sourceDir, file);
+            if (fs.existsSync(source)) {
+              fs.copyFileSync(source, path.join(targetDir, file));
+            }
+          }
+          console.log(
+            `Fallback semanal preparado a partir de ${
+              previousIsComplete ? 'uma coleta anterior completa' : 'dados versionados'
+            }.`
+          );
+          NODE
 
       - name: Install dependencies
         run: npm ci
@@ -237,13 +281,40 @@ jobs:
       - name: Stage weekly package for next run
         if: success()
         run: |
-          set -euo pipefail
-          mkdir -p .previous-run/data/clean
-          for file in week_tournaments.csv week_tournaments_debug_all.csv week_matches.csv week_player_results.csv week_results_errors.csv week_results_summary.csv; do
-            if [ -f "data/clean/$file" ]; then
-              cp -f "data/clean/$file" ".previous-run/data/clean/$file"
-            fi
-          done
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const cleanDir = path.resolve('data/clean');
+          const errorsFile = path.join(cleanDir, 'week_results_errors.csv');
+          const errors = fs.existsSync(errorsFile)
+            ? Math.max(0, fs.readFileSync(errorsFile, 'utf8').split(/\r?\n/).filter(Boolean).length - 1)
+            : 0;
+          if (errors > 0) {
+            console.log(
+              `Coleta parcial (${errors} erro(s)): o cache completo anterior sera preservado.`
+            );
+            process.exit(0);
+          }
+
+          const targetDir = path.resolve('.previous-run/data/clean');
+          const files = [
+            'week_tournaments.csv',
+            'week_tournaments_debug_all.csv',
+            'week_matches.csv',
+            'week_player_results.csv',
+            'week_results_errors.csv',
+            'week_results_summary.csv',
+          ];
+          fs.mkdirSync(targetDir, { recursive: true });
+          for (const file of files) {
+            const source = path.join(cleanDir, file);
+            if (fs.existsSync(source)) {
+              fs.copyFileSync(source, path.join(targetDir, file));
+            }
+          }
+          console.log('Coleta completa salva como fallback da semana.');
+          NODE
 
       - name: Upload failed publication diagnostics
         if: failure()
