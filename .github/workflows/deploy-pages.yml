@@ -82,13 +82,32 @@ jobs:
           };
           const officialDate = readFirstValue('data/clean/rankings_snapshot.csv', 'ranking_date');
           const committedWeekStart = readFirstValue('data/clean/week_tournaments.csv', 'week_start');
-          const valid = missing.length === 0 && Boolean(officialDate && committedWeekStart && officialDate === committedWeekStart);
+          const countDataRows = (file) => {
+            if (!fs.existsSync(file)) return 0;
+            return Math.max(0, fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean).length - 1);
+          };
+          const weeklyRows = {
+            tournaments: countDataRows('data/clean/week_tournaments.csv'),
+            matches: countDataRows('data/clean/week_matches.csv'),
+            playerResults: countDataRows('data/clean/week_player_results.csv'),
+          };
+          // Header-only files are the expected intermediate state immediately
+          // after an official rollover. They are coherent, but must never be
+          // treated as a ready-to-publish weekly package on a regular push:
+          // doing so could overwrite a Pages deployment that already has a
+          // fresh, materialized ITF collection.
+          const materialized = Object.values(weeklyRows).every((count) => count > 0);
+          const valid = missing.length === 0 && materialized && Boolean(officialDate && committedWeekStart && officialDate === committedWeekStart);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `valid=${valid ? 'true' : 'false'}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `materialized=${materialized ? 'true' : 'false'}\n`);
           if (valid) {
             console.log(`Committed publication package is coherent for ${committedWeekStart}.`);
           } else {
-            console.log('Committed publication package is incomplete or has a different official week.');
+            console.log('Committed publication package is incomplete, empty, or has a different official week.');
             for (const file of missing) console.log('- missing: ' + file);
+            if (!materialized) {
+              console.log(`- weekly rows: ${weeklyRows.tournaments} tournaments, ${weeklyRows.matches} matches, ${weeklyRows.playerResults} player results`);
+            }
             if (officialDate || committedWeekStart) {
               console.log(`- official ranking date: ${officialDate || '<missing>'}`);
               console.log(`- committed week start: ${committedWeekStart || '<missing>'}`);
