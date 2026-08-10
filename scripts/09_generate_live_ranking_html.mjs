@@ -5076,6 +5076,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Projeção<br />próx. rodada",
         titleProjection: "Projeção<br />título",
         weekTournaments: "Torneios da semana",
+        noWeekTournaments: "Os torneios desta semana ainda não foram publicados pela ITF.",
         surfaceColors: "Legenda das cores dos pisos",
         matchesCompleted: "jogos concluídos",
         athletePoints: "Pontuações do atleta",
@@ -5159,6 +5160,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Next round<br />projection",
         titleProjection: "Title<br />projection",
         weekTournaments: "This week's tournaments",
+        noWeekTournaments: "This week's tournaments have not yet been published by the ITF.",
         surfaceColors: "Court surface color legend",
         matchesCompleted: "matches completed",
         athletePoints: "Player points",
@@ -5242,6 +5244,7 @@ body.official-ranking-view .side {
         nextRoundProjection: "Proyección<br />próx. ronda",
         titleProjection: "Proyección<br />título",
         weekTournaments: "Torneos de la semana",
+        noWeekTournaments: "Los torneos de esta semana aún no han sido publicados por la ITF.",
         surfaceColors: "Leyenda de colores de superficies",
         matchesCompleted: "partidos finalizados",
         athletePoints: "Puntos del jugador",
@@ -6246,7 +6249,7 @@ body.official-ranking-view .side {
 
       weekTournaments.innerHTML = groupsHtml
         ? '<div class="tournament-color-legend" aria-label="' + escapeHtmlClient(t("surfaceColors")) + '">' + surfaceLegendHtml + '</div>' + groupsHtml
-        : '<span class="small">' + t("loading") + '</span>';
+        : '<span class="small">' + escapeHtmlClient(t("noWeekTournaments")) + '</span>';
     }
 
     function renderResultCards(results) {
