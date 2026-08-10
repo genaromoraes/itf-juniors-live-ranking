@@ -276,7 +276,12 @@ jobs:
       - name: Validate publication coherence
         env:
           ITF_ALLOW_PARTIAL_COLLECTION: ${{ steps.scrape.outcome == 'success' && 'true' || 'false' }}
-          ITF_ALLOW_EMPTY_WEEK: ${{ github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true && 'true' || 'false' }}
+          # A fresh official rollover starts with the newly published ranking and
+          # header-only weekly files. It can be deployed before ITF materializes
+          # the first tournament. Do not apply this exception to fresh scraping:
+          # the validator itself also requires all weekly data to be empty and
+          # the official ranking date to equal the week start.
+          ITF_ALLOW_EMPTY_WEEK: ${{ ((github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true) || (github.event_name == 'push' && steps.committed_data.outputs.valid == 'true' && !contains(github.event.head_commit.message, '[fresh-pages]'))) && 'true' || 'false' }}
         run: npm run validate:publication
 
       - name: Stage weekly package for next run
