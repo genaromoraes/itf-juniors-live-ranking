@@ -51,6 +51,9 @@ export async function validatePublication({
   allowPartialCollection = /^(1|true|yes)$/i.test(
     String(process.env.ITF_ALLOW_PARTIAL_COLLECTION || "")
   ),
+  allowEmptyWeek = /^(1|true|yes)$/i.test(
+    String(process.env.ITF_ALLOW_EMPTY_WEEK || "")
+  ),
 } = {}) {
   const cleanDir = path.join(cwd, "data", "clean");
   const exportsDir = path.join(cwd, "data", "exports");
@@ -149,13 +152,20 @@ export async function validatePublication({
   const realTournaments = tournamentRows.filter(
     (row) => cleanText(row.tournament_key) && cleanText(row.tournament_name)
   );
-  if (realTournaments.length === 0) {
+  const isEmptyWeek =
+    realTournaments.length === 0 &&
+    matchRows.length === 0 &&
+    playerResultRows.length === 0 &&
+    resultSummaryRows.length === 0;
+  const emptyWeekIsAllowed =
+    allowEmptyWeek && isEmptyWeek && rankingDate && rankingDate === weekStart;
+  if (realTournaments.length === 0 && !emptyWeekIsAllowed) {
     errors.push("week_tournaments.csv nao contem nenhum torneio materializado.");
   }
-  if (matchRows.length === 0) {
+  if (matchRows.length === 0 && !emptyWeekIsAllowed) {
     errors.push("week_matches.csv nao contem nenhuma partida coletada.");
   }
-  if (playerResultRows.length === 0) {
+  if (playerResultRows.length === 0 && !emptyWeekIsAllowed) {
     errors.push("week_player_results.csv nao contem nenhum atleta coletado.");
   }
   if (resultSummaryRows.length !== realTournaments.length) {
@@ -189,6 +199,7 @@ export async function validatePublication({
     result_summaries: resultSummaryRows.length,
     collection_errors: resultErrorRows.length,
     partial_collection_allowed: allowPartialCollection,
+    empty_week_allowed: emptyWeekIsAllowed,
     warnings,
     errors,
   };

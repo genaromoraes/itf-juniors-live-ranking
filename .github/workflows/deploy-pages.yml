@@ -276,6 +276,7 @@ jobs:
       - name: Validate publication coherence
         env:
           ITF_ALLOW_PARTIAL_COLLECTION: ${{ steps.scrape.outcome == 'success' && 'true' || 'false' }}
+          ITF_ALLOW_EMPTY_WEEK: ${{ github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true && 'true' || 'false' }}
         run: npm run validate:publication
 
       - name: Stage weekly package for next run
