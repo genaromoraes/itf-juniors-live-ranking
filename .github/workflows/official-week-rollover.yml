@@ -66,13 +66,14 @@ jobs:
       RECONCILIATION_DIR: data/staging/official_reconciliation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
       LOG_DIR: logs/official-week-rollover
       ARTIFACT_NAME: official-week-rollover-${{ inputs.ranking_date }}-${{ github.run_id }}
-      # Keep anti-bot recovery responsive; a blocked request backs off inside
-      # the scraper, while routine event/tournament pacing stays lightweight.
-      ITF_RESULTS_MAX_RETRIES: "4"
-      ITF_RESULTS_BLOCK_DELAY_MS: "15000"
-      ITF_RESULTS_RETRY_DELAY_MS: "10000"
-      ITF_RESULTS_EVENT_DELAY_MS: "2000"
-      ITF_RESULTS_TOURNAMENT_DELAY_MS: "10000"
+      # Use the same protected cadence as the Pages collector. A detected
+      # Incapsula page activates a shared cooldown before another draw is read.
+      ITF_RESULTS_MAX_RETRIES: "2"
+      ITF_RESULTS_BLOCK_DELAY_MS: "90000"
+      ITF_RESULTS_RETRY_DELAY_MS: "20000"
+      ITF_RESULTS_EVENT_DELAY_MS: "12000"
+      ITF_RESULTS_TOURNAMENT_DELAY_MS: "20000"
+      ITF_RESULTS_JITTER_MS: "3000"
 
     steps:
       - name: Checkout
@@ -190,7 +191,6 @@ jobs:
           git add data/clean
           weekly_files=(
             week_tournaments.csv
-            week_tournaments_debug_all.csv
             week_matches.csv
             week_player_results.csv
             week_results_errors.csv
@@ -203,6 +203,13 @@ jobs:
             fi
             git add -f "data/clean/$file"
           done
+          # The debug calendar export is intentionally not created when a new
+          # official week is materialized from the completed-week package.
+          # Stage it when available, but never fail the official rollover
+          # because this optional diagnostic file is absent.
+          if [ -f "data/clean/week_tournaments_debug_all.csv" ]; then
+            git add -f data/clean/week_tournaments_debug_all.csv
+          fi
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
             echo "No data/clean changes to commit." | tee "$LOG_DIR/git.log"
