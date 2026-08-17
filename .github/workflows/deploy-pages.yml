@@ -125,6 +125,12 @@ jobs:
             weekly-results-
 
       - name: Prepare last complete weekly fallback
+        env:
+          # The official-week workflow dispatches a quick Pages build after it
+          # promotes the new official base. If a complete package for that same
+          # week was collected before the base was published, reuse it instead
+          # of showing an empty initial week while waiting for another scrape.
+          REUSE_CACHED_WEEKLY_PACKAGE: ${{ github.event_name == 'workflow_dispatch' && inputs.use_committed_data == true && 'true' || 'false' }}
         run: |
           node <<'NODE'
           const fs = require('fs');
@@ -163,6 +169,10 @@ jobs:
             if (!fs.existsSync(file)) return 0;
             return Math.max(0, fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean).length - 1);
           };
+          const dataRowCount = (file) => {
+            if (!fs.existsSync(file)) return 0;
+            return Math.max(0, fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean).length - 1);
+          };
           const requiredWeeklyFiles = [
             'week_tournaments.csv',
             'week_matches.csv',
@@ -174,6 +184,7 @@ jobs:
             previousWeek &&
             previousWeek === committedWeek &&
             requiredWeeklyFiles.every((file) => fs.existsSync(path.join(previousDir, file))) &&
+            requiredWeeklyFiles.every((file) => dataRowCount(path.join(previousDir, file)) > 0) &&
             errorCount(path.join(previousDir, 'week_results_errors.csv')) === 0;
           const weeklySource = previousIsComplete ? previousDir : cleanDir;
 
@@ -184,6 +195,15 @@ jobs:
             if (fs.existsSync(source)) {
               fs.copyFileSync(source, path.join(targetDir, file));
             }
+          }
+          if (process.env.REUSE_CACHED_WEEKLY_PACKAGE === 'true' && previousIsComplete) {
+            for (const file of weeklyFiles) {
+              const source = path.join(previousDir, file);
+              if (fs.existsSync(source)) {
+                fs.copyFileSync(source, path.join(cleanDir, file));
+              }
+            }
+            console.log(`Pacote semanal pre-virada reutilizado para ${committedWeek}.`);
           }
           console.log(
             `Fallback semanal preparado a partir de ${
@@ -304,7 +324,10 @@ jobs:
         run: npm run validate:publication
 
       - name: Stage weekly package for next run
-        if: success()
+        # A fresh pre-rollover collection has the next week's draws, but cannot
+        # be published until the official ranking date changes. Preserve it so
+        # the official-week dispatch can reuse it immediately afterwards.
+        if: always() && steps.scrape.outcome == 'success'
         run: |
           node <<'NODE'
           const fs = require('fs');
@@ -315,10 +338,25 @@ jobs:
           const errors = fs.existsSync(errorsFile)
             ? Math.max(0, fs.readFileSync(errorsFile, 'utf8').split(/\r?\n/).filter(Boolean).length - 1)
             : 0;
+          const requiredFiles = [
+            'week_tournaments.csv',
+            'week_matches.csv',
+            'week_player_results.csv',
+          ];
+          const dataRowCount = (file) => {
+            const source = path.join(cleanDir, file);
+            if (!fs.existsSync(source)) return 0;
+            return Math.max(0, fs.readFileSync(source, 'utf8').split(/\r?\n/).filter(Boolean).length - 1);
+          };
+          const materialized = requiredFiles.every((file) => dataRowCount(file) > 0);
           if (errors > 0) {
             console.log(
               `Coleta parcial (${errors} erro(s)): o cache completo anterior sera preservado.`
             );
+            process.exit(0);
+          }
+          if (!materialized) {
+            console.log('Coleta sem dados materiais: o cache completo anterior sera preservado.');
             process.exit(0);
           }
 
