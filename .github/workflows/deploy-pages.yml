@@ -117,7 +117,7 @@ jobs:
 
       - name: Restore previous weekly package for comparison
         id: previous_week_cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: .previous-run/data/clean
           key: weekly-results-${{ github.run_id }}
@@ -324,6 +324,7 @@ jobs:
         run: npm run validate:publication
 
       - name: Stage weekly package for next run
+        id: stage_weekly_package
         # A fresh pre-rollover collection has the next week's draws, but cannot
         # be published until the official ranking date changes. Preserve it so
         # the official-week dispatch can reuse it immediately afterwards.
@@ -353,10 +354,12 @@ jobs:
             console.log(
               `Coleta parcial (${errors} erro(s)): o cache completo anterior sera preservado.`
             );
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'cache_ready=false\n');
             process.exit(0);
           }
           if (!materialized) {
             console.log('Coleta sem dados materiais: o cache completo anterior sera preservado.');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'cache_ready=false\n');
             process.exit(0);
           }
 
@@ -377,7 +380,19 @@ jobs:
             }
           }
           console.log('Coleta completa salva como fallback da semana.');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'cache_ready=true\n');
           NODE
+
+      - name: Save complete weekly package for the next run
+        # Keep a complete pre-rollover package even if publication is blocked
+        # solely because the ITF has not released the next official ranking.
+        # A separate save action is required because a failed job does not run
+        # the post-job cache save from actions/cache@v4.
+        if: always() && steps.scrape.outcome == 'success' && steps.stage_weekly_package.outputs.cache_ready == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .previous-run/data/clean
+          key: weekly-results-${{ github.run_id }}
 
       - name: Upload failed publication diagnostics
         if: failure()
