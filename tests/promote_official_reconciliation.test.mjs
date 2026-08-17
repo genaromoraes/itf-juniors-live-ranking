@@ -233,6 +233,47 @@ describe("official reconciliation promotion", () => {
     );
   });
 
+  test("allows a tightly bounded partial promotion from a complete official base", () => {
+    const validation = validateSourceRows({
+      summary: validSummary({
+        final_exact: 1997,
+        final_divergent: 3,
+        mode_safe_for_promotion: false,
+        input_guardrails_valid: true,
+        ledger_validation_passed: true,
+        get_rankings_calls: 0,
+      }),
+      playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
+      snapshotRows: Array.from({ length: 2000 }, (_, i) => snapshot(i + 1)),
+      ledgerRows: Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1)),
+      rankingDate: RANKING_DATE,
+      allowPartialPromotion: true,
+    });
+
+    assert.equal(validation.validationPassed, true);
+  });
+
+  test("partial promotion rejects a material reconciliation gap", () => {
+    const validation = validateSourceRows({
+      summary: validSummary({
+        final_exact: 1994,
+        final_divergent: 6,
+        mode_safe_for_promotion: false,
+        input_guardrails_valid: true,
+        ledger_validation_passed: true,
+        get_rankings_calls: 0,
+      }),
+      playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
+      snapshotRows: Array.from({ length: 2000 }, (_, i) => snapshot(i + 1)),
+      ledgerRows: Array.from({ length: 2000 }, (_, i) => ledgerRow(i + 1)),
+      rankingDate: RANKING_DATE,
+      allowPartialPromotion: true,
+    });
+
+    assert.equal(validation.validationPassed, false);
+    assert.match(validation.errors.join("\n"), /99\.75%/);
+  });
+
   test("999 players blocks promotion", async () => {
     const { root, sourceDir } = await makeProject({
       players: Array.from({ length: 999 }, (_, i) => player(i + 1)),

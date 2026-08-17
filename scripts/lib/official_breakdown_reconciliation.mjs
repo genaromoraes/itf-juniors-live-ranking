@@ -33,6 +33,10 @@ export const NETWORK_MODE_AUTO = "auto";
 export const RANKING_PAGE =
   "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
 export const FINAL_VALIDATION_POLICY = STAGED_POLICY;
+// The official ranking table remains the source of truth. A promotion may
+// proceed with a very small number of residual breakdown discrepancies only
+// when every player, rank and ledger identity has otherwise been validated.
+export const MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE = 99.75;
 
 export const FETCH_ATTEMPT_COLUMNS = [
   "timestamp",

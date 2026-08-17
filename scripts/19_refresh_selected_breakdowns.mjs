@@ -18,6 +18,7 @@ import {
   validateLedgerForOfficialPlayers,
   writeJson,
   writeReconciliationArtifacts,
+  MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE,
 } from "./lib/official_breakdown_reconciliation.mjs";
 import { cleanText, isIsoDate } from "./lib/weekly_ledger.mjs";
 import { TRACKED_BASE_TOTAL } from "./lib/ranking_limits.mjs";
@@ -279,6 +280,8 @@ export async function runReconciliation(args, deps = {}) {
     finalValidation.finalMissingLedger === 0 &&
     finalValidation.uniqueLedgerPlayers === EXPECTED_OFFICIAL_TOTAL &&
     finalValidation.ledgerPlayersOutsideOfficial === 0 &&
+    finalValidation.finalPercentage >=
+      MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE &&
     fetchResult.networkReport.get_rankings_calls === 0;
   const finishedAt = new Date().toISOString();
   const summary = buildSummary({

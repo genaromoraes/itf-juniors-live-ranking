@@ -17,6 +17,9 @@ import {
   normalizeGender,
 } from "./lib/official_ledger_validation.mjs";
 import {
+  MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE,
+} from "./lib/official_breakdown_reconciliation.mjs";
+import {
   TRACKED_BASE_LIMIT_PER_GENDER,
   TRACKED_BASE_TOTAL,
   validateCompetitionRanks,
@@ -54,7 +57,9 @@ const EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES = {
   unique_ledger_players: TRACKED_BASE_TOTAL,
   ledger_players_outside_official: 0,
   breakdowns_failed: 0,
-  mode_safe_for_promotion: true,
+  input_guardrails_valid: true,
+  ledger_validation_passed: true,
+  get_rankings_calls: 0,
 };
 
 function parseArgs(argv = process.argv.slice(2)) {
@@ -175,6 +180,7 @@ export function validateSourceRows({
   ledgerRows,
   rankingDate,
   allowPartialPromotion = false,
+  validatePartialThreshold = true,
 }) {
   const errors = [];
 
@@ -187,6 +193,25 @@ export function validateSourceRows({
   for (const [key, expected] of Object.entries(expectedSummaryValues)) {
     if (summary[key] !== expected) {
       errors.push(`summary.${key} esperado ${expected}, recebido ${summary[key]}.`);
+    }
+  }
+
+  if (allowPartialPromotion && validatePartialThreshold) {
+    const finalTotal = toNumber(summary.final_total);
+    const finalExact = toNumber(summary.final_exact);
+    const finalDivergent = toNumber(summary.final_divergent);
+    const exactPercentage =
+      finalTotal > 0 ? (finalExact / finalTotal) * 100 : 0;
+
+    if (finalExact + finalDivergent !== finalTotal) {
+      errors.push(
+        `Resumo parcial inconsistente: final_exact (${finalExact}) + final_divergent (${finalDivergent}) difere de final_total (${finalTotal}).`
+      );
+    }
+    if (exactPercentage < MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE) {
+      errors.push(
+        `Promocao parcial exige ao menos ${MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE}% de reconciliacao exata; recebeu ${exactPercentage.toFixed(2)}%.`
+      );
     }
   }
 
@@ -470,6 +495,9 @@ async function validateDestinationAfterApply(destinationFiles, rankingDate, allo
     ledgerRows: await readCsv(destinationFiles.ledger),
     rankingDate,
     allowPartialPromotion,
+    // The source artifact already proves the bounded reconciliation rate.
+    // At this point we verify the atomically promoted files' structure.
+    validatePartialThreshold: false,
   });
   const errors = filterPartialPromotionErrors(
     validation.errors,

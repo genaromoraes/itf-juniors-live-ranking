@@ -33,9 +33,9 @@ on:
           - direct
           - browser
       allow_partial_promotion:
-        description: "Promote even when official reconciliation has point divergences"
+        description: "Promote from the official ranking when only a minor, guarded breakdown divergence remains"
         required: false
-        default: false
+        default: true
         type: boolean
 
 permissions:
