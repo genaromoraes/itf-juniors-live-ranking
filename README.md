@@ -68,6 +68,16 @@ npm.cmd run check
 
 Verifica a sintaxe dos scripts `.mjs`.
 
+```bash
+npm.cmd run benchmark
+```
+
+Mede o tempo do gerador e executa cinco cargas frias do site no Chromium com CPU 4× mais lenta e rede 4G controlada (1,6 Mbps e 150 ms de latência). O comando informa tamanho bruto, gzip/Brotli, carga inicial, tarefas longas, nós do DOM e tempo para abrir o primeiro atleta. Para salvar o relatório em JSON:
+
+```bash
+npm.cmd run benchmark -- --output=.tmp/performance.json
+```
+
 ## Fluxos recomendados
 
 Para mudanças visuais no HTML:

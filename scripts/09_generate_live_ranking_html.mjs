@@ -36,6 +36,8 @@ const ROBOTS_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "robots.txt");
 const SITEMAP_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "sitemap.xml");
 const NOT_FOUND_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "404.html");
 const ADS_TXT_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "ads.txt");
+const PLAYER_DETAILS_CHUNK_SIZE = 100;
+const PLAYER_DETAILS_FILE_PREFIX = "player-details-";
 const CUSTOM_DOMAIN = "www.juniorsliveranking.com.br";
 const SITE_URL = `https://${CUSTOM_DOMAIN}`;
 const ADSENSE_CLIENT_ID = "ca-pub-5423465092890611";
@@ -2281,12 +2283,19 @@ export function buildDataForHtml(
   pointDetailsMap = new Map(),
   pointCartelMap = new Map()
 ) {
-  return rows.map((row) => ({
+  return rows.map((row) => {
+    const playerId = cleanText(row.player_id);
+    const livePoints = toNumber(row.live_points);
+    const bestSingles = getBestSingles(row);
+    const bestDoubles = getBestDoubles(row);
+    const participation = weekParticipationMap.get(playerId);
+
+    return {
     live_rank: toNumber(row.live_rank),
     official_rank: toNumber(row.official_rank),
     rank_change_vs_official: toNumber(row.rank_change_vs_official),
 
-    player_id: cleanText(row.player_id),
+    player_id: playerId,
     player_name: cleanText(row.player_name),
     gender: cleanText(row.gender),
     gender_label: getGenderLabel(row.gender),
@@ -2297,7 +2306,7 @@ export function buildDataForHtml(
     birth_year: cleanText(row.birth_year),
 
     official_points: toNumber(row.official_points_for_comparison),
-    live_points: toNumber(row.live_points),
+    live_points: livePoints,
     points_change_vs_official: toNumber(row.points_change_vs_official),
 
     singles_points: toNumber(row.singles_points),
@@ -2317,27 +2326,23 @@ export function buildDataForHtml(
     dropped_doubles_raw: toNumber(row.dropped_doubles_raw),
     estimated_weighted_dropped: toNumber(row.estimated_weighted_dropped),
 
-    best_singles: getBestSingles(row),
-    best_doubles: getBestDoubles(row),
+    best_singles: bestSingles,
+    best_doubles: bestDoubles,
 
     playing_this_week:
-      weekParticipationMap.get(cleanText(row.player_id)) || getPlayingThisWeek(row),
+      participation || getPlayingThisWeek(row),
     point_details:
-      pointDetailsMap.get(cleanText(row.player_id)) ||
+      pointDetailsMap.get(playerId) ||
       { live: [], drops: [] },
     point_cartel:
-      pointCartelMap.get(cleanText(row.player_id)) || { singles: [], doubles: [] },
+      pointCartelMap.get(playerId) || { singles: [], doubles: [] },
 
     next_round_scenarios: (() => {
-      const livePoints = toNumber(row.live_points);
-      const singles = getBestSingles(row);
-      const doubles = getBestDoubles(row);
-      const participation = weekParticipationMap.get(cleanText(row.player_id));
       const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles")
-        ? getProjectedScenario(singles, livePoints, "singles", 1, participation)
+        ? getProjectedScenario(bestSingles, livePoints, "singles", 1, participation)
         : { nextRound: null, title: null };
       const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles")
-        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25, participation)
+        ? getProjectedScenario(bestDoubles, livePoints, "doubles", 0.25, participation)
         : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
         singlesScenario.nextRound,
@@ -2353,15 +2358,11 @@ export function buildDataForHtml(
     })(),
 
     title_scenarios: (() => {
-      const livePoints = toNumber(row.live_points);
-      const singles = getBestSingles(row);
-      const doubles = getBestDoubles(row);
-      const participation = weekParticipationMap.get(cleanText(row.player_id));
       const singlesScenario = shouldProjectEvent(row, weekParticipationMap, "singles", "title")
-        ? getProjectedScenario(singles, livePoints, "singles", 1, participation)
+        ? getProjectedScenario(bestSingles, livePoints, "singles", 1, participation)
         : { nextRound: null, title: null };
       const doublesScenario = shouldProjectEvent(row, weekParticipationMap, "doubles", "title")
-        ? getProjectedScenario(doubles, livePoints, "doubles", 0.25, participation)
+        ? getProjectedScenario(bestDoubles, livePoints, "doubles", 0.25, participation)
         : { nextRound: null, title: null };
       const combinedScenario = combineProjectedScenarios(
         singlesScenario.title,
@@ -2378,7 +2379,70 @@ export function buildDataForHtml(
 
     ranking_date: cleanText(row.ranking_date),
     calculated_at: cleanText(row.calculated_at),
-  }));
+    };
+  });
+}
+
+function compactPointCartelItem(item) {
+  return [
+    item.tournament || "",
+    item.category || "",
+    item.round || "",
+    item.date || "",
+    Number(item.points || 0),
+    item.surface || "",
+    item.surfaceCode || "",
+    item.surfaceKey || "",
+    item.source || "",
+    item.counting ? 1 : 0,
+  ];
+}
+
+function compactPointCartel(cartel = {}) {
+  return {
+    s: (cartel.singles || []).map(compactPointCartelItem),
+    d: (cartel.doubles || []).map(compactPointCartelItem),
+  };
+}
+
+function getPlayerDetailsFileName(chunkIndex) {
+  return `${PLAYER_DETAILS_FILE_PREFIX}${String(chunkIndex + 1).padStart(2, "0")}.js`;
+}
+
+export function buildDeliveryPayload(data, chunkSize = PLAYER_DETAILS_CHUNK_SIZE) {
+  const detailChunks = [];
+  const rankingData = data.map((row, index) => {
+    const chunkIndex = Math.floor(index / chunkSize);
+    if (!detailChunks[chunkIndex]) detailChunks[chunkIndex] = {};
+    detailChunks[chunkIndex][row.player_id] = compactPointCartel(row.point_cartel);
+
+    return {
+      live_rank: row.live_rank,
+      official_rank: row.official_rank,
+      rank_change_vs_official: row.rank_change_vs_official,
+      player_id: row.player_id,
+      player_name: row.player_name,
+      gender: row.gender,
+      country: row.country,
+      country_iso2: row.country_iso2,
+      country_name: row.country_name,
+      birth_year: row.birth_year,
+      official_points: row.official_points,
+      live_points: row.live_points,
+      points_change_vs_official: row.points_change_vs_official,
+      playing_this_week: row.playing_this_week,
+      point_details: row.point_details,
+      next_round_scenarios: row.next_round_scenarios,
+      title_scenarios: row.title_scenarios,
+      details_chunk: chunkIndex,
+    };
+  });
+
+  return { rankingData, detailChunks };
+}
+
+function buildPlayerDetailsScript(chunk) {
+  return `window.__rankingPlayerDetails=Object.assign(window.__rankingPlayerDetails||{},${JSON.stringify(chunk)});\n`;
 }
 
 function getProgressDrawKey(row) {
@@ -2590,12 +2654,13 @@ function buildHtml(
   pointDetailsMap,
   pointCartelMap
 ) {
-  const data = buildDataForHtml(
+  const fullData = buildDataForHtml(
     rows,
     weekParticipationMap,
     pointDetailsMap,
     pointCartelMap
   );
+  const { rankingData: data, detailChunks } = buildDeliveryPayload(fullData);
   const stats = getStats(rows);
   const tournamentGroups = groupWeekTournaments(weekTournaments, weekMatches);
 
@@ -2614,7 +2679,7 @@ function buildHtml(
     ? `Os resultados até ${formatIsoDatePt(rolloverNotice.weekEnd)} já estão considerados nesta projeção; a nova semana começa automaticamente assim que a ITF publicar a base oficial de ${formatIsoDatePt(rolloverNotice.expectedRankingDate)}.`
     : "";
 
-  return `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -3417,6 +3482,29 @@ function buildHtml(
     tbody tr.selected {
       background: rgba(224, 244, 237, 0.82);
       box-shadow: 4px 0 0 var(--green-dark) inset;
+    }
+
+    .load-more-rows {
+      display: block;
+      width: calc(100% - 16px);
+      margin: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel-soft);
+      color: var(--green-dark);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .load-more-rows:hover {
+      border-color: var(--green-dark);
+      background: var(--green-soft);
+    }
+
+    .load-more-rows[hidden] {
+      display: none;
     }
 
     :root[data-theme="dark"] tbody tr:nth-child(even) {
@@ -4959,6 +5047,7 @@ body.official-ranking-view .side {
           </thead>
           <tbody id="rankingBody"></tbody>
         </table>
+        <button class="load-more-rows" id="loadMoreRows" type="button" hidden>Mostrar mais</button>
       </section>
 
       <aside class="side">
@@ -5004,6 +5093,7 @@ body.official-ranking-view .side {
     const pointsByCategory = ${pointsByCategoryJson};
     const rolloverNotice = ${rolloverNoticeJson};
     const officialRankingDate = ${JSON.stringify(rankingDate || "não informado")};
+    const generatedAt = ${JSON.stringify(calculatedAt)};
 
     const searchInput = document.getElementById("searchInput");
     const countryFilterBox = document.getElementById("countryFilterBox");
@@ -5020,6 +5110,7 @@ body.official-ranking-view .side {
     const sortFilter = document.getElementById("sortFilter");
     const playingOnlyFilter = document.getElementById("playingOnlyFilter");
     const rankingBody = document.getElementById("rankingBody");
+    const loadMoreRowsButton = document.getElementById("loadMoreRows");
     const visibleSummary = document.getElementById("visibleSummary");
     const weekTournaments = document.getElementById("weekTournaments");
     const profileModal = document.getElementById("profileModal");
@@ -5031,6 +5122,9 @@ body.official-ranking-view .side {
     let sortColumn = "RANK";
     let sortDirection = "asc";
     let currentLanguage = localStorage.getItem("itf-live-language") || "pt-BR";
+    const TABLE_ROW_BATCH_SIZE = 100;
+    let visibleRowLimit = TABLE_ROW_BATCH_SIZE;
+    const detailChunkPromises = new Map();
 
     const translations = {
       "pt-BR": {
@@ -5109,6 +5203,7 @@ body.official-ranking-view .side {
         live: "ao vivo",
         official: "oficial",
         playersShown: "jogadores exibidos",
+        showMore: "Mostrar mais",
         positionsShort: "pos.",
         pointsShort: "pts",
         showPointDetails: "Ver detalhes dos pontos",
@@ -5193,6 +5288,7 @@ body.official-ranking-view .side {
         live: "live",
         official: "official",
         playersShown: "players shown",
+        showMore: "Show more",
         positionsShort: "pos.",
         pointsShort: "pts",
         showPointDetails: "Show point details",
@@ -5277,6 +5373,7 @@ body.official-ranking-view .side {
         live: "en vivo",
         official: "oficial",
         playersShown: "jugadores mostrados",
+        showMore: "Mostrar más",
         positionsShort: "pos.",
         pointsShort: "pts",
         showPointDetails: "Ver detalles de puntos",
@@ -5450,7 +5547,13 @@ body.official-ranking-view .side {
       renderCountrySuggestionsIfOpen();
       if (selectedPlayerId) {
         const row = rankingData.find((item) => item.player_id === selectedPlayerId);
-        renderProfile(row || null);
+        if (row?.point_cartel) {
+          renderProfile(row);
+        } else if (row) {
+          renderProfileLoading(row);
+        } else {
+          renderProfile(null);
+        }
       } else {
         renderProfile(null);
       }
@@ -5656,9 +5759,7 @@ body.official-ranking-view .side {
     }
 
     function getOutgoingBirthYear() {
-      const calculatedAt = rankingData[0]?.calculated_at
-        ? new Date(rankingData[0].calculated_at)
-        : new Date();
+      const calculatedAt = generatedAt ? new Date(generatedAt) : new Date();
       const currentYear = Number.isNaN(calculatedAt.getTime())
         ? new Date().getFullYear()
         : calculatedAt.getFullYear();
@@ -6601,6 +6702,87 @@ body.official-ranking-view .side {
       \`;
     }
 
+    function inflatePointCartelItem(item, eventType) {
+      return {
+        eventType,
+        tournament: item[0] || "",
+        category: item[1] || "",
+        round: item[2] || "",
+        date: item[3] || "",
+        points: Number(item[4] || 0),
+        surface: item[5] || "",
+        surfaceCode: item[6] || "",
+        surfaceKey: item[7] || "",
+        source: item[8] || "",
+        counting: Boolean(item[9]),
+      };
+    }
+
+    function inflatePointCartel(packed = {}) {
+      return {
+        singles: (packed.s || []).map((item) => inflatePointCartelItem(item, "singles")),
+        doubles: (packed.d || []).map((item) => inflatePointCartelItem(item, "doubles")),
+      };
+    }
+
+    async function loadPlayerDetails(row) {
+      if (!row || row.point_cartel) return row;
+
+      const chunkIndex = Number(row.details_chunk);
+      const cached = window.__rankingPlayerDetails?.[row.player_id];
+      if (cached) {
+        row.point_cartel = inflatePointCartel(cached);
+        return row;
+      }
+
+      if (!detailChunkPromises.has(chunkIndex)) {
+        const fileName = "player-details-" + String(chunkIndex + 1).padStart(2, "0") + ".js";
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = fileName;
+          script.async = true;
+          script.onload = resolve;
+          script.onerror = () => reject(new Error("Não foi possível carregar " + fileName));
+          document.head.appendChild(script);
+        }).catch((error) => {
+          detailChunkPromises.delete(chunkIndex);
+          throw error;
+        });
+        detailChunkPromises.set(chunkIndex, promise);
+      }
+
+      await detailChunkPromises.get(chunkIndex);
+      row.point_cartel = inflatePointCartel(
+        window.__rankingPlayerDetails?.[row.player_id] || {}
+      );
+      return row;
+    }
+
+    function openProfileModal() {
+      profileModal.classList.add("open");
+      profileModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+    }
+
+    function renderProfileLoading(row) {
+      const flag = getFlagHtml(row);
+      profileCard.innerHTML = \`
+        <div class="profile-dialog-header">
+          <h3 id="profileDialogTitle">\${t("athletePoints")}</h3>
+          <button class="modal-close-button" type="button" aria-label="\${t("close")}" onclick="closeProfileModal()">×</button>
+        </div>
+        <div class="profile-head">
+          <div class="profile-flag">\${flag}</div>
+          <div>
+            <div class="profile-name">\${escapeHtmlClient(row.player_name)}</div>
+            <div class="profile-meta">\${formatNumberClient(row.live_points)} \${t("pointsShort")} \${t("live")}</div>
+          </div>
+        </div>
+        <div class="profile-empty">\${t("loading")}</div>
+      \`;
+      openProfileModal();
+    }
+
     function renderProfile(row) {
       if (!row) {
         profileModal.classList.remove("open");
@@ -6648,9 +6830,7 @@ body.official-ranking-view .side {
           \${renderCartelSection(t("doubles"), row.point_cartel?.doubles || [])}
         </div>
       \`;
-      profileModal.classList.add("open");
-      profileModal.setAttribute("aria-hidden", "false");
-      document.body.classList.add("modal-open");
+      openProfileModal();
     }
 
     function getRankingCellHtml(row) {
@@ -6682,11 +6862,14 @@ body.official-ranking-view .side {
       return '<span class="points">' + formatNumberClient(row.official_points) + '</span>';
     }
 
-    function renderTable() {
+    function renderTable({ preserveLimit = false } = {}) {
+      if (!preserveLimit) visibleRowLimit = TABLE_ROW_BATCH_SIZE;
+
       const rows = sortRows(
         withGenerationRanks(rankingData.filter(passesFilters))
           .filter(passesDisplayLimit)
       );
+      const renderedRows = rows.slice(0, visibleRowLimit);
       updateSortHeaders();
       updateGenderControl();
       updateRankingModeControl();
@@ -6697,7 +6880,10 @@ body.official-ranking-view .side {
         : currentLanguage === "es"
           ? "es-ES"
           : "pt-BR";
-      visibleSummary.innerHTML = '<strong>' + rows.length.toLocaleString(summaryLocale) + '</strong> ' + t("playersShown") +
+      const visibleCount = renderedRows.length < rows.length
+        ? renderedRows.length.toLocaleString(summaryLocale) + ' de ' + rows.length.toLocaleString(summaryLocale)
+        : rows.length.toLocaleString(summaryLocale);
+      visibleSummary.innerHTML = '<strong>' + visibleCount + '</strong> ' + t("playersShown") +
         (isBrazilCountryFilterActive()
           ? ' · ' + escapeHtmlClient(t("brazilTop1000Summary"))
           : selectedCountry
@@ -6710,7 +6896,7 @@ body.official-ranking-view .side {
         renderProfile(null);
       }
 
-      rankingBody.innerHTML = rows.map((row) => {
+      rankingBody.innerHTML = renderedRows.map((row) => {
         const selected = selectedPlayerId === row.player_id ? "selected" : "";
         const flag = getFlagHtml(row);
         const pointsCell = sortColumn === "OFFICIAL_RANK"
@@ -6733,7 +6919,7 @@ body.official-ranking-view .side {
           \`;
 
         return \`
-          <tr class="\${selected}" onclick="selectPlayer('\${escapeHtmlClient(row.player_id)}')">
+          <tr class="\${selected}" data-player-id="\${escapeHtmlClient(row.player_id)}" onclick="selectPlayer('\${escapeHtmlClient(row.player_id)}')">
             <td>
               \${getRankingCellHtml(row)}
             </td>
@@ -6752,25 +6938,55 @@ body.official-ranking-view .side {
           </tr>
         \`;
       }).join("");
+
+      const remainingRows = Math.max(0, rows.length - renderedRows.length);
+      loadMoreRowsButton.hidden = remainingRows === 0;
+      loadMoreRowsButton.textContent = t("showMore") +
+        (remainingRows ? " (" + Math.min(TABLE_ROW_BATCH_SIZE, remainingRows) + ")" : "");
     }
 
-    function selectPlayer(playerId) {
+    function loadMoreRows() {
+      visibleRowLimit += TABLE_ROW_BATCH_SIZE;
+      renderTable({ preserveLimit: true });
+    }
+
+    function updateSelectedRow() {
+      rankingBody.querySelectorAll("tr.selected").forEach((row) => row.classList.remove("selected"));
+      if (!selectedPlayerId) return;
+
+      const selectedRow = Array.from(rankingBody.rows).find(
+        (row) => row.dataset.playerId === selectedPlayerId
+      );
+      selectedRow?.classList.add("selected");
+    }
+
+    async function selectPlayer(playerId) {
       selectedPlayerId = playerId;
       const row = rankingData.find((item) => item.player_id === playerId);
-      renderProfile(row);
-      renderTable();
+      if (!row) return;
+
+      updateSelectedRow();
+      renderProfileLoading(row);
+      try {
+        await loadPlayerDetails(row);
+        if (selectedPlayerId === playerId) renderProfile(row);
+      } catch (error) {
+        console.error(error);
+        row.point_cartel = { singles: [], doubles: [] };
+        if (selectedPlayerId === playerId) renderProfile(row);
+      }
     }
 
     function closeProfileModal() {
       selectedPlayerId = "";
       renderProfile(null);
-      renderTable();
+      updateSelectedRow();
     }
 
     function togglePointsInfo(event, playerId) {
       event.stopPropagation();
       expandedPointsPlayerId = expandedPointsPlayerId === playerId ? "" : playerId;
-      renderTable();
+      renderTable({ preserveLimit: true });
     }
 
     window.selectPlayer = selectPlayer;
@@ -6779,6 +6995,12 @@ body.official-ranking-view .side {
     window.setTableSort = setTableSort;
     window.updatePointSimulator = updatePointSimulator;
 
+    loadMoreRowsButton.addEventListener("click", loadMoreRows);
+    new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting) && !loadMoreRowsButton.hidden) {
+        loadMoreRows();
+      }
+    }, { rootMargin: "300px" }).observe(loadMoreRowsButton);
     searchInput.addEventListener("input", renderTable);
     countrySearchInput.addEventListener("input", handleCountryInput);
     countrySearchInput.addEventListener("focus", renderCountrySuggestions);
@@ -6856,6 +7078,8 @@ body.official-ranking-view .side {
   ${buildCookieConsentScript({ loadAdsense: true })}
 </body>
 </html>`;
+
+  return { html, detailChunks };
 }
 
 async function main() {
@@ -6897,7 +7121,7 @@ async function main() {
   );
   const pointCartelMap = buildPointCartelMap(combinedLedgerRows);
 
-  const html = buildHtml(
+  const { html, detailChunks } = buildHtml(
     rows,
     weekTournaments,
     weekMatches,
@@ -6906,30 +7130,46 @@ async function main() {
     pointCartelMap
   );
 
-  await fs.writeFile(HTML_OUTPUT_FILE, buildLegacyRedirectPage(), "utf8");
-  await fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8");
-  await fs.writeFile(CNAME_OUTPUT_FILE, `${CUSTOM_DOMAIN}\n`, "utf8");
-  await fs.writeFile(
-    ROBOTS_OUTPUT_FILE,
-    `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
-    "utf8"
-  );
-  await fs.writeFile(SITEMAP_OUTPUT_FILE, buildSitemap(), "utf8");
-  await fs.writeFile(NOT_FOUND_OUTPUT_FILE, buildNotFoundPage(), "utf8");
-  await fs.writeFile(
-    ADS_TXT_OUTPUT_FILE,
-    "google.com, pub-5423465092890611, DIRECT, f08c47fec0942fa0\n",
-    "utf8"
-  );
-  await fs.copyFile(FAVICON_SOURCE_FILE, FAVICON_OUTPUT_FILE);
-
-  for (const page of STATIC_PAGES) {
-    await fs.writeFile(
-      path.join(OUT_DIR_EXPORTS, page.fileName),
-      buildStaticPage(page),
-      "utf8"
+  const staleDetailFiles = (await fs.readdir(OUT_DIR_EXPORTS))
+    .filter((fileName) =>
+      fileName.startsWith(PLAYER_DETAILS_FILE_PREFIX) && fileName.endsWith(".js")
     );
-  }
+  await Promise.all(
+    staleDetailFiles.map((fileName) => fs.unlink(path.join(OUT_DIR_EXPORTS, fileName)))
+  );
+
+  await Promise.all([
+    fs.writeFile(HTML_OUTPUT_FILE, buildLegacyRedirectPage(), "utf8"),
+    fs.writeFile(INDEX_OUTPUT_FILE, html, "utf8"),
+    fs.writeFile(CNAME_OUTPUT_FILE, `${CUSTOM_DOMAIN}\n`, "utf8"),
+    fs.writeFile(
+      ROBOTS_OUTPUT_FILE,
+      `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
+      "utf8"
+    ),
+    fs.writeFile(SITEMAP_OUTPUT_FILE, buildSitemap(), "utf8"),
+    fs.writeFile(NOT_FOUND_OUTPUT_FILE, buildNotFoundPage(), "utf8"),
+    fs.writeFile(
+      ADS_TXT_OUTPUT_FILE,
+      "google.com, pub-5423465092890611, DIRECT, f08c47fec0942fa0\n",
+      "utf8"
+    ),
+    fs.copyFile(FAVICON_SOURCE_FILE, FAVICON_OUTPUT_FILE),
+    ...detailChunks.map((chunk, chunkIndex) =>
+      fs.writeFile(
+        path.join(OUT_DIR_EXPORTS, getPlayerDetailsFileName(chunkIndex)),
+        buildPlayerDetailsScript(chunk),
+        "utf8"
+      )
+    ),
+    ...STATIC_PAGES.map((page) =>
+      fs.writeFile(
+        path.join(OUT_DIR_EXPORTS, page.fileName),
+        buildStaticPage(page),
+        "utf8"
+      )
+    ),
+  ]);
 
   console.log("");
   console.log("HTML gerado:");

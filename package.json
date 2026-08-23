@@ -16,6 +16,7 @@
     "rollover:week": "node scripts/13_start_week.mjs",
     "check": "node scripts/check_project.mjs",
     "validate:publication": "node scripts/26_validate_publication_coherence.mjs",
+    "benchmark": "node scripts/benchmark_performance.mjs",
     "test": "node --test tests/*.test.mjs",
     "reconcile:official": "node scripts/12_reconcile_official_ranking.mjs",
     "find:untracked-week": "node scripts/14_find_untracked_week_players.mjs",
