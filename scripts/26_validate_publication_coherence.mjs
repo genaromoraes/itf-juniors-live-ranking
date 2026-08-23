@@ -181,7 +181,13 @@ export async function validatePublication({
       errors.push(message);
     }
   }
-  if (rankingDate && !html.includes(`\"ranking_date\":\"${rankingDate}\"`)) {
+  const htmlContainsRankingDate =
+    !rankingDate ||
+    html.includes(`\"ranking_date\":\"${rankingDate}\"`) ||
+    html.includes(
+      `const officialRankingDate = ${JSON.stringify(rankingDate)};`
+    );
+  if (!htmlContainsRankingDate) {
     errors.push(`index.html nao contem dados da base oficial ${rankingDate}.`);
   }
 

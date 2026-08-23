@@ -88,6 +88,32 @@ test("accepts a coherent publication package", async () => {
   assert.equal(report.errors.length, 0);
 });
 
+test("accepts the optimized HTML ranking date metadata", async () => {
+  const fixture = await createFixture();
+  await fs.writeFile(
+    path.join(fixture.cwd, "data", "exports", "index.html"),
+    `<script>const officialRankingDate = ${JSON.stringify(RANKING_DATE)};</script>`,
+    "utf8"
+  );
+
+  const report = await validatePublication({ cwd: fixture.cwd });
+  assert.equal(report.valid, true);
+  assert.equal(report.errors.length, 0);
+});
+
+test("blocks HTML without the official ranking date", async () => {
+  const fixture = await createFixture();
+  await fs.writeFile(
+    path.join(fixture.cwd, "data", "exports", "index.html"),
+    "<script>const officialRankingDate = \"2026-07-06\";</script>",
+    "utf8"
+  );
+
+  const report = await validatePublication({ cwd: fixture.cwd });
+  assert.equal(report.valid, false);
+  assert.match(report.errors.join("\n"), /index\.html nao contem dados da base oficial/);
+});
+
 test("blocks cached tournament data from the previous week", async () => {
   const fixture = await createFixture();
   await writeCsv(
