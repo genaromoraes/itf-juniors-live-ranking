@@ -152,6 +152,7 @@ jobs:
               --output-dir="$VALIDATION_DIR" \
               --baseline-policy=as-collected \
               --network-mode="$NETWORK_MODE" \
+              --allow-partial-promotion="$ALLOW_PARTIAL_PROMOTION" \
               --mode=run
 
           run_logged reconcile_official_breakdowns.log \

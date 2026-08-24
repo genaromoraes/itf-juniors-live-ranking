@@ -207,6 +207,69 @@ describe("official ranking network modes", () => {
     assert.match(result.warnings[0], /corte em 2026-06-14/);
   });
 
+  test("accepts only a tightly bounded residual old baseline when explicitly allowed", () => {
+    const baselineLedgerRows = Array.from({ length: 2000 }, (_, index) =>
+      ledgerRow({
+        player_id: `p${index + 1}`,
+        player_name: `Player ${index + 1}`,
+      })
+    );
+    const oldSnapshotRows = Array.from({ length: 2000 }, (_, index) =>
+      snapshotRow({
+        player_id: `p${index + 1}`,
+        player_name: `Player ${index + 1}`,
+        official_points: index < 1997 ? "100" : "101",
+      })
+    );
+
+    const strictResult = buildBaselineValidation({
+      baselineLedgerRows,
+      oldSnapshotRows,
+      oldRankingDate: "2026-06-15",
+      dropCutoff: "2026-06-21",
+    });
+    assert.equal(strictResult.baseline.valid, false);
+
+    const partialResult = buildBaselineValidation({
+      baselineLedgerRows,
+      oldSnapshotRows,
+      oldRankingDate: "2026-06-15",
+      dropCutoff: "2026-06-21",
+      allowPartialPromotion: true,
+    });
+    assert.equal(partialResult.baseline.valid, true);
+    assert.equal(partialResult.baseline.exact, 1997);
+    assert.equal(partialResult.partialAccepted, true);
+    assert.match(partialResult.warnings[0], /99\.85%/);
+  });
+
+  test("rejects a material residual old baseline even when partial promotion is allowed", () => {
+    const baselineLedgerRows = Array.from({ length: 2000 }, (_, index) =>
+      ledgerRow({
+        player_id: `p${index + 1}`,
+        player_name: `Player ${index + 1}`,
+      })
+    );
+    const oldSnapshotRows = Array.from({ length: 2000 }, (_, index) =>
+      snapshotRow({
+        player_id: `p${index + 1}`,
+        player_name: `Player ${index + 1}`,
+        official_points: index < 1994 ? "100" : "101",
+      })
+    );
+
+    const result = buildBaselineValidation({
+      baselineLedgerRows,
+      oldSnapshotRows,
+      oldRankingDate: "2026-06-15",
+      dropCutoff: "2026-06-21",
+      allowPartialPromotion: true,
+    });
+    assert.equal(result.baseline.valid, false);
+    assert.equal(result.baseline.exact, 1994);
+    assert.equal(result.partialAccepted, false);
+  });
+
   test("direct returns valid JSON", async () => {
     const outputDir = await createTempOutputDir();
     const outputPaths = buildOutputPaths(outputDir);

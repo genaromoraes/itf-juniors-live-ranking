@@ -32,6 +32,11 @@ import {
   writeCsv,
   writeJson,
 } from "./lib/official_ledger_validation.mjs";
+import {
+  MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE,
+  TRACKED_BASE_TOTAL,
+  isSafePartialReconciliation,
+} from "./lib/ranking_limits.mjs";
 
 export const NETWORK_MODE_DIRECT = "direct";
 export const NETWORK_MODE_BROWSER = "browser";
@@ -198,6 +203,9 @@ export function parseArgs(argv = process.argv.slice(2)) {
     networkMode:
       cleanText(readArg("network-mode", NETWORK_MODE_AUTO)).toLowerCase() ||
       NETWORK_MODE_AUTO,
+    allowPartialPromotion:
+      cleanText(readArg("allow-partial-promotion", "false")).toLowerCase() ===
+      "true",
     outputDir: outputDir ? path.resolve(outputDir) : "",
     mode: cleanText(readArg("mode", "dry-run")) || "dry-run",
   };
@@ -1056,6 +1064,7 @@ export function buildBaselineValidation({
   oldSnapshotRows,
   oldRankingDate,
   dropCutoff,
+  allowPartialPromotion = false,
 }) {
   const calculatedRows = calculateLedgerPoints(baselineLedgerRows, {
     policy: BASELINE_POLICY,
@@ -1075,6 +1084,7 @@ export function buildBaselineValidation({
       baselinePolicy: BASELINE_POLICY,
       baselineDropCutoff: "",
       reconstructed: false,
+      partialAccepted: false,
       removedRows: 0,
       warnings: [],
     };
@@ -1104,6 +1114,7 @@ export function buildBaselineValidation({
       baselinePolicy: BASELINE_POLICY,
       baselineDropCutoff: "",
       reconstructed: true,
+      partialAccepted: false,
       removedRows,
       warnings: [
         `Baseline antigo reconstruido removendo ${removedRows} linhas confirmed_from_week_close entre ${oldRankingDate} e ${dropCutoff}.`,
@@ -1124,29 +1135,56 @@ export function buildBaselineValidation({
     }
   );
 
-  if (!cutoffBaseline.valid) {
+  const partialAccepted =
+    allowPartialPromotion &&
+    isSafePartialReconciliation({
+      exact: cutoffBaseline.exact,
+      total: cutoffBaseline.total,
+      expectedTotal: TRACKED_BASE_TOTAL,
+    });
+
+  if (!cutoffBaseline.valid && !partialAccepted) {
     return {
       baseline,
       baselinePolicy: BASELINE_POLICY,
       baselineDropCutoff: "",
       reconstructed: false,
+      partialAccepted: false,
       removedRows,
       warnings: [],
     };
   }
 
+  const acceptedBaseline = partialAccepted
+    ? {
+        ...cutoffBaseline,
+        valid: true,
+        strict_valid: false,
+        accepted_partial: true,
+      }
+    : cutoffBaseline;
+  const exactPercentage =
+    cutoffBaseline.total > 0
+      ? (cutoffBaseline.exact / cutoffBaseline.total) * 100
+      : 0;
+
   return {
-    baseline: cutoffBaseline,
+    baseline: acceptedBaseline,
     baselinePolicy: STAGED_POLICY,
     baselineDropCutoff,
     reconstructed: true,
+    partialAccepted,
     removedRows,
     warnings: [
       `Baseline antigo reconstruido com corte em ${baselineDropCutoff}, vespera do ranking oficial ${oldRankingDate}${
         removedRows > 0
           ? ` e remocao de ${removedRows} linhas confirmed_from_week_close da semana ainda nao oficial`
           : ""
-      }.`,
+      }.${
+        partialAccepted
+          ? ` Diferenca residual aceita de forma controlada: ${cutoffBaseline.exact}/${cutoffBaseline.total} (${exactPercentage.toFixed(2)}%), acima do minimo de ${MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE.toFixed(2)}%; os divergentes serao atualizados pela reconciliacao oficial.`
+          : ""
+      }`,
     ],
   };
 }
@@ -1227,6 +1265,7 @@ export async function runValidation(args, deps = {}) {
     oldSnapshotRows,
     oldRankingDate,
     dropCutoff: args.dropCutoff,
+    allowPartialPromotion: args.allowPartialPromotion,
   });
   const baseline = baselineResult.baseline;
   const validationWarnings = [...baselineResult.warnings];

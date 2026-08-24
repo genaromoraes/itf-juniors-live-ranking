@@ -21,6 +21,7 @@ import {
   sleep,
 } from "./official_ledger_validation.mjs";
 import {
+  MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE,
   TRACKED_BASE_LIMIT_PER_GENDER,
   TRACKED_BASE_TOTAL,
 } from "./ranking_limits.mjs";
@@ -36,7 +37,8 @@ export const FINAL_VALIDATION_POLICY = STAGED_POLICY;
 // The official ranking table remains the source of truth. A promotion may
 // proceed with a very small number of residual breakdown discrepancies only
 // when every player, rank and ledger identity has otherwise been validated.
-export const MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE = 99.75;
+export const MIN_PARTIAL_PROMOTION_EXACT_PERCENTAGE =
+  MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE;
 
 export const FETCH_ATTEMPT_COLUMNS = [
   "timestamp",

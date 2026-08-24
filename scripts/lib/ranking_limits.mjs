@@ -14,10 +14,36 @@ export const TRACKED_BASE_LIMIT_PER_GENDER = TOP1000_BASE_LIMIT_PER_GENDER;
 export const TRACKED_BASE_TOTAL = TRACKED_BASE_LIMIT_PER_GENDER * 2;
 export const LEGACY_BASE_TOTAL = LEGACY_BASE_LIMIT_PER_GENDER * 2;
 export const DISPLAY_TOTAL = DISPLAY_LIMIT_PER_GENDER * 2;
+export const MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE = 99.75;
 
 export const EXTERNAL_CANDIDATE_FALLBACK_MARGIN = 40;
 
 export const BASE_STATE_FILE = path.join("data", "config", "base_state.json");
+
+export function isSafePartialReconciliation({
+  exact,
+  total,
+  expectedTotal = TRACKED_BASE_TOTAL,
+  minimumExactPercentage = MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE,
+}) {
+  const exactNumber = Number(exact);
+  const totalNumber = Number(total);
+  const expectedTotalNumber = Number(expectedTotal);
+
+  if (
+    !Number.isFinite(exactNumber) ||
+    !Number.isFinite(totalNumber) ||
+    !Number.isFinite(expectedTotalNumber) ||
+    totalNumber !== expectedTotalNumber ||
+    totalNumber <= 0 ||
+    exactNumber < 0 ||
+    exactNumber > totalNumber
+  ) {
+    return false;
+  }
+
+  return (exactNumber / totalNumber) * 100 >= minimumExactPercentage;
+}
 
 export function validateCompetitionRanks(values, expectedCount) {
   const ranks = values

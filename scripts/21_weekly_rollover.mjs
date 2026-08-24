@@ -22,6 +22,7 @@ import {
   DISPLAY_LIMIT_PER_GENDER,
   getActiveBaseLimitPerGender,
   getActiveBaseTotal,
+  isSafePartialReconciliation,
   validateCompetitionRanks,
 } from "./lib/ranking_limits.mjs";
 
@@ -1206,8 +1207,11 @@ export async function runStartAction({ args, facts, runNodeScript }) {
 
   const partialReconciliationAllowed =
     args.allowPartialPromotion &&
-    reconciliation.total === getActiveBaseTotal() &&
-    reconciliation.exact > 0;
+    isSafePartialReconciliation({
+      exact: reconciliation.exact,
+      total: reconciliation.total,
+      expectedTotal: getActiveBaseTotal(),
+    });
 
   if (!reconciliation.valid && !partialReconciliationAllowed) {
     const expectedTotal = getActiveBaseTotal();
