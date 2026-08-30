@@ -15,6 +15,16 @@ const REQUIRED_SCRAPING_OUTPUTS = [
 
 const STEPS = [
   {
+    name: "Revalidar torneios na janela oficial",
+    command: "node",
+    args: ["scripts/27_sanitize_weekly_package.mjs"],
+    requiredOutputs: [
+      "data/clean/week_tournaments.csv",
+      "data/clean/week_matches.csv",
+      "data/clean/week_player_results.csv",
+    ],
+  },
+  {
     name: "Calcular pontos live da semana",
     command: "node",
     args: ["scripts/06_calculate_week_live_points.mjs"],
