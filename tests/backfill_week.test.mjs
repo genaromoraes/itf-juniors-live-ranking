@@ -423,9 +423,20 @@ describe("historical backfill support", () => {
     assert.equal(outputPaths.rawOutputFile, path.resolve("C:\\temp\\backfill", "raw", "week_tournaments.json"));
   });
 
-  test("tournament selection excludes Sunday starters that belong to the next week", () => {
+  test("tournament selection excludes final-weekend starters that belong to the next week", () => {
     const weekWindow = buildWeekWindow(
       parseTournamentArgs(["--week-start=2026-06-22", "--week-end=2026-06-28"])
+    );
+
+    assert.equal(
+      tournamentBelongsToOfficialWeek(
+        {
+          start_date: "2026-06-27",
+          end_date: "2026-07-03",
+        },
+        weekWindow
+      ),
+      false
     );
 
     assert.equal(
@@ -449,6 +460,33 @@ describe("historical backfill support", () => {
       ),
       true
     );
+
+    assert.equal(
+      tournamentBelongsToOfficialWeek(
+        {
+          start_date: "2026-06-27",
+          end_date: "2026-06-28",
+        },
+        weekWindow
+      ),
+      true
+    );
+  });
+
+  test("tournament selection assigns J300 Repentigny 2026 to the following week", () => {
+    const currentWeek = buildWeekWindow(
+      parseTournamentArgs(["--week-start=2026-08-24", "--week-end=2026-08-30"])
+    );
+    const followingWeek = buildWeekWindow(
+      parseTournamentArgs(["--week-start=2026-08-31", "--week-end=2026-09-06"])
+    );
+    const repentigny = {
+      start_date: "2026-08-29",
+      end_date: "2026-09-04",
+    };
+
+    assert.equal(tournamentBelongsToOfficialWeek(repentigny, currentWeek), false);
+    assert.equal(tournamentBelongsToOfficialWeek(repentigny, followingWeek), true);
   });
 
   test("manual tournament file writes current tournaments and raw dropping audit", async () => {

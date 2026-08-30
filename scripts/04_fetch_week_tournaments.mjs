@@ -402,7 +402,16 @@ export function tournamentBelongsToOfficialWeek(tournament, weekWindow) {
     return false;
   }
 
-  if (start === weekWindow.week_end && effectiveEnd > weekWindow.week_end) {
+  // The ITF calendar can label a tournament with the Saturday or Sunday on
+  // which its qualifying/main draw begins. If it starts on the final weekend
+  // of this window and continues into the following week, it belongs to that
+  // following official ranking week. The two-day search before Monday remains
+  // necessary to include tournaments that began on the preceding weekend.
+  const finalWeekendStart = toIsoDateUtc(
+    addUtcDays(parseIsoDateUtc(weekWindow.week_end, "week-end"), -1)
+  );
+
+  if (start >= finalWeekendStart && effectiveEnd > weekWindow.week_end) {
     return false;
   }
 
