@@ -443,6 +443,29 @@ describe("live ranking with tracked official players only", () => {
     assert.equal(nextWeek.droppedRows.length, 1);
   });
 
+  test("US Open points drop only in the following official week", () => {
+    const baseRows = [
+      makeLedgerRow({
+        player_id: "A",
+        gender: "M",
+        tournament_name: "US Open Junior Tennis Championships",
+        category: "JGS",
+        start_date: "2025-08-31",
+        drop_date_calculated: "2026-08-31",
+        points: 180,
+      }),
+    ];
+
+    const currentWeek = mergeLedgersWithDrops(baseRows, [], "2026-08-31");
+    assert.equal(currentWeek.activeRows.length, 1);
+    assert.equal(currentWeek.droppedRows.length, 0);
+    assert.equal(currentWeek.activeRows[0].drop_date_calculated, "2026-09-07");
+
+    const nextWeek = mergeLedgersWithDrops(baseRows, [], "2026-09-07");
+    assert.equal(nextWeek.activeRows.length, 0);
+    assert.equal(nextWeek.droppedRows.length, 1);
+  });
+
   test("external audit aggregates counts per player correctly", () => {
     const ignoredRows = [
       makeLedgerRow({

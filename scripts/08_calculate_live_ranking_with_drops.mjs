@@ -485,7 +485,7 @@ function normalizeLedgerRow(row, sourceType) {
   const storedDropDate = cleanText(row.drop_date_calculated);
   const baseDropDate =
     sourceType === "base" ? cleanText(calculateLedgerDropDate(startDate)) : "";
-  const recalculatedDropDate = deferWimbledonDropToNextOfficialWeek(
+  const recalculatedDropDate = deferGrandSlamDropToNextOfficialWeek(
     cleanText(row.tournament_name),
     baseDropDate || storedDropDate
   );
@@ -528,20 +528,32 @@ function normalizeLedgerRow(row, sourceType) {
   };
 }
 
-export function deferWimbledonDropToNextOfficialWeek(tournamentName, dropDate) {
+export function deferGrandSlamDropToNextOfficialWeek(tournamentName, dropDate) {
   const name = cleanText(tournamentName).toLowerCase();
   const parsed = parseIsoDate(dropDate);
 
-  if (!name.includes("wimbledon") || !parsed) return parsed;
+  if (!parsed) return parsed;
 
   const date = new Date(`${parsed}T00:00:00.000Z`);
-  const day = date.getUTCDay();
+  if (name.includes("us open")) {
+    // O US Open juvenil de 2025 terminou na semana seguinte à sua data de
+    // início no calendário do ranking; seus pontos só caem no corte de 07/09.
+    date.setUTCDate(date.getUTCDate() + 7);
+    return date.toISOString().slice(0, 10);
+  }
 
+  if (!name.includes("wimbledon")) return parsed;
+
+  const day = date.getUTCDay();
   if (day === 6) date.setUTCDate(date.getUTCDate() + 2);
   if (day === 0) date.setUTCDate(date.getUTCDate() + 1);
 
   return date.toISOString().slice(0, 10);
 }
+
+// Compatibilidade para consumidores que ainda importam o nome antigo.
+export const deferWimbledonDropToNextOfficialWeek =
+  deferGrandSlamDropToNextOfficialWeek;
 
 function isDropped(row, dropCutoffDate) {
   if (row.source_type === "live") return false;
