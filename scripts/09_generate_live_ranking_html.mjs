@@ -2782,7 +2782,8 @@ function buildHtml(
     }
 
     .page {
-      width: min(1760px, calc(100% - 48px));
+      width: min(1760px, calc(100vw - 48px));
+      width: min(1760px, calc(100dvw - 48px));
       margin: 0 auto;
       padding: 16px 0 24px;
     }
@@ -4738,7 +4739,8 @@ body.official-ranking-view .side {
     }
     @media (max-width: 1200px) {
       .page {
-        width: min(100% - 24px, 100%);
+        width: calc(100vw - 24px);
+        width: calc(100dvw - 24px);
         padding-top: 26px;
       }
 
@@ -4792,7 +4794,8 @@ body.official-ranking-view .side {
 
     @media (max-width: 720px) {
       .page {
-        width: min(100% - 16px, 100%);
+        width: calc(100vw - 16px);
+        width: calc(100dvw - 16px);
         padding-bottom: 58px;
       }
 
@@ -4885,6 +4888,10 @@ body.official-ranking-view .side {
 
       .table-scroll-hint {
         margin-left: auto;
+      }
+
+      .table-scroll-hint[hidden] {
+        display: none;
       }
 
       .table-scroll-hint::before {
@@ -5289,6 +5296,8 @@ body.official-ranking-view .side {
     const sortFilter = document.getElementById("sortFilter");
     const playingOnlyFilter = document.getElementById("playingOnlyFilter");
     const rankingBody = document.getElementById("rankingBody");
+    const tableScrollWrap = document.getElementById("tableScrollWrap");
+    const tableScrollHint = document.getElementById("tableScrollHint");
     const loadMoreRowsButton = document.getElementById("loadMoreRows");
     const visibleSummary = document.getElementById("visibleSummary");
     const weekTournaments = document.getElementById("weekTournaments");
@@ -7134,6 +7143,12 @@ body.official-ranking-view .side {
       loadMoreRowsButton.hidden = remainingRows === 0;
       loadMoreRowsButton.textContent = t("showMore") +
         (remainingRows ? " (" + Math.min(TABLE_ROW_BATCH_SIZE, remainingRows) + ")" : "");
+      updateTableScrollHint();
+    }
+
+    function updateTableScrollHint() {
+      if (!tableScrollWrap || !tableScrollHint) return;
+      tableScrollHint.hidden = tableScrollWrap.scrollWidth <= tableScrollWrap.clientWidth + 1;
     }
 
     function loadMoreRows() {
@@ -7261,6 +7276,7 @@ body.official-ranking-view .side {
       sortDirection = "asc";
       renderTable();
     });
+    window.addEventListener("resize", updateTableScrollHint);
 
     renderTournaments();
     applyTheme(localStorage.getItem("itf-live-theme") || "light");
