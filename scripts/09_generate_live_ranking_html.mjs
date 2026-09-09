@@ -4870,7 +4870,7 @@ body.official-ranking-view .side {
         flex-basis: 100%;
         width: fit-content;
         color: var(--green-dark);
-        margin-left: 8px;
+        margin-left: 16px;
         padding: 5px 10px 5px 8px;
         border: 1px solid color-mix(in srgb, var(--green-dark) 28%, transparent);
         border-radius: 999px;
@@ -5199,7 +5199,7 @@ body.official-ranking-view .side {
             <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
           </span>
           <span class="table-hint" id="tableHint">Clique em um atleta para abrir o painel com os detalhes.</span>
-          <span class="table-scroll-hint" id="tableScrollHint">Deslize para a direita para ver mais resultados.</span>
+          <span class="table-scroll-hint" id="tableScrollHint">Deslize para a direita para ver todos os dados.</span>
         </div>
 
         <div class="table-scroll-wrap" id="tableScrollWrap">
@@ -5365,7 +5365,7 @@ body.official-ranking-view .side {
         close: "Fechar",
         profileEmpty: "Clique em um atleta da tabela para ver o resumo de pontuação.",
         tableHint: "Clique em um atleta para abrir o painel com os detalhes.",
-        tableScrollHint: "Deslize para a direita para ver mais resultados.",
+        tableScrollHint: "Deslize para a direita para ver todos os dados.",
         noResult: "Sem resultado registrado.",
         counting: "Contando",
         notCounting: "Não contando",
@@ -5451,7 +5451,7 @@ body.official-ranking-view .side {
         close: "Close",
         profileEmpty: "Click a player in the table to see the points summary.",
         tableHint: "Click a player to open the details panel.",
-        tableScrollHint: "Swipe right to see more results.",
+        tableScrollHint: "Swipe right to see all data.",
         noResult: "No result recorded.",
         counting: "Counting",
         notCounting: "Not counting",
@@ -5537,7 +5537,7 @@ body.official-ranking-view .side {
         close: "Cerrar",
         profileEmpty: "Haz clic en un jugador de la tabla para ver el resumen de puntos.",
         tableHint: "Haz clic en un jugador para abrir el panel de detalles.",
-        tableScrollHint: "Desliza hacia la derecha para ver más resultados.",
+        tableScrollHint: "Desliza hacia la derecha para ver todos los datos.",
         noResult: "No hay resultado registrado.",
         counting: "Contando",
         notCounting: "No contando",
