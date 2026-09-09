@@ -4902,14 +4902,14 @@ body.official-ranking-view .side {
       }
 
       .table-scroll-wrap table {
-        min-width: 610px;
+        min-width: 550px;
         table-layout: fixed;
       }
 
       .table-scroll-wrap th,
       .table-scroll-wrap td {
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 3px;
+        padding-right: 3px;
       }
 
       .table-scroll-wrap th {
@@ -4923,48 +4923,48 @@ body.official-ranking-view .side {
 
       .table-scroll-wrap th:nth-child(1),
       .table-scroll-wrap td:nth-child(1) {
-        width: 42px;
+        width: 38px;
       }
 
       .table-scroll-wrap th:nth-child(2),
       .table-scroll-wrap td:nth-child(2) {
-        width: 132px;
-        min-width: 132px;
+        width: 120px;
+        min-width: 120px;
       }
 
       .table-scroll-wrap th:nth-child(3),
       .table-scroll-wrap td:nth-child(3) {
-        width: 42px;
-        min-width: 42px;
+        width: 38px;
+        min-width: 38px;
       }
 
       .table-scroll-wrap th:nth-child(4),
       .table-scroll-wrap td:nth-child(4) {
-        width: 92px;
-        min-width: 92px;
+        width: 88px;
+        min-width: 88px;
       }
 
       .table-scroll-wrap th:nth-child(5),
       .table-scroll-wrap td:nth-child(5) {
-        width: 118px;
-        min-width: 118px;
+        width: 104px;
+        min-width: 104px;
       }
 
       .table-scroll-wrap th:nth-child(6),
       .table-scroll-wrap td:nth-child(6),
       .table-scroll-wrap th:nth-child(7),
       .table-scroll-wrap td:nth-child(7) {
-        width: 92px;
-        min-width: 92px !important;
+        width: 80px;
+        min-width: 80px !important;
         white-space: normal;
       }
 
       .table-scroll-wrap .player-name {
-        font-size: 10px;
+        font-size: 9.5px;
       }
 
       .table-scroll-wrap .week-cell {
-        min-width: 118px;
+        min-width: 104px;
       }
 
       .table-scroll-wrap .week-tournament .tournament-name {
