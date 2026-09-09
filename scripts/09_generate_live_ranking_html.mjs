@@ -3397,6 +3397,11 @@ function buildHtml(
       border-bottom: 1px solid var(--border-soft);
     }
 
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
     .formula {
       color: var(--muted);
       font-size: 9px;
@@ -4659,6 +4664,10 @@ function buildHtml(
       flex: 0 0 auto;
     }
 
+    .table-scroll-hint {
+      display: none;
+    }
+
     :root[data-theme="dark"] .table-hint {
       color: var(--muted);
     }
@@ -4827,6 +4836,143 @@ body.official-ranking-view .side {
 
       .ranking-card-header {
         padding: 10px 10px 8px;
+      }
+
+      .ranking-card {
+        overflow-x: hidden;
+      }
+
+      .table-scroll-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        flex-basis: 100%;
+        width: fit-content;
+        color: var(--green-dark);
+        font-size: 9px;
+        line-height: 1.2;
+        font-weight: 700;
+        padding: 2px 0 0;
+      }
+
+      .table-scroll-hint::before {
+        content: "↔";
+        font-size: 13px;
+        line-height: 0.8;
+      }
+
+      .table-scroll-wrap {
+        position: relative;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+      }
+
+      .table-scroll-wrap::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 34px;
+        background: linear-gradient(90deg, rgba(247, 250, 249, 0), var(--panel) 82%);
+        pointer-events: none;
+      }
+
+      :root[data-theme="dark"] .table-scroll-wrap::after {
+        background: linear-gradient(90deg, rgba(23, 36, 45, 0), var(--panel) 82%);
+      }
+
+      .table-scroll-wrap table {
+        min-width: 610px;
+        table-layout: fixed;
+      }
+
+      .table-scroll-wrap th,
+      .table-scroll-wrap td {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+
+      .table-scroll-wrap th {
+        font-size: 8px;
+        letter-spacing: 0.045em;
+      }
+
+      .table-scroll-wrap td {
+        font-size: 9px;
+      }
+
+      .table-scroll-wrap th:nth-child(1),
+      .table-scroll-wrap td:nth-child(1) {
+        width: 42px;
+      }
+
+      .table-scroll-wrap th:nth-child(2),
+      .table-scroll-wrap td:nth-child(2) {
+        width: 132px;
+        min-width: 132px;
+      }
+
+      .table-scroll-wrap th:nth-child(3),
+      .table-scroll-wrap td:nth-child(3) {
+        width: 42px;
+        min-width: 42px;
+      }
+
+      .table-scroll-wrap th:nth-child(4),
+      .table-scroll-wrap td:nth-child(4) {
+        width: 92px;
+        min-width: 92px;
+      }
+
+      .table-scroll-wrap th:nth-child(5),
+      .table-scroll-wrap td:nth-child(5) {
+        width: 118px;
+        min-width: 118px;
+      }
+
+      .table-scroll-wrap th:nth-child(6),
+      .table-scroll-wrap td:nth-child(6),
+      .table-scroll-wrap th:nth-child(7),
+      .table-scroll-wrap td:nth-child(7) {
+        width: 92px;
+        min-width: 92px !important;
+        white-space: normal;
+      }
+
+      .table-scroll-wrap .player-name {
+        font-size: 10px;
+      }
+
+      .table-scroll-wrap .week-cell {
+        min-width: 118px;
+      }
+
+      .table-scroll-wrap .week-tournament .tournament-name {
+        overflow-wrap: anywhere;
+      }
+
+      .table-scroll-wrap .projection-list {
+        flex-direction: column;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        gap: 2px;
+        max-width: 100%;
+      }
+
+      .table-scroll-wrap .projection-item {
+        max-width: 100%;
+        white-space: normal;
+      }
+
+      .table-scroll-wrap .projection-points {
+        overflow-wrap: anywhere;
+      }
+
+      .table-scroll-wrap + .load-more-rows {
+        margin-top: 8px;
       }
 
       .profile-modal {
@@ -5027,9 +5173,11 @@ body.official-ranking-view .side {
             <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
           </span>
           <span class="table-hint" id="tableHint">Clique em um atleta para abrir o painel com os detalhes.</span>
+          <span class="table-scroll-hint" id="tableScrollHint">Deslize para a direita para ver mais dados.</span>
         </div>
 
-        <table>
+        <div class="table-scroll-wrap" id="tableScrollWrap">
+          <table>
           <thead>
             <tr>
               <th>
@@ -5057,7 +5205,8 @@ body.official-ranking-view .side {
             </tr>
           </thead>
           <tbody id="rankingBody"></tbody>
-        </table>
+          </table>
+        </div>
         <button class="load-more-rows" id="loadMoreRows" type="button" hidden>Mostrar mais</button>
       </section>
 
@@ -5190,6 +5339,7 @@ body.official-ranking-view .side {
         close: "Fechar",
         profileEmpty: "Clique em um atleta da tabela para ver o resumo de pontuação.",
         tableHint: "Clique em um atleta para abrir o painel com os detalhes.",
+        tableScrollHint: "Deslize para a direita para ver mais dados.",
         noResult: "Sem resultado registrado.",
         counting: "Contando",
         notCounting: "Não contando",
@@ -5275,6 +5425,7 @@ body.official-ranking-view .side {
         close: "Close",
         profileEmpty: "Click a player in the table to see the points summary.",
         tableHint: "Click a player to open the details panel.",
+        tableScrollHint: "Swipe right to see more data.",
         noResult: "No result recorded.",
         counting: "Counting",
         notCounting: "Not counting",
@@ -5360,6 +5511,7 @@ body.official-ranking-view .side {
         close: "Cerrar",
         profileEmpty: "Haz clic en un jugador de la tabla para ver el resumen de puntos.",
         tableHint: "Haz clic en un jugador para abrir el panel de detalles.",
+        tableScrollHint: "Desliza hacia la derecha para ver más datos.",
         noResult: "No hay resultado registrado.",
         counting: "Contando",
         notCounting: "No contando",
@@ -5530,6 +5682,7 @@ body.official-ranking-view .side {
       setText("updatedAtLabel", t("updatedAt"));
       setText("formulaLabel", t("formula"));
       setText("tableHint", t("tableHint"));
+      setText("tableScrollHint", t("tableScrollHint"));
       setHtml("playingThisWeekHeader", t("playingThisWeek"));
       setHtml("nextRoundHeader", t("nextRoundProjection"));
       setHtml("titleProjectionHeader", t("titleProjection"));
