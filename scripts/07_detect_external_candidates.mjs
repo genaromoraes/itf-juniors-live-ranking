@@ -1,4 +1,5 @@
 import path from "node:path";
+import { certifyUniverse } from './lib/universe_coverage.mjs';
 import {
   EXTERNAL_CANDIDATE_COLUMNS,
   classifyExternalCandidates,
@@ -30,6 +31,9 @@ async function main() {
   });
   const universeRows = await readCsv(RANKINGS_UNIVERSE_FILE, { optional: true });
   const baseRankingRows = await readCsv(LIVE_RANKING_FILE, { optional: true });
+  const snapshotRows = await readCsv(path.join(CLEAN_DIR, 'rankings_snapshot.csv'));
+  const coverage = certifyUniverse(universeRows, snapshotRows);
+  console.log('Cobertura oficial certificada:', JSON.stringify(coverage));
   const pointsTableRows = await readCsv(POINTS_TABLE_FILE);
   const existingCandidates = await readCsv(EXTERNAL_CANDIDATES_FILE, {
     optional: true,
@@ -50,9 +54,7 @@ async function main() {
     pointsTableRows,
     baseRankingRows,
     existingCandidates,
-    unrankedPointsUpperBound: String(process.env.UNIVERSE_COMPLETE || "").toLowerCase() === "true"
-      ? Number(process.env.UNRANKED_POINTS_UPPER_BOUND)
-      : null,
+    unrankedPointsUpperBound: coverage.unlisted_points_upper_bound,
   });
 
   if (universeRows.length === 0) {

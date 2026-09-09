@@ -47,9 +47,20 @@ const STEPS = [
     ],
   },
   {
+    name: "Recalcular auditoria de candidatos com o pacote semanal atual",
+    command: "node",
+    args: ["scripts/07_detect_external_candidates.mjs"],
+    requiredOutputs: ["data/clean/external_candidates.csv"],
+  },
+  {
+    name: "Recalcular ranking apos auditoria de candidatos",
+    command: "node",
+    args: ["scripts/08_calculate_live_ranking_with_drops.mjs"],
+  },
+  {
     name: "Validar estrutura do pacote publico Top 1000",
     command: "node",
-    args: ["scripts/26_validate_publication.mjs"],
+    args: ["scripts/26_validate_publication.mjs", "--strict=true"],
     requiredOutputs: [
       "data/clean/publication_validation.json",
       "data/clean/public_ranking_boundary_audit.csv",

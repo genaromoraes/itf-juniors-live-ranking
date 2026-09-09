@@ -1,4 +1,4 @@
-import { PUBLIC_RANK_LIMIT_PER_GENDER, TRACKED_BASE_LIMIT_PER_GENDER } from "./ranking_limits.mjs";
+import { PUBLIC_RANK_LIMIT_PER_GENDER, RADAR_LIMIT_PER_GENDER, TOP1000_BASE_LIMIT_PER_GENDER } from "./ranking_limits.mjs";
 import {
   STATUS_FETCHED,
   STATUS_INCLUDED,
@@ -177,14 +177,15 @@ export function validatePublicationData({
   }
 
   for (const gender of ["M", "F"]) {
-    if (playersByGender[gender] !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    const expectedBaseSize = cleanText(baseState) === "RADAR1500_ACTIVE" ? RADAR_LIMIT_PER_GENDER : TOP1000_BASE_LIMIT_PER_GENDER;
+    if (playersByGender[gender] !== expectedBaseSize) {
       errors.push(
-        `players.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} atletas ${gender}; recebeu ${playersByGender[gender]}.`
+        `players.csv precisa ter ${expectedBaseSize} atletas ${gender}; recebeu ${playersByGender[gender]}.`
       );
     }
-    if (snapshotByGender[gender] !== TRACKED_BASE_LIMIT_PER_GENDER) {
+    if (snapshotByGender[gender] !== expectedBaseSize) {
       errors.push(
-        `rankings_snapshot.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} atletas ${gender}; recebeu ${snapshotByGender[gender]}.`
+        `rankings_snapshot.csv precisa ter ${expectedBaseSize} atletas ${gender}; recebeu ${snapshotByGender[gender]}.`
       );
     }
     if (liveByGender[gender] < PUBLIC_RANK_LIMIT_PER_GENDER) {

@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import { certifyUniverse } from './lib/universe_coverage.mjs';
 
 const DEFAULT_UNIVERSE_MAX_PER_GENDER = 5000;
 const DEFAULT_PAGE_SIZE = 100;
@@ -550,7 +551,7 @@ async function rebuildPartialFromPages({ rawDir, genderInfo, rankingDate, endRan
   return rows;
 }
 
-async function writeOutputIfComplete({ rawDir, outputFile, manifest }) {
+async function writeOutputIfComplete({ rawDir, outputFile, manifest, snapshotRows }) {
   if (!manifest.boys.complete || !manifest.girls.complete) return false;
   const rows = [
     ...(await readCsv(partialFile(rawDir, "M"))),
@@ -565,6 +566,7 @@ async function writeOutputIfComplete({ rawDir, outputFile, manifest }) {
       : "Universo vazio.";
     return false;
   }
+  if (snapshotRows) certifyUniverse(rows, snapshotRows);
   await writeCsvAtomic(outputFile, rows);
   manifest.status = STATUS_COMPLETE;
   return true;
@@ -655,6 +657,7 @@ export async function collectRankingUniverseIncremental({
   maxPagesPerRun = 0,
   delayMs = 3000,
   fetchPage,
+  snapshotRows = null,
   wait = async (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
 } = {}) {
   const options = { rawDir, outputFile, targetPerGender, pageSize, startRank, endRank, rankingDate, restart };
@@ -721,7 +724,7 @@ export async function collectRankingUniverseIncremental({
     }
   }
 
-  await writeOutputIfComplete({ rawDir, outputFile, manifest });
+  await writeOutputIfComplete({ rawDir, outputFile, manifest, snapshotRows });
   if (manifest.status !== STATUS_COMPLETE) manifest.status = STATUS_PARTIAL;
   await writeJsonAtomic(manifestFile(rawDir), manifest);
   return { status: manifest.status, manifest, pagesFetched };
@@ -736,7 +739,13 @@ async function main() {
   const genders = getSelectedGenders();
   const delayMs = getDelayMs();
   const maxPagesPerRun = getMaxPagesPerRun();
-  const rankingDate = cleanText(getArg("ranking-date")) || new Date().toISOString().slice(0, 10);
+  const snapshotRows = await readCsv(path.resolve('data/clean/rankings_snapshot.csv'));
+  const snapshotDates = [...new Set(snapshotRows.map(row => row.ranking_date))];
+  const explicitDate = cleanText(getArg('ranking-date'));
+  if (!explicitDate && (snapshotDates.length !== 1 || !snapshotDates[0])) {
+    throw new Error('Informe --ranking-date ou forneca um snapshot oficial com data unica.');
+  }
+  const rankingDate = explicitDate || snapshotDates[0];
 
   console.log(
     `Coletando universo incremental: ranks ${startRank}-${endRank}, page-size ${pageSize}.`
@@ -766,6 +775,8 @@ async function main() {
       genders,
       rankingDate,
       restart: hasFlag("restart"),
+      snapshotRows: snapshotDates.length === 1 && snapshotDates[0] === rankingDate && startRank === 1
+        ? snapshotRows : null,
       maxPagesPerRun,
       delayMs,
       wait: (ms) => page.waitForTimeout(ms),
@@ -782,7 +793,7 @@ async function main() {
       console.log("Bloqueio detectado. Retome depois com:");
       console.log("npm.cmd run base:top1000:prepare -- --resume --max-pages-per-run=1");
     }
-    if (result.error && !result.error.isBlocked) {
+    if (result.status !== STATUS_COMPLETE) {
       process.exitCode = 1;
     }
   } finally {

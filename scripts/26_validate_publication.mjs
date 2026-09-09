@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import { certifyUniverse } from './lib/universe_coverage.mjs';
 import {
   PUBLIC_BOUNDARY_AUDIT_COLUMNS,
   validatePublicationData,
@@ -107,6 +108,19 @@ async function main() {
     },
   });
 
+  try {
+    const coverage = certifyUniverse(universe.rows, snapshot.rows);
+    result.coverage = coverage;
+    if (candidates.rows.some(row => row.official_points_status === 'BOUNDED' &&
+        (!Number.isFinite(Number(row.official_points_upper_bound)) ||
+          Number(row.official_points_upper_bound) < coverage.unlisted_points_upper_bound ||
+          row.ranking_date !== coverage.ranking_date))) {
+      result.errors.push('Candidato usa teto de pontos sem cobertura oficial suficiente.');
+    }
+  } catch (error) {
+    result.errors.push(error.message);
+  }
+  result.valid = result.errors.length === 0;
   const report = {
     ...result,
     boundaryRows: undefined,
