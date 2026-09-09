@@ -4815,6 +4815,154 @@ body.official-ranking-view .side {
         padding: 10px 10px 8px;
       }
 
+      .ranking-card {
+        overflow: hidden;
+      }
+
+      table {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        table-layout: fixed;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      tbody {
+        display: grid;
+        width: 100%;
+      }
+
+      tbody tr {
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr) minmax(68px, auto);
+        grid-template-areas:
+          "rank player points"
+          "rank player year"
+          "week week week"
+          "next next title";
+        gap: 6px 8px;
+        padding: 10px 10px 9px;
+      }
+
+      body.official-ranking-view tbody tr {
+        grid-template-areas:
+          "rank player points"
+          "rank player year";
+      }
+
+      tbody tr > td {
+        min-width: 0 !important;
+        padding: 0;
+        border-bottom: 0;
+        white-space: normal;
+      }
+
+      tbody tr > td:nth-child(1) {
+        grid-area: rank;
+        align-self: start;
+        padding-top: 2px;
+      }
+
+      tbody tr > td:nth-child(2) {
+        grid-area: player;
+        align-self: center;
+      }
+
+      tbody tr > td:nth-child(3) {
+        grid-area: year;
+        align-self: end;
+        justify-self: end;
+        color: var(--muted);
+        font-size: 9px;
+      }
+
+      tbody tr > td:nth-child(4) {
+        grid-area: points;
+        align-self: start;
+        justify-self: end;
+        min-width: 0 !important;
+      }
+
+      tbody tr > td:nth-child(5) {
+        grid-area: week;
+        min-width: 0 !important;
+        padding-top: 7px;
+        border-top: 1px solid var(--border-soft);
+      }
+
+      tbody tr > td:nth-child(6) {
+        grid-area: next;
+        min-width: 0 !important;
+      }
+
+      tbody tr > td:nth-child(7) {
+        grid-area: title;
+        min-width: 0 !important;
+      }
+
+      tbody tr > td[data-mobile-label]::before {
+        content: attr(data-mobile-label);
+        display: block;
+        margin-bottom: 3px;
+        color: var(--muted);
+        font-size: 7px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .player-name {
+        font-size: 12px;
+      }
+
+      .points-cell {
+        min-width: 0 !important;
+      }
+
+      .points-main {
+        justify-content: flex-end;
+      }
+
+      .week-cell,
+      td:nth-child(6),
+      td:nth-child(7) {
+        min-width: 0 !important;
+        max-width: 100%;
+        white-space: normal;
+      }
+
+      .week-tournament,
+      .week-sub {
+        max-width: 100%;
+      }
+
+      .week-tournament .tournament-name {
+        overflow-wrap: anywhere;
+      }
+
+      .projection-list {
+        flex-wrap: wrap;
+        max-width: 100%;
+        gap: 3px;
+      }
+
+      .projection-item {
+        max-width: 100%;
+        white-space: normal;
+      }
+
       .profile-modal {
         align-items: stretch;
         padding: 10px;
@@ -6876,6 +7024,15 @@ body.official-ranking-view .side {
       return '<span class="points">' + formatNumberClient(row.official_points) + '</span>';
     }
 
+    function getMobileColumnLabel(key) {
+      return escapeHtmlClient(
+        String(t(key))
+          .replaceAll("<br />", " ")
+          .replaceAll("<br/>", " ")
+          .trim()
+      );
+    }
+
     function renderTable({ preserveLimit = false } = {}) {
       if (!preserveLimit) visibleRowLimit = TABLE_ROW_BATCH_SIZE;
 
@@ -6919,15 +7076,15 @@ body.official-ranking-view .side {
         const liveOnlyCells = sortColumn === "OFFICIAL_RANK"
           ? ""
           : \`
-            <td class="week-cell live-only">
+            <td class="week-cell live-only" data-mobile-label="\${getMobileColumnLabel("playingThisWeek")}">
               \${getPlayingHtml(row)}
             </td>
 
-            <td class="live-only">
+            <td class="projection-cell live-only" data-mobile-label="\${getMobileColumnLabel("nextRoundProjection")}">
               \${getNextRoundHtml(row)}
             </td>
 
-            <td class="live-only">
+            <td class="projection-cell live-only" data-mobile-label="\${getMobileColumnLabel("titleProjection")}">
               \${getTitleHtml(row)}
             </td>
           \`;
@@ -6942,9 +7099,9 @@ body.official-ranking-view .side {
               <div class="player-name">\${flag}<span>\${escapeHtmlClient(row.player_name)}</span></div>
             </td>
 
-            <td>\${escapeHtmlClient(row.birth_year || "-")}</td>
+            <td class="year-cell" data-mobile-label="\${getMobileColumnLabel("year")}">\${escapeHtmlClient(row.birth_year || "-")}</td>
 
-            <td>
+            <td class="points-cell" data-mobile-label="\${getMobileColumnLabel(sortColumn === "OFFICIAL_RANK" ? "officialPoints" : "livePoints")}">
               \${pointsCell}
             </td>
 
