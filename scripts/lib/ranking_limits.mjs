@@ -4,16 +4,20 @@ import path from "node:path";
 export const BASE_STATE_LEGACY_500 = "LEGACY_BASE_500";
 export const BASE_STATE_TOP1000_STAGING = "TOP1000_STAGING";
 export const BASE_STATE_TOP1000_ACTIVE = "TOP1000_ACTIVE";
+export const BASE_STATE_RADAR1500_ACTIVE = "RADAR1500_ACTIVE";
 
 export const LEGACY_BASE_LIMIT_PER_GENDER = 500;
 export const TOP1000_BASE_LIMIT_PER_GENDER = 1000;
-export const DISPLAY_LIMIT_PER_GENDER = 500;
-export const INVESTIGATION_RANK_PER_GENDER = 600;
+export const PUBLIC_RANK_LIMIT_PER_GENDER = 1000;
+// Target for the expanded tracked base; activation requires a validated manifest.
+export const RADAR_LIMIT_PER_GENDER = 1500;
+export const CANDIDATE_WATCH_RANK_PER_GENDER = PUBLIC_RANK_LIMIT_PER_GENDER;
+export const DISPLAY_LIMIT_PER_GENDER = PUBLIC_RANK_LIMIT_PER_GENDER;
+export const INVESTIGATION_RANK_PER_GENDER = CANDIDATE_WATCH_RANK_PER_GENDER;
 
-export const TRACKED_BASE_LIMIT_PER_GENDER = TOP1000_BASE_LIMIT_PER_GENDER;
-export const TRACKED_BASE_TOTAL = TRACKED_BASE_LIMIT_PER_GENDER * 2;
 export const LEGACY_BASE_TOTAL = LEGACY_BASE_LIMIT_PER_GENDER * 2;
 export const DISPLAY_TOTAL = DISPLAY_LIMIT_PER_GENDER * 2;
+export const PUBLIC_RANK_TOTAL = PUBLIC_RANK_LIMIT_PER_GENDER * 2;
 export const MIN_SAFE_RECONCILIATION_EXACT_PERCENTAGE = 99.75;
 
 export const EXTERNAL_CANDIDATE_FALLBACK_MARGIN = 40;
@@ -89,6 +93,7 @@ const VALID_BASE_STATES = new Set([
   BASE_STATE_LEGACY_500,
   BASE_STATE_TOP1000_STAGING,
   BASE_STATE_TOP1000_ACTIVE,
+  BASE_STATE_RADAR1500_ACTIVE,
 ]);
 
 export function getBaseState({ cwd = process.cwd() } = {}) {
@@ -107,6 +112,7 @@ export function getBaseState({ cwd = process.cwd() } = {}) {
 }
 
 export function getActiveBaseLimitPerGender(options = {}) {
+  if (getBaseState(options) === BASE_STATE_RADAR1500_ACTIVE) return RADAR_LIMIT_PER_GENDER;
   return getBaseState(options) === BASE_STATE_TOP1000_ACTIVE
     ? TOP1000_BASE_LIMIT_PER_GENDER
     : LEGACY_BASE_LIMIT_PER_GENDER;
@@ -119,3 +125,9 @@ export function getActiveBaseTotal(options = {}) {
 export function getBaseStateLabel(options = {}) {
   return getBaseState(options);
 }
+
+// Official collectors and validators read the active base size at process start.
+// Legacy Top 1000 migration tools retain their explicit TOP1000 constants.
+export const TRACKED_BASE_LIMIT_PER_GENDER = getBaseState() === BASE_STATE_RADAR1500_ACTIVE
+  ? RADAR_LIMIT_PER_GENDER : TOP1000_BASE_LIMIT_PER_GENDER;
+export const TRACKED_BASE_TOTAL = TRACKED_BASE_LIMIT_PER_GENDER * 2;

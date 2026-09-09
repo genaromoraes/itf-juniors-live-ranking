@@ -41,8 +41,18 @@ const STEPS = [
       "data/clean/live_combined_ledger_with_drops.csv",
       "data/clean/live_dropped_points.csv",
       "data/clean/live_ranking_with_drops.csv",
+      "data/clean/live_ranking_with_drops_public.csv",
       "data/clean/live_ranking_with_drops_top500.csv",
       "data/clean/live_ranking_with_drops_changes.csv",
+    ],
+  },
+  {
+    name: "Validar estrutura do pacote publico Top 1000",
+    command: "node",
+    args: ["scripts/26_validate_publication.mjs"],
+    requiredOutputs: [
+      "data/clean/publication_validation.json",
+      "data/clean/public_ranking_boundary_audit.csv",
     ],
   },
   {

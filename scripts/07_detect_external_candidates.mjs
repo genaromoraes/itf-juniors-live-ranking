@@ -37,6 +37,7 @@ async function main() {
 
   const participants = collectExternalParticipants({
     playersRows,
+    universeRows,
     weekPlayerResultsRows,
     weekMatchesRows,
     weekLiveLedgerRows,
@@ -49,6 +50,9 @@ async function main() {
     pointsTableRows,
     baseRankingRows,
     existingCandidates,
+    unrankedPointsUpperBound: String(process.env.UNIVERSE_COMPLETE || "").toLowerCase() === "true"
+      ? Number(process.env.UNRANKED_POINTS_UPPER_BOUND)
+      : null,
   });
 
   if (universeRows.length === 0) {
@@ -59,7 +63,7 @@ async function main() {
 
   await writeCsv(EXTERNAL_CANDIDATES_FILE, candidates, EXTERNAL_CANDIDATE_COLUMNS);
 
-  console.log(`Participantes externos encontrados: ${participants.length}`);
+  console.log(`Atletas externos no radar (ranking oficial e semana): ${participants.length}`);
   console.log(`Candidatos externos classificados: ${candidates.length}`);
   console.log(
     `FETCH_REQUIRED: ${

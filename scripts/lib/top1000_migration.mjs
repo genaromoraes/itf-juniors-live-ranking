@@ -7,6 +7,8 @@ import {
   BASE_STATE_FILE,
   BASE_STATE_LEGACY_500,
   BASE_STATE_TOP1000_ACTIVE,
+  BASE_STATE_RADAR1500_ACTIVE,
+  getBaseState,
   BASE_STATE_TOP1000_STAGING,
   TOP1000_BASE_LIMIT_PER_GENDER,
   TRACKED_BASE_TOTAL,
@@ -403,6 +405,9 @@ export async function promoteTop1000Base({
   now = new Date(),
   failAfterFirstCopy = false,
 } = {}) {
+  if (getBaseState({ cwd }) === BASE_STATE_RADAR1500_ACTIVE) {
+    throw new Error('Legacy Top 1000 promotion cannot replace an active Top 1500 radar base.');
+  }
   const loaded = await loadStaging(cwd);
   const report = validateTop1000Rows(loaded);
   const currentValidation = await readJson(loaded.paths.staging.validation, { optional: true });

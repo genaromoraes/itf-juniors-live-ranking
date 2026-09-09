@@ -16,6 +16,7 @@
     "rollover:week": "node scripts/13_start_week.mjs",
     "check": "node scripts/check_project.mjs",
     "validate:publication": "node scripts/26_validate_publication_coherence.mjs",
+    "validate:public-coverage": "node scripts/26_validate_publication.mjs --strict=true",
     "benchmark": "node scripts/benchmark_performance.mjs",
     "test": "node --test tests/*.test.mjs",
     "reconcile:official": "node scripts/12_reconcile_official_ranking.mjs",
@@ -32,6 +33,7 @@
     "base:top1000:validate": "node scripts/22_validate_top1000_base.mjs",
     "base:top1000:repair-stale": "node scripts/23_repair_top1000_stale_ledgers.mjs",
     "base:top1000:promote": "node scripts/22_promote_top1000_base.mjs",
+    "base:radar:promote": "node scripts/35_promote_radar_base.mjs",
     "calculate": "node scripts/08_calculate_live_ranking_with_drops.mjs"
   },
   "repository": {

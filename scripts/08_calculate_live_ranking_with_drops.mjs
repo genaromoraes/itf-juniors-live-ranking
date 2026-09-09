@@ -7,7 +7,7 @@ import {
   buildResultKey as buildWeeklyLedgerResultKey,
 } from "./lib/weekly_ledger.mjs";
 import {
-  DISPLAY_LIMIT_PER_GENDER,
+  PUBLIC_RANK_LIMIT_PER_GENDER,
   getActiveBaseLimitPerGender,
   getActiveBaseTotal,
 } from "./lib/ranking_limits.mjs";
@@ -49,6 +49,11 @@ const LIVE_RANKING_WITH_DROPS_FILE = path.join(
 const LIVE_RANKING_WITH_DROPS_TOP500_FILE = path.join(
   OUT_DIR_CLEAN,
   "live_ranking_with_drops_top500.csv"
+);
+
+const LIVE_RANKING_WITH_DROPS_PUBLIC_FILE = path.join(
+  OUT_DIR_CLEAN,
+  "live_ranking_with_drops_public.csv"
 );
 
 const LIVE_RANKING_WITH_DROPS_CHANGES_FILE = path.join(
@@ -452,8 +457,10 @@ export function buildIncludedExternalRows(rankedRows, candidateRows) {
         live_points: row.live_points,
         rank_change: row.rank_change_vs_official,
         participated_in_final_calculation: "true",
+        entered_public_ranking:
+          toNumber(row.live_rank) <= PUBLIC_RANK_LIMIT_PER_GENDER ? "true" : "false",
         entered_top500:
-          toNumber(row.live_rank) <= DISPLAY_LIMIT_PER_GENDER ? "true" : "false",
+          toNumber(row.live_rank) <= 500 ? "true" : "false",
         candidate_status: STATUS_INCLUDED,
         tournaments: cleanText(candidate.tournaments),
       };
@@ -1118,7 +1125,9 @@ async function main() {
   const combinedSnapshotRows = [...snapshotRows, ...externalSnapshotRows];
   const combinedBaseRows = [
     ...trackedBaseRows,
-    ...externalCandidateLedgerRows,
+    ...externalCandidateLedgerRows.filter(row =>
+      eligibleExternalCandidates.some(candidate => cleanText(candidate.player_id) === cleanText(row.player_id))
+    ),
   ];
   const combinedLiveRows = [
     ...trackedLiveRows,
@@ -1145,9 +1154,10 @@ async function main() {
     droppedRows,
   });
   const changes = buildChangesRows(ranked);
-  const top500 = ranked.filter(
-    (row) => toNumber(row.live_rank) <= DISPLAY_LIMIT_PER_GENDER
+  const publicRanking = ranked.filter(
+    (row) => toNumber(row.live_rank) <= PUBLIC_RANK_LIMIT_PER_GENDER
   );
+  const top500 = ranked.filter((row) => toNumber(row.live_rank) <= 500);
   const ignoredExternalPlayers =
     buildIgnoredExternalPlayersRows(ignoredUntrackedLiveRows);
   const includedExternalPlayers = buildIncludedExternalRows(
@@ -1287,6 +1297,7 @@ async function main() {
   ];
 
   await writeCsv(LIVE_RANKING_WITH_DROPS_FILE, ranked, liveRankingColumns);
+  await writeCsv(LIVE_RANKING_WITH_DROPS_PUBLIC_FILE, publicRanking, liveRankingColumns);
   await writeCsv(LIVE_RANKING_WITH_DROPS_TOP500_FILE, top500, liveRankingColumns);
   await writeCsv(LIVE_EXTERNAL_PLAYERS_IGNORED_FILE, ignoredExternalPlayers, [
     "player_id",
@@ -1384,14 +1395,14 @@ async function main() {
   ]);
 
   printSummary(ranked, activeRows, droppedRows, dropCutoffDate);
-  const externalTop500Count = includedExternalPlayers.filter(
-    (row) => row.entered_top500 === "true"
+  const externalPublicCount = includedExternalPlayers.filter(
+    (row) => row.entered_public_ranking === "true"
   ).length;
   console.log(
     `Externos participantes do calculo final: ${includedExternalPlayers.length}`
   );
   console.log(
-    `Externos que entraram no Top 500: ${externalTop500Count}`
+    `Externos que entraram no ranking publico: ${externalPublicCount}`
   );
   console.log(
     `Jogadores externos ignorados: ${ignoredExternalPlayers.length} | linhas live externas ignoradas: ${ignoredUntrackedLiveRows.length}`
@@ -1402,6 +1413,7 @@ async function main() {
   console.log("data/clean/live_combined_ledger_with_drops.csv");
   console.log("data/clean/live_dropped_points.csv");
   console.log("data/clean/live_ranking_with_drops.csv");
+  console.log("data/clean/live_ranking_with_drops_public.csv");
   console.log("data/clean/live_ranking_with_drops_top500.csv");
   console.log("data/clean/live_ranking_with_drops_changes.csv");
   console.log("data/clean/live_external_players_included.csv");

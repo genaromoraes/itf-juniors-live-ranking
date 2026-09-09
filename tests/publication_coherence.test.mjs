@@ -88,6 +88,17 @@ test("accepts a coherent publication package", async () => {
   assert.equal(report.errors.length, 0);
 });
 
+test("accepts external players beyond the official core but rejects replacement of a core identity", async () => {
+  const fixture = await createFixture();
+  const rows = [...rankingRows(), { player_id: 'external', gender: 'M', ranking_date: RANKING_DATE }];
+  await writeCsv(path.join(fixture.cleanDir, 'live_ranking_with_drops.csv'), rows, ['player_id','gender','ranking_date']);
+  assert.equal((await validatePublication({ cwd: fixture.cwd })).valid, true);
+  await writeCsv(path.join(fixture.cleanDir, 'live_ranking_with_drops.csv'), rows.filter(r => r.player_id !== 'M-1'), ['player_id','gender','ranking_date']);
+  const report = await validatePublication({ cwd: fixture.cwd });
+  assert.equal(report.valid, false);
+  assert.match(report.errors.join('\n'), /omite atletas/);
+});
+
 test("accepts the optimized HTML ranking date metadata", async () => {
   const fixture = await createFixture();
   await fs.writeFile(

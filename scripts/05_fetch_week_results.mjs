@@ -29,6 +29,9 @@ const REQUEST_JITTER_MS = Math.max(
 const ITF_HOME_URL = "https://www.itftennis.com/en/";
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
+const RESULTS_TRANSPORT = String(process.env.ITF_RESULTS_TRANSPORT || "browser")
+  .trim()
+  .toLowerCase();
 const FALLBACK_MATCHES_FILE = process.env.ITF_RESULTS_FALLBACK_MATCHES_FILE
   ? path.resolve(process.env.ITF_RESULTS_FALLBACK_MATCHES_FILE)
   : "";
@@ -737,6 +740,65 @@ async function fetchJsonInsideBrowser(page, url, options = {}) {
   );
 }
 
+async function fetchJsonDirect(url, options = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, {
+      method: options.method || "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        "user-agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+        ...(options.body ? { "content-type": "application/json" } : {}),
+      },
+      body: options.body ? JSON.stringify(options.body) : undefined,
+      signal: controller.signal,
+    });
+
+    const contentType = response.headers.get("content-type") || "";
+    const text = await response.text();
+    let json = null;
+
+    try {
+      json = JSON.parse(text);
+    } catch {
+      return {
+        ok: response.ok,
+        status: response.status,
+        contentType,
+        textStart: text.slice(0, 500),
+        json: null,
+        timedOut: false,
+      };
+    }
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      contentType,
+      textStart: "",
+      json,
+      timedOut: false,
+    };
+  } catch (err) {
+    const timedOut = err?.name === "AbortError";
+    return {
+      ok: false,
+      status: 0,
+      contentType: "",
+      textStart: timedOut
+        ? `Request timeout after ${REQUEST_TIMEOUT_MS}ms`
+        : String(err?.message || err),
+      json: null,
+      timedOut,
+    };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 async function readSameWeekFallbackMatches(tournaments) {
   if (!FALLBACK_MATCHES_FILE || !FALLBACK_TOURNAMENTS_FILE) return [];
 
@@ -787,7 +849,10 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
       await waitForRequestCooldown();
       console.log(`Tentativa ${attempt}/${MAX_RETRIES}: ${label}`);
 
-      const result = await fetchJsonInsideBrowser(page, url, options);
+      const result =
+        RESULTS_TRANSPORT === "direct"
+          ? await fetchJsonDirect(url, options)
+          : await fetchJsonInsideBrowser(page, url, options);
 
       if (result.ok && result.json) {
         return result;
@@ -1022,6 +1087,40 @@ export function mergeFallbackMatches(currentMatches, errors, fallbackMatches) {
     matches: [...currentMatches, ...recovered],
     recovered,
   };
+}
+
+export function mergeTargetedRecoveryErrors(
+  existingErrors,
+  currentErrors,
+  requestedTournamentKeys
+) {
+  const belongsToTargetedTournament = (row) =>
+    requestedTournamentKeys.has(cleanText(row.tournament_key).toUpperCase());
+  const currentTargetedErrors = currentErrors.filter(belongsToTargetedTournament);
+  const currentTournamentFailures = new Set(
+    currentTargetedErrors
+      .filter(
+        (error) =>
+          !cleanText(error.player_type_code) &&
+          !cleanText(error.match_type_code) &&
+          !cleanText(error.event_classification_code)
+      )
+      .map((error) => cleanText(error.tournament_key).toUpperCase())
+  );
+  const currentFailedScopes = new Set(
+    currentTargetedErrors.map(getErrorDrawScopeKey)
+  );
+  const preservedExistingErrors = existingErrors.filter(
+    (error) =>
+      belongsToTargetedTournament(error) &&
+      (currentTournamentFailures.has(cleanText(error.tournament_key).toUpperCase()) ||
+        currentFailedScopes.has(getErrorDrawScopeKey(error)))
+  );
+  const nonTargetedCurrentErrors = currentErrors.filter(
+    (error) => !belongsToTargetedTournament(error)
+  );
+
+  return [...nonTargetedCurrentErrors, ...preservedExistingErrors];
 }
 
 function isRoundRobinMatch(match) {
@@ -1510,7 +1609,7 @@ export async function main(cliArgs = parseArgs()) {
   const allMatches = isTargetedRecovery
     ? existingMatches.filter((match) => !belongsToTargetedTournament(match))
     : [];
-  const allErrors = isTargetedRecovery
+  let allErrors = isTargetedRecovery
     ? existingErrors.filter((error) => !belongsToTargetedTournament(error))
     : [];
   const summaries = isTargetedRecovery
@@ -1546,6 +1645,23 @@ export async function main(cliArgs = parseArgs()) {
       console.log(
         `Partidas preservadas do pacote anterior para draws bloqueados: ${mergedMatches.recovered.length}`
       );
+    }
+
+    if (isTargetedRecovery) {
+      allErrors = mergeTargetedRecoveryErrors(
+        existingErrors,
+        allErrors,
+        requestedTournamentKeys
+      );
+      const errorCountsByTournament = new Map();
+      for (const error of allErrors) {
+        const key = cleanText(error.tournament_key).toUpperCase();
+        errorCountsByTournament.set(key, (errorCountsByTournament.get(key) || 0) + 1);
+      }
+      for (const summary of summaries) {
+        const key = cleanText(summary.tournament_key).toUpperCase();
+        summary.errors_found = String(errorCountsByTournament.get(key) || 0);
+      }
     }
 
     const playerResults = buildPlayerResultsFromMatches(allMatches);

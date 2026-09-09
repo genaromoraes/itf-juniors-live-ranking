@@ -7,8 +7,16 @@ import {
   buildEventKey,
   classifyEventCompletion,
 } from "./lib/week_completion.mjs";
+import { PUBLIC_RANK_LIMIT_PER_GENDER } from "./lib/ranking_limits.mjs";
+
+function readArg(name, fallback = "") {
+  const prefix = `--${name}=`;
+  return process.argv.find((value) => value.startsWith(prefix))?.slice(prefix.length) || fallback;
+}
 
 const LIVE_RANKING_FILE = path.resolve(
+  // Other views (official rank, generation and country) need the full tracked set.
+  // Apply the public cutoff per view, not by truncating the input to live Top 1000.
   "data/clean/live_ranking_with_drops.csv"
 );
 
@@ -25,7 +33,7 @@ const LIVE_COMBINED_LEDGER_FILE = path.resolve(
   "data/clean/live_combined_ledger_with_drops.csv"
 );
 
-const OUT_DIR_EXPORTS = path.resolve("data/exports");
+const OUT_DIR_EXPORTS = path.resolve(readArg("output-dir", "data/exports"));
 
 const HTML_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "live_ranking.html");
 const INDEX_OUTPUT_FILE = path.join(OUT_DIR_EXPORTS, "index.html");
@@ -724,7 +732,7 @@ const STATIC_PAGES = [
       {
         heading: "Quais atletas entram na classificação exibida?",
         paragraphs: [
-          "O cálculo parte da base oficial acompanhada pelo projeto e a home exibe os 500 primeiros de cada categoria.",
+          `O cálculo parte da base oficial acompanhada pelo projeto e a home exibe os ${PUBLIC_RANK_LIMIT_PER_GENDER.toLocaleString("pt-BR")} primeiros de cada categoria.`,
           "Atletas fora da faixa monitorada não entram automaticamente apenas por disputarem um torneio na semana.",
         ],
       },
@@ -5089,6 +5097,7 @@ body.official-ranking-view .side {
 
   <script>
     const rankingData = ${dataJson};
+    const publicRankLimitPerGender = ${PUBLIC_RANK_LIMIT_PER_GENDER};
     const tournamentGroups = ${tournamentGroupsJson};
     const pointsByCategory = ${pointsByCategoryJson};
     const rolloverNotice = ${rolloverNoticeJson};
@@ -6108,7 +6117,7 @@ body.official-ranking-view .side {
       if (
         !isBrazilCountryFilterActive() &&
         !isGenerationRankingActive() &&
-        Number(row.live_rank || 0) > 500
+        Number(row.live_rank || 0) > publicRankLimitPerGender
       ) {
         return false;
       }
@@ -6192,7 +6201,7 @@ body.official-ranking-view .side {
 
       const rank = getDisplayRank(row);
 
-      return rank > 0 && rank <= 500;
+      return rank > 0 && rank <= publicRankLimitPerGender;
     }
 
     function sortRows(rows) {
@@ -7173,16 +7182,16 @@ async function main() {
 
   console.log("");
   console.log("HTML gerado:");
-  console.log("data/exports/live_ranking.html");
-  console.log("data/exports/index.html");
-  console.log("data/exports/CNAME");
-  console.log("data/exports/favicon.png");
-  console.log("data/exports/robots.txt");
-  console.log("data/exports/sitemap.xml");
-  console.log("data/exports/404.html");
-  console.log("data/exports/ads.txt");
+  console.log(path.relative(process.cwd(), HTML_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), INDEX_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), CNAME_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), FAVICON_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), ROBOTS_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), SITEMAP_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), NOT_FOUND_OUTPUT_FILE));
+  console.log(path.relative(process.cwd(), ADS_TXT_OUTPUT_FILE));
   for (const page of STATIC_PAGES) {
-    console.log(`data/exports/${page.fileName}`);
+    console.log(path.relative(process.cwd(), path.join(OUT_DIR_EXPORTS, page.fileName)));
   }
   console.log("");
   console.log("Para abrir no navegador:");

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
@@ -10,6 +11,7 @@ import {
   STATUS_FETCH_ERROR,
   STATUS_FETCH_REQUIRED,
   cleanText,
+  getUnresolvedPublicCandidates,
   readCsv,
   writeCsv,
 } from "./lib/external_candidates.mjs";
@@ -56,6 +58,7 @@ function hasFlag(name) {
 }
 
 function getLimit() {
+  if (hasFlag("require-complete")) return Number.MAX_SAFE_INTEGER;
   const limit = toNumber(getArg("limit"));
   return limit > 0 ? limit : DEFAULT_LIMIT;
 }
@@ -175,6 +178,10 @@ async function getBreakdown(page, candidate, rankingDate, force) {
 
 function getQueueStatuses() {
   const statuses = new Set([STATUS_FETCH_REQUIRED]);
+  if (hasFlag("require-complete")) {
+    statuses.add(STATUS_FETCH_ERROR);
+    statuses.add(STATUS_BLOCKED);
+  }
   if (hasFlag("retry-errors") || hasFlag("retry-all")) statuses.add(STATUS_FETCH_ERROR);
   if (hasFlag("retry-blocked") || hasFlag("retry-all")) statuses.add(STATUS_BLOCKED);
   return statuses;
@@ -198,12 +205,20 @@ async function main() {
     .slice(0, limit);
 
   console.log(`Candidatos na fila (${[...queueStatuses].join(", ")}): ${queue.length}`);
-  console.log(`Limite desta execucao: ${limit}`);
+  console.log(
+    `Limite desta execucao: ${limit === Number.MAX_SAFE_INTEGER ? "fila completa" : limit}`
+  );
   console.log(`Delay entre jogadores: ${DELAY_MS / 1000}s`);
 
   if (!queue.length) {
     await writeLedger(ledgerRows);
     await writeErrors(errorRows);
+    const unresolved = getUnresolvedPublicCandidates(candidates);
+    if (hasFlag("require-complete") && unresolved.length > 0) {
+      throw new Error(
+        `${unresolved.length} candidato(s) capaz(es) de entrar no ranking publico continuam pendentes.`
+      );
+    }
     return;
   }
 
@@ -241,7 +256,7 @@ async function main() {
         const status = err.isBlocked ? STATUS_BLOCKED : STATUS_FETCH_ERROR;
         updateCandidate(candidates, candidate.player_id, {
           candidate_status: status,
-          breakdown_required: status === STATUS_BLOCKED ? "true" : "false",
+          breakdown_required: "true",
           breakdown_fetched: "false",
           reason: err.isBlocked ? "blocked_by_itf" : "breakdown_fetch_error",
         });
@@ -268,9 +283,25 @@ async function main() {
   await writeCsv(CANDIDATES_FILE, candidates, EXTERNAL_CANDIDATE_COLUMNS);
   await writeLedger(ledgerRows);
   await writeErrors(errorRows);
+
+  const unresolved = getUnresolvedPublicCandidates(candidates);
+  if (hasFlag("require-complete") && unresolved.length > 0) {
+    const sample = unresolved
+      .slice(0, 5)
+      .map((row) => `${row.player_name || row.player_id} (${row.candidate_status})`)
+      .join(", ");
+    throw new Error(
+      `${unresolved.length} candidato(s) capaz(es) de entrar no ranking publico continuam pendentes: ${sample}`
+    );
+  }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const isDirectRun =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

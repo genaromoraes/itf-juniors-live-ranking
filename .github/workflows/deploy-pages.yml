@@ -406,6 +406,9 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Validate public ranking coverage
+        run: npm run validate:public-coverage
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

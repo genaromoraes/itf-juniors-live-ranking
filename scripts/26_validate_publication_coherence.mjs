@@ -119,8 +119,8 @@ export async function validatePublication({
   if (snapshotRows.length !== TRACKED_BASE_TOTAL) {
     errors.push(`Snapshot oficial precisa ter ${TRACKED_BASE_TOTAL} jogadores; recebeu ${snapshotRows.length}.`);
   }
-  if (liveRows.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`Ranking live precisa ter ${TRACKED_BASE_TOTAL} jogadores; recebeu ${liveRows.length}.`);
+  if (liveRows.length < TRACKED_BASE_TOTAL) {
+    errors.push(`Ranking live precisa ter ao menos ${TRACKED_BASE_TOTAL} jogadores; recebeu ${liveRows.length}.`);
   }
 
   for (const [label, rows] of [
@@ -129,14 +129,19 @@ export async function validatePublication({
   ]) {
     for (const gender of ["M", "F"]) {
       const count = countByGender(rows, gender);
-      if (count !== TRACKED_BASE_LIMIT_PER_GENDER) {
+      if (label === "Ranking live" ? count < TRACKED_BASE_LIMIT_PER_GENDER : count !== TRACKED_BASE_LIMIT_PER_GENDER) {
         errors.push(`${label} precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} jogadores ${gender}; recebeu ${count}.`);
       }
     }
     const uniquePlayers = new Set(rows.map((row) => cleanText(row.player_id)).filter(Boolean));
-    if (uniquePlayers.size !== TRACKED_BASE_TOTAL) {
-      errors.push(`${label} precisa ter ${TRACKED_BASE_TOTAL} player_id unicos; recebeu ${uniquePlayers.size}.`);
+    if (uniquePlayers.size !== rows.length) {
+      errors.push(`${label} contem IDs vazios ou duplicados.`);
     }
+  }
+
+  const liveIds = new Set(liveRows.map(row => cleanText(row.player_id)));
+  if (snapshotRows.some(row => !liveIds.has(cleanText(row.player_id)))) {
+    errors.push("Ranking live omite atletas da base oficial.");
   }
 
   if (rankingDate && liveRankingDate && rankingDate !== liveRankingDate) {

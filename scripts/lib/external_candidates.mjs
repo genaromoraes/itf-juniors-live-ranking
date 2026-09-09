@@ -3,9 +3,9 @@ import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 import {
-  DISPLAY_LIMIT_PER_GENDER,
+  CANDIDATE_WATCH_RANK_PER_GENDER,
   EXTERNAL_CANDIDATE_FALLBACK_MARGIN,
-  INVESTIGATION_RANK_PER_GENDER,
+  PUBLIC_RANK_LIMIT_PER_GENDER,
 } from "./ranking_limits.mjs";
 
 export const STATUS_INELIGIBLE = "INELIGIBLE";
@@ -15,6 +15,7 @@ export const STATUS_FETCHED = "FETCHED";
 export const STATUS_FETCH_ERROR = "FETCH_ERROR";
 export const STATUS_BLOCKED = "BLOCKED";
 export const STATUS_INCLUDED = "INCLUDED";
+export const STATUS_LOOKUP_REQUIRED = "LOOKUP_REQUIRED";
 
 export const EXTERNAL_CANDIDATE_COLUMNS = [
   "player_id",
@@ -23,6 +24,8 @@ export const EXTERNAL_CANDIDATE_COLUMNS = [
   "country",
   "official_rank",
   "official_points",
+  "official_points_upper_bound",
+  "official_points_status",
   "ranking_date",
   "guaranteed_singles_points",
   "guaranteed_doubles_raw_points",
@@ -32,6 +35,9 @@ export const EXTERNAL_CANDIDATE_COLUMNS = [
   "maximum_doubles_weighted_points",
   "guaranteed_upper_bound",
   "maximum_upper_bound",
+  "public_cutoff_points",
+  "candidate_watch_cutoff_points",
+  // Legacy audit fields kept during the rollout so old cached CSVs remain readable.
   "top500_cutoff_points",
   "investigation_cutoff_points",
   "candidate_status",
@@ -39,6 +45,7 @@ export const EXTERNAL_CANDIDATE_COLUMNS = [
   "breakdown_fetched",
   "breakdown_cache_file",
   "reason",
+  "sources",
   "tournaments",
   "updated_at",
 ];
@@ -53,6 +60,8 @@ export const LIVE_EXTERNAL_INCLUDED_COLUMNS = [
   "live_points",
   "rank_change",
   "participated_in_final_calculation",
+  "entered_public_ranking",
+  // Legacy field keeps its original Top 500 meaning.
   "entered_top500",
   "candidate_status",
   "tournaments",
@@ -68,6 +77,28 @@ export function toNumber(value) {
   const cleaned = String(value).replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
   return Number.isFinite(n) ? n : 0;
+}
+
+export function getCandidatePublicCutoff(row) {
+  return toNumber(
+    row?.public_cutoff_points ||
+      row?.candidate_watch_cutoff_points ||
+      row?.investigation_cutoff_points
+  );
+}
+
+export function canCandidateEnterPublicRanking(row) {
+  if (row?.official_points_status === "UNKNOWN" || row?.candidate_status === STATUS_LOOKUP_REQUIRED) return true;
+  const cutoff = getCandidatePublicCutoff(row);
+  return cutoff > 0 && toNumber(row?.guaranteed_upper_bound) >= cutoff;
+}
+
+export function getUnresolvedPublicCandidates(rows = []) {
+  return rows.filter(
+    (row) =>
+      canCandidateEnterPublicRanking(row) &&
+      ![STATUS_FETCHED, STATUS_INCLUDED].includes(cleanText(row.candidate_status))
+  );
 }
 
 function normalizeGender(value) {
@@ -179,12 +210,19 @@ function addMatchSideParticipants(map, trackedPlayerIds, row, side) {
 
 export function collectExternalParticipants({
   playersRows,
+  universeRows = [],
   weekPlayerResultsRows = [],
   weekMatchesRows = [],
   weekLiveLedgerRows = [],
 }) {
   const trackedPlayerIds = buildTrackedPlayerIds(playersRows);
   const participants = new Map();
+
+  // A player can cross the live cutoff without playing as others' points expire.
+  // Collect all known outsiders; classification determines which need a breakdown.
+  for (const row of universeRows) {
+    addParticipant(participants, trackedPlayerIds, row, "rankings_universe");
+  }
 
   for (const row of weekPlayerResultsRows) {
     addParticipant(participants, trackedPlayerIds, row, "week_player_results");
@@ -244,20 +282,24 @@ export function calculateRankingCutoffs(rankingRows) {
     const sorted = [...rows].sort(
       (a, b) => toNumber(a.live_rank) - toNumber(b.live_rank)
     );
-    const top500 = sorted[DISPLAY_LIMIT_PER_GENDER - 1];
-    const investigation = sorted[INVESTIGATION_RANK_PER_GENDER - 1];
-    const top500Cutoff = toNumber(top500?.live_points);
+    const publicBoundary = sorted[PUBLIC_RANK_LIMIT_PER_GENDER - 1];
+    const candidateWatchBoundary = sorted[CANDIDATE_WATCH_RANK_PER_GENDER - 1];
+    const legacyTop500 = sorted[499];
+    const publicCutoff = toNumber(publicBoundary?.live_points);
+    const legacyTop500Cutoff = toNumber(legacyTop500?.live_points);
     const fallback = Math.max(
       0,
-      top500Cutoff - EXTERNAL_CANDIDATE_FALLBACK_MARGIN
+      publicCutoff - EXTERNAL_CANDIDATE_FALLBACK_MARGIN
     );
-    const investigationCutoff = investigation
-      ? toNumber(investigation.live_points)
+    const candidateWatchCutoff = candidateWatchBoundary
+      ? toNumber(candidateWatchBoundary.live_points)
       : fallback;
 
     cutoffs.set(gender, {
-      top500_cutoff_points: Number(top500Cutoff.toFixed(2)),
-      investigation_cutoff_points: Number(investigationCutoff.toFixed(2)),
+      public_cutoff_points: Number(publicCutoff.toFixed(2)),
+      candidate_watch_cutoff_points: Number(candidateWatchCutoff.toFixed(2)),
+      top500_cutoff_points: Number(legacyTop500Cutoff.toFixed(2)),
+      investigation_cutoff_points: Number(candidateWatchCutoff.toFixed(2)),
     });
   }
 
@@ -366,6 +408,7 @@ export function classifyExternalCandidates({
   pointsTableRows = [],
   baseRankingRows = [],
   existingCandidates = [],
+  unrankedPointsUpperBound = null,
   now = new Date().toISOString(),
   blockedRetryMs = 6 * 60 * 60 * 1000,
 }) {
@@ -381,9 +424,20 @@ export function classifyExternalCandidates({
       const playerId = cleanText(participant.player_id);
       const official = universe.get(playerId) || {};
       const gender = normalizeGender(participant.gender || official.gender);
-      const officialPoints = toNumber(official.official_points);
+      const rawOfficialPointsKnown = cleanText(official.official_points) !== "" && Number.isFinite(Number(official.official_points));
+      const hasUnrankedPointsUpperBound =
+        unrankedPointsUpperBound !== null &&
+        unrankedPointsUpperBound !== undefined &&
+        cleanText(unrankedPointsUpperBound) !== "" &&
+        Number.isFinite(Number(unrankedPointsUpperBound));
+      const boundedUnrankedPoints = !rawOfficialPointsKnown && hasUnrankedPointsUpperBound
+        ? Number(unrankedPointsUpperBound) : null;
+      const officialPoints = rawOfficialPointsKnown ? toNumber(official.official_points) : (boundedUnrankedPoints ?? 0);
+      const officialPointsKnown = rawOfficialPointsKnown || boundedUnrankedPoints !== null;
       const rankingDate = cleanText(official.ranking_date) || commonRankingDate;
       const cutoff = cutoffs.get(gender) || {
+        public_cutoff_points: 0,
+        candidate_watch_cutoff_points: 0,
         top500_cutoff_points: 0,
         investigation_cutoff_points: 0,
       };
@@ -406,33 +460,42 @@ export function classifyExternalCandidates({
           potential.maximum_doubles_weighted_points
         ).toFixed(2)
       );
-      const previous = existingById.get(playerId) || {};
+      const cachedPrevious = existingById.get(playerId) || {};
+      const sameOfficialSnapshot = officialPointsKnown && cleanText(cachedPrevious.ranking_date) === rankingDate &&
+        cleanText(cachedPrevious.official_points) !== "" && toNumber(cachedPrevious.official_points) === officialPoints;
+      const previous = sameOfficialSnapshot ? cachedPrevious : {};
       let candidateStatus = STATUS_INELIGIBLE;
       let reason = "below_investigation_cutoff";
 
-      if (maximumUpperBound >= cutoff.investigation_cutoff_points) {
+      if (maximumUpperBound >= cutoff.candidate_watch_cutoff_points) {
         candidateStatus = STATUS_WATCH;
         reason = "watching_future_round";
       }
 
-      if (guaranteedUpperBound >= cutoff.investigation_cutoff_points) {
+      if (guaranteedUpperBound >= cutoff.public_cutoff_points) {
         candidateStatus = STATUS_FETCH_REQUIRED;
         reason = "waiting_for_breakdown";
       }
 
-      const previousStatus = cleanText(previous.candidate_status);
-      const previousUpdatedAt = Date.parse(cleanText(previous.updated_at));
+      if (!rawOfficialPointsKnown && boundedUnrankedPoints === null) {
+        candidateStatus = STATUS_LOOKUP_REQUIRED;
+        reason = "official_points_unknown_in_collected_universe";
+      }
+
+      // Network cooldown survives a week change; fetched breakdown trust does not.
+      const previousStatus = cleanText(cachedPrevious.candidate_status);
+      const previousUpdatedAt = Date.parse(cleanText(cachedPrevious.updated_at));
       const blockedCanRetry =
         previousStatus === STATUS_BLOCKED &&
         (!Number.isFinite(previousUpdatedAt) ||
           Date.parse(now) - previousUpdatedAt >= blockedRetryMs);
 
-      if ([STATUS_FETCHED, STATUS_INCLUDED].includes(previousStatus)) {
+      if (sameOfficialSnapshot && [STATUS_FETCHED, STATUS_INCLUDED].includes(previousStatus)) {
         candidateStatus = previousStatus;
         reason = cleanText(previous.reason) || reason;
       } else if (previousStatus === STATUS_BLOCKED && !blockedCanRetry) {
         candidateStatus = STATUS_BLOCKED;
-        reason = cleanText(previous.reason) || "blocked_by_itf";
+        reason = cleanText(cachedPrevious.reason) || "blocked_by_itf";
       }
 
       return {
@@ -441,23 +504,29 @@ export function classifyExternalCandidates({
         gender,
         country: cleanText(participant.country || official.country),
         official_rank: cleanText(official.rank),
-        official_points: officialPoints,
+        official_points: rawOfficialPointsKnown ? officialPoints : "",
+        official_points_status: rawOfficialPointsKnown ? "KNOWN" : boundedUnrankedPoints !== null ? "BOUNDED" : "UNKNOWN",
+        official_points_upper_bound: rawOfficialPointsKnown ? "" : boundedUnrankedPoints === null ? "" : boundedUnrankedPoints,
         ranking_date: rankingDate,
         ...potential,
         guaranteed_upper_bound: guaranteedUpperBound,
         maximum_upper_bound: maximumUpperBound,
+        public_cutoff_points: cutoff.public_cutoff_points,
+        candidate_watch_cutoff_points: cutoff.candidate_watch_cutoff_points,
         top500_cutoff_points: cutoff.top500_cutoff_points,
         investigation_cutoff_points: cutoff.investigation_cutoff_points,
         candidate_status: candidateStatus,
-        breakdown_required: candidateStatus === STATUS_FETCH_REQUIRED ? "true" : "false",
+          breakdown_required: [STATUS_FETCH_REQUIRED, STATUS_LOOKUP_REQUIRED].includes(candidateStatus) ? "true" : "false",
         breakdown_fetched:
           candidateStatus === STATUS_FETCHED || candidateStatus === STATUS_INCLUDED
             ? "true"
             : cleanText(previous.breakdown_fetched) || "false",
         breakdown_cache_file: cleanText(previous.breakdown_cache_file),
         reason,
+        sources: cleanText(participant.sources),
         tournaments: cleanText(participant.tournaments),
-        updated_at: now,
+          updated_at: candidateStatus === STATUS_BLOCKED && !blockedCanRetry
+            ? cleanText(cachedPrevious.updated_at) : now,
       };
     })
     .sort((a, b) => {

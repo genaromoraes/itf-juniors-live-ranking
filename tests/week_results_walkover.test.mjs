@@ -4,6 +4,7 @@ import {
   buildPlayerResultsFromMatches,
   extractMatchesFromDrawsheet,
   mergeFallbackMatches,
+  mergeTargetedRecoveryErrors,
 } from "../scripts/05_fetch_week_results.mjs";
 import {
   buildPointsMap,
@@ -129,6 +130,58 @@ test("preserves a blocked draw structure without overwriting another draw struct
 
   assert.equal(merged.recovered.length, 1);
   assert.equal(merged.recovered[0].match_id, "previous-knock-out");
+});
+
+test("targeted recovery never introduces new errors into a previously valid draw", () => {
+  const requested = new Set([tournament.tournament_key]);
+  const existingErrors = [
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "Q",
+      drawsheet_structure_code: "KO",
+    },
+  ];
+  const currentErrors = [
+    {
+      tournament_key: tournament.tournament_key,
+      player_type_code: "G",
+      match_type_code: "S",
+      event_classification_code: "M",
+      drawsheet_structure_code: "KO",
+    },
+  ];
+
+  const merged = mergeTargetedRecoveryErrors(
+    existingErrors,
+    currentErrors,
+    requested
+  );
+
+  assert.deepEqual(merged, []);
+
+  const stillBlocked = mergeTargetedRecoveryErrors(
+    existingErrors,
+    existingErrors,
+    requested
+  );
+  assert.deepEqual(stillBlocked, existingErrors);
+
+  const tournamentFailure = mergeTargetedRecoveryErrors(
+    existingErrors,
+    [
+      {
+        tournament_key: tournament.tournament_key,
+        player_type_code: "",
+        match_type_code: "",
+        event_classification_code: "",
+        drawsheet_structure_code: "",
+      },
+    ],
+    requested
+  );
+  assert.deepEqual(tournamentFailure, existingErrors);
 });
 
 function team(playerId, givenName, familyName, nationality = "BRA") {
