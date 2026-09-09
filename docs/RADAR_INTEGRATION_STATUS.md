@@ -15,15 +15,16 @@ Trabalhar neste checkout, branch `codex/public-top1000-radar`, baseado em `4e253
 - Pacote semanal real de 07/09 recuperado com o perfil compatível com o GitHub (browser, 12s entre eventos, 20s entre torneios, jitter de 3s, retry de 20s e cooldown de 90s): 30 torneios, 4.826 partidas, 4.377 resultados por atleta e 0 erros. O pacote anterior ficou como fallback; Cairo e Accra foram confirmados em tentativas isoladas. A recuperação local confirmou que a diferença para as tentativas diretas agressivas era principalmente cadence/transporte, além do IP limpo do runner.
 - Detector externo após o pacote completo: 7.649 atletas auditados, 0 `FETCH_REQUIRED`, 0 `LOOKUP_REQUIRED`, 7.578 `INELIGIBLE` e 71 `WATCH`; nenhum candidato pendente capaz de entrar no público.
 - Preview e candidato de produção com dados reais: 3.000 atletas rastreados, 1.500 por gênero; Top 1.000 público coerente (M=1.000, F=1.000). A validação estrutural e a validação estrita passam sem erros também após a promoção local.
+- Prévia revisada no navegador local: masculino e feminino exibem `100 de 1.000`, a troca de categoria funciona e a paginação avança para `200 de 1.000`.
+- Commit `e1837c7` criado e enviado para a branch `codex/public-top1000-radar`; a `main` remota foi avançada para esse commit para disparar o Pages.
 - Suíte completa após as proteções, a correção de recuperação direcionada e a promoção atômica: 292/292 testes aprovados. Verificação sintática: 96 módulos.
 - Gerador mantém o ranking completo como entrada para não perder atletas do Top 1.000 oficial que estejam fora do Top 1.000 live; o limite público é aplicado por visualização, preservando filtros de país e geração existentes.
 - Prévia isolada gerada em `data/staging/radar_2026-09-07/preview/data/exports`. O cálculo contém 1.500 atletas por gênero; a validação estrutural confirmou M=1.000 e F=1.000.
 
 ## Continuar
 
-1. Revisar visualmente a prévia e a fronteira Top 1.000; confirmar empates, filtros e páginas dos atletas. A abertura local de arquivos ficou bloqueada pela política do navegador integrado, então essa conferência ainda precisa ser feita manualmente no navegador do usuário.
-2. Reexecutar os validadores no commit final e conferir o diff de produção.
-3. Fazer commit, push/merge e executar o workflow do GitHub Pages. Só depois conferir as URLs públicas e anunciar.
+1. Reexecutar o workflow do GitHub Pages pela rota de coleta fresca (`[fresh-pages]`), pois o run `34295828558` falhou no passo de build sem scraping antes da validação pública; a coleta fresca é a rota compatível com o runner que já foi validada localmente.
+2. Conferir o novo workflow, a validação pública Top 1.000 e a URL publicada antes do anúncio.
 
 O workflow GitHub pode aparecer verde mesmo quando uma leitura isolada falha: o scrape usa `continue-on-error`, aceita coleta parcial para a publicação e restaura o último pacote completo via cache quando necessário. Portanto, sucesso do workflow não deve ser confundido com 100% de draws novos; neste staging atual, porém, o pacote passou a ter 0 erros.
 
