@@ -805,6 +805,7 @@ export function validateInputs({
   newEntrants,
   removedPlayers,
   rankingDate,
+  expectedPerGender = TRACKED_BASE_LIMIT_PER_GENDER,
 }) {
   const errors = [];
 
@@ -820,20 +821,20 @@ export function validateInputs({
   if (validationSummary.new_ranking_date_received !== rankingDate) {
     errors.push(`new_ranking_date_received precisa ser ${rankingDate}.`);
   }
-  if (Number(validationSummary.official_total) !== TRACKED_BASE_TOTAL) {
-    errors.push(`official_total precisa ser ${TRACKED_BASE_TOTAL}.`);
+  if (Number(validationSummary.official_total) !== (expectedPerGender * 2)) {
+    errors.push(`official_total precisa ser ${(expectedPerGender * 2)}.`);
   }
-  if (Number(validationSummary.official_male) !== TRACKED_BASE_LIMIT_PER_GENDER) {
-    errors.push(`official_male precisa ser ${TRACKED_BASE_LIMIT_PER_GENDER}.`);
+  if (Number(validationSummary.official_male) !== expectedPerGender) {
+    errors.push(`official_male precisa ser ${expectedPerGender}.`);
   }
-  if (Number(validationSummary.official_female) !== TRACKED_BASE_LIMIT_PER_GENDER) {
-    errors.push(`official_female precisa ser ${TRACKED_BASE_LIMIT_PER_GENDER}.`);
+  if (Number(validationSummary.official_female) !== expectedPerGender) {
+    errors.push(`official_female precisa ser ${expectedPerGender}.`);
   }
-  if (officialPlayers.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`official_players.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${officialPlayers.length}.`);
+  if (officialPlayers.length !== (expectedPerGender * 2)) {
+    errors.push(`official_players.csv precisa ter ${(expectedPerGender * 2)} linhas, recebeu ${officialPlayers.length}.`);
   }
-  if (officialSnapshot.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`official_rankings_snapshot.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${officialSnapshot.length}.`);
+  if (officialSnapshot.length !== (expectedPerGender * 2)) {
+    errors.push(`official_rankings_snapshot.csv precisa ter ${(expectedPerGender * 2)} linhas, recebeu ${officialSnapshot.length}.`);
   }
   if (playersToRefresh.length !== Number(validationSummary.players_to_refresh)) {
     errors.push("players_to_refresh.csv diverge do summary.");

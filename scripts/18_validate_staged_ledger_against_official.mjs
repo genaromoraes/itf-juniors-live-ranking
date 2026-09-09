@@ -1060,6 +1060,7 @@ export function removeClosedWeekRowsForBaseline(rows, { oldRankingDate, dropCuto
 }
 
 export function buildBaselineValidation({
+  expectedTotal = TRACKED_BASE_TOTAL,
   baselineLedgerRows,
   oldSnapshotRows,
   oldRankingDate,
@@ -1140,7 +1141,7 @@ export function buildBaselineValidation({
     isSafePartialReconciliation({
       exact: cutoffBaseline.exact,
       total: cutoffBaseline.total,
-      expectedTotal: TRACKED_BASE_TOTAL,
+      expectedTotal,
     });
 
   if (!cutoffBaseline.valid && !partialAccepted) {

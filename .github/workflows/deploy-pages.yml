@@ -215,6 +215,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run regression tests
+        run: npm test
+
       - name: Install Playwright Chromium
         if: >
           inputs.use_committed_data != true &&

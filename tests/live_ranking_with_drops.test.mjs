@@ -9,6 +9,8 @@ import {
   validatePlayersBase,
 } from "../scripts/08_calculate_live_ranking_with_drops.mjs";
 
+import { getActiveBaseLimitPerGender, getActiveBaseTotal } from "../scripts/lib/ranking_limits.mjs";
+
 function makePlayer(id, gender, overrides = {}) {
   return {
     player_id: id,
@@ -87,10 +89,10 @@ function makeLedgerRow({
 }
 
 describe("live ranking with tracked official players only", () => {
-  test("validates the active Top 1000 per gender official base shape", () => {
+  test("validates the active tracked official base shape", () => {
     const playersRows = [];
 
-    for (let i = 1; i <= 1000; i++) {
+    for (let i = 1; i <= getActiveBaseLimitPerGender(); i++) {
       playersRows.push(makePlayer(`M${i}`, "M"));
       playersRows.push(makePlayer(`F${i}`, "F"));
     }
@@ -98,9 +100,9 @@ describe("live ranking with tracked official players only", () => {
     const result = validatePlayersBase(playersRows);
 
     assert.equal(result.isValid, true);
-    assert.equal(result.trackedPlayerIds.size, 2000);
-    assert.equal(result.genderCounts.M, 1000);
-    assert.equal(result.genderCounts.F, 1000);
+    assert.equal(result.trackedPlayerIds.size, getActiveBaseTotal());
+    assert.equal(result.genderCounts.M, getActiveBaseLimitPerGender());
+    assert.equal(result.genderCounts.F, getActiveBaseLimitPerGender());
   });
 
   test("rejects invalid official base counts", () => {
@@ -108,7 +110,7 @@ describe("live ranking with tracked official players only", () => {
     const result = validatePlayersBase(playersRows);
 
     assert.equal(result.isValid, false);
-    assert.ok(result.errors.some((item) => item.includes("2000 linhas")));
+    assert.ok(result.errors.some((item) => item.includes(`${getActiveBaseTotal()} linhas`)));
     assert.ok(result.errors.some((item) => item.includes("duplicados")));
   });
 

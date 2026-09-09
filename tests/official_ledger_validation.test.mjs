@@ -7,8 +7,11 @@ import {
   calculateLedgerPoints,
   calculatePlayerTotals,
   compareCalculatedAgainstSnapshot,
-  validateOfficialSnapshotRows,
+  validateOfficialSnapshotRows as validateSnapshot,
 } from "../scripts/lib/official_ledger_validation.mjs";
+
+// These fixtures model the historical Top 1000 base, independently of production.
+const validateOfficialSnapshotRows = (players, snapshot, date) => validateSnapshot(players, snapshot, date, 1000);
 
 function ledgerRow(overrides = {}) {
   return {

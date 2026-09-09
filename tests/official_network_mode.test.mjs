@@ -106,8 +106,10 @@ async function createTempOutputDir() {
   return fs.mkdtemp(path.join(os.tmpdir(), "official-network-test-"));
 }
 
+import { TRACKED_BASE_LIMIT_PER_GENDER } from "../scripts/lib/ranking_limits.mjs";
+
 describe("official ranking network modes", () => {
-  test("official ranking collection plans the full tracked Top 1000 per gender", () => {
+  test("official ranking collection plans the full active tracked base per gender", () => {
     const plan = buildRankingPagePlan();
     const maleSkips = plan
       .filter((page) => page.genderInfo.gender === "M")
@@ -116,9 +118,10 @@ describe("official ranking network modes", () => {
       .filter((page) => page.genderInfo.gender === "F")
       .map((page) => page.skip);
 
-    assert.equal(plan.length, 20);
-    assert.deepEqual(maleSkips, [0, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
-    assert.deepEqual(femaleSkips, [0, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
+    const expectedSkips = Array.from({ length: TRACKED_BASE_LIMIT_PER_GENDER / 100 }, (_, i) => i * 100);
+    assert.equal(plan.length, expectedSkips.length * 2);
+    assert.deepEqual(maleSkips, expectedSkips);
+    assert.deepEqual(femaleSkips, expectedSkips);
   });
 
   test("detects closed week rows that should be removed only for baseline reconstruction", () => {
@@ -159,6 +162,7 @@ describe("official ranking network modes", () => {
 
   test("reconstructs the old baseline when current ledger already includes closed week rows", () => {
     const result = buildBaselineValidation({
+      expectedTotal: 2000,
       baselineLedgerRows: [
         ledgerRow({ points: "100" }),
         ledgerRow({
@@ -182,6 +186,7 @@ describe("official ranking network modes", () => {
 
   test("reconstructs the old baseline with the old official ranking cutoff", () => {
     const result = buildBaselineValidation({
+      expectedTotal: 2000,
       baselineLedgerRows: [
         ledgerRow({
           tournament_name: "Expired Tournament",
@@ -223,6 +228,7 @@ describe("official ranking network modes", () => {
     );
 
     const strictResult = buildBaselineValidation({
+      expectedTotal: 2000,
       baselineLedgerRows,
       oldSnapshotRows,
       oldRankingDate: "2026-06-15",
@@ -231,6 +237,7 @@ describe("official ranking network modes", () => {
     assert.equal(strictResult.baseline.valid, false);
 
     const partialResult = buildBaselineValidation({
+      expectedTotal: 2000,
       baselineLedgerRows,
       oldSnapshotRows,
       oldRankingDate: "2026-06-15",
@@ -259,6 +266,7 @@ describe("official ranking network modes", () => {
     );
 
     const result = buildBaselineValidation({
+      expectedTotal: 2000,
       baselineLedgerRows,
       oldSnapshotRows,
       oldRankingDate: "2026-06-15",

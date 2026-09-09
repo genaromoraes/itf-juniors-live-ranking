@@ -126,6 +126,7 @@ function refreshRows() {
 describe("official breakdown reconciliation", () => {
   test("validates guardrails from the official rollover artifact", () => {
     const result = validateInputs({
+      expectedPerGender: 1000,
       validationSummary: validationSummary(),
       officialPlayers: fullOfficialPlayers(),
       officialSnapshot: fullOfficialSnapshot(),
@@ -149,6 +150,7 @@ describe("official breakdown reconciliation", () => {
 
   test("rejects duplicate refresh player ids before network collection", () => {
     const result = validateInputs({
+      expectedPerGender: 1000,
       validationSummary: validationSummary({ players_to_refresh: 2 }),
       officialPlayers: fullOfficialPlayers(),
       officialSnapshot: fullOfficialSnapshot(),
@@ -421,6 +423,7 @@ describe("official breakdown reconciliation", () => {
       playersNextRows: fullOfficialPlayers(),
     });
     const safe = isSafeForPromotion({
+      expectedOfficialTotal: 2000,
       inputValidation: { valid: true },
       fetchResult: {
         errors: [],
@@ -436,6 +439,7 @@ describe("official breakdown reconciliation", () => {
 
   test("promotion is blocked when any GetPlayerRankings call is reported", () => {
     const safe = isSafeForPromotion({
+      expectedOfficialTotal: 2000,
       inputValidation: { valid: true },
       fetchResult: {
         errors: [],
@@ -457,6 +461,7 @@ describe("official breakdown reconciliation", () => {
 
   test("promotion is blocked unless exact 2000 over 2000", () => {
     const safe = isSafeForPromotion({
+      expectedOfficialTotal: 2000,
       inputValidation: { valid: true },
       fetchResult: {
         errors: [],

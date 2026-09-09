@@ -5,7 +5,6 @@ import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 import {
   TRACKED_BASE_LIMIT_PER_GENDER,
-  TRACKED_BASE_TOTAL,
   validateCompetitionRanks,
 } from "./ranking_limits.mjs";
 
@@ -536,7 +535,7 @@ export function validateLedgerRows(rows) {
   };
 }
 
-export function validateOfficialSnapshotRows(playersRows, snapshotRows, expectedRankingDate) {
+export function validateOfficialSnapshotRows(playersRows, snapshotRows, expectedRankingDate, expectedPerGender = TRACKED_BASE_LIMIT_PER_GENDER) {
   const errors = [];
   const countsByGender = {
     M: snapshotRows.filter((row) => normalizeGender(row.gender) === "M").length,
@@ -545,20 +544,20 @@ export function validateOfficialSnapshotRows(playersRows, snapshotRows, expected
   const ids = snapshotRows.map((row) => cleanText(row.player_id)).filter(Boolean);
   const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
 
-  if (snapshotRows.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`Snapshot oficial invalido: esperado ${TRACKED_BASE_TOTAL} jogadores, recebido ${snapshotRows.length}.`);
+  if (snapshotRows.length !== (expectedPerGender * 2)) {
+    errors.push(`Snapshot oficial invalido: esperado ${(expectedPerGender * 2)} jogadores, recebido ${snapshotRows.length}.`);
   }
 
-  if (countsByGender.M !== TRACKED_BASE_LIMIT_PER_GENDER) {
-    errors.push(`Snapshot oficial invalido: esperado ${TRACKED_BASE_LIMIT_PER_GENDER} M, recebido ${countsByGender.M}.`);
+  if (countsByGender.M !== expectedPerGender) {
+    errors.push(`Snapshot oficial invalido: esperado ${expectedPerGender} M, recebido ${countsByGender.M}.`);
   }
 
-  if (countsByGender.F !== TRACKED_BASE_LIMIT_PER_GENDER) {
-    errors.push(`Snapshot oficial invalido: esperado ${TRACKED_BASE_LIMIT_PER_GENDER} F, recebido ${countsByGender.F}.`);
+  if (countsByGender.F !== expectedPerGender) {
+    errors.push(`Snapshot oficial invalido: esperado ${expectedPerGender} F, recebido ${countsByGender.F}.`);
   }
 
-  if (playersRows.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`Players oficial invalido: esperado ${TRACKED_BASE_TOTAL} jogadores, recebido ${playersRows.length}.`);
+  if (playersRows.length !== (expectedPerGender * 2)) {
+    errors.push(`Players oficial invalido: esperado ${(expectedPerGender * 2)} jogadores, recebido ${playersRows.length}.`);
   }
 
   if (ids.length !== snapshotRows.length) {
@@ -575,11 +574,11 @@ export function validateOfficialSnapshotRows(playersRows, snapshotRows, expected
       .map((row) => toNumber(row.rank))
       .sort((a, b) => (a ?? 0) - (b ?? 0));
 
-    if (sortedRanks.length !== TRACKED_BASE_LIMIT_PER_GENDER) continue;
+    if (sortedRanks.length !== expectedPerGender) continue;
 
     const rankValidation = validateCompetitionRanks(
       sortedRanks,
-      TRACKED_BASE_LIMIT_PER_GENDER
+      expectedPerGender
     );
     if (!rankValidation.valid) {
       errors.push(

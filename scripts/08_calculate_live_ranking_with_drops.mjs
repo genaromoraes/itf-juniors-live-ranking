@@ -237,10 +237,10 @@ function buildPlayersMap(playersRows) {
   return map;
 }
 
-export function validatePlayersBase(playersRows) {
+export function validatePlayersBase(playersRows, { cwd = process.cwd() } = {}) {
   const errors = [];
-  const expectedTotal = getActiveBaseTotal();
-  const expectedPerGender = getActiveBaseLimitPerGender();
+  const expectedTotal = getActiveBaseTotal({ cwd });
+  const expectedPerGender = getActiveBaseLimitPerGender({ cwd });
   const ids = playersRows.map((row) => cleanText(row.player_id));
   const filledIds = ids.filter(Boolean);
   const trackedPlayerIds = new Set(filledIds);

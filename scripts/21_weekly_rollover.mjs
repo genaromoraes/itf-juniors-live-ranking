@@ -385,9 +385,9 @@ function nonEmptyTournamentRows(rows) {
   );
 }
 
-function validatePlayersBase(playersRows) {
-  const expectedTotal = getActiveBaseTotal();
-  const expectedPerGender = getActiveBaseLimitPerGender();
+function validatePlayersBase(playersRows, cwd) {
+  const expectedTotal = getActiveBaseTotal({ cwd });
+  const expectedPerGender = getActiveBaseLimitPerGender({ cwd });
   const ids = playersRows.map((row) => cleanText(row.player_id));
   const uniqueIds = new Set(ids.filter(Boolean));
   const genderCounts = playersRows.reduce((acc, row) => {
@@ -420,9 +420,9 @@ function validatePlayersBase(playersRows) {
   };
 }
 
-function validateSnapshotBase(playersRows, snapshotRows, expectedRankingDate) {
-  const expectedTotal = getActiveBaseTotal();
-  const expectedPerGender = getActiveBaseLimitPerGender();
+function validateSnapshotBase(playersRows, snapshotRows, expectedRankingDate, cwd) {
+  const expectedTotal = getActiveBaseTotal({ cwd });
+  const expectedPerGender = getActiveBaseLimitPerGender({ cwd });
   const playerIds = new Set(
     playersRows.map((row) => cleanText(row.player_id)).filter(Boolean)
   );
@@ -477,8 +477,8 @@ function validateSnapshotBase(playersRows, snapshotRows, expectedRankingDate) {
   };
 }
 
-function validateLedgerBase(ledgerRows, trackedPlayerIds) {
-  const expectedTotal = getActiveBaseTotal();
+function validateLedgerBase(ledgerRows, trackedPlayerIds, cwd) {
+  const expectedTotal = getActiveBaseTotal({ cwd });
   const playerIds = new Set(
     ledgerRows.map((row) => cleanText(row.player_id)).filter(Boolean)
   );
@@ -503,9 +503,9 @@ function validateLedgerBase(ledgerRows, trackedPlayerIds) {
   };
 }
 
-function validateLiveRanking(rankingRows, trackedPlayerIds) {
-  const expectedTotal = getActiveBaseTotal();
-  const expectedPerGender = getActiveBaseLimitPerGender();
+function validateLiveRanking(rankingRows, trackedPlayerIds, cwd) {
+  const expectedTotal = getActiveBaseTotal({ cwd });
+  const expectedPerGender = getActiveBaseLimitPerGender({ cwd });
   const ids = rankingRows.map((row) => cleanText(row.player_id));
   const uniqueIds = new Set(ids.filter(Boolean));
   const genderCounts = rankingRows.reduce((acc, row) => {
@@ -722,17 +722,19 @@ export async function gatherFacts({ cwd = process.cwd(), today = todayIso() } = 
   );
   const liveRankingRows = await readCsvIfExists(paths.liveRanking);
 
-  const playersValidation = validatePlayersBase(playersRows);
+  const playersValidation = validatePlayersBase(playersRows, cwd);
   const trackedPlayerIds = playersValidation.trackedPlayerIds;
   const snapshotValidation = validateSnapshotBase(
     playersRows,
     snapshotRows,
-    cleanText(snapshotRows[0]?.ranking_date)
+    cleanText(snapshotRows[0]?.ranking_date),
+    cwd
   );
-  const ledgerValidation = validateLedgerBase(ledgerRows, trackedPlayerIds);
+  const ledgerValidation = validateLedgerBase(ledgerRows, trackedPlayerIds, cwd);
   const liveRankingValidation = validateLiveRanking(
     liveRankingRows,
-    trackedPlayerIds
+    trackedPlayerIds,
+    cwd
   );
   const weekWindow = detectWeekWindow(weekTournamentRows);
   const officialRankingDate = cleanText(snapshotRows[0]?.ranking_date);
@@ -1179,6 +1181,7 @@ export async function runCloseAction({ args, facts, runNodeScript }) {
 }
 
 export async function runStartAction({ args, facts, runNodeScript }) {
+  const cwd = facts.cwd;
   assertWeekArgs(args);
   const errors = [];
 
@@ -1210,11 +1213,11 @@ export async function runStartAction({ args, facts, runNodeScript }) {
     isSafePartialReconciliation({
       exact: reconciliation.exact,
       total: reconciliation.total,
-      expectedTotal: getActiveBaseTotal(),
+      expectedTotal: getActiveBaseTotal({ cwd }),
     });
 
   if (!reconciliation.valid && !partialReconciliationAllowed) {
-    const expectedTotal = getActiveBaseTotal();
+    const expectedTotal = getActiveBaseTotal({ cwd });
     errors.push(
       `A base oficial nao reconciliou ${expectedTotal}/${expectedTotal} (${reconciliation.exact}/${reconciliation.total}).`
     );

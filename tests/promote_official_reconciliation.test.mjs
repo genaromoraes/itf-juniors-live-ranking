@@ -205,6 +205,29 @@ async function destinationHashes(root) {
   return result;
 }
 
+test("RADAR1500 promotion uses the destination manifest through apply and rejects truncation", async () => {
+  const players = [], snapshots = [], ledger = [];
+  for (let i = 1; i <= 3000; i++) {
+    const gender = i <= 1500 ? "M" : "F";
+    const rank = ((i - 1) % 1500) + 1;
+    players.push(player(i, { gender, current_rank: rank, itf_gender_code: gender === "M" ? "B" : "G" }));
+    snapshots.push(snapshot(i, { gender, rank }));
+    ledger.push(ledgerRow(i, { gender }));
+  }
+  const { root, sourceDir } = await makeProject({ players, snapshots, ledger,
+    summary: validSummary({ final_total: 3000, final_exact: 3000, unique_ledger_players: 3000 }) });
+  await fs.mkdir(path.join(root, "data/config"), { recursive: true });
+  await fs.writeFile(path.join(root, "data/config/base_state.json"), JSON.stringify({ state: "RADAR1500_ACTIVE" }));
+  const args = { sourceDir, rankingDate: RANKING_DATE, mode: "apply", confirmPromotion: true };
+  const result = await runPromotion(args, { cwd: root });
+  assert.equal(result.report.promotion_completed, true);
+  assert.equal((await readCsv(path.join(root, "data/clean/players.csv"))).length, 3000);
+  const before = await destinationHashes(root);
+  await writeSource(sourceDir); // Valid Top 1000 data must not replace RADAR1500.
+  await assert.rejects(runPromotion(args, { cwd: root }), /3000/);
+  assert.deepEqual(await destinationHashes(root), before);
+});
+
 describe("official reconciliation promotion", () => {
   test("dry-run does not alter data/clean", async () => {
     const { root, sourceDir } = await makeProject();
@@ -235,6 +258,7 @@ describe("official reconciliation promotion", () => {
 
   test("allows a tightly bounded partial promotion from a complete official base", () => {
     const validation = validateSourceRows({
+      expectedPerGender: 1000,
       summary: validSummary({
         final_exact: 1997,
         final_divergent: 3,
@@ -255,6 +279,7 @@ describe("official reconciliation promotion", () => {
 
   test("partial promotion rejects a material reconciliation gap", () => {
     const validation = validateSourceRows({
+      expectedPerGender: 1000,
       summary: validSummary({
         final_exact: 1994,
         final_divergent: 6,
@@ -389,6 +414,7 @@ describe("official reconciliation promotion", () => {
 
   test("final ranking_date is validated", () => {
     const validation = validateSourceRows({
+      expectedPerGender: 1000,
       summary: validSummary(),
       playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
       snapshotRows: Array.from({ length: 2000 }, (_, i) =>
@@ -407,6 +433,7 @@ describe("official reconciliation promotion", () => {
     snapshotRows[1917] = { ...snapshotRows[1917], rank: 917 };
 
     const validation = validateSourceRows({
+      expectedPerGender: 1000,
       summary: validSummary(),
       playersRows: Array.from({ length: 2000 }, (_, i) => player(i + 1)),
       snapshotRows,

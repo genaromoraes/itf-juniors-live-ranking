@@ -22,6 +22,7 @@ import {
 import {
   TRACKED_BASE_LIMIT_PER_GENDER,
   TRACKED_BASE_TOTAL,
+  getTrackedBaseLimitPerGender,
   validateCompetitionRanks,
 } from "./lib/ranking_limits.mjs";
 
@@ -175,6 +176,7 @@ function validateUniqueIds(rows, label, errors) {
 
 export function validateSourceRows({
   summary,
+  expectedPerGender = TRACKED_BASE_LIMIT_PER_GENDER,
   playersRows,
   snapshotRows,
   ledgerRows,
@@ -183,13 +185,17 @@ export function validateSourceRows({
   validatePartialThreshold = true,
 }) {
   const errors = [];
+  const expectedTotal = expectedPerGender * 2;
 
   if (summary.ranking_date !== rankingDate) {
     errors.push(`summary.ranking_date esperado ${rankingDate}, recebido ${summary.ranking_date}.`);
   }
-  const expectedSummaryValues = allowPartialPromotion
-    ? EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES
-    : EXPECTED_SUMMARY_VALUES;
+  const expectedSummaryValues = {
+    ...(allowPartialPromotion ? EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES : EXPECTED_SUMMARY_VALUES),
+    final_total: expectedTotal,
+    unique_ledger_players: expectedTotal,
+    ...(!allowPartialPromotion ? { final_exact: expectedTotal } : {}),
+  };
   for (const [key, expected] of Object.entries(expectedSummaryValues)) {
     if (summary[key] !== expected) {
       errors.push(`summary.${key} esperado ${expected}, recebido ${summary[key]}.`);
@@ -215,8 +221,8 @@ export function validateSourceRows({
     }
   }
 
-  if (playersRows.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`players.next.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${playersRows.length}.`);
+  if (playersRows.length !== expectedTotal) {
+    errors.push(`players.next.csv precisa ter ${expectedTotal} linhas, recebeu ${playersRows.length}.`);
   }
   const playerIds = validateUniqueIds(playersRows, "players.next.csv", errors);
   const playerGenderCounts = { M: 0, F: 0 };
@@ -224,15 +230,15 @@ export function validateSourceRows({
     const gender = normalizeGender(row.gender);
     if (gender === "M" || gender === "F") playerGenderCounts[gender] += 1;
   }
-  if (playerGenderCounts.M !== TRACKED_BASE_LIMIT_PER_GENDER) {
-    errors.push(`players.next.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} M, recebeu ${playerGenderCounts.M}.`);
+  if (playerGenderCounts.M !== expectedPerGender) {
+    errors.push(`players.next.csv precisa ter ${expectedPerGender} M, recebeu ${playerGenderCounts.M}.`);
   }
-  if (playerGenderCounts.F !== TRACKED_BASE_LIMIT_PER_GENDER) {
-    errors.push(`players.next.csv precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} F, recebeu ${playerGenderCounts.F}.`);
+  if (playerGenderCounts.F !== expectedPerGender) {
+    errors.push(`players.next.csv precisa ter ${expectedPerGender} F, recebeu ${playerGenderCounts.F}.`);
   }
 
-  if (snapshotRows.length !== TRACKED_BASE_TOTAL) {
-    errors.push(`rankings_snapshot.next.csv precisa ter ${TRACKED_BASE_TOTAL} linhas, recebeu ${snapshotRows.length}.`);
+  if (snapshotRows.length !== expectedTotal) {
+    errors.push(`rankings_snapshot.next.csv precisa ter ${expectedTotal} linhas, recebeu ${snapshotRows.length}.`);
   }
   validateUniqueIds(snapshotRows, "rankings_snapshot.next.csv", errors);
   const ranksByGender = { M: [], F: [] };
@@ -247,13 +253,13 @@ export function validateSourceRows({
   }
   for (const gender of ["M", "F"]) {
     const ranks = ranksByGender[gender].sort((a, b) => (a ?? 0) - (b ?? 0));
-    if (ranks.length !== TRACKED_BASE_LIMIT_PER_GENDER) {
-      errors.push(`Snapshot precisa ter ${TRACKED_BASE_LIMIT_PER_GENDER} ranks ${gender}, recebeu ${ranks.length}.`);
+    if (ranks.length !== expectedPerGender) {
+      errors.push(`Snapshot precisa ter ${expectedPerGender} ranks ${gender}, recebeu ${ranks.length}.`);
       continue;
     }
     const rankValidation = validateCompetitionRanks(
       ranks,
-      TRACKED_BASE_LIMIT_PER_GENDER
+      expectedPerGender
     );
     if (!rankValidation.valid) {
       errors.push(
@@ -285,8 +291,8 @@ export function validateSourceRows({
     }
     ledgerKeys.add(key);
   }
-  if (ledgerPlayerIds.size !== TRACKED_BASE_TOTAL) {
-    errors.push(`Ledger precisa ter ${TRACKED_BASE_TOTAL} jogadores unicos, recebeu ${ledgerPlayerIds.size}.`);
+  if (ledgerPlayerIds.size !== expectedTotal) {
+    errors.push(`Ledger precisa ter ${expectedTotal} jogadores unicos, recebeu ${ledgerPlayerIds.size}.`);
   }
 
   return {
@@ -403,6 +409,7 @@ export async function loadPromotionData({
   const oldSnapshotRows = await readCsv(destinationFiles.snapshot);
   const oldLedgerRows = await readCsv(destinationFiles.ledger);
   const validation = validateSourceRows({
+    expectedPerGender: getTrackedBaseLimitPerGender({ cwd }),
     summary,
     playersRows,
     snapshotRows,
@@ -481,14 +488,19 @@ async function writeReports({ reportDir, report, sourceHashes, beforeHashes, aft
   });
 }
 
-async function validateDestinationAfterApply(destinationFiles, rankingDate, allowPartialPromotion = false) {
+async function validateDestinationAfterApply(destinationFiles, rankingDate, allowPartialPromotion = false, cwd = process.cwd()) {
+  const expectedPerGender = getTrackedBaseLimitPerGender({ cwd });
   const summary = {
     ranking_date: rankingDate,
     ...(allowPartialPromotion
       ? EXPECTED_PARTIAL_PROMOTION_SUMMARY_VALUES
       : EXPECTED_SUMMARY_VALUES),
+    final_total: expectedPerGender * 2,
+    unique_ledger_players: expectedPerGender * 2,
+    ...(!allowPartialPromotion ? { final_exact: expectedPerGender * 2 } : {}),
   };
   const validation = validateSourceRows({
+    expectedPerGender,
     summary,
     playersRows: await readCsv(destinationFiles.players),
     snapshotRows: await readCsv(destinationFiles.snapshot),
@@ -590,6 +602,7 @@ export async function runPromotion(rawArgs, deps = {}) {
 
       const nextValidationErrors = filterPartialPromotionErrors(
         validateSourceRows({
+        expectedPerGender: getTrackedBaseLimitPerGender({ cwd }),
         summary: data.summary,
         playersRows: await readCsv(`${data.destinationFiles.players}.next`),
         snapshotRows: await readCsv(`${data.destinationFiles.snapshot}.next`),
@@ -612,7 +625,8 @@ export async function runPromotion(rawArgs, deps = {}) {
       await validateDestinationAfterApply(
         data.destinationFiles,
         args.rankingDate,
-        args.allowPartialPromotion
+        args.allowPartialPromotion,
+        cwd
       );
       afterHashes = await buildFileHashMap(data.destinationFiles);
       promotionCompleted = true;

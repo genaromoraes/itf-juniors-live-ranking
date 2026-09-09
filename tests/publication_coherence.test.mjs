@@ -14,9 +14,9 @@ async function writeCsv(filePath, rows, columns) {
   await fs.writeFile(filePath, stringify(rows, { header: true, columns }), "utf8");
 }
 
-function rankingRows() {
+function rankingRows(perGender = 1000) {
   return ["M", "F"].flatMap((gender) =>
-    Array.from({ length: 1000 }, (_, index) => ({
+    Array.from({ length: perGender }, (_, index) => ({
       ranking_date: RANKING_DATE,
       gender,
       player_id: `${gender}-${index + 1}`,
@@ -24,11 +24,13 @@ function rankingRows() {
   );
 }
 
-async function createFixture() {
+async function createFixture(perGender = 1000) {
   const cwd = await fs.mkdtemp(path.join(os.tmpdir(), "publication-coherence-"));
   const cleanDir = path.join(cwd, "data", "clean");
   const exportsDir = path.join(cwd, "data", "exports");
-  const rows = rankingRows();
+  const rows = rankingRows(perGender);
+  await fs.mkdir(path.join(cwd, 'data/config'), { recursive: true });
+  await fs.writeFile(path.join(cwd, 'data/config/base_state.json'), JSON.stringify({state: perGender === 1500 ? 'RADAR1500_ACTIVE' : 'TOP1000_ACTIVE'}));
 
   await writeCsv(path.join(cleanDir, "rankings_snapshot.csv"), rows, [
     "ranking_date",
@@ -186,4 +188,19 @@ test("blocks publication when weekly results are empty", async () => {
   const report = await validatePublication({ cwd: fixture.cwd });
   assert.equal(report.valid, false);
   assert.match(report.errors.join("\n"), /week_player_results\.csv nao contem nenhum atleta/);
+});
+
+test("uses each target base manifest and rejects a truncated RADAR1500 snapshot", async () => {
+  for (const perGender of [1000, 1500]) {
+    const fixture = await createFixture(perGender);
+    const report = await validatePublication({ cwd: fixture.cwd });
+    assert.equal(report.valid, true, report.errors.join("\n"));
+    assert.equal(report.snapshot_players, perGender * 2);
+    if (perGender === 1500) {
+      await writeCsv(path.join(fixture.cleanDir, "rankings_snapshot.csv"), rankingRows(1000), ["ranking_date", "gender", "player_id"]);
+      const invalid = await validatePublication({ cwd: fixture.cwd });
+      assert.equal(invalid.valid, false);
+      assert.match(invalid.errors.join("\n"), /3000 jogadores/);
+    }
+  }
 });

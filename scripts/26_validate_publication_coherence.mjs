@@ -3,8 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { parse } from "csv-parse/sync";
 import {
-  TRACKED_BASE_LIMIT_PER_GENDER,
-  TRACKED_BASE_TOTAL,
+  getTrackedBaseLimitPerGender,
 } from "./lib/ranking_limits.mjs";
 
 function cleanText(value) {
@@ -56,6 +55,8 @@ export async function validatePublication({
   ),
 } = {}) {
   const cleanDir = path.join(cwd, "data", "clean");
+  const TRACKED_BASE_LIMIT_PER_GENDER = getTrackedBaseLimitPerGender({ cwd });
+  const TRACKED_BASE_TOTAL = TRACKED_BASE_LIMIT_PER_GENDER * 2;
   const exportsDir = path.join(cwd, "data", "exports");
   const files = {
     snapshot: path.join(cleanDir, "rankings_snapshot.csv"),

@@ -2,6 +2,14 @@
 
 ## Correção de publicação — 09/09/2026
 
+### Pendências de testes resolvidas
+
+- Suíte completa executada mantendo `RADAR1500_ACTIVE`: **299/299 testes aprovados**, nenhum ignorado; 98 módulos passaram na verificação sintática.
+- Migração histórica Top 1.000 mantém seu total explícito de 2.000. Validações de publicação, promoção e troca semanal agora consultam o manifesto da base de destino, não o diretório do processo chamador.
+- Fixtures históricas declaram seus limites; os testes dos coletores usam o tamanho ativo. Novas regressões cobrem publicação e promoção de 3.000 atletas, bloqueio de pacote truncado, preservação dos arquivos ao recusar promoção e troca semanal com radar ampliado.
+- O workflow Pages passa a executar `npm test` antes do build. Não foi alterado o manifesto da base real nem reduzida a exigência de cobertura pública.
+- Recálculo real: validação estrita aprovada, Top 1.000 M/F, zero candidatos pendentes. A publicação anterior continua válida; estes ajustes aguardam a execução do novo workflow.
+
 Este bloco substitui as instruções históricas de retomada abaixo.
 
 - Os deploys `34295828558`, `34296297527` e `34297727065` falharam. A coleta fresca não resolveu o bloqueio da validação.
@@ -12,7 +20,7 @@ Este bloco substitui as instruções históricas de retomada abaixo.
 - Testes direcionados: 35/35 aprovados. Suíte completa no estado RADAR1500 real: 261/296 aprovados; 35 falhas em cenários antigos que assumem base 1.000 e leem limites do diretório de produção. O registro histórico de 292/292 abaixo foi obtido em configuração TOP1000 e **não certifica a suíte em RADAR1500**. Não alterar o manifesto de produção para contornar esses testes.
 - Publicação confirmada: run `34322063315`, commit `b166a8b`, build e deploy concluídos com sucesso. URL: https://www.juniorsliveranking.com.br/.
 - Conferência no site público: masculino e feminino exibem 1.000 atletas após paginação; busca e breakdowns confirmados para Lasse Zajc Gajsek (M, posição 1.000, 75 pontos) e Disha Kumar (F, posição 1.000, 84,75 pontos). O build usa o pacote semanal versionado, sem alegar uma coleta nova nessa execução.
-- Pendência técnica separada: isolar fixtures e remover a dependência dos testes antigos do manifesto de produção; manter testes explícitos para RADAR1500. As validações de publicação reais passaram e nenhuma trava foi desativada.
+- A pendência de testes mencionada na publicação inicial foi resolvida conforme o bloco acima. Nenhuma trava de publicação foi desativada.
 - Base ativa: 1.500 atletas por gênero, não 1.000. Não recolher os 3.000 breakdowns já validados.
 
 Trabalhar neste checkout, branch `codex/public-top1000-radar`, baseado em `4e253fc` (semana oficial 07/09/2026). Plano completo na pasta principal: `../../docs/PLANO_TOP1000_PUBLICO_RADAR.md` relativo à raiz deste checkout.

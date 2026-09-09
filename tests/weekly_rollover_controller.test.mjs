@@ -225,6 +225,8 @@ async function makeProject({
   snapshotOverrides = new Map(),
 } = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "weekly-rollover-"));
+  await fs.mkdir(path.join(root, "data/config"), { recursive: true });
+  await fs.writeFile(path.join(root, "data/config/base_state.json"), JSON.stringify({ state: "TOP1000_ACTIVE" }));
   const cleanDir = path.join(root, "data", "clean");
 
   const players = Array.from({ length: 2000 }, (_, index) => playerRow(index + 1));
@@ -323,6 +325,29 @@ async function makeProject({
 }
 
 describe("weekly rollover controller", () => {
+  test("reads RADAR1500 from the target directory and rejects a truncated ledger", async () => {
+    const root = await makeProject();
+    await fs.writeFile(path.join(root, "data/config/base_state.json"), JSON.stringify({ state: "RADAR1500_ACTIVE" }));
+    const players = [], snapshots = [], ledger = [], live = [];
+    for (let i = 1; i <= 3000; i++) {
+      const gender = i <= 1500 ? "M" : "F";
+      const rank = ((i - 1) % 1500) + 1;
+      players.push({ ...playerRow(i), gender, official_rank: rank });
+      snapshots.push(snapshotRow(i, "2026-06-15", { gender, rank }));
+      ledger.push(ledgerRow(i, { gender }));
+      live.push(liveRankingRow(i, "2026-06-15", { gender, official_rank: rank, live_rank: rank }));
+    }
+    for (const [file, rows] of [["players.csv", players], ["rankings_snapshot.csv", snapshots],
+      ["points_ledger.csv", ledger], ["live_ranking_with_drops.csv", live]]) {
+      await writeCsv(path.join(root, "data/clean", file), rows, Object.keys(rows[0]));
+    }
+    const args = { action: "status", mode: "dry-run", confirm: false, weekStart: "", weekEnd: "" };
+    const valid = await runWeeklyOperation(args, { cwd: root, today: "2026-06-22" });
+    assert.equal(valid.report.status, STATUS_WEEK_READY_TO_CLOSE);
+    await writeCsv(path.join(root, "data/clean/points_ledger.csv"), ledger.slice(0, 2000), LEDGER_COLUMNS);
+    const invalid = await runWeeklyOperation(args, { cwd: root, today: "2026-06-22" });
+    assert.equal(invalid.report.status, "INVALID_STATE");
+  });
   test("all events complete before week_end -> WEEK_COMPLETE_WAITING_END_DATE", async () => {
     const root = await makeProject();
     const result = await runWeeklyOperation(

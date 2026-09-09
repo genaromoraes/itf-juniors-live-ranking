@@ -128,6 +128,9 @@ export function getBaseStateLabel(options = {}) {
 
 // Official collectors and validators read the active base size at process start.
 // Legacy Top 1000 migration tools retain their explicit TOP1000 constants.
-export const TRACKED_BASE_LIMIT_PER_GENDER = getBaseState() === BASE_STATE_RADAR1500_ACTIVE
-  ? RADAR_LIMIT_PER_GENDER : TOP1000_BASE_LIMIT_PER_GENDER;
+export function getTrackedBaseLimitPerGender(options = {}) {
+  return getBaseState(options) === BASE_STATE_RADAR1500_ACTIVE
+    ? RADAR_LIMIT_PER_GENDER : TOP1000_BASE_LIMIT_PER_GENDER;
+}
+export const TRACKED_BASE_LIMIT_PER_GENDER = getTrackedBaseLimitPerGender();
 export const TRACKED_BASE_TOTAL = TRACKED_BASE_LIMIT_PER_GENDER * 2;

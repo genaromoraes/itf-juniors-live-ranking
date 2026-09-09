@@ -11,7 +11,6 @@ import {
   getBaseState,
   BASE_STATE_TOP1000_STAGING,
   TOP1000_BASE_LIMIT_PER_GENDER,
-  TRACKED_BASE_TOTAL,
 } from "./ranking_limits.mjs";
 import {
   BASELINE_POLICY,
@@ -236,7 +235,7 @@ export function summarizeStaging({ playersRows, ledgerRows, summaryRows = [], er
   }
   const missingIds = [...expectedIds].filter((id) => !processedIds.has(id));
   const lastSummary = summaryRows[summaryRows.length - 1] || {};
-  const expectedTotal = TRACKED_BASE_TOTAL;
+  const expectedTotal = TOP1000_BASE_LIMIT_PER_GENDER * 2;
   const completed = Math.min(processedIds.size, expectedTotal);
   return {
     state: BASE_STATE_TOP1000_STAGING,
@@ -264,7 +263,7 @@ export function validateTop1000Rows({
   errorRows = [],
 }) {
   const errors = [];
-  const expectedTotal = TRACKED_BASE_TOTAL;
+  const expectedTotal = TOP1000_BASE_LIMIT_PER_GENDER * 2;
   const expectedPerGender = TOP1000_BASE_LIMIT_PER_GENDER;
   const playerIds = playersRows.map((row) => cleanText(row.player_id));
   const uniquePlayerIds = new Set(playerIds.filter(Boolean));
