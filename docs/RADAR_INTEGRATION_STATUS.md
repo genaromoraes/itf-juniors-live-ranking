@@ -10,7 +10,9 @@ Este bloco substitui as instruções históricas de retomada abaixo.
 - A cobertura é certificada contra todos os 3.000 atletas do snapshot de 07/09, incluindo identidade, gênero, posição e pontos. Há lacunas na cauda: o limite seguro comprovado é **1,75 ponto**, não os 0,75 observados no último registro. Prefixos certificados: 4.415 M e 4.500 F.
 - Cópia limpa `.tmp/ci-top1000`: validação estrita aprovada, Top 1.000 M/F, zero candidatos pendentes; coerência aprovada com 30 torneios, 4.826 partidas, 4.377 resultados e zero erros de coleta.
 - Testes direcionados: 35/35 aprovados. Suíte completa no estado RADAR1500 real: 261/296 aprovados; 35 falhas em cenários antigos que assumem base 1.000 e leem limites do diretório de produção. O registro histórico de 292/292 abaixo foi obtido em configuração TOP1000 e **não certifica a suíte em RADAR1500**. Não alterar o manifesto de produção para contornar esses testes.
-- Próximo passo: publicar o commit corrigido pela rota de dados versionados, verificar conclusão do Pages e conferir o site público. A publicação ainda não foi confirmada neste registro.
+- Publicação confirmada: run `34322063315`, commit `b166a8b`, build e deploy concluídos com sucesso. URL: https://www.juniorsliveranking.com.br/.
+- Conferência no site público: masculino e feminino exibem 1.000 atletas após paginação; busca e breakdowns confirmados para Lasse Zajc Gajsek (M, posição 1.000, 75 pontos) e Disha Kumar (F, posição 1.000, 84,75 pontos). O build usa o pacote semanal versionado, sem alegar uma coleta nova nessa execução.
+- Pendência técnica separada: isolar fixtures e remover a dependência dos testes antigos do manifesto de produção; manter testes explícitos para RADAR1500. As validações de publicação reais passaram e nenhuma trava foi desativada.
 - Base ativa: 1.500 atletas por gênero, não 1.000. Não recolher os 3.000 breakdowns já validados.
 
 Trabalhar neste checkout, branch `codex/public-top1000-radar`, baseado em `4e253fc` (semana oficial 07/09/2026). Plano completo na pasta principal: `../../docs/PLANO_TOP1000_PUBLICO_RADAR.md` relativo à raiz deste checkout.
