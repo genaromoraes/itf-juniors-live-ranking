@@ -8,7 +8,7 @@
 - Migração histórica Top 1.000 mantém seu total explícito de 2.000. Validações de publicação, promoção e troca semanal agora consultam o manifesto da base de destino, não o diretório do processo chamador.
 - Fixtures históricas declaram seus limites; os testes dos coletores usam o tamanho ativo. Novas regressões cobrem publicação e promoção de 3.000 atletas, bloqueio de pacote truncado, preservação dos arquivos ao recusar promoção e troca semanal com radar ampliado.
 - O workflow Pages passa a executar `npm test` antes do build. Não foi alterado o manifesto da base real nem reduzida a exigência de cobertura pública.
-- Recálculo real: validação estrita aprovada, Top 1.000 M/F, zero candidatos pendentes. A publicação anterior continua válida; estes ajustes aguardam a execução do novo workflow.
+- Recálculo real: validação estrita aprovada, Top 1.000 M/F, zero candidatos pendentes. Commit `e96717f` publicado com sucesso no run `34341991201`: testes, build e deploy aprovados no GitHub (Linux/Node 20).
 
 Este bloco substitui as instruções históricas de retomada abaixo.
 
