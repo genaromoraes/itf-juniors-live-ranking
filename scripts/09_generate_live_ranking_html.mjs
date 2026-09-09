@@ -4863,22 +4863,28 @@ body.official-ranking-view .side {
         overflow-x: hidden;
       }
 
+      .table-hint,
       .table-scroll-hint {
         display: inline-flex;
         align-items: center;
         gap: 5px;
         flex-basis: 100%;
         width: fit-content;
-        color: var(--green-dark);
-        margin-left: auto;
+        max-width: 100%;
+        margin-left: 0;
         padding: 5px 10px 5px 8px;
         border: 1px solid color-mix(in srgb, var(--green-dark) 28%, transparent);
         border-radius: 999px;
         background: var(--green-soft);
         box-shadow: 0 3px 9px rgba(8, 117, 109, 0.12);
+        color: var(--green-dark);
         font-size: 9.5px;
         line-height: 1.2;
         font-weight: 700;
+      }
+
+      .table-scroll-hint {
+        margin-left: auto;
       }
 
       .table-scroll-hint::before {
