@@ -4816,8 +4816,17 @@ body.official-ranking-view .side {
       }
 
       .filters {
-        grid-template-columns: 1fr;
-        padding: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        padding: 8px;
+      }
+
+      .filters > .filter {
+        min-width: 0;
+      }
+
+      .filters > .filter:nth-child(3) {
+        grid-column: 1 / -1;
       }
 
       .top-controls {
