@@ -3728,10 +3728,22 @@ function buildHtml(
       border-radius: var(--radius-sm);
       background: rgba(247, 250, 249, 0.82);
       color: var(--text);
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: anywhere;
     }
 
     :root[data-theme="dark"] .points-detail {
       background: rgba(17, 27, 35, 0.86);
+    }
+
+    .points-detail-row td {
+      padding-top: 0;
+      padding-bottom: 8px;
+    }
+
+    .points-detail-row .points-detail {
+      margin-top: 0;
     }
 
     .points-detail-section + .points-detail-section {
@@ -6076,7 +6088,6 @@ body.official-ranking-view .side {
                ? '<button class="' + buttonClass + '" type="button" title="' + buttonTitle + '" aria-label="' + buttonTitle + '" onclick="togglePointsInfo(event, \\'' + escapeHtmlClient(row.player_id) + '\\')">' + buttonLabel + '</button>'
                : '') +
              '</div>' +
-             (isExpanded ? getPointsDetailHtml(row) : '') +
              '</div>';
     }
 
@@ -7086,7 +7097,7 @@ body.official-ranking-view .side {
             </td>
           \`;
 
-        return \`
+        const rowHtml = \`
           <tr class="\${selected}" data-player-id="\${escapeHtmlClient(row.player_id)}" onclick="selectPlayer('\${escapeHtmlClient(row.player_id)}')">
             <td>
               \${getRankingCellHtml(row)}
@@ -7103,6 +7114,13 @@ body.official-ranking-view .side {
             </td>
 
             \${liveOnlyCells}
+          </tr>
+        \`;
+        if (sortColumn === "OFFICIAL_RANK" || expandedPointsPlayerId !== row.player_id) return rowHtml;
+
+        return rowHtml + \`
+          <tr class="points-detail-row">
+            <td colspan="7">\${getPointsDetailHtml(row)}</td>
           </tr>
         \`;
       }).join("");
