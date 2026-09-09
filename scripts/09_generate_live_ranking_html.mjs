@@ -4895,21 +4895,6 @@ body.official-ranking-view .side {
         scrollbar-width: thin;
       }
 
-      .table-scroll-wrap::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 34px;
-        background: linear-gradient(90deg, rgba(247, 250, 249, 0), var(--panel) 82%);
-        pointer-events: none;
-      }
-
-      :root[data-theme="dark"] .table-scroll-wrap::after {
-        background: linear-gradient(90deg, rgba(23, 36, 45, 0), var(--panel) 82%);
-      }
-
       .table-scroll-wrap table {
         min-width: 610px;
         table-layout: fixed;
