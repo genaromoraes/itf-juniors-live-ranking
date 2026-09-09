@@ -4861,10 +4861,15 @@ body.official-ranking-view .side {
         flex-basis: 100%;
         width: fit-content;
         color: var(--green-dark);
-        font-size: 9px;
+        margin-left: 8px;
+        padding: 5px 10px 5px 8px;
+        border: 1px solid color-mix(in srgb, var(--green-dark) 28%, transparent);
+        border-radius: 999px;
+        background: var(--green-soft);
+        box-shadow: 0 3px 9px rgba(8, 117, 109, 0.12);
+        font-size: 9.5px;
         line-height: 1.2;
         font-weight: 700;
-        padding: 2px 0 0;
       }
 
       .table-scroll-hint::before {
@@ -5185,7 +5190,7 @@ body.official-ranking-view .side {
             <span id="rankingContext">Base oficial: ${escapeHtml(rankingDate || "não informado")}</span>
           </span>
           <span class="table-hint" id="tableHint">Clique em um atleta para abrir o painel com os detalhes.</span>
-          <span class="table-scroll-hint" id="tableScrollHint">Deslize para a direita para ver mais dados.</span>
+          <span class="table-scroll-hint" id="tableScrollHint">Deslize para a direita para ver mais resultados.</span>
         </div>
 
         <div class="table-scroll-wrap" id="tableScrollWrap">
@@ -5351,7 +5356,7 @@ body.official-ranking-view .side {
         close: "Fechar",
         profileEmpty: "Clique em um atleta da tabela para ver o resumo de pontuação.",
         tableHint: "Clique em um atleta para abrir o painel com os detalhes.",
-        tableScrollHint: "Deslize para a direita para ver mais dados.",
+        tableScrollHint: "Deslize para a direita para ver mais resultados.",
         noResult: "Sem resultado registrado.",
         counting: "Contando",
         notCounting: "Não contando",
@@ -5437,7 +5442,7 @@ body.official-ranking-view .side {
         close: "Close",
         profileEmpty: "Click a player in the table to see the points summary.",
         tableHint: "Click a player to open the details panel.",
-        tableScrollHint: "Swipe right to see more data.",
+        tableScrollHint: "Swipe right to see more results.",
         noResult: "No result recorded.",
         counting: "Counting",
         notCounting: "Not counting",
@@ -5523,7 +5528,7 @@ body.official-ranking-view .side {
         close: "Cerrar",
         profileEmpty: "Haz clic en un jugador de la tabla para ver el resumen de puntos.",
         tableHint: "Haz clic en un jugador para abrir el panel de detalles.",
-        tableScrollHint: "Desliza hacia la derecha para ver más datos.",
+        tableScrollHint: "Desliza hacia la derecha para ver más resultados.",
         noResult: "No hay resultado registrado.",
         counting: "Contando",
         notCounting: "No contando",
