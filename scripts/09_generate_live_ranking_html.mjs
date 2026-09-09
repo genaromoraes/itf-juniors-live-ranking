@@ -7,7 +7,10 @@ import {
   buildEventKey,
   classifyEventCompletion,
 } from "./lib/week_completion.mjs";
-import { PUBLIC_RANK_LIMIT_PER_GENDER } from "./lib/ranking_limits.mjs";
+import {
+  PUBLIC_RANK_LIMIT_PER_GENDER,
+  RADAR_LIMIT_PER_GENDER,
+} from "./lib/ranking_limits.mjs";
 
 function readArg(name, fallback = "") {
   const prefix = `--${name}=`;
@@ -5098,6 +5101,7 @@ body.official-ranking-view .side {
   <script>
     const rankingData = ${dataJson};
     const publicRankLimitPerGender = ${PUBLIC_RANK_LIMIT_PER_GENDER};
+    const brazilRankLimitPerGender = ${RADAR_LIMIT_PER_GENDER};
     const tournamentGroups = ${tournamentGroupsJson};
     const pointsByCategory = ${pointsByCategoryJson};
     const rolloverNotice = ${rolloverNoticeJson};
@@ -5154,7 +5158,7 @@ body.official-ranking-view .side {
         turnoverBase: "Virada",
         turnover: "Virada de ano",
         turnoverTitle: "Ranking sem atletas nascidos em ",
-        brazilTop1000Summary: "Brasileiros Top 1000",
+        brazilTop1500Summary: "Brasileiros Top 1500",
         category: "Categoria",
         filterCategory: "Filtrar categoria",
         boys: "Masculino",
@@ -5239,7 +5243,7 @@ body.official-ranking-view .side {
         turnoverBase: "Turnover",
         turnover: "Year-end turnover",
         turnoverTitle: "Ranking without players born in ",
-        brazilTop1000Summary: "Brazilian Top 1000 players",
+        brazilTop1500Summary: "Brazilian Top 1500 players",
         category: "Category",
         filterCategory: "Filter category",
         boys: "Boys",
@@ -5324,7 +5328,7 @@ body.official-ranking-view .side {
         turnoverBase: "Cambio de año",
         turnover: "Cambio de año",
         turnoverTitle: "Ranking sin jugadores nacidos en ",
-        brazilTop1000Summary: "Brasileños Top 1000",
+        brazilTop1500Summary: "Brasileños Top 1500",
         category: "Categoría",
         filterCategory: "Filtrar categoría",
         boys: "Masculino",
@@ -5577,7 +5581,7 @@ body.official-ranking-view .side {
 
     function getCountryDisplayName(country) {
       if (!country) return "";
-      if (country.code === "BRA") return "Brasil (Top 1000)";
+      if (country.code === "BRA") return "Brasil (Top 1500)";
 
       return country.name && country.name !== country.code
         ? country.code + " - " + country.name
@@ -5831,13 +5835,13 @@ body.official-ranking-view .side {
       return selectedCountry && selectedCountry.code === "BRA";
     }
 
-    function isTrackedTop1000Player(row) {
+    function isTrackedBrazilPlayer(row) {
       const liveRank = Number(row.live_rank || 0);
       const officialRank = Number(row.official_rank || 0);
 
       return (
-        (liveRank > 0 && liveRank <= 1000) ||
-        (officialRank > 0 && officialRank <= 1000)
+        (liveRank > 0 && liveRank <= brazilRankLimitPerGender) ||
+        (officialRank > 0 && officialRank <= brazilRankLimitPerGender)
       );
     }
 
@@ -6141,7 +6145,7 @@ body.official-ranking-view .side {
         return false;
       }
 
-      if (isBrazilCountryFilterActive() && !isTrackedTop1000Player(row)) {
+      if (isBrazilCountryFilterActive() && !isTrackedBrazilPlayer(row)) {
         return false;
       }
 
@@ -6199,7 +6203,9 @@ body.official-ranking-view .side {
       if (isBrazilCountryFilterActive()) return true;
       if (!isGenerationRankingActive()) return true;
 
-      const rank = getDisplayRank(row);
+      // Generation rank is used for ordering the filtered table, but the
+      // public cutoff remains based on the player's global ranking.
+      const rank = getRankBasis(row);
 
       return rank > 0 && rank <= publicRankLimitPerGender;
     }
@@ -6894,7 +6900,7 @@ body.official-ranking-view .side {
         : rows.length.toLocaleString(summaryLocale);
       visibleSummary.innerHTML = '<strong>' + visibleCount + '</strong> ' + t("playersShown") +
         (isBrazilCountryFilterActive()
-          ? ' · ' + escapeHtmlClient(t("brazilTop1000Summary"))
+          ? ' · ' + escapeHtmlClient(t("brazilTop1500Summary"))
           : selectedCountry
             ? ' · ' + escapeHtmlClient(selectedCountry.code)
             : '') +
