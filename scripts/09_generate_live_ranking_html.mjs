@@ -4870,7 +4870,7 @@ body.official-ranking-view .side {
         flex-basis: 100%;
         width: fit-content;
         color: var(--green-dark);
-        margin-left: 16px;
+        margin-left: auto;
         padding: 5px 10px 5px 8px;
         border: 1px solid color-mix(in srgb, var(--green-dark) 28%, transparent);
         border-radius: 999px;
