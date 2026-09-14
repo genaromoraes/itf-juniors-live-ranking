@@ -38,6 +38,7 @@ export const REQUIRED_SOURCE_FILES = [
 export const DESTINATION_FILES = {
   players: "data/clean/players.csv",
   snapshot: "data/clean/rankings_snapshot.csv",
+  universe: "data/clean/rankings_universe.csv",
   ledger: "data/clean/points_ledger.csv",
 };
 
@@ -403,6 +404,7 @@ export async function loadPromotionData({
   const destinationFiles = {
     players: resolvePath(cwd, DESTINATION_FILES.players),
     snapshot: resolvePath(cwd, DESTINATION_FILES.snapshot),
+    universe: resolvePath(cwd, DESTINATION_FILES.universe),
     ledger: resolvePath(cwd, DESTINATION_FILES.ledger),
   };
   const oldPlayersRows = await readCsv(destinationFiles.players);
@@ -595,6 +597,11 @@ export async function runPromotion(rawArgs, deps = {}) {
 
       await copyFileEnsuringDir(data.sourceFiles.playersFile, `${data.destinationFiles.players}.next`);
       await copyFileEnsuringDir(data.sourceFiles.snapshotFile, `${data.destinationFiles.snapshot}.next`);
+      // The candidate audit certifies rankings_universe.csv against the
+      // current official snapshot. Keep the certified universe synchronized
+      // during the same atomic promotion so Pages cannot mix two ranking
+      // dates after a weekly rollover.
+      await copyFileEnsuringDir(data.sourceFiles.snapshotFile, `${data.destinationFiles.universe}.next`);
       await copyFileEnsuringDir(data.sourceFiles.ledgerFile, `${data.destinationFiles.ledger}.next`);
       if (deps.failAfterNextWrite) {
         throw new Error("Falha simulada apos gravar arquivos .next.");
@@ -621,6 +628,7 @@ export async function runPromotion(rawArgs, deps = {}) {
         throw new Error("Falha simulada apos primeiro rename.");
       }
       await fs.rename(`${data.destinationFiles.snapshot}.next`, data.destinationFiles.snapshot);
+      await fs.rename(`${data.destinationFiles.universe}.next`, data.destinationFiles.universe);
       await fs.rename(`${data.destinationFiles.ledger}.next`, data.destinationFiles.ledger);
       await validateDestinationAfterApply(
         data.destinationFiles,

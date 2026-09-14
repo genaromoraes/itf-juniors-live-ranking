@@ -191,6 +191,11 @@ async function makeProject(overrides = {}) {
     oldSnapshot,
     OFFICIAL_SNAPSHOT_COLUMNS
   );
+  await writeCsv(
+    path.join(cleanDir, "rankings_universe.csv"),
+    oldSnapshot,
+    OFFICIAL_SNAPSHOT_COLUMNS
+  );
   await writeCsv(path.join(cleanDir, "points_ledger.csv"), oldLedger, LEDGER_COLUMNS);
   const source = await writeSource(sourceDir, overrides);
 
@@ -368,6 +373,10 @@ describe("official reconciliation promotion", () => {
     assert.equal((await readCsv(path.join(root, "data/clean/players.csv"))).length, 2000);
     assert.equal(
       (await readCsv(path.join(root, "data/clean/rankings_snapshot.csv")))[0].ranking_date,
+      RANKING_DATE
+    );
+    assert.equal(
+      (await readCsv(path.join(root, "data/clean/rankings_universe.csv")))[0].ranking_date,
       RANKING_DATE
     );
   });
