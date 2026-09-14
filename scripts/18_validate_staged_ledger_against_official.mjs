@@ -450,51 +450,93 @@ async function defaultDirectRequest({ url, referer, timeoutMs }) {
   }
 }
 
-async function defaultBrowserRequest({ url, referer, timeoutMs }, browserState) {
-  if (!browserState.context) {
-    browserState.browser = await chromium.launch({ headless: true });
-    browserState.context = await browserState.browser.newContext();
-    browserState.page = await browserState.context.newPage();
-    await browserState.page.goto(RANKING_PAGE_URL, { waitUntil: "domcontentloaded" });
-    await browserState.page.waitForTimeout(5000);
+async function withBrowserTimeout(operation, timeoutMs, label) {
+  let timeoutId;
+  const operationPromise = Promise.resolve().then(operation);
+  // A Playwright evaluation can outlive Promise.race when its page is closed;
+  // consume that late rejection so a timed-out fallback cannot crash the job.
+  operationPromise.catch(() => {});
+  const timeoutPromise = new Promise((_, reject) => {
+    timeoutId = setTimeout(
+      () => reject(new Error(`${label} excedeu ${timeoutMs}ms.`)),
+      timeoutMs
+    );
+  });
 
-    const content = await browserState.page.content();
-    if (detectBrowserChallenge(content)) {
-      throw new Error("Browser page carregou challenge ou bloqueio HTML antes da coleta.");
-    }
+  try {
+    return await Promise.race([operationPromise, timeoutPromise]);
+  } finally {
+    clearTimeout(timeoutId);
   }
+}
 
-  return browserState.page.evaluate(
-    async ({ requestUrl, requestReferer, requestTimeoutMs }) => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), requestTimeoutMs);
+async function resetBrowserState(browserState) {
+  await browserState.page?.close().catch(() => {});
+  await browserState.context?.close().catch(() => {});
+  await browserState.browser?.close().catch(() => {});
+  browserState.page = null;
+  browserState.context = null;
+  browserState.browser = null;
+}
 
-      try {
-        const response = await fetch(requestUrl, {
-          method: "GET",
-          credentials: "include",
-          signal: controller.signal,
-          headers: {
-            accept: "application/json, text/plain, */*",
-            referer: requestReferer,
-          },
-        });
+async function defaultBrowserRequest({ url, referer, timeoutMs }, browserState) {
+  try {
+    if (!browserState.context) {
+      browserState.browser = await chromium.launch({ headless: true });
+      browserState.context = await browserState.browser.newContext();
+      browserState.page = await browserState.context.newPage();
+      await browserState.page.goto(RANKING_PAGE_URL, {
+        waitUntil: "domcontentloaded",
+        timeout: timeoutMs,
+      });
+      await browserState.page.waitForTimeout(5000);
 
-        return {
-          status: response.status,
-          contentType: response.headers.get("content-type") || "",
-          text: await response.text(),
-        };
-      } finally {
-        clearTimeout(timeoutId);
+      const content = await browserState.page.content();
+      if (detectBrowserChallenge(content)) {
+        throw new Error("Browser page carregou challenge ou bloqueio HTML antes da coleta.");
       }
-    },
-    {
-      requestUrl: url,
-      requestReferer: referer,
-      requestTimeoutMs: timeoutMs,
     }
-  );
+
+    return await withBrowserTimeout(
+      () =>
+        browserState.page.evaluate(
+          async ({ requestUrl, requestReferer, requestTimeoutMs }) => {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), requestTimeoutMs);
+
+            try {
+              const response = await fetch(requestUrl, {
+                method: "GET",
+                credentials: "include",
+                signal: controller.signal,
+                headers: {
+                  accept: "application/json, text/plain, */*",
+                  referer: requestReferer,
+                },
+              });
+
+              return {
+                status: response.status,
+                contentType: response.headers.get("content-type") || "",
+                text: await response.text(),
+              };
+            } finally {
+              clearTimeout(timeoutId);
+            }
+          },
+          {
+            requestUrl: url,
+            requestReferer: referer,
+            requestTimeoutMs: timeoutMs,
+          }
+        ),
+      timeoutMs,
+      `Requisição browser ${url}`
+    );
+  } catch (error) {
+    await resetBrowserState(browserState);
+    throw error;
+  }
 }
 
 async function recordFailureBody(outputPaths, outputDir, genderInfo, skip, networkMode, attempt, text, extension = "html") {
