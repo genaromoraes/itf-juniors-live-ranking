@@ -41,8 +41,10 @@ import {
 export const NETWORK_MODE_DIRECT = "direct";
 export const NETWORK_MODE_BROWSER = "browser";
 export const NETWORK_MODE_AUTO = "auto";
-export const DIRECT_MAX_RETRIES = 2;
-export const DIRECT_RETRY_DELAY_MS = 15000;
+export const DIRECT_MAX_RETRIES =
+  Number(process.env.ITF_OFFICIAL_DIRECT_MAX_RETRIES) || 2;
+export const DIRECT_RETRY_DELAY_MS =
+  Number(process.env.ITF_OFFICIAL_DIRECT_RETRY_DELAY_MS) || 15000;
 export const BROWSER_MAX_RETRIES =
   Number(process.env.ITF_OFFICIAL_BROWSER_MAX_RETRIES) || 1;
 export const BROWSER_RETRY_DELAY_MS =

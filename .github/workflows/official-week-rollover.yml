@@ -108,8 +108,13 @@ jobs:
       - name: Run official week rollover
         env:
           ITF_OFFICIAL_REQUEST_TIMEOUT_MS: "90000"
+          # Incapsula can return a challenge transiently for one ranking page.
+          # Keep the run safe (never promote incomplete data) while allowing
+          # the direct API path enough time to recover before browser fallback.
+          ITF_OFFICIAL_DIRECT_MAX_RETRIES: "5"
+          ITF_OFFICIAL_DIRECT_RETRY_DELAY_MS: "20000"
           ITF_OFFICIAL_BROWSER_MAX_RETRIES: "2"
-          ITF_OFFICIAL_BROWSER_RETRY_DELAY_MS: "15000"
+          ITF_OFFICIAL_BROWSER_RETRY_DELAY_MS: "20000"
         run: |
           set -Eeuo pipefail
           mkdir -p "$LOG_DIR" "$BACKFILL_DIR" "$WEEK_CLOSE_DIR" "$VALIDATION_DIR" "$RECONCILIATION_DIR"
