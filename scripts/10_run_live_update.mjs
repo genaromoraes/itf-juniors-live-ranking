@@ -44,7 +44,12 @@ const STEPS = [
   {
     name: "Buscar universo oficial de rankings",
     command: "node",
-    args: ["scripts/03_fetch_rankings_universe.mjs"],
+    // The production snapshot currently contains 1,500 players per gender.
+    // Fetch exactly that certified prefix here: asking for the optional
+    // 5,000-player radar tail makes the weekly publication depend on a much
+    // larger number of ITF requests and causes a valid rollover to fall back
+    // when the tail is blocked, even though the public ranking is complete.
+    args: ["scripts/03_fetch_rankings_universe.mjs", "--limit-per-gender=1500"],
     requiredOutputs: ["data/clean/rankings_universe.csv"],
   },
   {
