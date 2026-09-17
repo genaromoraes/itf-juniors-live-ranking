@@ -120,6 +120,35 @@ describe("public Top 1000 publication validation", () => {
     assert.equal(result.valid, true, result.errors.join("\n"));
   });
 
+  test("accepts an externally ranked player with a valid empty breakdown", () => {
+    const fixture = buildFixture();
+    const externalRow = {
+      player_id: "external-empty-public",
+      player_name: "External Empty Public",
+      gender: "M",
+      official_rank: "1001",
+      live_rank: "1000",
+      live_points: "1000",
+      ranking_date: RANKING_DATE,
+      calculated_at: "2026-09-01T00:00:00.000Z",
+    };
+    fixture.liveRankingRows.push(externalRow);
+    fixture.candidateRows.push({
+      player_id: externalRow.player_id,
+      player_name: externalRow.player_name,
+      candidate_status: STATUS_INCLUDED,
+      breakdown_fetched: "true",
+      breakdown_row_count: "0",
+      breakdown_cache_file: "data/raw/external_candidate_breakdowns/empty-public.json",
+      ranking_date: RANKING_DATE,
+      official_points_status: "KNOWN",
+    });
+
+    const result = validatePublicationData(fixture);
+
+    assert.equal(result.valid, true, result.errors.join("\n"));
+  });
+
   test("rejects a processed candidate with no ledger and no empty-breakdown evidence", () => {
     const fixture = buildFixture();
     fixture.candidateRows.push({

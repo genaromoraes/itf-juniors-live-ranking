@@ -278,7 +278,17 @@ export function validatePublicationData({
   }
 
   const ledgerIds = new Set([...ids(pointsLedgerRows), ...ids(candidateLedgerRows)]);
-  const publicWithoutLedger = publicRankingRows.filter((row) => !ledgerIds.has(cleanText(row.player_id)));
+  const candidateById = new Map(
+    candidateRows.map((row) => [cleanText(row.player_id), row])
+  );
+  const hasValidEmptyBreakdown = (row) =>
+    cleanText(row?.breakdown_fetched) === "true" &&
+    cleanText(row?.breakdown_row_count) === "0" &&
+    Boolean(cleanText(row?.breakdown_cache_file));
+  const publicWithoutLedger = publicRankingRows.filter((row) => {
+    if (ledgerIds.has(cleanText(row.player_id))) return false;
+    return !hasValidEmptyBreakdown(candidateById.get(cleanText(row.player_id)));
+  });
   if (publicWithoutLedger.length > 0) {
     errors.push(
       `${publicWithoutLedger.length} atleta(s) publico(s) nao possuem breakdown no ledger: ${publicWithoutLedger
@@ -324,13 +334,8 @@ export function validatePublicationData({
   const invalidProcessedCandidates = processedCandidates.filter((row) => {
     const playerId = cleanText(row.player_id);
     const ledgerRowCount = candidateLedgerRowCounts.get(playerId) || 0;
-    const hasValidEmptyBreakdown =
-      cleanText(row.breakdown_fetched) === "true" &&
-      cleanText(row.breakdown_row_count) === "0" &&
-      Boolean(cleanText(row.breakdown_cache_file));
-
     return (
-      (ledgerRowCount === 0 && !hasValidEmptyBreakdown) ||
+      (ledgerRowCount === 0 && !hasValidEmptyBreakdown(row)) ||
       cleanText(row.ranking_date) !== snapshotDates[0] ||
       cleanText(row.official_points_status) === "UNKNOWN"
     );
@@ -342,11 +347,7 @@ export function validatePublicationData({
         const playerId = cleanText(row.player_id);
         const reasons = [];
         const ledgerRowCount = candidateLedgerRowCounts.get(playerId) || 0;
-        const hasValidEmptyBreakdown =
-          cleanText(row.breakdown_fetched) === "true" &&
-          cleanText(row.breakdown_row_count) === "0" &&
-          Boolean(cleanText(row.breakdown_cache_file));
-        if (ledgerRowCount === 0 && !hasValidEmptyBreakdown) reasons.push("sem ledger");
+        if (ledgerRowCount === 0 && !hasValidEmptyBreakdown(row)) reasons.push("sem ledger");
         if (cleanText(row.ranking_date) !== snapshotDates[0]) reasons.push("semana desatualizada");
         if (cleanText(row.official_points_status) === "UNKNOWN") reasons.push("pontuacao oficial desconhecida");
         return `${cleanText(row.player_name) || playerId} (${reasons.join(", ")})`;
