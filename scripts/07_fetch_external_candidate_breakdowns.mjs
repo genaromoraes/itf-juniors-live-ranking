@@ -139,12 +139,17 @@ async function getBreakdown(page, candidate, rankingDate, force) {
       player,
     });
     if (cached) {
+      if (!Array.isArray(cached.json?.countable)) {
+        throw new Error("Resposta em cache sem a estrutura oficial countable.");
+      }
+      const rows = extractLedgerRowsFromRankingPoints(cached.json, player, cached.sourceUrl, {
+        status: "confirmed_external_candidate_breakdown",
+      });
       return {
         fromCache: true,
         rawFile: cached.rawFile,
-        rows: extractLedgerRowsFromRankingPoints(cached.json, player, cached.sourceUrl, {
-          status: "confirmed_external_candidate_breakdown",
-        }),
+        rows,
+        rowCount: rows.length,
       };
     }
   }
@@ -159,6 +164,10 @@ async function getBreakdown(page, candidate, rankingDate, force) {
     throw error;
   }
 
+  if (!Array.isArray(result.json?.countable)) {
+    throw new Error("Resposta sem a estrutura oficial countable.");
+  }
+
   const rawFile = await saveRawBreakdown({
     rawDir: RAW_DIR,
     rankingDate,
@@ -167,12 +176,15 @@ async function getBreakdown(page, candidate, rankingDate, force) {
     json: result.json,
   });
 
+  const rows = extractLedgerRowsFromRankingPoints(result.json, player, url, {
+    status: "confirmed_external_candidate_breakdown",
+  });
+
   return {
     fromCache: false,
     rawFile,
-    rows: extractLedgerRowsFromRankingPoints(result.json, player, url, {
-      status: "confirmed_external_candidate_breakdown",
-    }),
+    rows,
+    rowCount: rows.length,
   };
 }
 
@@ -248,6 +260,7 @@ async function main() {
           candidate_status: STATUS_FETCHED,
           breakdown_required: "false",
           breakdown_fetched: "true",
+          breakdown_row_count: String(result.rowCount),
           breakdown_cache_file: path.relative(process.cwd(), result.rawFile),
           reason: "breakdown_fetched",
         });
@@ -258,6 +271,7 @@ async function main() {
           candidate_status: status,
           breakdown_required: "true",
           breakdown_fetched: "false",
+          breakdown_row_count: "",
           reason: err.isBlocked ? "blocked_by_itf" : "breakdown_fetch_error",
         });
         errorRows.push({

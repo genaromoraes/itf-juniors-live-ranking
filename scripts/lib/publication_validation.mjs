@@ -314,10 +314,47 @@ export function validatePublicationData({
   if (unexamined.size) errors.push(`${unexamined.size} atleta(s) externo(s) sem auditoria de candidatura.`);
   const processedCandidates = candidateRows.filter(row =>
     [STATUS_FETCHED, STATUS_INCLUDED].includes(cleanText(row.candidate_status)));
-  const candidateLedgerIds = ids(candidateLedgerRows);
-  if (processedCandidates.some(row => !candidateLedgerIds.has(cleanText(row.player_id)) ||
-      cleanText(row.ranking_date) !== snapshotDates[0] || row.official_points_status === "UNKNOWN")) {
-    errors.push("Candidato processado sem ledger, com semana desatualizada ou pontuacao oficial desconhecida.");
+  const candidateLedgerRowCounts = new Map();
+  for (const row of candidateLedgerRows) {
+    const playerId = cleanText(row.player_id);
+    if (playerId) {
+      candidateLedgerRowCounts.set(playerId, (candidateLedgerRowCounts.get(playerId) || 0) + 1);
+    }
+  }
+  const invalidProcessedCandidates = processedCandidates.filter((row) => {
+    const playerId = cleanText(row.player_id);
+    const ledgerRowCount = candidateLedgerRowCounts.get(playerId) || 0;
+    const hasValidEmptyBreakdown =
+      cleanText(row.breakdown_fetched) === "true" &&
+      cleanText(row.breakdown_row_count) === "0" &&
+      Boolean(cleanText(row.breakdown_cache_file));
+
+    return (
+      (ledgerRowCount === 0 && !hasValidEmptyBreakdown) ||
+      cleanText(row.ranking_date) !== snapshotDates[0] ||
+      cleanText(row.official_points_status) === "UNKNOWN"
+    );
+  });
+  if (invalidProcessedCandidates.length > 0) {
+    const details = invalidProcessedCandidates
+      .slice(0, 5)
+      .map((row) => {
+        const playerId = cleanText(row.player_id);
+        const reasons = [];
+        const ledgerRowCount = candidateLedgerRowCounts.get(playerId) || 0;
+        const hasValidEmptyBreakdown =
+          cleanText(row.breakdown_fetched) === "true" &&
+          cleanText(row.breakdown_row_count) === "0" &&
+          Boolean(cleanText(row.breakdown_cache_file));
+        if (ledgerRowCount === 0 && !hasValidEmptyBreakdown) reasons.push("sem ledger");
+        if (cleanText(row.ranking_date) !== snapshotDates[0]) reasons.push("semana desatualizada");
+        if (cleanText(row.official_points_status) === "UNKNOWN") reasons.push("pontuacao oficial desconhecida");
+        return `${cleanText(row.player_name) || playerId} (${reasons.join(", ")})`;
+      })
+      .join("; ");
+    errors.push(
+      `${invalidProcessedCandidates.length} candidato(s) processado(s) sem evidencia valida: ${details}.`
+    );
   }
   if (unresolvedCandidates.length > 0) {
     errors.push(

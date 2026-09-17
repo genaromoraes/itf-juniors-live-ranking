@@ -102,6 +102,41 @@ describe("public Top 1000 publication validation", () => {
     assert.match(validatePublicationData(fixture).errors.join("\n"), /semana desatualizada/);
   });
 
+  test("accepts a valid empty external breakdown with explicit evidence", () => {
+    const fixture = buildFixture();
+    fixture.candidateRows.push({
+      player_id: "external-empty",
+      player_name: "External Empty",
+      candidate_status: STATUS_INCLUDED,
+      breakdown_fetched: "true",
+      breakdown_row_count: "0",
+      breakdown_cache_file: "data/raw/external_candidate_breakdowns/empty.json",
+      ranking_date: RANKING_DATE,
+      official_points_status: "KNOWN",
+    });
+
+    const result = validatePublicationData(fixture);
+
+    assert.equal(result.valid, true, result.errors.join("\n"));
+  });
+
+  test("rejects a processed candidate with no ledger and no empty-breakdown evidence", () => {
+    const fixture = buildFixture();
+    fixture.candidateRows.push({
+      player_id: "external-missing",
+      player_name: "External Missing",
+      candidate_status: STATUS_INCLUDED,
+      breakdown_fetched: "true",
+      ranking_date: RANKING_DATE,
+      official_points_status: "KNOWN",
+    });
+
+    const result = validatePublicationData(fixture);
+
+    assert.equal(result.valid, false);
+    assert.match(result.errors.join("\n"), /External Missing/);
+  });
+
   test("accepts a complete 1000 per gender package", () => {
     const result = validatePublicationData(buildFixture());
 

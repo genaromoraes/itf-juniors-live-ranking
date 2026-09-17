@@ -43,6 +43,7 @@ export const EXTERNAL_CANDIDATE_COLUMNS = [
   "candidate_status",
   "breakdown_required",
   "breakdown_fetched",
+  "breakdown_row_count",
   "breakdown_cache_file",
   "reason",
   "sources",
@@ -521,6 +522,10 @@ export function classifyExternalCandidates({
           candidateStatus === STATUS_FETCHED || candidateStatus === STATUS_INCLUDED
             ? "true"
             : cleanText(previous.breakdown_fetched) || "false",
+        breakdown_row_count:
+          candidateStatus === STATUS_FETCHED || candidateStatus === STATUS_INCLUDED
+            ? cleanText(previous.breakdown_row_count)
+            : "",
         breakdown_cache_file: cleanText(previous.breakdown_cache_file),
         reason,
         sources: cleanText(participant.sources),
