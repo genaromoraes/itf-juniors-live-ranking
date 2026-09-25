@@ -1,3 +1,4 @@
+import { buildWeekJourneys } from "./lib/week_journeys.mjs";
 ﻿import fs from "fs/promises";
 import "dotenv/config";
 import path from "path";
@@ -2425,7 +2426,7 @@ export function buildDeliveryPayload(data, chunkSize = PLAYER_DETAILS_CHUNK_SIZE
   const rankingData = data.map((row, index) => {
     const chunkIndex = Math.floor(index / chunkSize);
     if (!detailChunks[chunkIndex]) detailChunks[chunkIndex] = {};
-    detailChunks[chunkIndex][row.player_id] = compactPointCartel(row.point_cartel);
+    detailChunks[chunkIndex][row.player_id] = { ...compactPointCartel(row.point_cartel), ...(row.week_games?.length ? { games: row.week_games } : {}) };
 
     return {
       live_rank: row.live_rank,
@@ -2671,6 +2672,9 @@ function buildHtml(
     pointDetailsMap,
     pointCartelMap
   );
+  const journeys = buildWeekJourneys(weekMatches, fullData);
+  for (const games of journeys.values()) for (const game of games) for (const player of [...game.team, ...game.opponents]) player.iso2 = countryCodeToIso2(player.country);
+  for (const row of fullData) row.week_games = journeys.get(row.player_id) || [];
   const { rankingData: data, detailChunks } = buildDeliveryPayload(fullData);
   const stats = getStats(rows);
   const tournamentGroups = groupWeekTournaments(weekTournaments, weekMatches);
@@ -3778,6 +3782,49 @@ function buildHtml(
       line-height: 1.12;
     }
 
+    .journey-trigger { background: none; border: 0; padding: 2px; color: inherit; font: inherit; cursor: pointer; text-align: left; border-radius: 5px; }
+    .journey-trigger:hover, .journey-trigger:focus-visible { outline: 2px solid var(--muted); outline-offset: 2px; }
+    #journeyDialog { width: min(440px, calc(100vw - 28px)); max-height: 85dvh; box-sizing: border-box; border: 1px solid var(--border); border-radius: 22px; padding: 28px; background: var(--panel-solid, var(--panel)); color: var(--text); box-shadow: 0 24px 80px rgba(0,0,0,.2); }
+    #journeyDialog::backdrop { background: rgba(12,24,28,.45); backdrop-filter: blur(4px); }
+    .journey-close { position: absolute; right: 16px; top: 16px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 0; background: var(--panel-soft); color: var(--muted); font-size: 22px; cursor: pointer; }
+    .journey-close:hover { color: var(--text); background: var(--border); }
+    #journeyTitle { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 32px 8px 0; }
+    .journey-athlete { display: block; font-size: 22px; font-weight: 700; letter-spacing: -.035em; line-height: 1.2; padding-right: 16px; margin-bottom: 24px; }
+    #journeyContent h3 { font-size: 11px; font-weight: 600; color: var(--muted); margin: 20px 0 10px; }
+    .journey-game { padding: 16px; border: 1px solid var(--border); border-radius: 14px; line-height: 1.5; }
+    .journey-meta { color: var(--muted); font-size: 11px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .journey-round { font-weight: 700; white-space: nowrap; color: var(--text); }
+    .journey-match-line { display: grid; gap: 0; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+    .journey-match-side { display: grid; gap: 8px; min-width: 0; }
+    .journey-inline-player { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: baseline; column-gap: 9px; font-weight: 400; }
+    .journey-inline-player > strong, .journey-inline-player > span:not(.journey-inline-rank) { grid-column: 2; min-width: 0; }
+    .journey-inline-player strong { font-weight: 700; }
+    .journey-inline-player .country-flag { display: inline-block; width: 18px; height: 13px; object-fit: cover; align-self: start; margin-top: 3px; grid-column: 1; }
+    .journey-inline-rank { color: var(--muted); font-size: 11px; font-weight: 400; white-space: nowrap; }
+    .journey-connector, .journey-pair-divider { color: var(--muted); font-weight: 400; }
+    .journey-connector { display: block; margin: 7px 0 7px 27px; font-size: 10px; line-height: 1; }
+    .journey-pair-divider { display: none; }
+    .journey-match-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .journey-match-footer:empty { display: none; }
+    .journey-inline-score { display: inline-block; margin: 0; padding: 5px 12px; border-radius: 8px; background: var(--panel-soft); border: 1px solid var(--border); color: var(--text); font-size: 16px; font-weight: 750; line-height: 1.5; font-variant-numeric: tabular-nums; }
+    .journey-player { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; }
+    .journey-player-name { flex: 1; min-width: 0; font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+    .journey-country { font-size: 10px; letter-spacing: .04em; color: var(--muted); }
+    .journey-rank { min-width: 33px; text-align: right; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .journey-versus { display: flex; align-items: center; gap: 8px; font-size: 9px; color: var(--muted); margin: 8px 0; }
+    .journey-versus::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .journey-score { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .journey-score:empty { display: none; }
+    .journey-score strong { font-size: 18px; font-weight: 650; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+    .journey-result { font-size: 11px; color: var(--muted); }
+    .journey-result.win { color: var(--green, #18745a); }
+    #journeyDialog details { margin-top: 12px; }
+    #journeyDialog summary { cursor: pointer; font-size: 11px; color: var(--muted); padding: 8px 0; }
+    #journeyDialog summary:hover { color: var(--text); }
+    #journeyDialog details .journey-game { margin-top: 10px; }
+    .journey-projection { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--panel-soft); color: var(--muted); font-size: 12px; }
+    .journey-projection strong { color: var(--text); font-size: 18px; }
+    @media (max-width: 480px) { #journeyDialog { padding: 22px 18px; } .journey-athlete { font-size: 20px; } .journey-game { padding: 14px 12px; } }
     .week-cell {
       min-width: 160px;
       font-weight: 600;
@@ -5256,6 +5303,7 @@ body.official-ranking-view .side {
 
     <a class="floating-report-button" href="https://x.com/messages/compose?recipient_id=1880677588231917568" target="_blank" rel="noopener" aria-label="Reportar erro ou bug por mensagem direta no X">⚑ Reportar erro ou bug</a>
 
+    <dialog id="journeyDialog" aria-labelledby="journeyTitle"><button type="button" class="journey-close" onclick="document.getElementById('journeyDialog').close()" aria-label="Fechar / Close">×</button><div id="journeyContent"></div></dialog>
     <div class="profile-modal" id="profileModal" aria-hidden="true" onclick="closeProfileModal()">
       <section class="side-card profile-dialog" id="profileCard" role="dialog" aria-modal="true" aria-labelledby="profileDialogTitle" onclick="event.stopPropagation()">
         <div class="profile-dialog-header">
@@ -6154,13 +6202,59 @@ body.official-ranking-view .side {
       return match ? match[1] : text;
     }
 
+    const journeyDialog = document.getElementById('journeyDialog');
+    let journeyRequest = 0;
+    function journeyText(pt, en, es) { return currentLanguage === 'en' ? en : currentLanguage === 'es' ? es : pt; }
+    document.addEventListener('click', async (event) => {
+      const trigger = event.target.closest('[data-journey-player]');
+      if (!trigger) return;
+      event.stopPropagation();
+      const row = rankingData.find(r => r.player_id === trigger.dataset.journeyPlayer);
+      if (!row) return;
+      const request = ++journeyRequest;
+      const content = document.getElementById('journeyContent');
+      const mode = trigger.dataset.journeyMode;
+      const heading = '<h2 id="journeyTitle">' + journeyText(mode === 'next' ? 'Próximo jogo' : 'Último resultado', mode === 'next' ? 'Next match' : 'Latest result', mode === 'next' ? 'Próximo partido' : 'Último resultado') + '</h2><strong class="journey-athlete">' + escapeHtmlClient(row.player_name) + '</strong>';
+      content.innerHTML = heading + '<p>' + journeyText('Carregando…', 'Loading…', 'Cargando…') + '</p>';
+      journeyDialog.showModal();
+      try {
+        await loadPlayerDetails(row);
+        if (request !== journeyRequest || !journeyDialog.open) return;
+        const games = window.__rankingPlayerDetails?.[row.player_id]?.games || [];
+        const types = trigger.dataset.journeyEvent === 'combined' ? ['singles', 'doubles'] : [trigger.dataset.journeyEvent];
+        const playerLine = (player, winner = false) => '<span class="journey-inline-player">' + getFlagHtml({ country_iso2: player.iso2, country: player.country }) + (winner ? ' <strong>' : ' <span>') + escapeHtmlClient(player.name) + (winner ? '</strong>' : '</span>') + (player.rank ? ' <span class="journey-inline-rank" title="' + journeyText('Ranking oficial ITF Junior', 'Official ITF Junior ranking', 'Ranking oficial ITF Junior') + '">(#' + escapeHtmlClient(player.rank) + ')</span>' : '') + '</span>';
+        const teamHtml = (players, fallback, winner = false) => players?.length ? players.map(player => playerLine(player, winner)).join('<span class="journey-pair-divider"> / </span>') : (winner ? '<strong>' + escapeHtmlClient(fallback) + '</strong>' : escapeHtmlClient(fallback));
+        const card = g => {
+          const pending = journeyText('Adversário a definir', 'Opponent to be determined', 'Rival por definir');
+          const status = g.status === 'BYE' ? 'Bye' : g.status === 'WO' || g.status === 'W/O' ? 'W/O' : g.status === 'RET' ? journeyText('Desistência', 'Retired', 'Retiro') : g.status || '';
+          const own = teamHtml(g.team, row.player_name, g.result === 'win' && g.status !== 'BYE');
+          const other = teamHtml(g.opponents, g.opponent || (g.status === 'BYE' ? 'Bye' : pending), g.result === 'loss');
+          let score = g.score || '';
+          if (g.result === 'loss') score = score.replace(/(\\d+)[–-](\\d+)/g, '$2–$1');
+          score = score.replace(/[–-]/g, '/').split(' ').filter(Boolean).join(' - ');
+          return '<div class="journey-game"><div class="journey-meta"><span>' + escapeHtmlClient(g.tournament) + '</span><span class="journey-round">' + escapeHtmlClient(getWeekRoundDisplay(g.round)) + (g.qualifying ? ' · Q' : '') + '</span></div><div class="journey-match-line">' +
+            '<div class="journey-match-side">' + (g.result === 'loss' ? other : own) + '</div><span class="journey-connector">vs</span><div class="journey-match-side">' + (g.result === 'loss' ? own : other) + '</div><div class="journey-match-footer">' +
+            (score ? ' <strong class="journey-inline-score">(' + escapeHtmlClient(score) + ')</strong>' : '') + (status ? ' <span class="journey-inline-rank">' + escapeHtmlClient(status) + '</span>' : '') + '</div></div></div>';
+        };
+        content.innerHTML = heading + types.map(type => {
+          const list = games.filter(g => g.event === type);
+          const completed = list.filter(g => g.result && g.status !== 'BYE');
+          const last = completed[completed.length - 1];
+          const next = list.find(g => !g.result && g.status !== 'BYE' && (!last || last.result !== 'loss' && (g.tournament !== last.tournament || last.qualifying && !g.qualifying || g.qualifying === last.qualifying && g.order > last.order)));
+          const selected = mode === 'next' ? next : last;
+          return '<h3>' + (type === 'singles' ? journeyText('Simples', 'Singles', 'Individual') : journeyText('Duplas', 'Doubles', 'Dobles')) + '</h3>' + (selected ? card(selected) : '<p>' + (mode === 'next' ? journeyText('Próximo confronto ainda não disponível.', 'Next match not available yet.', 'Próximo partido aún no disponible.') : journeyText('Nenhum resultado disponível.', 'No results available.', 'No hay resultados disponibles.')) + '</p>') + (list.length ? '<details><summary>' + journeyText('Ver jogos da semana', 'View this week’s matches', 'Ver partidos de la semana') + '</summary>' + list.map(card).join('') + '</details>' : '');
+        }).join('') + (mode === 'next' ? '<div class="journey-projection"><span>' + journeyText('Pontos se vencer', 'Points with a win', 'Puntos si gana') + '</span><strong>' + escapeHtmlClient(formatNumberClient(row.next_round_scenarios.find(s => s.eventType === trigger.dataset.journeyEvent)?.projectedTotal)) + '</strong></div>' : '');
+      } catch { content.innerHTML = heading + '<p>' + journeyText('Não foi possível carregar. Feche e tente novamente.', 'Could not load. Close and try again.', 'No se pudo cargar. Cierra e inténtalo de nuevo.') + '</p>'; }
+    }, true);
+    journeyDialog.addEventListener('click', e => { if (e.target === journeyDialog && (e.clientX < journeyDialog.getBoundingClientRect().left || e.clientX > journeyDialog.getBoundingClientRect().right || e.clientY < journeyDialog.getBoundingClientRect().top || e.clientY > journeyDialog.getBoundingClientRect().bottom)) journeyDialog.close(); });
+
     function getWeekRoundHtml(round) {
       const display = getWeekRoundDisplay(round);
       if (display.toUpperCase() === "W") return '<span class="trophy">🏆</span>';
       return escapeHtmlClient(display);
     }
 
-    function getWeekResultHtml(label, summary) {
+    function getWeekResultHtml(label, summary, row, eventType) {
       if (!summary) return "";
 
       const eliminated = summary.includes("❌");
@@ -6176,10 +6270,10 @@ body.official-ranking-view .side {
         isTitle ? "title" : "",
       ].filter(Boolean).join(" ");
 
-      return '<span class="' + className + '">' +
+      return '<button type="button" class="journey-trigger ' + className + '" data-journey-player="' + escapeHtmlClient(row.player_id) + '" data-journey-event="' + eventType + '" data-journey-mode="last">' +
              label + ' <strong>' + getWeekRoundHtml(round || "-") + '</strong>' +
              (eliminated ? ' <span class="out">×</span>' : '') +
-             '</span>';
+             '</button>';
     }
 
     function getPlayingHtml(row) {
@@ -6194,8 +6288,8 @@ body.official-ranking-view .side {
         p.category
       );
       const resultChips = [
-        getWeekResultHtml("🎾", p.singlesSummary),
-        getWeekResultHtml("👥", p.doublesSummary),
+        getWeekResultHtml("🎾", p.singlesSummary, row, "singles"),
+        getWeekResultHtml("👥", p.doublesSummary, row, "doubles"),
       ].filter(Boolean).join('<span class="week-result-separator">·</span>');
 
       return \`
@@ -6212,7 +6306,7 @@ body.official-ranking-view .side {
         return '<span class="dash">-</span>';
       }
 
-      return getProjectionListHtml(row, row.next_round_scenarios);
+      return getProjectionListHtml(row, row.next_round_scenarios, true);
     }
 
     function getScenarioEventLabel(scenario) {
@@ -6266,14 +6360,14 @@ body.official-ranking-view .side {
           \`;
     }
 
-    function getProjectionListHtml(row, scenarios) {
+    function getProjectionListHtml(row, scenarios, interactive = false) {
       const categoryClass = row.playing_this_week
         ? getCategoryClass(row.playing_this_week.category)
         : "";
 
       return '<div class="projection-list ' + categoryClass + '">' +
         scenarios
-          .map((scenario) => getProjectionItemHtml(scenario))
+          .map((scenario) => interactive ? '<button type="button" class="journey-trigger" data-journey-player="' + escapeHtmlClient(row.player_id) + '" data-journey-event="' + scenario.eventType + '" data-journey-mode="next">' + getProjectionItemHtml(scenario).replace(/<div/g, '<span').replaceAll('</div>', '</span>') + '</button>' : getProjectionItemHtml(scenario))
           .join("") +
         '</div>';
     }
