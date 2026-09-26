@@ -3793,7 +3793,14 @@ function buildHtml(
     #journeyContent h3 { font-size: 11px; font-weight: 600; color: var(--muted); margin: 20px 0 10px; }
     .journey-game { padding: 16px; border: 1px solid var(--border); border-radius: 14px; line-height: 1.5; }
     .journey-meta { color: var(--muted); font-size: 11px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-    .journey-round { font-weight: 700; white-space: nowrap; color: var(--text); }
+    .journey-round { font-weight: 700; text-align: right; color: var(--text); }
+    .journey-event + .journey-event { margin-top: 28px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .journey-order { font-size: 10px; color: var(--muted); margin: -4px 0 16px; }
+    .journey-timeline { border-left: 1px solid var(--border); padding-left: 14px; margin-left: 3px; }
+    .journey-stage { position: relative; margin-bottom: 16px; }
+    .journey-stage:last-child { margin-bottom: 0; }
+    .journey-stage::before { content: ''; position: absolute; left: -18px; top: 20px; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .journey-stage-label { display: block; margin-bottom: 7px; font-size: 10px; color: var(--muted); font-weight: 600; }
     .journey-match-line { display: grid; gap: 0; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
     .journey-match-side { display: grid; gap: 8px; min-width: 0; }
     .journey-inline-player { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: baseline; column-gap: 9px; font-weight: 400; }
@@ -6214,16 +6221,33 @@ body.official-ranking-view .side {
       const request = ++journeyRequest;
       const content = document.getElementById('journeyContent');
       const mode = trigger.dataset.journeyMode;
-      const heading = '<h2 id="journeyTitle">' + journeyText(mode === 'next' ? 'Próximo jogo' : 'Último resultado', mode === 'next' ? 'Next match' : 'Latest result', mode === 'next' ? 'Próximo partido' : 'Último resultado') + '</h2><strong class="journey-athlete">' + escapeHtmlClient(row.player_name) + '</strong>';
+      const heading = '<h2 id="journeyTitle">' + journeyText('Jogos da semana', 'This week’s matches', 'Partidos de la semana') + '</h2><strong class="journey-athlete">' + escapeHtmlClient(row.player_name) + '</strong>';
       content.innerHTML = heading + '<p>' + journeyText('Carregando…', 'Loading…', 'Cargando…') + '</p>';
       journeyDialog.showModal();
       try {
         await loadPlayerDetails(row);
         if (request !== journeyRequest || !journeyDialog.open) return;
         const games = window.__rankingPlayerDetails?.[row.player_id]?.games || [];
-        const types = trigger.dataset.journeyEvent === 'combined' ? ['singles', 'doubles'] : [trigger.dataset.journeyEvent];
+        const types = ['singles', 'doubles'].filter(type => games.some(game => game.event === type) || type === trigger.dataset.journeyEvent);
         const playerLine = (player, winner = false) => '<span class="journey-inline-player">' + getFlagHtml({ country_iso2: player.iso2, country: player.country }) + (winner ? ' <strong>' : ' <span>') + escapeHtmlClient(player.name) + (winner ? '</strong>' : '</span>') + (player.rank ? ' <span class="journey-inline-rank" title="' + journeyText('Ranking oficial ITF Junior', 'Official ITF Junior ranking', 'Ranking oficial ITF Junior') + '">(#' + escapeHtmlClient(player.rank) + ')</span>' : '') + '</span>';
         const teamHtml = (players, fallback, winner = false) => players?.length ? players.map(player => playerLine(player, winner)).join('<span class="journey-pair-divider"> / </span>') : (winner ? '<strong>' + escapeHtmlClient(fallback) + '</strong>' : escapeHtmlClient(fallback));
+        const roundLabel = g => {
+          const raw = String(g.round || '').trim();
+          const short = getWeekRoundDisplay(raw).toUpperCase();
+          const labels = {
+            F: ['Final', 'Final', 'Final'], SF: ['Semifinal', 'Semifinal', 'Semifinal'],
+            QF: ['Quartas de final', 'Quarterfinal', 'Cuartos de final'],
+            R16: ['Oitavas de final', 'Round of 16', 'Octavos de final'],
+            R32: ['Rodada de 32', 'Round of 32', 'Ronda de 32'],
+            R64: ['Rodada de 64', 'Round of 64', 'Ronda de 64'],
+            R128: ['Rodada de 128', 'Round of 128', 'Ronda de 128'],
+            W: ['Final', 'Final', 'Final'],
+          };
+          const numbered = raw.match(/^(\\d+)(?:st|nd|rd|th)?\\s*(?:round|rodada)$/i);
+          let label = labels[short] ? journeyText(...labels[short]) : numbered ? journeyText(numbered[1] + 'ª rodada', 'Round ' + numbered[1], numbered[1] + 'ª ronda') : raw;
+          if (/round.?robin/i.test(raw)) label = journeyText('Fase de grupos', 'Group stage', 'Fase de grupos');
+          return label + (g.qualifying ? ' · Qualifying' : '');
+        };
         const card = g => {
           const pending = journeyText('Adversário a definir', 'Opponent to be determined', 'Rival por definir');
           const status = g.status === 'BYE' ? 'Bye' : g.status === 'WO' || g.status === 'W/O' ? 'W/O' : g.status === 'RET' ? journeyText('Desistência', 'Retired', 'Retiro') : g.status || '';
@@ -6232,17 +6256,14 @@ body.official-ranking-view .side {
           let score = g.score || '';
           if (g.result === 'loss') score = score.replace(/(\\d+)[–-](\\d+)/g, '$2–$1');
           score = score.replace(/[–-]/g, '/').split(' ').filter(Boolean).join(' - ');
-          return '<div class="journey-game"><div class="journey-meta"><span>' + escapeHtmlClient(g.tournament) + '</span><span class="journey-round">' + escapeHtmlClient(getWeekRoundDisplay(g.round)) + (g.qualifying ? ' · Q' : '') + '</span></div><div class="journey-match-line">' +
+          return '<div class="journey-game"><div class="journey-meta"><span>' + escapeHtmlClient(g.tournament) + '</span><span class="journey-round">' + escapeHtmlClient(roundLabel(g)) + '</span></div><div class="journey-match-line">' +
             '<div class="journey-match-side">' + (g.result === 'loss' ? other : own) + '</div><span class="journey-connector">vs</span><div class="journey-match-side">' + (g.result === 'loss' ? own : other) + '</div><div class="journey-match-footer">' +
             (score ? ' <strong class="journey-inline-score">(' + escapeHtmlClient(score) + ')</strong>' : '') + (status ? ' <span class="journey-inline-rank">' + escapeHtmlClient(status) + '</span>' : '') + '</div></div></div>';
         };
         content.innerHTML = heading + types.map(type => {
           const list = games.filter(g => g.event === type);
-          const completed = list.filter(g => g.result && g.status !== 'BYE');
-          const last = completed[completed.length - 1];
-          const next = list.find(g => !g.result && g.status !== 'BYE' && (!last || last.result !== 'loss' && (g.tournament !== last.tournament || last.qualifying && !g.qualifying || g.qualifying === last.qualifying && g.order > last.order)));
-          const selected = mode === 'next' ? next : last;
-          return '<h3>' + (type === 'singles' ? journeyText('Simples', 'Singles', 'Individual') : journeyText('Duplas', 'Doubles', 'Dobles')) + '</h3>' + (selected ? card(selected) : '<p>' + (mode === 'next' ? journeyText('Próximo confronto ainda não disponível.', 'Next match not available yet.', 'Próximo partido aún no disponible.') : journeyText('Nenhum resultado disponível.', 'No results available.', 'No hay resultados disponibles.')) + '</p>') + (list.length ? '<details><summary>' + journeyText('Ver jogos da semana', 'View this week’s matches', 'Ver partidos de la semana') + '</summary>' + [...list].reverse().map(card).join('') + '</details>' : '');
+          const history = [...list].reverse();
+          return '<section class="journey-event"><h3>' + (type === 'singles' ? journeyText('Simples', 'Singles', 'Individual') : journeyText('Duplas', 'Doubles', 'Dobles')) + '</h3><div class="journey-order">' + journeyText('Mais recente → primeira rodada', 'Latest → first round', 'Más reciente → primera ronda') + '</div><div class="journey-timeline">' + (history.length ? history.map((game, index) => '<div class="journey-stage">' + (!game.result && game.status !== 'BYE' ? '<span class="journey-stage-label">' + journeyText('A disputar', 'Upcoming', 'Por disputar') + '</span>' : index === 0 ? '<span class="journey-stage-label">' + journeyText('Último resultado', 'Latest result', 'Último resultado') + '</span>' : '') + card(game) + '</div>').join('') : '<p>' + journeyText('Nenhum jogo disponível.', 'No matches available.', 'No hay partidos disponibles.') + '</p>') + '</div></section>';
         }).join('') + (mode === 'next' ? '<div class="journey-projection"><span>' + journeyText('Pontos se vencer', 'Points with a win', 'Puntos si gana') + '</span><strong>' + escapeHtmlClient(formatNumberClient(row.next_round_scenarios.find(s => s.eventType === trigger.dataset.journeyEvent)?.projectedTotal)) + '</strong></div>' : '');
       } catch { content.innerHTML = heading + '<p>' + journeyText('Não foi possível carregar. Feche e tente novamente.', 'Could not load. Close and try again.', 'No se pudo cargar. Cierra e inténtalo de nuevo.') + '</p>'; }
     }, true);
