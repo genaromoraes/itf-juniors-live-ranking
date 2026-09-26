@@ -4955,100 +4955,43 @@ body.official-ranking-view .side {
         line-height: 0.8;
       }
 
-      .table-scroll-wrap {
-        position: relative;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-      }
-
-      .table-scroll-wrap table {
-        min-width: 550px;
-        table-layout: fixed;
-      }
-
-      .table-scroll-wrap th,
-      .table-scroll-wrap td {
-        padding-left: 3px;
-        padding-right: 3px;
-      }
-
-      .table-scroll-wrap th {
-        font-size: 8px;
-        letter-spacing: 0.045em;
-      }
-
-      .table-scroll-wrap td {
-        font-size: 9px;
-      }
-
-      .table-scroll-wrap th:nth-child(1),
-      .table-scroll-wrap td:nth-child(1) {
-        width: 38px;
-      }
-
-      .table-scroll-wrap th:nth-child(2),
-      .table-scroll-wrap td:nth-child(2) {
-        width: 120px;
-        min-width: 120px;
-      }
-
-      .table-scroll-wrap th:nth-child(3),
-      .table-scroll-wrap td:nth-child(3) {
-        width: 38px;
-        min-width: 38px;
-      }
-
-      .table-scroll-wrap th:nth-child(4),
-      .table-scroll-wrap td:nth-child(4) {
-        width: 88px;
-        min-width: 88px;
-      }
-
-      .table-scroll-wrap th:nth-child(5),
-      .table-scroll-wrap td:nth-child(5) {
-        width: 104px;
-        min-width: 104px;
-      }
-
-      .table-scroll-wrap th:nth-child(6),
-      .table-scroll-wrap td:nth-child(6),
-      .table-scroll-wrap th:nth-child(7),
-      .table-scroll-wrap td:nth-child(7) {
-        width: 80px;
-        min-width: 80px !important;
-        white-space: normal;
-      }
-
-      .table-scroll-wrap .player-name {
-        font-size: 9.5px;
-      }
-
-      .table-scroll-wrap .week-cell {
-        min-width: 104px;
-      }
-
-      .table-scroll-wrap .week-tournament .tournament-name {
-        overflow-wrap: anywhere;
-      }
-
-      .table-scroll-wrap .projection-list {
-        flex-direction: column;
-        align-items: flex-start;
-        flex-wrap: nowrap;
-        gap: 2px;
-        max-width: 100%;
-      }
-
-      .table-scroll-wrap .projection-item {
-        max-width: 100%;
-        white-space: normal;
-      }
-
-      .table-scroll-wrap .projection-points {
-        overflow-wrap: anywhere;
-      }
+      /* Fit every ranking column to the mobile viewport without scaling controls. */
+      .table-scroll-hint { display: none !important; }
+      .table-scroll-wrap { width: 100%; min-width: 0; overflow: visible; }
+      .table-scroll-wrap table { width: 100%; min-width: 0; table-layout: fixed; }
+      .table-scroll-wrap th, .table-scroll-wrap td { min-width: 0 !important; padding: 5px 2px; white-space: normal; overflow-wrap: anywhere; }
+      .table-scroll-wrap th { font-size: clamp(6px, 1.7vw, 8px); letter-spacing: 0; line-height: 1.2; vertical-align: bottom; }
+      .table-scroll-wrap td { font-size: clamp(7px, 1.9vw, 9px); }
+      .table-scroll-wrap th:nth-child(1), .table-scroll-wrap td:nth-child(1) { width: 7%; }
+      .table-scroll-wrap th:nth-child(2), .table-scroll-wrap td:nth-child(2) { width: 24%; }
+      .table-scroll-wrap th:nth-child(3), .table-scroll-wrap td:nth-child(3) { width: 7%; }
+      .table-scroll-wrap th:nth-child(4), .table-scroll-wrap td:nth-child(4) { width: 17%; }
+      .table-scroll-wrap th:nth-child(5), .table-scroll-wrap td:nth-child(5) { width: 15%; }
+      .table-scroll-wrap th:nth-child(6), .table-scroll-wrap td:nth-child(6),
+      .table-scroll-wrap th:nth-child(7), .table-scroll-wrap td:nth-child(7) { width: 15%; }
+      .table-scroll-wrap .player-name { font-size: clamp(7px, 2vw, 10px); gap: 3px; align-items: flex-start; line-height: 1.25; }
+      .table-scroll-wrap .player-name > span { min-width: 0; }
+      .table-scroll-wrap .country-flag { width: 11px; height: 8px; margin-top: 2px; box-shadow: none; }
+      .table-scroll-wrap .rank, .table-scroll-wrap .points { font-size: clamp(8px, 2.1vw, 10px); }
+      .table-scroll-wrap .rank-change { display: block; width: fit-content; min-width: 0; margin: 2px 0 0; padding: 1px 2px; font-size: 6px; }
+      .table-scroll-wrap .rank-meta { font-size: 6px; white-space: normal; }
+      .table-scroll-wrap .points-main { gap: 2px; }
+      .table-scroll-wrap .points-balance { font-size: 6px; padding: 1px 2px; min-height: 10px; }
+      .table-scroll-wrap .week-tournament { flex-wrap: wrap; gap: 2px; }
+      .table-scroll-wrap .week-tournament .tournament-name { font-size: 7px; overflow-wrap: anywhere; }
+      .table-scroll-wrap .category-chip { font-size: 6px; padding: 1px 2px; }
+      .table-scroll-wrap .week-sub { display: flex; flex-wrap: wrap; gap: 2px; font-size: 7px; }
+      .table-scroll-wrap .week-result-item { font-size: 7px; }
+      .table-scroll-wrap .journey-trigger { padding: 3px 0; max-width: 100%; }
+      .table-scroll-wrap .projection-list { flex-direction: column; align-items: flex-start; gap: 2px; max-width: 100%; }
+      .table-scroll-wrap .projection-item { max-width: 100%; min-height: 14px; padding: 2px; gap: 1px; flex-wrap: wrap; font-size: 7px; white-space: normal; }
+      .table-scroll-wrap .projection-chip { font-size: 6px; }
+      .table-scroll-wrap .projection-item .trophy { font-size: 8px; }
+      .table-scroll-wrap .projection-points { font-size: 7px; overflow-wrap: anywhere; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(1), body.official-ranking-view .table-scroll-wrap td:nth-child(1) { width: 12%; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(2), body.official-ranking-view .table-scroll-wrap td:nth-child(2) { width: 45%; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(3), body.official-ranking-view .table-scroll-wrap td:nth-child(3) { width: 13%; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(4), body.official-ranking-view .table-scroll-wrap td:nth-child(4) { width: 30%; }
 
       .table-scroll-wrap + .load-more-rows {
         margin-top: 8px;
