@@ -3784,7 +3784,7 @@ function buildHtml(
 
     .journey-trigger { background: none; border: 0; padding: 2px; color: inherit; font: inherit; cursor: pointer; text-align: left; border-radius: 5px; }
     .journey-trigger:hover, .journey-trigger:focus-visible { outline: 2px solid var(--muted); outline-offset: 2px; }
-    #journeyDialog { width: min(440px, calc(100vw - 28px)); max-height: 85dvh; box-sizing: border-box; border: 1px solid var(--border); border-radius: 22px; padding: 28px; background: var(--panel-solid, var(--panel)); color: var(--text); box-shadow: 0 24px 80px rgba(0,0,0,.2); }
+    #journeyDialog { width: min(400px, calc(100vw - 28px)); max-height: 85dvh; box-sizing: border-box; border: 1px solid var(--border); border-radius: 22px; padding: 28px; background: var(--panel-solid, var(--panel)); color: var(--text); box-shadow: 0 24px 80px rgba(0,0,0,.2); }
     #journeyDialog::backdrop { background: rgba(12,24,28,.45); backdrop-filter: blur(4px); }
     .journey-close { position: absolute; right: 16px; top: 16px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 0; background: var(--panel-soft); color: var(--muted); font-size: 22px; cursor: pointer; }
     .journey-close:hover { color: var(--text); background: var(--border); }
@@ -3792,7 +3792,8 @@ function buildHtml(
     .journey-athlete { display: block; font-size: 22px; font-weight: 700; letter-spacing: -.035em; line-height: 1.2; padding-right: 16px; margin-bottom: 24px; }
     #journeyContent h3 { font-size: 11px; font-weight: 600; color: var(--muted); margin: 20px 0 10px; }
     .journey-game { padding: 16px; border: 1px solid var(--border); border-radius: 14px; line-height: 1.5; }
-    .journey-meta { color: var(--muted); font-size: 11px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .journey-meta { color: var(--text); font-size: 11px; font-weight: 700; margin-bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: baseline; gap: 4px 6px; }
+    .journey-round::before { content: "·"; margin-right: 6px; }
     .journey-round { font-weight: 700; text-align: right; color: var(--text); }
     .journey-event + .journey-event { margin-top: 28px; padding-top: 8px; border-top: 1px solid var(--border); }
     .journey-order { font-size: 10px; color: var(--muted); margin: -4px 0 16px; }
@@ -3803,7 +3804,7 @@ function buildHtml(
     .journey-stage-label { display: block; margin-bottom: 7px; font-size: 10px; color: var(--muted); font-weight: 600; }
     .journey-match-line { display: grid; gap: 0; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
     .journey-match-side { display: grid; gap: 8px; min-width: 0; }
-    .journey-inline-player { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: baseline; column-gap: 9px; font-weight: 400; }
+    .journey-inline-player { display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: baseline; column-gap: 9px; font-weight: 400; }
     .journey-inline-player > strong, .journey-inline-player > span:not(.journey-inline-rank) { grid-column: 2; min-width: 0; }
     .journey-inline-player strong { font-weight: 700; }
     .journey-inline-player .country-flag { display: inline-block; width: 18px; height: 13px; object-fit: cover; align-self: start; margin-top: 3px; grid-column: 1; }
@@ -6228,8 +6229,8 @@ body.official-ranking-view .side {
         await loadPlayerDetails(row);
         if (request !== journeyRequest || !journeyDialog.open) return;
         const games = window.__rankingPlayerDetails?.[row.player_id]?.games || [];
-        const types = ['singles', 'doubles'].filter(type => games.some(game => game.event === type) || type === trigger.dataset.journeyEvent);
-        const playerLine = (player, winner = false) => '<span class="journey-inline-player">' + getFlagHtml({ country_iso2: player.iso2, country: player.country }) + (winner ? ' <strong>' : ' <span>') + escapeHtmlClient(player.name) + (winner ? '</strong>' : '</span>') + (player.rank ? ' <span class="journey-inline-rank" title="' + journeyText('Ranking oficial ITF Junior', 'Official ITF Junior ranking', 'Ranking oficial ITF Junior') + '">(#' + escapeHtmlClient(player.rank) + ')</span>' : '') + '</span>';
+        const types = trigger.dataset.journeyEvent === 'combined' ? ['singles', 'doubles'] : [trigger.dataset.journeyEvent];
+        const playerLine = (player, winner = false) => '<span class="journey-inline-player">' + getFlagHtml({ country_iso2: player.iso2, country: player.country }) + '<span class="journey-player-text">' + (winner ? '<strong>' : '<span>') + escapeHtmlClient(player.name) + (winner ? '</strong>' : '</span>') + (player.rank ? ' <span class="journey-inline-rank" title="' + journeyText('Ranking oficial ITF Junior', 'Official ITF Junior ranking', 'Ranking oficial ITF Junior') + '">(#' + escapeHtmlClient(player.rank) + ')</span>' : '') + '</span></span>';
         const teamHtml = (players, fallback, winner = false) => players?.length ? players.map(player => playerLine(player, winner)).join('<span class="journey-pair-divider"> / </span>') : (winner ? '<strong>' + escapeHtmlClient(fallback) + '</strong>' : escapeHtmlClient(fallback));
         const roundLabel = g => {
           const raw = String(g.round || '').trim();
