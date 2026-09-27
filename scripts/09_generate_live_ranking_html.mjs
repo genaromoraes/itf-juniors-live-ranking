@@ -1196,19 +1196,6 @@ function buildStaticPage(page) {
         grid-template-columns: 1fr;
       }
     }
-    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
-      .primary-nav {
-        justify-content: flex-start;
-      }
-
-      .panel {
-        padding: 24px;
-      }
-
-      .explain-panel {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
 </head>
 <body>
@@ -5027,6 +5014,264 @@ body.official-ranking-view .side {
       .table-scroll-wrap #playingThisWeekHeader::after,
       .table-scroll-wrap #nextRoundHeader::after,
       .table-scroll-wrap #titleProjectionHeader::after { font-size: clamp(6px, 1.7vw, 8px); line-height: 1.3; }
+      .table-scroll-wrap #pointsHeaderLabel::after { content: 'Pontos'; }
+      .table-scroll-wrap #playingThisWeekHeader::after { content: 'Semana'; }
+      .table-scroll-wrap #nextRoundHeader::after { content: 'Próxima'; }
+      .table-scroll-wrap #titleProjectionHeader::after { content: 'Título'; }
+      html[lang='en'] .table-scroll-wrap #pointsHeaderLabel::after { content: 'Points'; }
+      html[lang='en'] .table-scroll-wrap #playingThisWeekHeader::after { content: 'This week'; }
+      html[lang='en'] .table-scroll-wrap #nextRoundHeader::after { content: 'Next rd.'; }
+      html[lang='en'] .table-scroll-wrap #titleProjectionHeader::after { content: 'Title'; }
+      html[lang='es'] .table-scroll-wrap #pointsHeaderLabel::after { content: 'Puntos'; }
+      html[lang='es'] .table-scroll-wrap #playingThisWeekHeader::after { content: 'Semana'; }
+      html[lang='es'] .table-scroll-wrap #nextRoundHeader::after { content: 'Próxima'; }
+      html[lang='es'] .table-scroll-wrap #titleProjectionHeader::after { content: 'Título'; }
+      .table-scroll-wrap .points-cell { min-width: 0; width: 100%; }
+      .table-scroll-wrap .points-main { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
+      .table-scroll-wrap .points-main > .points { flex-basis: 100%; }
+      .table-scroll-wrap .points-info-button { width: 14px; height: 14px; min-width: 14px; padding: 0; font-size: 8px; flex: 0 0 14px; }
+      .table-scroll-wrap .points-balance { max-width: 100%; }
+      .table-scroll-wrap .week-sub { gap: 3px; }
+      .table-scroll-wrap .week-result-item { line-height: 1.25; }
+      .table-scroll-wrap .week-result-item .trophy { font-size: 10px; }
+
+      .table-scroll-wrap + .load-more-rows {
+        margin-top: 8px;
+      }
+
+      .profile-modal {
+        align-items: stretch;
+        padding: 10px;
+      }
+
+      .profile-dialog {
+        max-height: calc(100vh - 20px);
+      }
+
+      .profile-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .cartel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .simulator-card {
+        grid-column: 1 / -1;
+      }
+
+      .simulator-grid,
+      .surface-chart {
+        grid-template-columns: 1fr;
+      }
+
+      .surface-chart {
+        justify-items: center;
+        gap: 8px;
+      }
+
+      .surface-donut {
+        width: 82px;
+        height: 82px;
+      }
+
+      .surface-donut::after {
+        inset: 22px;
+      }
+
+      .surface-legend {
+        gap: 5px;
+      }
+
+      .surface-legend-item {
+        grid-template-columns: 8px minmax(0, 1fr);
+        gap: 5px;
+        font-size: 9px;
+      }
+
+      .surface-legend-swatch {
+        width: 8px;
+        height: 8px;
+      }
+
+    }
+    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+      .page {
+        width: calc(100% - 12px);
+        max-width: none;
+        padding-bottom: 58px;
+      }
+
+      .header {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .header .brand-lockup,
+      .header .top-controls,
+      .header .primary-nav {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .floating-report-button {
+        right: 10px;
+        bottom: 10px;
+        padding: 8px 11px;
+        font-size: 11px;
+      }
+
+      .filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        padding: 8px;
+      }
+
+      .filters > .filter {
+        min-width: 0;
+      }
+
+      .filters > .filter:nth-child(3) {
+        grid-column: 1 / -1;
+      }
+
+      .top-controls {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .primary-nav {
+        justify-content: flex-start;
+        gap: 14px;
+      }
+
+      .primary-nav a {
+        padding: 4px 0;
+      }
+
+      .brand-lockup {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 9px;
+      }
+
+      .brand-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+      }
+
+      .ranking-card-header {
+        padding: 10px 10px 8px;
+      }
+
+      .ranking-card {
+        overflow-x: hidden;
+      }
+
+      .table-hint,
+      .table-scroll-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        flex-basis: 100%;
+        width: fit-content;
+        max-width: 100%;
+        margin-left: 0;
+        padding: 5px 10px 5px 8px;
+        border: 1px solid color-mix(in srgb, var(--green-dark) 28%, transparent);
+        border-radius: 999px;
+        background: var(--green-soft);
+        box-shadow: 0 3px 9px rgba(8, 117, 109, 0.12);
+        color: var(--green-dark);
+        font-size: 9.5px;
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      .table-scroll-hint {
+        margin-left: auto;
+      }
+
+      .table-scroll-hint[hidden] {
+        display: none;
+      }
+
+      .table-scroll-hint::before {
+        content: "↔";
+        font-size: 13px;
+        line-height: 0.8;
+      }
+
+      .page > *, .layout > *, .header > * { min-width: 0; max-width: 100%; }
+      .layout, body.official-ranking-view .layout { width: 100%; grid-template-columns: minmax(0, 1fr); }
+      .ranking-card, body.official-ranking-view .ranking-card { width: 100%; max-width: none; min-width: 0; }
+      .filters, .top-controls, .rollover-notice { width: 100%; min-width: 0; }
+      .formula, .summary-row { white-space: normal; overflow-wrap: break-word; }
+      .brand-lockup { min-width: 0; }
+      h1 { font-size: clamp(24px, 5.5vw, 34px); overflow-wrap: break-word; }
+      /* Fit every ranking column to the mobile viewport without scaling controls. */
+      .table-scroll-hint { display: none !important; }
+      .table-scroll-wrap { width: 100%; min-width: 0; overflow: visible; }
+      .table-scroll-wrap table { width: 100%; min-width: 0; table-layout: fixed; }
+      .table-scroll-wrap th, .table-scroll-wrap td { min-width: 0 !important; padding: 5px 2px; white-space: normal; overflow-wrap: anywhere; }
+      .table-scroll-wrap th { font-size: clamp(6.5px, 1.8vw, 10px); letter-spacing: 0; line-height: 1.2; vertical-align: bottom; }
+      .table-scroll-wrap td { font-size: clamp(8px, 2vw, 11px); }
+      .table-scroll-wrap th:nth-child(1), .table-scroll-wrap td:nth-child(1) { width: 7%; }
+      .table-scroll-wrap th:nth-child(2), .table-scroll-wrap td:nth-child(2) { width: 23%; }
+      .table-scroll-wrap th:nth-child(3), .table-scroll-wrap td:nth-child(3) { width: 7%; }
+      .table-scroll-wrap th:nth-child(4), .table-scroll-wrap td:nth-child(4) { width: 18%; }
+      .table-scroll-wrap th:nth-child(5), .table-scroll-wrap td:nth-child(5) { width: 15%; }
+      .table-scroll-wrap th:nth-child(6), .table-scroll-wrap td:nth-child(6),
+      .table-scroll-wrap th:nth-child(7), .table-scroll-wrap td:nth-child(7) { width: 15%; }
+      .table-scroll-wrap .player-name { font-size: clamp(8px, 2.15vw, 12px); gap: 3px; align-items: flex-start; line-height: 1.25; }
+      .table-scroll-wrap .player-name > span { min-width: 0; }
+      .table-scroll-wrap .country-flag { width: 11px; height: 8px; margin-top: 2px; box-shadow: none; }
+      .table-scroll-wrap .rank, .table-scroll-wrap .points { font-size: clamp(8px, 2.15vw, 12px); }
+      .table-scroll-wrap .rank-change { display: block; width: fit-content; min-width: 0; margin: 2px 0 0; padding: 1px 2px; font-size: 6px; }
+      .table-scroll-wrap .rank-meta { font-size: 6px; white-space: normal; }
+      .table-scroll-wrap .points-main { gap: 2px; }
+      .table-scroll-wrap .points-balance { font-size: 6px; padding: 1px 2px; min-height: 10px; }
+      .table-scroll-wrap .week-tournament { flex-wrap: wrap; gap: 2px; }
+      .table-scroll-wrap .week-tournament .tournament-name { font-size: clamp(7px, 1.9vw, 11px); overflow-wrap: anywhere; }
+      .table-scroll-wrap .category-chip { font-size: 6px; padding: 1px 2px; }
+      .table-scroll-wrap .week-sub { display: flex; flex-wrap: wrap; gap: 2px; font-size: 7px; }
+      .table-scroll-wrap .week-result-item { font-size: clamp(7px, 1.9vw, 10px); }
+      .table-scroll-wrap .journey-trigger { padding: 3px 0; max-width: 100%; }
+      .table-scroll-wrap .projection-list { flex-direction: column; align-items: flex-start; gap: 2px; max-width: 100%; }
+      .table-scroll-wrap .projection-item { max-width: 100%; min-height: 14px; padding: 2px; gap: 1px; flex-wrap: wrap; font-size: 7px; white-space: normal; }
+      .table-scroll-wrap .projection-chip { font-size: 6px; }
+      .table-scroll-wrap .projection-item .trophy { font-size: 8px; }
+      .table-scroll-wrap .projection-points { font-size: clamp(7px, 1.8vw, 10px); overflow-wrap: anywhere; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(1), body.official-ranking-view .table-scroll-wrap td:nth-child(1) { width: 12%; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(2), body.official-ranking-view .table-scroll-wrap td:nth-child(2) { width: 45%; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(3), body.official-ranking-view .table-scroll-wrap td:nth-child(3) { width: 13%; }
+      body.official-ranking-view .table-scroll-wrap th:nth-child(4), body.official-ranking-view .table-scroll-wrap td:nth-child(4) { width: 30%; }
+
+      /* Keep headings and numeric content together instead of splitting words. */
+      .table-scroll-wrap th { overflow-wrap: normal; word-break: normal; hyphens: none; padding-top: 9px; padding-bottom: 9px; }
+      .table-scroll-wrap .sort-header { display: block; max-width: 100%; }
+      .table-scroll-wrap .sort-indicator { display: none; }
+      .table-scroll-wrap #yearHeaderLabel { white-space: nowrap; }
+      .table-scroll-wrap .year-cell { white-space: nowrap; font-size: clamp(7px, 1.8vw, 10px); }
+      .table-scroll-wrap .player-name { hyphens: none; overflow-wrap: normal; }
+      .table-scroll-wrap .projection-points { white-space: nowrap; }
+      .table-scroll-wrap th::after { white-space: nowrap; }
+      .table-scroll-wrap #rankHeaderLabel { font-size: 0; }
+      .table-scroll-wrap #rankHeaderLabel br { display: none; }
+      .table-scroll-wrap #rankHeaderLabel::after { content: '#'; font-size: 9px; }
+      .table-scroll-wrap #pointsHeaderLabel,
+      .table-scroll-wrap #playingThisWeekHeader,
+      .table-scroll-wrap #nextRoundHeader,
+      .table-scroll-wrap #titleProjectionHeader { font-size: 0; }
+      .table-scroll-wrap #playingThisWeekHeader br,
+      .table-scroll-wrap #nextRoundHeader br,
+      .table-scroll-wrap #titleProjectionHeader br { display: none; }
+      .table-scroll-wrap #pointsHeaderLabel::after,
+      .table-scroll-wrap #playingThisWeekHeader::after,
+      .table-scroll-wrap #nextRoundHeader::after,
+      .table-scroll-wrap #titleProjectionHeader::after { font-size: clamp(6.5px, 1.8vw, 10px); line-height: 1.3; }
       .table-scroll-wrap #pointsHeaderLabel::after { content: 'Pontos'; }
       .table-scroll-wrap #playingThisWeekHeader::after { content: 'Semana'; }
       .table-scroll-wrap #nextRoundHeader::after { content: 'Próxima'; }
