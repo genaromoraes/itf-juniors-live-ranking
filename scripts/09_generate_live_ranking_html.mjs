@@ -4957,15 +4957,17 @@ body.official-ranking-view .side {
 
       /* Fit every ranking column to the mobile viewport without scaling controls. */
       .table-scroll-hint { display: none !important; }
+      /* Fit every ranking column to the mobile viewport without scaling controls. */
+      .table-scroll-hint { display: none !important; }
       .table-scroll-wrap { width: 100%; min-width: 0; overflow: visible; }
       .table-scroll-wrap table { width: 100%; min-width: 0; table-layout: fixed; }
       .table-scroll-wrap th, .table-scroll-wrap td { min-width: 0 !important; padding: 5px 2px; white-space: normal; overflow-wrap: anywhere; }
       .table-scroll-wrap th { font-size: clamp(6px, 1.7vw, 8px); letter-spacing: 0; line-height: 1.2; vertical-align: bottom; }
       .table-scroll-wrap td { font-size: clamp(7px, 1.9vw, 9px); }
       .table-scroll-wrap th:nth-child(1), .table-scroll-wrap td:nth-child(1) { width: 7%; }
-      .table-scroll-wrap th:nth-child(2), .table-scroll-wrap td:nth-child(2) { width: 24%; }
+      .table-scroll-wrap th:nth-child(2), .table-scroll-wrap td:nth-child(2) { width: 23%; }
       .table-scroll-wrap th:nth-child(3), .table-scroll-wrap td:nth-child(3) { width: 7%; }
-      .table-scroll-wrap th:nth-child(4), .table-scroll-wrap td:nth-child(4) { width: 17%; }
+      .table-scroll-wrap th:nth-child(4), .table-scroll-wrap td:nth-child(4) { width: 18%; }
       .table-scroll-wrap th:nth-child(5), .table-scroll-wrap td:nth-child(5) { width: 15%; }
       .table-scroll-wrap th:nth-child(6), .table-scroll-wrap td:nth-child(6),
       .table-scroll-wrap th:nth-child(7), .table-scroll-wrap td:nth-child(7) { width: 15%; }
@@ -4992,6 +4994,46 @@ body.official-ranking-view .side {
       body.official-ranking-view .table-scroll-wrap th:nth-child(2), body.official-ranking-view .table-scroll-wrap td:nth-child(2) { width: 45%; }
       body.official-ranking-view .table-scroll-wrap th:nth-child(3), body.official-ranking-view .table-scroll-wrap td:nth-child(3) { width: 13%; }
       body.official-ranking-view .table-scroll-wrap th:nth-child(4), body.official-ranking-view .table-scroll-wrap td:nth-child(4) { width: 30%; }
+
+      /* Keep headings and numeric content together instead of splitting words. */
+      .table-scroll-wrap th { overflow-wrap: normal; word-break: normal; hyphens: none; padding-top: 9px; padding-bottom: 9px; }
+      .table-scroll-wrap .sort-header { display: block; max-width: 100%; }
+      .table-scroll-wrap .sort-indicator { display: none; }
+      .table-scroll-wrap #yearHeaderLabel { white-space: nowrap; }
+      .table-scroll-wrap #rankHeaderLabel { font-size: 0; }
+      .table-scroll-wrap #rankHeaderLabel br { display: none; }
+      .table-scroll-wrap #rankHeaderLabel::after { content: '#'; font-size: 9px; }
+      .table-scroll-wrap #pointsHeaderLabel,
+      .table-scroll-wrap #playingThisWeekHeader,
+      .table-scroll-wrap #nextRoundHeader,
+      .table-scroll-wrap #titleProjectionHeader { font-size: 0; }
+      .table-scroll-wrap #playingThisWeekHeader br,
+      .table-scroll-wrap #nextRoundHeader br,
+      .table-scroll-wrap #titleProjectionHeader br { display: none; }
+      .table-scroll-wrap #pointsHeaderLabel::after,
+      .table-scroll-wrap #playingThisWeekHeader::after,
+      .table-scroll-wrap #nextRoundHeader::after,
+      .table-scroll-wrap #titleProjectionHeader::after { font-size: clamp(6px, 1.7vw, 8px); line-height: 1.3; }
+      .table-scroll-wrap #pointsHeaderLabel::after { content: 'Pontos'; }
+      .table-scroll-wrap #playingThisWeekHeader::after { content: 'Semana'; }
+      .table-scroll-wrap #nextRoundHeader::after { content: 'Próxima'; }
+      .table-scroll-wrap #titleProjectionHeader::after { content: 'Título'; }
+      html[lang='en'] .table-scroll-wrap #pointsHeaderLabel::after { content: 'Points'; }
+      html[lang='en'] .table-scroll-wrap #playingThisWeekHeader::after { content: 'This week'; }
+      html[lang='en'] .table-scroll-wrap #nextRoundHeader::after { content: 'Next rd.'; }
+      html[lang='en'] .table-scroll-wrap #titleProjectionHeader::after { content: 'Title'; }
+      html[lang='es'] .table-scroll-wrap #pointsHeaderLabel::after { content: 'Puntos'; }
+      html[lang='es'] .table-scroll-wrap #playingThisWeekHeader::after { content: 'Semana'; }
+      html[lang='es'] .table-scroll-wrap #nextRoundHeader::after { content: 'Próxima'; }
+      html[lang='es'] .table-scroll-wrap #titleProjectionHeader::after { content: 'Título'; }
+      .table-scroll-wrap .points-cell { min-width: 0; width: 100%; }
+      .table-scroll-wrap .points-main { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
+      .table-scroll-wrap .points-main > .points { flex-basis: 100%; }
+      .table-scroll-wrap .points-info-button { width: 14px; height: 14px; min-width: 14px; padding: 0; font-size: 8px; flex: 0 0 14px; }
+      .table-scroll-wrap .points-balance { max-width: 100%; }
+      .table-scroll-wrap .week-sub { gap: 3px; }
+      .table-scroll-wrap .week-result-item { line-height: 1.25; }
+      .table-scroll-wrap .week-result-item .trophy { font-size: 10px; }
 
       .table-scroll-wrap + .load-more-rows {
         margin-top: 8px;
