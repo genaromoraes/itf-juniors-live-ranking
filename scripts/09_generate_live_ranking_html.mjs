@@ -5354,6 +5354,29 @@ body.official-ranking-view .side {
       }
 
     }
+    /* Fill the mobile visual viewport when zoomed out; desktop stays unchanged. */
+    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+      .page { width: calc(var(--mobile-layout-width, 100vw) - 12px); max-width: none; margin-left: 6px; margin-right: 6px; }
+      .page > *, .header > *, .layout > * { min-width: 0; }
+      .header, .top-controls, .filters, .layout, .rollover-notice, .ranking-card { width: 100%; max-width: none; }
+      .layout, body.official-ranking-view .layout { grid-template-columns: minmax(0, 1fr); }
+      body.official-ranking-view .ranking-card { max-width: none; }
+      .top-controls { justify-self: stretch; }
+      .ranking-card { container-type: inline-size; }
+      .table-scroll-wrap table { width: 100%; min-width: 0; table-layout: fixed; }
+      .table-scroll-wrap th, .table-scroll-wrap td { padding: 6px 3px; }
+      .table-scroll-wrap th, .table-scroll-wrap th::after { font-size: clamp(7px, 1.8cqw, 10px); }
+      .table-scroll-wrap td, .table-scroll-wrap .player-name { font-size: clamp(8px, 2.15cqw, 12px); line-height: 1.3; }
+      .table-scroll-wrap .points, .table-scroll-wrap .rank { font-size: clamp(9px, 2.2cqw, 13px); }
+      .table-scroll-wrap .year-cell { font-size: clamp(7px, 1.9cqw, 11px); white-space: nowrap; }
+      .table-scroll-wrap .week-tournament .tournament-name, .table-scroll-wrap .week-result-item,
+      .table-scroll-wrap .projection-item, .table-scroll-wrap .projection-points { font-size: clamp(7px, 1.85cqw, 11px); }
+      .table-scroll-wrap .points-balance, .table-scroll-wrap .rank-change { font-size: clamp(6px, 1.5cqw, 9px); }
+      .table-scroll-wrap .country-flag { width: clamp(11px, 2.8cqw, 16px); height: auto; }
+      .table-scroll-wrap #pointsHeaderLabel, .table-scroll-wrap #playingThisWeekHeader,
+      .table-scroll-wrap #nextRoundHeader, .table-scroll-wrap #titleProjectionHeader { font-size: 0; }
+      .formula, .summary-row { white-space: normal; }
+    }
   </style>
 </head>
 <body>
@@ -7639,6 +7662,23 @@ body.official-ranking-view .side {
 
     renderTournaments();
     applyTheme(localStorage.getItem("itf-live-theme") || "light");
+    // Pinch zoom changes the visual viewport, not necessarily the CSS layout viewport.
+    // Expand only on zoom-out; leave zoom-in available for reading and accessibility.
+    const mobileLayoutQuery = window.matchMedia('(max-width: 1024px) and (hover: none) and (pointer: coarse)');
+    function syncMobileLayoutWidth() {
+      const root = document.documentElement;
+      const viewport = window.visualViewport;
+      if (!mobileLayoutQuery.matches || !viewport || viewport.scale >= 0.99) {
+        root.style.removeProperty('--mobile-layout-width');
+        return;
+      }
+      root.style.setProperty('--mobile-layout-width', Math.max(root.clientWidth, viewport.width) + 'px');
+    }
+    window.visualViewport?.addEventListener('resize', syncMobileLayoutWidth);
+    window.addEventListener('resize', syncMobileLayoutWidth);
+    mobileLayoutQuery.addEventListener('change', syncMobileLayoutWidth);
+    syncMobileLayoutWidth();
+
     applyLanguage(currentLanguage);
   </script>
   ${buildCookieConsentScript({ loadAdsense: true })}

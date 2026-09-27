@@ -34,13 +34,23 @@ export function applyMobileLayout(html, generator) {
   return result;
 }
 
+export function applyMobileViewport(html, generator) {
+  const start = generator.indexOf('    const mobileLayoutQuery =');
+  if (start < 0) return html;
+  const end = generator.indexOf('    applyLanguage(currentLanguage);', start);
+  if (end < 0 || !html.includes('</body>')) throw new Error('Viewport script boundaries not found.');
+  const script = generator.slice(start, end);
+  const clean = html.replace(/<script id="mobile-viewport-layout">[\s\S]*?<\/script>\n?/g, '');
+  return clean.replace('</body>', '<script id="mobile-viewport-layout">\n' + script + '</script>\n</body>');
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const directory = path.resolve(process.argv[2] || 'data/exports');
   const file = path.join(directory, 'index.html');
   const generator = fs.readFileSync('scripts/09_generate_live_ranking_html.mjs', 'utf8');
   const original = fs.readFileSync(file, 'utf8');
-  const updated = applyMobileLayout(original, generator);
+  const updated = applyMobileViewport(applyMobileLayout(original, generator), generator);
   const hash = text => crypto.createHash('sha256').update(text).digest('hex');
   fs.writeFileSync(file, updated);
-  console.log(JSON.stringify({ sourceHtml: hash(original), publishedHtml: hash(updated), change: 'mobile CSS only; ranking, match data and scripts preserved' }));
+  console.log(JSON.stringify({ sourceHtml: hash(original), publishedHtml: hash(updated), change: 'mobile CSS and viewport sizing only; ranking and match data preserved' }));
 }

@@ -19,3 +19,12 @@ test('touch override preserves existing desktop CSS and is idempotent',()=>{
  assert.ok(result.endsWith('<script>const scores=[42]</script>'));
  assert.equal(applyMobileLayout(result,scoped),result);
 });
+test('viewport enhancement is added once without changing ranking data', async()=>{
+ const {applyMobileViewport}=await import('../scripts/27_publish_mobile_css.mjs');
+ const page='<body><script>const rankingData=[42];</script></body>';
+ const source='    const mobileLayoutQuery = window.matchMedia("(pointer: coarse)");\n    applyLanguage(currentLanguage);';
+ const result=applyMobileViewport(page,source);
+ assert.ok(result.includes('<script>const rankingData=[42];</script>'));
+ assert.equal(applyMobileViewport(result,source),result);
+ assert.equal(result.split('id="mobile-viewport-layout"').length-1,1);
+});
