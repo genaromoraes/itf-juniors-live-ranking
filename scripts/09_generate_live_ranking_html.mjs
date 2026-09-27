@@ -1196,6 +1196,19 @@ function buildStaticPage(page) {
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+      .primary-nav {
+        justify-content: flex-start;
+      }
+
+      .panel {
+        padding: 24px;
+      }
+
+      .explain-panel {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>

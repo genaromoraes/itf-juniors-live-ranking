@@ -4,6 +4,21 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 export function applyMobileLayout(html, generator) {
+  const scopedQuery = '@media (max-width: 1024px) and (hover: none) and (pointer: coarse) {';
+  const scopedStart = generator.indexOf(scopedQuery);
+  if (scopedStart >= 0) {
+    const scopedEnd = generator.indexOf('  </style>', scopedStart);
+    const styleStart = html.indexOf('<style>');
+    const styleEnd = html.indexOf('</style>', styleStart);
+    if (scopedEnd < 0 || styleStart < 0 || styleEnd < 0) throw new Error('Mobile CSS boundaries not found.');
+    const marker = '/* Mobile touch layout override */';
+    const previous = html.indexOf(marker, styleStart);
+    const insertAt = previous >= 0 && previous < styleEnd ? previous : styleEnd;
+    const result = html.slice(0, insertAt) + marker + '\n' + generator.slice(scopedStart, scopedEnd) + html.slice(styleEnd);
+    const strip = text => text.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '');
+    if (strip(html) !== strip(result)) throw new Error('Changes outside CSS detected.');
+    return result;
+  }
   const startMarker = '      /* Fit every ranking column';
   const endMarker = '      .table-scroll-wrap + .load-more-rows';
   const sourceStart = generator.indexOf(startMarker);

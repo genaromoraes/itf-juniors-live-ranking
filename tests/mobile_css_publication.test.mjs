@@ -11,3 +11,11 @@ test('only replaces mobile CSS and keeps rankings and scripts intact',()=>{
  assert.equal(applyMobileLayout(result,generator),result);
 });
 test('refuses an unknown published layout',()=>assert.throws(()=>applyMobileLayout('<h1>unknown</h1>',generator),/boundaries/));
+test('touch override preserves existing desktop CSS and is idempotent',()=>{
+ const scoped='@media (max-width: 1024px) and (hover: none) and (pointer: coarse) { .page {width:100%;} }\n  </style>';
+ const original='<style>.desktop {width:900px;}</style><script>const scores=[42]</script>';
+ const result=applyMobileLayout(original,scoped);
+ assert.ok(result.startsWith('<style>.desktop {width:900px;}'));
+ assert.ok(result.endsWith('<script>const scores=[42]</script>'));
+ assert.equal(applyMobileLayout(result,scoped),result);
+});
