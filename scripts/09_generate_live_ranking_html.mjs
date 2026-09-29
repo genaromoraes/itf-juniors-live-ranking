@@ -5399,6 +5399,23 @@ body.official-ranking-view .side {
       .table-scroll-wrap .projection-points { flex-basis: 100%; font-size: clamp(7px, 1.7cqw, 10px); line-height: 1.2; white-space: nowrap; }
       .table-scroll-wrap .projection-item .trophy { font-size: 9px; line-height: 1; }
     }
+    /* Mobile balances stay beside their ranking and points values. */
+    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+      .table-scroll-wrap th:nth-child(1), .table-scroll-wrap td:nth-child(1) { width: 10%; white-space: nowrap; }
+      .table-scroll-wrap th:nth-child(2), .table-scroll-wrap td:nth-child(2) { width: 22%; }
+      .table-scroll-wrap th:nth-child(4), .table-scroll-wrap td:nth-child(4) { width: 22%; }
+      .table-scroll-wrap th:nth-child(6), .table-scroll-wrap td:nth-child(6),
+      .table-scroll-wrap th:nth-child(7), .table-scroll-wrap td:nth-child(7) { width: 12%; }
+      .table-scroll-wrap .rank { display: inline; font-size: clamp(8px, 1.9cqw, 12px); }
+      .table-scroll-wrap .rank-change { display: inline-flex; vertical-align: middle; margin: 0 0 0 2px; padding: 1px 2px; font-size: clamp(5px, 1.2cqw, 8px); }
+      .table-scroll-wrap .points-main { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; }
+      .table-scroll-wrap .points-main > .points { flex-basis: auto; font-size: clamp(8px, 1.9cqw, 12px); }
+      .table-scroll-wrap .points-balance { flex: 0 0 auto; font-size: clamp(5px, 1.2cqw, 8px); padding: 1px 2px; }
+      .table-scroll-wrap .points-main { display: grid; grid-template-columns: max-content max-content; }
+      .table-scroll-wrap .points-main > .points { grid-column: 1; }
+      .table-scroll-wrap .points-balance { grid-column: 2; }
+      .table-scroll-wrap .points-info-button { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
