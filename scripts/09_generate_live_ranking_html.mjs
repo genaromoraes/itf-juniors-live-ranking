@@ -5416,6 +5416,24 @@ body.official-ranking-view .side {
       .table-scroll-wrap .points-balance { grid-column: 2; }
       .table-scroll-wrap .points-info-button { grid-column: 1 / -1; }
     }
+    /* Reduce dense weekly rows without hiding any projection scenario. */
+    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+      .table-scroll-wrap td { padding-top: 5px; padding-bottom: 5px; }
+      .table-scroll-wrap .projection-list { gap: 2px; }
+      .table-scroll-wrap .projection-item { flex-wrap: nowrap; gap: 2px; padding: 2px 1px; min-height: 15px; border-radius: 4px; font-size: clamp(6px, 1.4cqw, 9px); line-height: 1.15; }
+      .table-scroll-wrap .projection-points { flex: 0 1 auto; font-size: inherit; line-height: 1.15; }
+      .table-scroll-wrap .projection-chip { font-size: clamp(5px, 1.25cqw, 8px); }
+      .table-scroll-wrap .projection-main { font-size: inherit; }
+      .table-scroll-wrap .projection-item-title .projection-main { display: none; }
+      .table-scroll-wrap .week-tournament { margin-bottom: 2px; gap: 2px; }
+      .table-scroll-wrap .week-sub { gap: 2px 4px; }
+      .table-scroll-wrap .week-result-item { padding-top: 1px; padding-bottom: 1px; }
+      .table-scroll-wrap .points-main { row-gap: 2px; }
+      .ranking-card-header { padding-top: 6px; padding-bottom: 6px; }
+      .header { margin-bottom: 10px; gap: 8px; }
+      .filters { gap: 5px; padding: 7px; margin-bottom: 10px; }
+      .filter > label { margin-bottom: 3px; }
+    }
   </style>
 </head>
 <body>
