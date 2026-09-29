@@ -5377,6 +5377,28 @@ body.official-ranking-view .side {
       .table-scroll-wrap #nextRoundHeader, .table-scroll-wrap #titleProjectionHeader { font-size: 0; }
       .formula, .summary-row { white-space: normal; }
     }
+    /* Consistent mobile row rhythm and readable projection chips. */
+    @media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+      .table-scroll-wrap td { vertical-align: middle; padding-top: 8px; padding-bottom: 8px; }
+      .table-scroll-wrap td:first-child { padding-left: 5px; }
+      .table-scroll-wrap .rank { display: block; line-height: 1.25; white-space: nowrap; }
+      .table-scroll-wrap .rank-change { margin-top: 4px; line-height: 1.2; }
+      .table-scroll-wrap .points-main { display: grid; grid-template-columns: max-content auto; justify-content: start; align-items: center; gap: 4px; }
+      .table-scroll-wrap .points-main > .points { grid-column: 1 / -1; line-height: 1.25; white-space: nowrap; }
+      .table-scroll-wrap .points-balance { justify-self: start; line-height: 1.2; }
+      .table-scroll-wrap .week-tournament { align-items: center; gap: 3px; margin-bottom: 4px; }
+      .table-scroll-wrap .week-tournament .tournament-name { font-size: clamp(7px, 1.65cqw, 10px); line-height: 1.3; }
+      .table-scroll-wrap .category-chip { flex: 0 0 auto; line-height: 1.2; }
+      .table-scroll-wrap .week-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 5px; line-height: 1.3; }
+      .table-scroll-wrap .week-result-item { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+      .table-scroll-wrap .week-result-separator { display: none; }
+      .table-scroll-wrap .projection-list { gap: 4px; width: 100%; }
+      .table-scroll-wrap .projection-list > .journey-trigger { display: block; padding: 0; width: 100%; }
+      .table-scroll-wrap .projection-item { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 3px; width: 100%; padding: 4px; border-radius: 7px; line-height: 1.2; font-size: clamp(7px, 1.6cqw, 10px); }
+      .table-scroll-wrap .projection-main, .table-scroll-wrap .projection-chip { white-space: nowrap; line-height: 1.2; }
+      .table-scroll-wrap .projection-points { flex-basis: 100%; font-size: clamp(7px, 1.7cqw, 10px); line-height: 1.2; white-space: nowrap; }
+      .table-scroll-wrap .projection-item .trophy { font-size: 9px; line-height: 1; }
+    }
   </style>
 </head>
 <body>
