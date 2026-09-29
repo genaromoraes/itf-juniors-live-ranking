@@ -451,19 +451,25 @@ jobs:
             const run = data.workflow_runs[0];
             if (!run) throw new Error('No successful publication found.');
             const artifacts = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: run.id});
-            if (!artifacts.data.artifacts.some(a => a.name === 'github-pages' && !a.expired)) throw new Error('Last published artifact unavailable; refusing to use older data.');
+            const available = artifacts.data.artifacts.some(a => a.name === 'github-pages' && !a.expired);
+            core.setOutput('available', String(available));
+            if (!available) core.info('Artifact expired; preserve the current public site instead of using older data.');
             core.setOutput('run_id', String(run.id));
             core.info('Reusing validated Pages artifact from run ' + run.id);
       - uses: actions/download-artifact@v4
+        if: steps.published.outputs.available == 'true'
         with:
           name: github-pages
           run-id: ${{ steps.published.outputs.run_id }}
           github-token: ${{ github.token }}
           path: .published-artifact
+      - name: Snapshot current published site when artifact expired
+        if: steps.published.outputs.available != 'true'
+        run: node scripts/28_snapshot_published_site.mjs data/exports
       - name: Restore published site and apply approved mobile CSS
         run: |
           mkdir -p data/exports
-          tar -xf .published-artifact/artifact.tar -C data/exports
+          if [ -f .published-artifact/artifact.tar ]; then tar -xf .published-artifact/artifact.tar -C data/exports; fi
           node --test tests/mobile_css_publication.test.mjs
           node scripts/27_publish_mobile_css.mjs data/exports
       - uses: actions/upload-pages-artifact@v3
