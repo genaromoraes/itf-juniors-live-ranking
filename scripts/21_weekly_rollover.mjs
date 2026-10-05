@@ -280,6 +280,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     action,
     weekStart: cleanText(getArg("week-start", argv)),
     weekEnd: cleanText(getArg("week-end", argv)),
+    dropCutoff: cleanText(getArg("drop-cutoff", argv)),
     mode,
     confirm,
     allowPartialPromotion,
@@ -875,10 +876,14 @@ async function defaultRunNodeScript({ cwd, scriptPath, args }) {
   });
 }
 
-export async function validateOfficialReconciliationReady(facts, rankingDate) {
+export async function validateOfficialReconciliationReady(
+  facts,
+  rankingDate,
+  dropCutoff = rankingDate
+) {
   const calculatedRows = calculateLedgerPoints(facts.ledger.rowsData, {
     policy: STAGED_POLICY,
-    dropCutoff: addDays(rankingDate, -1),
+    dropCutoff: isIsoDate(dropCutoff) ? dropCutoff : rankingDate,
   });
   const baseline = compareCalculatedAgainstSnapshot(
     calculatedRows,
@@ -1205,7 +1210,8 @@ export async function runStartAction({ args, facts, runNodeScript }) {
 
   const reconciliation = await validateOfficialReconciliationReady(
     facts,
-    args.weekStart
+    args.weekStart,
+    cleanText(args.dropCutoff) || args.weekStart
   );
 
   const partialReconciliationAllowed =

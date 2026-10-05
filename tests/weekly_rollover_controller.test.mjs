@@ -11,6 +11,7 @@ import {
   STATUS_WEEK_COMPLETE_WAITING_END_DATE,
   STATUS_WEEK_ENDED_WITH_PENDING_RESULTS,
   STATUS_WEEK_READY_TO_CLOSE,
+  validateOfficialReconciliationReady,
   runWeeklyOperation,
 } from "../scripts/21_weekly_rollover.mjs";
 
@@ -325,6 +326,33 @@ async function makeProject({
 }
 
 describe("weekly rollover controller", () => {
+  test("official start reconciliation uses the promotion drop cutoff", async () => {
+    const rankingDate = "2026-06-22";
+    const facts = {
+      ledger: {
+        rowsData: [
+          ledgerRow(1, { drop_date_calculated: rankingDate }),
+        ],
+      },
+      snapshotRows: [snapshotRow(1, rankingDate, { official_points: "0" })],
+    };
+
+    const defaultCutoff = await validateOfficialReconciliationReady(
+      facts,
+      rankingDate
+    );
+    const previousDayCutoff = await validateOfficialReconciliationReady(
+      facts,
+      rankingDate,
+      "2026-06-21"
+    );
+
+    assert.equal(defaultCutoff.valid, true);
+    assert.equal(defaultCutoff.exact, 1);
+    assert.equal(previousDayCutoff.valid, false);
+    assert.equal(previousDayCutoff.exact, 0);
+  });
+
   test("reads RADAR1500 from the target directory and rejects a truncated ledger", async () => {
     const root = await makeProject();
     await fs.writeFile(path.join(root, "data/config/base_state.json"), JSON.stringify({ state: "RADAR1500_ACTIVE" }));

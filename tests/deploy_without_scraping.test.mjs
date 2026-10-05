@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-const workflow=fs.readFileSync(new URL('../.github/workflows/deploy-pages.yml',import.meta.url),'utf8');
+const workflow=fs.readFileSync(new URL('../.github/workflows/deploy-pages.yml',import.meta.url),'utf8').replace(/\r\n/g,'\n');
 const step=workflow.split('- name: Prepare last complete weekly fallback')[1].split('- name: Install dependencies')[0];
 const script=step.split("node <<'NODE'\n")[1].split('\n          NODE')[0].replace(/^          /gm,'');
 for(const valid of [true,false])test(valid?'no-scrape deploy reuses matching cached week':'no-scrape deploy blocks missing data instead of collecting',()=>{

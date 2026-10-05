@@ -184,6 +184,7 @@ jobs:
             npm run weekly:start -- \
               --week-start="$NEW_WEEK_START" \
               --week-end="$NEW_WEEK_END" \
+              --drop-cutoff="$DROP_CUTOFF" \
               --mode=apply \
               --allow-partial-promotion="$ALLOW_PARTIAL_PROMOTION" \
               --confirm=true
