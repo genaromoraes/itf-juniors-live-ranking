@@ -799,6 +799,22 @@ async function fetchJsonDirect(url, options = {}) {
   }
 }
 
+export async function fetchResultsAttempt(page, url, options = {}, transports = {}) {
+  const browserFetch = transports.browserFetch || fetchJsonInsideBrowser;
+  const directFetch = transports.directFetch || fetchJsonDirect;
+  const mode = transports.mode || RESULTS_TRANSPORT;
+  if (mode === "direct") return directFetch(url, options);
+
+  const result = await browserFetch(page, url, options);
+  // A failed browser network request can be retried directly, but an actual
+  // ITF challenge or blocked response must retain the existing cooldown.
+  if (result.status === 0 && !result.timedOut) {
+    console.log("Falha de rede no navegador; tentando consulta direta do evento.");
+    return directFetch(url, options);
+  }
+  return result;
+}
+
 async function readSameWeekFallbackMatches(tournaments) {
   if (!FALLBACK_MATCHES_FILE || !FALLBACK_TOURNAMENTS_FILE) return [];
 
@@ -849,10 +865,7 @@ async function fetchJsonWithRetry(page, url, options = {}, label = "request") {
       await waitForRequestCooldown();
       console.log(`Tentativa ${attempt}/${MAX_RETRIES}: ${label}`);
 
-      const result =
-        RESULTS_TRANSPORT === "direct"
-          ? await fetchJsonDirect(url, options)
-          : await fetchJsonInsideBrowser(page, url, options);
+      const result = await fetchResultsAttempt(page, url, options);
 
       if (result.ok && result.json) {
         return result;
