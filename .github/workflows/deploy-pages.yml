@@ -27,7 +27,7 @@ concurrency:
 jobs:
   build:
     if: ${{ !contains(github.event.head_commit.message, '[frontend-only]') }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # One weekly pipeline: collect current results, calculate the live ranking,
     # write the run summary, validate coherence, and deploy Pages.
     timeout-minutes: 150
@@ -429,7 +429,7 @@ jobs:
 
   frontend:
     if: github.event_name == 'push' && contains(github.event.head_commit.message, '[frontend-only]')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       actions: read
@@ -481,7 +481,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [build, frontend]
 
     steps:

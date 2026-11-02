@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 100
     env:
       WEEK_START: ${{ inputs.week_start }}
