@@ -538,6 +538,42 @@ async function fetchJsonInsideBrowser(page, url) {
   );
 }
 
+async function fetchJsonDirect(url) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, {
+      headers: { accept: "application/json, text/plain, */*" },
+      signal: controller.signal,
+    });
+    const contentType = response.headers.get("content-type") || "";
+    const text = await response.text();
+    let json = null;
+    try { json = JSON.parse(text); } catch { /* handled by the caller */ }
+    return { ok: response.ok, status: response.status, contentType,
+      textStart: json ? "" : text.slice(0, 500), json, timedOut: false };
+  } catch (error) {
+    const timedOut = error?.name === "AbortError";
+    return { ok: false, status: 0, contentType: "", json: null, timedOut,
+      textStart: timedOut ? `Request timeout after ${REQUEST_TIMEOUT_MS}ms` : String(error?.message || error) };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+export async function fetchCalendarAttempt(page, url, transports = {}) {
+  const browserFetch = transports.browserFetch || fetchJsonInsideBrowser;
+  const directFetch = transports.directFetch || fetchJsonDirect;
+  const result = await browserFetch(page, url);
+  // Only try an ordinary direct request on a browser network failure; do not
+  // bypass an ITF block or challenge returned by the browser.
+  if (result.status === 0 && !result.timedOut) {
+    console.log("Falha de rede no navegador; tentando consulta direta do calendario.");
+    return directFetch(url);
+  }
+  return result;
+}
+
 function looksBlockedOrHtml(result) {
   const contentType = String(result?.contentType || "").toLowerCase();
   const textStart = String(result?.textStart || "").toLowerCase();
@@ -571,7 +607,7 @@ async function fetchJsonWithRetry(page, url, label = "calendar request") {
     try {
       console.log(`Tentativa ${attempt}/${MAX_RETRIES}: ${label}`);
 
-      const result = await fetchJsonInsideBrowser(page, url);
+      const result = await fetchCalendarAttempt(page, url);
 
       if (result.ok && result.json) {
         return result;
