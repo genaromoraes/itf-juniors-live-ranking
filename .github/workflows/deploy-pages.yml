@@ -12,8 +12,8 @@ on:
         default: true
         type: boolean
   schedule:
-    # Five daily reads from 08:00 to 20:00 in Brasilia; cron values below are UTC.
-    - cron: "0 11,14,17,20,23 * * *"
+    # Five daily reads at 02:17, 07:17, 12:17, 17:17 and 22:17 Brasilia time; cron is UTC.
+    - cron: "17 1,5,10,15,20 * * *"
 
 permissions:
   contents: read
