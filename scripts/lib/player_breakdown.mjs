@@ -160,6 +160,50 @@ export async function fetchJsonInsideBrowser(page, url, timeoutMs = 30000) {
   );
 }
 
+export async function fetchBreakdownDirect(url, timeoutMs = 30000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+      },
+      signal: controller.signal,
+    });
+    const text = await response.text();
+    let json = null;
+    try { json = JSON.parse(text); } catch { /* preserve challenge text */ }
+    return { ok: response.ok, status: response.status,
+      contentType: response.headers.get("content-type") || "",
+      textStart: json ? "" : text.slice(0, 500), json, timedOut: false };
+  } catch (error) {
+    return { ok: false, status: 0, contentType: "", json: null,
+      textStart: String(error?.message || error), timedOut: error?.name === "AbortError" };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export async function fetchCandidateBreakdown(page, url, timeoutMs = 30000, transports = {}) {
+  const browserFetch = transports.browserFetch || fetchJsonInsideBrowser;
+  const directFetch = transports.directFetch || fetchBreakdownDirect;
+  const wait = transports.wait || ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
+  let result;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    result = await browserFetch(page, url, timeoutMs);
+    // Only a network failure permits another transport. Never bypass a challenge.
+    if (result.status === 0 && !result.timedOut) {
+      console.log("Falha de rede no navegador; tentando consulta direta do breakdown.");
+      result = await directFetch(url, timeoutMs);
+    }
+    if (result.ok && result.json) return result;
+    if (detectBlockedHtml(result) || result.status === 403 || result.status === 429) return result;
+    if (attempt < 2) await wait(10000 * (attempt + 1));
+  }
+  return result;
+}
+
 export function normalizeBreakdownRow({
   player,
   sectionTitle,

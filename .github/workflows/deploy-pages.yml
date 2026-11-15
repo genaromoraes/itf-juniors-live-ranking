@@ -315,7 +315,9 @@ jobs:
       - name: Report stale ITF data
         if: steps.scrape.outcome == 'failure'
         run: |
-          echo "WARNING: ITF scraping failed. GitHub Pages will be rebuilt from the last coherent weekly package."
+          echo "::warning::A coleta atual falhou; o site usa resultados anteriores. Consulte a etapa de coleta para identificar o erro."
+          echo '## Aviso: resultados anteriores publicados' >> "$GITHUB_STEP_SUMMARY"
+          echo 'A atualizacao nao conseguiu concluir a coleta ou a validacao. O site usa o ultimo pacote semanal coerente; os resultados novos podem estar ausentes.' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Write weekly scraping summary
         if: steps.scrape.outcome == 'success'

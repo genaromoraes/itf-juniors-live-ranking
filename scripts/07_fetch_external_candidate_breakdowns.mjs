@@ -20,7 +20,7 @@ import {
   buildRankingPointsUrl,
   detectBlockedHtml,
   extractLedgerRowsFromRankingPoints,
-  fetchJsonInsideBrowser,
+  fetchCandidateBreakdown,
   readCachedBreakdown,
   saveRawBreakdown,
   toNumber,
@@ -154,13 +154,13 @@ async function getBreakdown(page, candidate, rankingDate, force) {
     }
   }
 
-  const result = await fetchJsonInsideBrowser(page, url, REQUEST_TIMEOUT_MS);
+  const result = await fetchCandidateBreakdown(page, url, REQUEST_TIMEOUT_MS);
 
   if (!result.ok || !result.json) {
     const error = new Error(
       `HTTP ${result.status}. Content-Type: ${result.contentType}. Text: ${result.textStart}`
     );
-    error.isBlocked = detectBlockedHtml(result);
+    error.isBlocked = detectBlockedHtml(result) || result.status === 403 || result.status === 429;
     throw error;
   }
 
