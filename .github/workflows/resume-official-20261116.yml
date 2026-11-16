@@ -1,0 +1,81 @@
+name: Resume validated official week 2026-11-16
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+concurrency:
+  group: official-week-rollover
+  cancel-in-progress: false
+
+jobs:
+  resume:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify the original official base
+        run: |
+          echo 'e2960fc40741e0ef0bfe5a635dd9daabe85cfa61b3e1291b6cb5f4ab108dd332  data/clean/players.csv' | sha256sum -c -
+          echo '4ea6809763ff11b533fb88a49695645db7de3b3b6fd43897a145b5ad5fd8c43b  data/clean/rankings_snapshot.csv' | sha256sum -c -
+          echo '7f17bfe5d3915a63b71f488c72a3ec7a39ff767d2063fd340578ad021e337b3b  data/clean/points_ledger.csv' | sha256sum -c -
+      - name: Restore validated inputs and breakdown cache
+        uses: actions/download-artifact@v4
+        with:
+          name: official-week-rollover-2026-11-16-43907799454
+          run-id: 43907799454
+          github-token: ${{ github.token }}
+          path: .resume-input
+      - name: Reconcile the remaining official breakdown
+        run: |
+          set -euo pipefail
+          mkdir -p data/staging
+          cp -a .resume-input/data/staging/. data/staging/
+          node scripts/19_refresh_selected_breakdowns.mjs \
+            --validation-dir=data/staging/official_validation_2026-11-16_github_run_43907799454 \
+            --week-close-dir=data/staging/week_close_2026-11-15 \
+            --old-players-file=data/clean/players.csv \
+            --ranking-date=2026-11-16 --drop-cutoff=2026-11-15 \
+            --output-dir=data/staging/resume_official_2026-11-16 \
+            --breakdown-cache-dir=.resume-input/data/staging/official_reconciliation_2026-11-16_github_run_43907799454/raw/breakdowns \
+            --network-mode=auto --allow-partial-promotion=false --mode=run
+      - name: Promote only a fully reconciled base
+        run: |
+          set -euo pipefail
+          node scripts/20_promote_official_reconciliation.mjs \
+            --source-dir=data/staging/resume_official_2026-11-16 --ranking-date=2026-11-16 \
+            --mode=apply --allow-partial-promotion=false --confirm-promotion=true
+          npm run weekly:start -- --week-start=2026-11-16 --week-end=2026-11-22 \
+            --drop-cutoff=2026-11-15 --mode=apply --allow-partial-promotion=false --confirm=true
+      - name: Commit and publish official data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/clean
+          for file in week_tournaments.csv week_matches.csv week_player_results.csv week_results_errors.csv week_results_summary.csv; do
+            test -f "data/clean/$file"
+            git add -f "data/clean/$file"
+          done
+          if git diff --cached --quiet; then exit 1; fi
+          git commit -m 'Start official week 2026-11-16'
+          git push origin HEAD:main
+          gh workflow run deploy-pages.yml --ref main -f use_committed_data=true
+      - name: Save recovery diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-official-2026-11-16-${{ github.run_id }}
+          path: data/staging/resume_official_2026-11-16/
+          if-no-files-found: ignore
