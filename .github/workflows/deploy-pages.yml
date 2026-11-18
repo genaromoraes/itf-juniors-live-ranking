@@ -142,6 +142,8 @@ jobs:
           const previousDir = path.resolve('.previous-run/data/clean');
           const targetDir = path.resolve('.last-valid-data/data/clean');
           const weeklyFiles = [
+            'external_candidates.csv',
+            'external_candidate_ledger.csv',
             'week_tournaments.csv',
             'week_tournaments_debug_all.csv',
             'week_matches.csv',
@@ -266,6 +268,8 @@ jobs:
             'week_player_results.csv',
           ];
           const optionalFiles = [
+            'external_candidates.csv',
+            'external_candidate_ledger.csv',
             'week_tournaments_debug_all.csv',
             'week_results_errors.csv',
             'week_results_summary.csv',
@@ -376,6 +380,8 @@ jobs:
 
           const targetDir = path.resolve('.previous-run/data/clean');
           const files = [
+            'external_candidates.csv',
+            'external_candidate_ledger.csv',
             'week_tournaments.csv',
             'week_tournaments_debug_all.csv',
             'week_matches.csv',
@@ -414,6 +420,8 @@ jobs:
             logs/
             data/clean/week_results_errors.csv
             data/clean/week_results_summary.csv
+            data/clean/publication_validation.json
+            data/clean/public_ranking_boundary_audit.csv
           if-no-files-found: ignore
           retention-days: 7
 
