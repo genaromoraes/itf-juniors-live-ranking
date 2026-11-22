@@ -96,7 +96,7 @@ async function main() {
       const url = response.url();
       const contentType = response.headers()["content-type"] || "";
 
-      if (!url.includes("itftennis.com")) return;
+      if (new URL(url).hostname !== "www.world.tennis") return;
 
       if (
         !url.toLowerCase().includes("rank") &&
@@ -150,7 +150,7 @@ async function main() {
   console.log("");
 
   await page.goto(
-    "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/",
+    "https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/",
     {
       waitUntil: "domcontentloaded",
       timeout: 90000,

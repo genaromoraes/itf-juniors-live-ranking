@@ -26,7 +26,7 @@ const ERRORS_FILE = path.join(OUT_DIR_CLEAN, "breakdown_errors.csv");
 const TODAY = new Date().toISOString().slice(0, 10);
 
 const RANKING_PAGE =
-  "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
+  "https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/";
 
 async function ensureDirs() {
   await fs.mkdir(OUT_DIR_RAW, { recursive: true });
@@ -50,7 +50,7 @@ function normalizeUrl(value) {
   const raw = String(value).trim();
 
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
 
   return raw;
 }
@@ -148,7 +148,7 @@ function buildRankingPointsUrl(playerId, matchTypeCode = "S") {
     playerId: String(playerId),
   });
 
-  return `https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?${params.toString()}`;
+  return `https://www.world.tennis/tennis/api/PlayerRankApi/GetRankingPoints?${params.toString()}`;
 }
 
 function looksBlockedOrHtml(result) {

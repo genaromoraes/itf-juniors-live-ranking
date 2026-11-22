@@ -28,7 +28,7 @@ function normalizeUrl(value) {
   const raw = String(value).trim();
 
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
 
   return raw;
 }
@@ -88,7 +88,7 @@ async function main() {
     try {
       const url = request.url();
 
-      if (!url.includes("itftennis.com")) return;
+      if (new URL(url).hostname !== "www.world.tennis") return;
       if (!url.toLowerCase().includes("getdrawsheet")) return;
 
       const headers = request.headers();
@@ -122,7 +122,7 @@ async function main() {
     try {
       const url = response.url();
 
-      if (!url.includes("itftennis.com")) return;
+      if (new URL(url).hostname !== "www.world.tennis") return;
       if (!url.toLowerCase().includes("getdrawsheet")) return;
 
       const contentType = response.headers()["content-type"] || "";

@@ -15,7 +15,7 @@ export const MAX_RETRIES = 2;
 export const TOP_LIMIT = TRACKED_BASE_LIMIT_PER_GENDER;
 export const PAGE_SIZE = 100;
 export const OFFICIAL_RANKING_URL =
-  "https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings";
+  "https://www.world.tennis/tennis/api/PlayerRankApi/GetPlayerRankings";
 export const BASELINE_POLICY = "as_collected";
 export const STAGED_POLICY = "drop_cutoff";
 
@@ -314,7 +314,7 @@ export function normalizeProfileUrl(value) {
   const text = cleanText(value);
   if (!text) return "";
   if (text.startsWith("http")) return text;
-  if (text.startsWith("/")) return `https://www.itftennis.com${text}`;
+  if (text.startsWith("/")) return `https://www.world.tennis${text}`;
   return text;
 }
 

@@ -6,10 +6,10 @@ const OUT_FILE = path.resolve("data/raw/calendar_debug_fields.json");
 const IS_CI = process.env.CI === "true";
 
 const CALENDAR_PAGE =
-  "https://www.itftennis.com/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
+  "https://www.world.tennis/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
 
 const URL =
-  "https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=JT&searchString=&skip=0&take=100&nationCodes=&zoneCodes=&dateFrom=2026-05-30&dateTo=2026-06-09&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=&singlesDrawFormat=";
+  "https://www.world.tennis/tennis/api/TournamentApi/GetCalendar?circuitCode=JT&searchString=&skip=0&take=100&nationCodes=&zoneCodes=&dateFrom=2026-05-30&dateTo=2026-06-09&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=&singlesDrawFormat=";
 
 function findArraysDeep(value, arrays = []) {
   if (!value) return arrays;

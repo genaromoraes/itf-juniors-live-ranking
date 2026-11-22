@@ -26,7 +26,7 @@ const SUMMARY_FILE = path.join(CLEAN_DIR, "breakdown_summary.csv");
 const ERRORS_FILE = path.join(CLEAN_DIR, "breakdown_errors.csv");
 const CHECKPOINT_FILE = path.resolve("data/raw/breakdowns_missing_checkpoint.json");
 const RANKING_PAGE =
-  "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
+  "https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/";
 
 const IS_CI = process.env.CI === "true";
 const REQUEST_TIMEOUT_MS = 30000;

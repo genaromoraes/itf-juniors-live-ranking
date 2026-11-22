@@ -32,7 +32,7 @@ const CANDIDATES_FILE = path.join(CLEAN_DIR, "external_candidates.csv");
 const LEDGER_FILE = path.join(CLEAN_DIR, "external_candidate_ledger.csv");
 const ERRORS_FILE = path.join(CLEAN_DIR, "external_candidate_errors.csv");
 const RANKING_PAGE =
-  "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
+  "https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/";
 
 const IS_CI = process.env.CI === "true";
 const REQUEST_TIMEOUT_MS = 30000;

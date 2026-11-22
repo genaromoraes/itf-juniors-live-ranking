@@ -32,7 +32,7 @@ export const NETWORK_MODE_DIRECT = "direct";
 export const NETWORK_MODE_BROWSER = "browser";
 export const NETWORK_MODE_AUTO = "auto";
 export const RANKING_PAGE =
-  "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
+  "https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/";
 export const FINAL_VALIDATION_POLICY = STAGED_POLICY;
 // The official ranking table remains the source of truth. A promotion may
 // proceed with a very small number of residual breakdown discrepancies only
@@ -111,7 +111,7 @@ export function normalizeUrl(value) {
   const raw = cleanText(value);
   if (!raw) return "";
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
   return raw;
 }
 
@@ -190,7 +190,7 @@ export function buildRankingPointsUrl(playerId) {
     playerId: String(playerId),
   });
 
-  return `https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?${params.toString()}`;
+  return `https://www.world.tennis/tennis/api/PlayerRankApi/GetRankingPoints?${params.toString()}`;
 }
 
 export function normalizeBreakdownRow({

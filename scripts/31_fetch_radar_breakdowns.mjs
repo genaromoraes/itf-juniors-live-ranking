@@ -62,7 +62,7 @@ if(!process.argv.includes('--cache-only')&&selected.length){
   const browser=await chromium.launch({headless:true});
   try{
     const page=await browser.newPage({locale:'en-US'});
-    await page.goto('https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/',{waitUntil:'domcontentloaded',timeout:60000});
+    await page.goto('https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/',{waitUntil:'domcontentloaded',timeout:60000});
     await page.waitForTimeout(3000);
     for(const row of selected){
       const sourceUrl=buildRankingPointsUrl(row.player_id);

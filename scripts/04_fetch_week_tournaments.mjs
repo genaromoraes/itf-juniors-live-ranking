@@ -11,13 +11,13 @@ const IS_CI = process.env.CI === "true";
 const TODAY = new Date().toISOString().slice(0, 10);
 
 const CALENDAR_PAGE =
-  "https://www.itftennis.com/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
+  "https://www.world.tennis/en/tournament-calendar/world-tennis-tour-juniors-calendar/";
 
 const REQUEST_TIMEOUT_MS = 30000;
 const RETRY_DELAY_MS = Number(process.env.ITF_RESULTS_RETRY_DELAY_MS) || 10000;
 const BLOCK_DELAY_MS = Number(process.env.ITF_RESULTS_BLOCK_DELAY_MS) || 15000;
 const MAX_RETRIES = Number(process.env.ITF_RESULTS_MAX_RETRIES) || 2;
-const ITF_HOME_URL = "https://www.itftennis.com/en/";
+const ITF_HOME_URL = "https://www.world.tennis/en/";
 
 const TOURNAMENT_COLUMNS = [
   "week_start",
@@ -192,7 +192,7 @@ function normalizeUrl(value) {
   const raw = String(value).trim();
 
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
 
   return raw;
 }
@@ -454,7 +454,7 @@ export function parseTournamentUrl(value) {
   };
 }
 
-function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
+export function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
   const params = new URLSearchParams({
     circuitCode: "JT",
     searchString: "",
@@ -472,7 +472,7 @@ function buildCalendarUrl({ skip, take, dateFrom, dateTo }) {
     singlesDrawFormat: "",
   });
 
-  return `https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?${params.toString()}`;
+  return `https://www.world.tennis/tennis/api/TournamentApi/GetCalendar?${params.toString()}`;
 }
 
 async function fetchJsonInsideBrowser(page, url) {

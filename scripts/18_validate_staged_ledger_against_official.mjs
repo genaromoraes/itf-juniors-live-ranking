@@ -51,7 +51,7 @@ export const BROWSER_RETRY_DELAY_MS =
   Number(process.env.ITF_OFFICIAL_BROWSER_RETRY_DELAY_MS) || 15000;
 export const BETWEEN_PAGES_DELAY_MS = 750;
 export const RANKING_PAGE_URL =
-  "https://www.itftennis.com/en/rankings/juniors/";
+  "https://www.world.tennis/en/rankings/juniors/";
 export const NETWORK_ATTEMPT_COLUMNS = [
   "timestamp",
   "network_mode",

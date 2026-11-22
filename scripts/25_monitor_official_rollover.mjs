@@ -13,7 +13,7 @@ import {
 const NETWORK_MODE_AUTO = "auto";
 const NETWORK_MODE_DIRECT = "direct";
 const NETWORK_MODE_BROWSER = "browser";
-const RANKING_PAGE_URL = "https://www.itftennis.com/en/rankings/juniors/";
+const RANKING_PAGE_URL = "https://www.world.tennis/en/rankings/juniors/";
 const SNAPSHOT_FILE = path.resolve("data/clean/rankings_snapshot.csv");
 
 function readArg(name, fallback = "") {

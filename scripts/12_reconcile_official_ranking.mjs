@@ -282,7 +282,7 @@ function normalizeUrl(value) {
 
   if (!raw) return "";
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
 
   return raw;
 }
@@ -298,7 +298,7 @@ function buildRankingUrl(genderInfo, take, skip) {
     isOrderAscending: "true",
   });
 
-  return `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?${params.toString()}`;
+  return `https://www.world.tennis/tennis/api/PlayerRankApi/GetPlayerRankings?${params.toString()}`;
 }
 
 function buildRankingPointsUrl(playerId) {
@@ -308,7 +308,7 @@ function buildRankingPointsUrl(playerId) {
     playerId: String(playerId),
   });
 
-  return `https://www.itftennis.com/tennis/api/PlayerRankApi/GetRankingPoints?${params.toString()}`;
+  return `https://www.world.tennis/tennis/api/PlayerRankApi/GetRankingPoints?${params.toString()}`;
 }
 
 function normalizePlayer(row, genderInfo, existingPlayer, rankingDate) {

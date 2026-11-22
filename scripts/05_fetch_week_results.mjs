@@ -11,10 +11,10 @@ const DEFAULT_OUT_DIR_CLEAN = path.resolve("data/clean");
 const IS_CI = process.env.CI === "true";
 
 const EVENT_FILTERS_URL =
-  "https://www.itftennis.com/tennis/api/TournamentApi/GetEventFilters";
+  "https://www.world.tennis/tennis/api/TournamentApi/GetEventFilters";
 
 const DRAWSHEET_URL =
-  "https://www.itftennis.com/tennis/api/TournamentApi/GetDrawsheet";
+  "https://www.world.tennis/tennis/api/TournamentApi/GetDrawsheet";
 
 const DELAY_BETWEEN_EVENTS_MS = Number(process.env.ITF_RESULTS_EVENT_DELAY_MS) || 2000;
 const DELAY_BETWEEN_TOURNAMENTS_MS = Number(process.env.ITF_RESULTS_TOURNAMENT_DELAY_MS) || 10000;
@@ -26,7 +26,7 @@ const REQUEST_JITTER_MS = Math.max(
   0,
   Number(process.env.ITF_RESULTS_JITTER_MS) || 0
 );
-const ITF_HOME_URL = "https://www.itftennis.com/en/";
+const ITF_HOME_URL = "https://www.world.tennis/en/";
 const USE_WEEK_RESULTS_CACHE =
   String(process.env.ITF_USE_WEEK_RESULTS_CACHE || "").toLowerCase() === "true";
 const RESULTS_TRANSPORT = String(process.env.ITF_RESULTS_TRANSPORT || "browser")
@@ -127,7 +127,7 @@ function normalizeUrl(value) {
   const raw = String(value).trim();
 
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
 
   return raw;
 }
@@ -635,7 +635,7 @@ function flattenEventsFromFilters(filtersJson) {
   return events;
 }
 
-function buildEventFiltersUrl(tournamentKey) {
+export function buildEventFiltersUrl(tournamentKey) {
   const params = new URLSearchParams({
     tournamentKey: String(tournamentKey).toLowerCase(),
   });

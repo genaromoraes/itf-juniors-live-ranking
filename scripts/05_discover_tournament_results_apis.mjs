@@ -28,7 +28,7 @@ function normalizeUrl(value) {
   const raw = String(value).trim();
 
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
 
   return raw;
 }
@@ -127,7 +127,7 @@ function getInterestingArrays(json) {
 function isRelevantTournamentApi(url) {
   const lower = url.toLowerCase();
 
-  if (!url.includes("itftennis.com")) return false;
+  if (new URL(url).hostname !== "www.world.tennis") return false;
 
   return (
     lower.includes("tournament") ||

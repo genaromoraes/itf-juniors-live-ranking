@@ -7,7 +7,7 @@ const TODAY = new Date().toISOString().slice(0, 10);
 const IS_CI = process.env.CI === "true";
 
 const PLAYER_URL =
-  "https://www.itftennis.com/en/players/ksenia-efremova/800591535/fra/jt/s/";
+  "https://www.world.tennis/en/players/ksenia-efremova/800591535/fra/jt/s/";
 
 await fs.mkdir(OUT_DIR_RAW, { recursive: true });
 
@@ -120,7 +120,7 @@ async function main() {
       const url = response.url();
       const contentType = response.headers()["content-type"] || "";
 
-      if (!url.includes("itftennis.com")) return;
+      if (new URL(url).hostname !== "www.world.tennis") return;
       if (!contentType.toLowerCase().includes("json")) return;
 
       const json = await response.json();

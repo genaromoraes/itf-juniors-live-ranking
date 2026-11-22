@@ -17,7 +17,7 @@ const IS_CI = process.env.CI === "true";
 const OUT_DIR_RAW = path.resolve("data/raw/rankings_universe");
 const OUT_DIR_CLEAN = path.resolve("data/clean");
 const RANKING_PAGE =
-  "https://www.itftennis.com/en/rankings/world-tennis-tour-junior-rankings/";
+  "https://www.world.tennis/en/rankings/world-tennis-tour-junior-rankings/";
 
 const STATUS_NOT_STARTED = "NOT_STARTED";
 const STATUS_COLLECTING = "COLLECTING";
@@ -164,7 +164,7 @@ function normalizeProfileUrl(value) {
   const raw = cleanText(value);
   if (!raw) return "";
   if (raw.startsWith("http")) return raw;
-  if (raw.startsWith("/")) return `https://www.itftennis.com${raw}`;
+  if (raw.startsWith("/")) return `https://www.world.tennis${raw}`;
   return raw;
 }
 
@@ -262,7 +262,7 @@ function buildRankingUrl(genderInfo, take, skip) {
     isOrderAscending: "true",
   });
 
-  return `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?${params.toString()}`;
+  return `https://www.world.tennis/tennis/api/PlayerRankApi/GetPlayerRankings?${params.toString()}`;
 }
 
 function looksBlockedOrHtml(result) {
