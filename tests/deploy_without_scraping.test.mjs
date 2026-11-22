@@ -14,7 +14,14 @@ for(const valid of [true,false])test(valid?'no-scrape deploy reuses matching cac
   fs.writeFileSync(path.join(clean,'rankings_snapshot.csv'),'ranking_date\n2026-09-21\n');
   fs.writeFileSync(path.join(clean,'week_tournaments.csv'),'week_start\n');
   if(valid){const cached=path.join(dir,'.previous-run/data/clean');fs.mkdirSync(cached,{recursive:true});for(const file of ['week_tournaments.csv','week_matches.csv','week_player_results.csv'])fs.writeFileSync(path.join(cached,file),'week_start\n2026-09-21\n');}
+  if(valid) for(const file of ['rankings_universe.csv','external_candidates.csv','external_candidate_ledger.csv']){
+   fs.writeFileSync(path.join(clean,file),'version\nold\n');
+   fs.writeFileSync(path.join(dir,'.previous-run/data/clean',file),'version\nvalidated\n');
+  }
   const result=spawnSync(process.execPath,['-e',script],{cwd:dir,encoding:'utf8',env:{...process.env,REUSE_CACHED_WEEKLY_PACKAGE:'true',REQUIRE_COMPLETE_PACKAGE:'true'}});
+  if(valid) for(const file of ['rankings_universe.csv','external_candidates.csv','external_candidate_ledger.csv']){
+   assert.equal(fs.readFileSync(path.join(clean,file),'utf8'),'version\nvalidated\n');
+  }
   if(valid){assert.equal(result.status,0,result.stderr);assert.match(fs.readFileSync(path.join(clean,'week_tournaments.csv'),'utf8'),/2026-09-21/);}else {assert.notEqual(result.status,0);assert.match(result.stderr,/Publicacao sem coleta bloqueada/);}
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });

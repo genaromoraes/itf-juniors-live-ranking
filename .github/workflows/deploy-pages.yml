@@ -142,6 +142,7 @@ jobs:
           const previousDir = path.resolve('.previous-run/data/clean');
           const targetDir = path.resolve('.last-valid-data/data/clean');
           const weeklyFiles = [
+            'rankings_universe.csv',
             'external_candidates.csv',
             'external_candidate_ledger.csv',
             'week_tournaments.csv',
@@ -154,7 +155,6 @@ jobs:
           const auxiliaryFiles = [
             'week_live_points.csv',
             'week_live_ledger_rows.csv',
-            'rankings_universe.csv',
             'live_combined_ledger_with_drops.csv',
             'live_dropped_points.csv',
             'live_ranking_with_drops.csv',
@@ -268,6 +268,7 @@ jobs:
             'week_player_results.csv',
           ];
           const optionalFiles = [
+            'rankings_universe.csv',
             'external_candidates.csv',
             'external_candidate_ledger.csv',
             'week_tournaments_debug_all.csv',
@@ -380,6 +381,7 @@ jobs:
 
           const targetDir = path.resolve('.previous-run/data/clean');
           const files = [
+            'rankings_universe.csv',
             'external_candidates.csv',
             'external_candidate_ledger.csv',
             'week_tournaments.csv',
