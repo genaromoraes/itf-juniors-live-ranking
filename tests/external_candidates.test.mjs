@@ -73,6 +73,34 @@ function liveRow(playerId, overrides = {}) {
 }
 
 describe("external candidate detection", () => {
+  test("reuses verified bounded breakdowns only with the same certified week and bound", () => {
+    const common = {
+      participants: [{ player_id: "outside", gender: "M" }],
+      universeRows: [{ player_id: "other", gender: "M", official_points: "47", ranking_date: "2026-11-16" }],
+      baseRankingRows: rankingRows(), pointsTableRows,
+      weekLiveLedgerRows: [liveRow("outside", { points: "100", round: "W" })],
+      unrankedPointsUpperBound: 47,
+    };
+    const verified = {
+      player_id: "outside", ranking_date: "2026-11-16", official_points: "",
+      official_points_status: "BOUNDED", official_points_upper_bound: "47",
+      candidate_status: STATUS_FETCHED, breakdown_fetched: "true", breakdown_row_count: "12",
+    };
+    const classify = (row) => classifyExternalCandidates({ ...common, existingCandidates: [row] })[0];
+    const result = classify(verified);
+    assert.equal(result.candidate_status, STATUS_FETCHED);
+    assert.equal(result.official_points, "");
+    assert.equal(result.breakdown_row_count, "12");
+    for (const invalid of [
+      { ranking_date: "2026-11-09" },
+      { official_points_upper_bound: "46" },
+      { breakdown_row_count: "" },
+      { breakdown_fetched: "false" },
+    ]) {
+      assert.notEqual(classify({ ...verified, ...invalid }).candidate_status, STATUS_FETCHED);
+    }
+  });
+
   test("unknown official points require lookup rather than exclusion as zero", () => {
     const candidates = classifyExternalCandidates({
       participants: [{ player_id: "unknown", gender: "M" }],

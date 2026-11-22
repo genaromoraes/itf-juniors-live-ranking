@@ -434,7 +434,6 @@ export function classifyExternalCandidates({
       const boundedUnrankedPoints = !rawOfficialPointsKnown && hasUnrankedPointsUpperBound
         ? Number(unrankedPointsUpperBound) : null;
       const officialPoints = rawOfficialPointsKnown ? toNumber(official.official_points) : (boundedUnrankedPoints ?? 0);
-      const officialPointsKnown = rawOfficialPointsKnown || boundedUnrankedPoints !== null;
       const rankingDate = cleanText(official.ranking_date) || commonRankingDate;
       const cutoff = cutoffs.get(gender) || {
         public_cutoff_points: 0,
@@ -462,8 +461,21 @@ export function classifyExternalCandidates({
         ).toFixed(2)
       );
       const cachedPrevious = existingById.get(playerId) || {};
-      const sameOfficialSnapshot = officialPointsKnown && cleanText(cachedPrevious.ranking_date) === rankingDate &&
-        cleanText(cachedPrevious.official_points) !== "" && toNumber(cachedPrevious.official_points) === officialPoints;
+      const sameKnownPoints = rawOfficialPointsKnown &&
+        cleanText(cachedPrevious.official_points) !== "" &&
+        toNumber(cachedPrevious.official_points) === officialPoints;
+      // Bounded candidates deliberately have an empty official_points field.
+      // Reuse verified breakdown evidence without treating the bound as points.
+      const sameCertifiedBound = boundedUnrankedPoints !== null &&
+        cleanText(cachedPrevious.official_points_status) === "BOUNDED" &&
+        cleanText(cachedPrevious.official_points) === "" &&
+        cleanText(cachedPrevious.official_points_upper_bound) !== "" &&
+        Number(cachedPrevious.official_points_upper_bound) === boundedUnrankedPoints &&
+        cleanText(cachedPrevious.breakdown_fetched) === "true" &&
+        /^\d+$/.test(cleanText(cachedPrevious.breakdown_row_count));
+      const sameOfficialSnapshot = Boolean(rankingDate) &&
+        cleanText(cachedPrevious.ranking_date) === rankingDate &&
+        (sameKnownPoints || sameCertifiedBound);
       const previous = sameOfficialSnapshot ? cachedPrevious : {};
       let candidateStatus = STATUS_INELIGIBLE;
       let reason = "below_investigation_cutoff";
