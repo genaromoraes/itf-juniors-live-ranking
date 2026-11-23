@@ -37,6 +37,10 @@ on:
         required: false
         default: true
         type: boolean
+      resume_backfill_run:
+        description: "Optional run ID containing a validated backfill for the same closed week"
+        required: false
+        type: string
 
 permissions:
   actions: write
@@ -65,6 +69,7 @@ jobs:
       VALIDATION_DIR: data/staging/official_validation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
       RECONCILIATION_DIR: data/staging/official_reconciliation_${{ inputs.ranking_date }}_github_run_${{ github.run_id }}
       LOG_DIR: logs/official-week-rollover
+      RESUME_BACKFILL_RUN: ${{ inputs.resume_backfill_run }}
       ARTIFACT_NAME: official-week-rollover-${{ inputs.ranking_date }}-${{ github.run_id }}
       # Use the same protected cadence as the Pages collector. A detected
       # Incapsula page activates a shared cooldown before another draw is read.
@@ -107,6 +112,7 @@ jobs:
 
       - name: Run official week rollover
         env:
+          GH_TOKEN: ${{ github.token }}
           ITF_OFFICIAL_REQUEST_TIMEOUT_MS: "90000"
           # Incapsula can return a challenge transiently for one ranking page.
           # Keep the run safe (never promote incomplete data) while allowing
@@ -133,12 +139,31 @@ jobs:
             fi
           }
 
-          run_logged backfill_closed_week.log \
-            node scripts/17_backfill_week.mjs \
-              --week-start="$WEEK_START" \
-              --week-end="$WEEK_END" \
-              --output-dir="$BACKFILL_DIR" \
-              --mode=run
+          if [[ -n "$RESUME_BACKFILL_RUN" ]]; then
+            [[ "$RESUME_BACKFILL_RUN" =~ ^[0-9]+$ ]] || exit 1
+            [[ "$WEEK_START" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || exit 1
+            [[ "$WEEK_END" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || exit 1
+            [[ "$RANKING_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || exit 1
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RESUME_BACKFILL_RUN" |
+              jq -e '.path == ".github/workflows/official-week-rollover.yml" and .head_branch == "main" and .status == "completed"' >/dev/null
+            resume_dir="$(mktemp -d)"
+            gh run download "$RESUME_BACKFILL_RUN" \
+              --name "official-week-rollover-$RANKING_DATE-$RESUME_BACKFILL_RUN" \
+              --dir "$resume_dir"
+            source_dir="$resume_dir/data/backfills/week_${WEEK_START}_${WEEK_END}_github_run_${RESUME_BACKFILL_RUN}"
+            jq -e --arg start "$WEEK_START" --arg end "$WEEK_END" \
+              '.validation_passed == true and .errors == 0 and .week_start == $start and .week_end == $end and .tournaments > 0 and .matches > 0' \
+              "$source_dir/backfill_report.json" >/dev/null
+            cp -a "$source_dir/." "$BACKFILL_DIR/"
+            echo "Reutilizando a coleta validada da execucao $RESUME_BACKFILL_RUN." | tee "$LOG_DIR/backfill_closed_week.log"
+          else
+            run_logged backfill_closed_week.log \
+              node scripts/17_backfill_week.mjs \
+                --week-start="$WEEK_START" \
+                --week-end="$WEEK_END" \
+                --output-dir="$BACKFILL_DIR" \
+                --mode=run
+          fi
 
           run_logged close_closed_week.log \
             node scripts/16_close_week.mjs \
